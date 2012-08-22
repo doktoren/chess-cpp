@@ -469,6 +469,7 @@ void init_piece_enumerations() {
 }
 
 
+#ifdef ALLOW_5_MEN_ENDGAME
 void verify_xxx_compress() {
   cerr << "Verifying xxx_compress()...\n";
   for (int i3=2; i3<64; i3++)
@@ -499,6 +500,7 @@ void verify_ppp_compress() {
 	}
       }
 }
+#endif
 
 void verify_piece_enumerations() {
   verify_king_full_symmetry();

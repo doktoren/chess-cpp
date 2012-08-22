@@ -69,7 +69,7 @@ bool Board2::loadFEN(string FEN) {
   }
   //cerr << "After ..., num_checks = " << (int)num_checks << "\n";
 
-  // Ignore the fact that no legal position has num_checks <= 2
+  // Ignore the fact that no legal position has num_checks > 2
   // (To get same number as Nalimov in endgame tables)
   return true;
   // return num_checks <= 2;
@@ -285,7 +285,7 @@ inline bool Board2::legal_move(Move& move) const {
 	  if (move.to != en_passant) return false;
 	  move.special_move = EN_PASSANT;
 	}
-      } else {
+    } else {
 	// Cannot capture
 	if (board[move.to]) return false;
       }

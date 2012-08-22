@@ -199,14 +199,11 @@ inline uint BinaryDecisionDiagram::operator[](int index) {
       assert(0<=((i<<1) | next_bit)  &&  ((i<<1) | next_bit)<nodes[layer].size());
       i = nodes[layer][(i<<1) | next_bit];
     }
-    //cerr << "i(" << i << ") ";
   }
-  //cerr << "\n";
   return i;
 }
 #else
 inline uint BinaryDecisionDiagram::operator[](int index) {
-  //cerr << "BinaryDecisionDiagram::operator[](" << index << ")\n";
   int i=0;
   for (int layer=log_size-1; layer>=0; layer--) {
     int next_bit = (index>>layer)&1;

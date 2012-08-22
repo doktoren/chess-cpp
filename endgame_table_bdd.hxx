@@ -120,9 +120,9 @@ public:
 		 | (pattern[2]  &  bit_perm_and_permute_pos[bdd_index[2]])
 		 | (pattern[3]  &  bit_perm_and_permute_pos[bdd_index[3]])
 #ifdef ALLOW_5_MEN_ENDGAME
-		 | (pattern[4]  &  bit_perm_and_permute_pos[bdd_index[4]]))
+		 | (pattern[4]  &  bit_perm_and_permute_pos[bdd_index[4]])
 #endif
-      ;
+      );
 
     return convert_table[(*(sub_bdds[cluster_number]))[index]];
   }

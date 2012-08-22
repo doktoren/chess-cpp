@@ -2,6 +2,7 @@
 #define _MY_VECTOR_
 
 #include <stdlib.h>
+#include <assert.h>
 
 extern int num_in_existance;
 

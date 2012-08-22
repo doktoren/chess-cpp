@@ -1,5 +1,9 @@
-CFLAGS  = -O3 -Wall -pedantic -ansi -march=pentium4 -Woverloaded-virtual -felide-constructors -DNDEBUG -ffast-math -fomit-frame-pointer
-CFLAGS_DB = -ggdb3 -pg -Wall -pedantic -ansi -march=pentium4 -Woverloaded-virtual -felide-constructors
+CXX = g++
+
+# -Q is a good option for debugging
+CFLAGS  = -Wall -g -ggdb -DNDEBUG
+#CFLAGS  = -O3 -Wall -pedantic -ansi -march=pentium4 -Woverloaded-virtual -felide-constructors -DNDEBUG -ffast-math -fomit-frame-pointer
+CFLAGS_DB = -ggdb3 -pg -Wall -pedantic -ansi# -march=pentium4 -Woverloaded-virtual -felide-constructors
 CFLAGS_XB = -O3 -Wall -pedantic -ansi -march=pentium4 -Woverloaded-virtual -felide-constructors -DNDEBUG -DXBOARD -ffast-math -fomit-frame-pointer
 CFLAGS_DB_XB = -ggdb3 -pg -Wall -pedantic -ansi -march=pentium4 -Woverloaded-virtual -felide-constructors -DXBOARD
 
@@ -10,48 +14,63 @@ CFLAGS_NALIMOV_DB = -Wall -ansi -march=pentium4 -Woverloaded-virtual -felide-con
 
 TEST = -ggdb3 -O3 -pg -Wall -pedantic -ansi -march=pentium4 -Woverloaded-virtual -felide-constructors
 
-MODS = board endgame_table_bdd mapping_of_wildcards mapping_of_wildcards2 \
-endgame_run_length_encoding run_length_encoding/bit_stream \
-endgame_clustering_functions endgame_Nalimov board_2 endgame_castling \
-endgame_piece_enumerations endgame_square_permutations \
-binary_decision_diagram endgame_database \
+# tilføj chess.o ?
+# put endgame_database.o tilbage (før chess.o)
+MODS = board.o endgame_table_bdd.o mapping_of_wildcards.o \
+endgame_run_length_encoding.o run_length_encoding/bit_stream.o \
+endgame_clustering_functions.o endgame_Nalimov.o board_2.o endgame_castling.o \
+endgame_piece_enumerations.o endgame_square_permutations.o \
+binary_decision_diagram.o endgame_database.o endgame_indexing.o endgame_en_passant.o \
  \
-chess \
-cpu_communication_module xboard_listener streams help_functions settings \
-move_and_undo board_tables board_move_tables \
-board_2_plus static_exchange_evaluation \
-board_3 \
+chess.o \
  \
-cpu_evaluation_1 cpu_evaluation_2 cpu_evaluation_2_const cpu_evaluation_3 \
-cpu_search_1 cpu_search_2 cpu_search_3 \
-cpu_engines cpu_search engine \
+cpu_communication_module.o xboard_listener.o streams.o help_functions.o settings.o \
+move_and_undo.o board_tables.o board_move_tables.o \
+board_2_plus.o static_exchange_evaluation.o \
+board_3.o \
  \
-file_loader parser test_suite \
-hash_value hash_table transposition_table_content opening_library \
-game_phase piece_values unsigned_long_long \
+cpu_evaluation_1.o cpu_evaluation_2.o cpu_evaluation_2_const.o cpu_evaluation_3.o \
+cpu_search_1.o cpu_search_2.o cpu_search_3.o \
+cpu_engines.o cpu_search.o engine.o \
  \
-my_vector clustering_algorithm bdd_compression
+file_loader.o parser.o test_suite.o \
+hash_value.o hash_table.o transposition_table_content.o opening_library.o \
+game_phase.o piece_values.o unsigned_long_long.o \
+ \
+my_vector.o clustering_algorithm.o bdd_compression.o
 
 all: chess
 
-chess: ${MODS:=.o}
-	g++ -g -ggdb3 ${MODS:=.o} -o $@
-
-endgame_Nalimov.o:
-	$(CXX) -c $(CFLAGS_NALIMOV) $< -o $@
+chess: $(MODS)
+	g++ $(MODS) -o $@
+#-g -ggdb3
 
 %.o: %.cxx
-	$(CXX) -c $(CFLAGS) $< -o $@
+	$(CXX) $(CFLAGS) -c -o $@ $<
 
-clean:
-	rm -f test *~ *.d *.o .\#* \#* a.out chess core tmp.* .nfs* incoming.txt big_output.txt probe_Nalimov/*~ probe_Nalimov/test help_programs/*~ help_programs/test help_programs/a.out
+#endgame_Nalimov.o:
+#	$(CXX) -c $(CFLAGS_NALIMOV) $< -o $@
+
+#board.o: board.cxx
+#	$(CXX) $(CFLAGS) -c -o $@ $<
 
 %.d: %.cxx
 	g++ -MM $< -o $@
 
-dep: ${MODS:=.d}
+include ${MODS:.o=.d}
 
-include ${MODS:=.d}
+clean:
+	-rm -f *.o
 
+#clean:
+#	-/bin/rm -f *.d
+#	-rm -f *~
+#	-rm -f *.o
+
+#rm -f test *~ *.d *.o */*~ */*.d */*.o
+
+#rm -f test *~ *.d *.o .\#* \#* a.out chess core tmp.* .nfs* incoming.txt big_output.txt probe_Nalimov/*~ probe_Nalimov/test help_programs/*~ help_programs/test help_programs/a.out run_length_encoding/*~ run_length_encoding/*.o
 
 #gprof chess -b --ignore-non-functions >profiling.txt
+
+# http://www.gnu.org/software/make/manual/make.html#Automatic-Variables

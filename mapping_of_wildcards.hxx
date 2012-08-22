@@ -7,10 +7,4 @@ void map_wildcards(uchar *bdd_table, int log_size);
 
 void test_wildcard_mapping();
 
-
-
-void map_wildcards2(uchar *bdd_table, int log_size);
-
-void test_wildcard_mapping2();
-
 #endif

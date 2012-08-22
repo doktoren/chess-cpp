@@ -59,7 +59,7 @@ static const int unary_length_specifier[7] =
 class file_ibstream {
 public:
   file_ibstream(uchar *data) {
-    assert(0); cerr << "Can't initialize file_ibstream(uchar *data)\n"; exit(1);
+    cerr << "Can't initialize file_ibstream(uchar *data)\n"; exit(1);
   }
   file_ibstream(string filename) : file(filename.c_str()), bitsleft(8) {
     assert(file);
@@ -85,7 +85,7 @@ private:
 class array_ibstream {
 public:
   array_ibstream(string filename) {
-    assert(0); "Can't initialize array_ibstream(string filename)\n"; exit(1);
+    assert(0); cout << "Can't initialize array_ibstream(string filename)\n"; exit(1);
   }
   array_ibstream(uchar *data) : data(data), bitsleft(8) {}
 
@@ -196,7 +196,7 @@ private:
 class array_obstream {
 public:
   array_obstream(string filename) {
-    assert(0); "Can't initialize array_obstream(string filename)\n"; exit(1);
+    cout << "Can't initialize array_obstream(string filename)\n"; exit(1);
   }
   array_obstream(uchar *data) : data(data), bitsleft(8) {}
 
@@ -260,10 +260,10 @@ public:
   void writeArbitraryNumber(uint n);
   void writeArbitraryNumberMax(uint max, uint n); // ie. n<=max
 
-  obstream& operator<<(bool& bit) { writeBit(bit); }
-  obstream& operator<<(uchar& byte) { writeByte(byte); }
-  obstream& operator<<(uint& n) { writeEliasNumber(n); }
-  obstream& operator<<(n_bit& nb) { writeNBit(nb); }
+  obstream& operator<<(bool& bit) { OUTPUT_MODEL::writeBit(bit); }
+  obstream& operator<<(uchar& byte) { OUTPUT_MODEL::writeByte(byte); }
+  obstream& operator<<(uint& n) { OUTPUT_MODEL::writeEliasNumber(n); }
+  obstream& operator<<(n_bit& nb) { OUTPUT_MODEL::writeNBit(nb); }
 private:
   ofstream file;
   int bitsleft;
@@ -296,7 +296,7 @@ public:
     for (int i=0; i<sizeof(TYPE); i++) {
       out.writeByte(p[i]);
     }
-    return obs;
+    return out;
   }
 
   string toString(TYPE &element) {

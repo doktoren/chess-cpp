@@ -61,7 +61,7 @@ void detach_shared_memory() {
   if (shmdt(shared_mem) == -1) {
     cerr << "Child (engine) could not detach from shared memory segment.\n";
     cerr << "    (address = " << shared_mem << ")\n";
-    cerr << "    (errno = " << errno << ")\n";
+    //cerr << "    (errno = " << errno << ")\n";
     exit(1);
   }
 }
@@ -77,7 +77,7 @@ void im_parant__kill_me() {
   if (shmdt(shared_mem) == -1) {
     cerr << "Parent could not detach from shared memory segment.\n";
     cerr << "    (address = " << shared_mem << ")\n";
-    cerr << "    (errno = " << errno << ")\n";
+    // cerr << "    (errno = " << errno << ")\n";
     exit(1);
   }
 

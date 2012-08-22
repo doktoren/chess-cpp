@@ -1,0 +1,2151 @@
+board initializes tables.
+Num entries in opening library = 119030
+(num_openings = 8004, num_positions = 270871)
+Loading settings from default.set
+Loading cpu Eval_1_Search_1...
+Number of piece defences = 197
+Eval_1 constructor called.
+Search_1 constructor called.
+...loading finished!
+IMPORTANT!!! the command "load" must be executed before everything else!
+Received message: xboard
+ - ignored
+Received message: protover 2
+ - ignored
+Received message: accepted usermove
+ - ignored
+Received message: accepted ping
+ - ignored
+Received message: accepted myname
+ - ignored
+Received message: accepted san
+ - ignored
+Received message: accepted analyze
+ - ignored
+Received message: accepted colors
+ - ignored
+Received message: accepted sigint
+ - ignored
+Received message: accepted sigterm
+ - ignored
+Received message: accepted done
+Loading default_xb.com
+Read message from file default_xb.com:
+ev 2
+Loading cpu Eval_2_Search_1...
+Search_1 destructor called.
+Eval_1 destructor called.
+Eval_2 constructor called.
+Search_1 constructor called.
+...loading finished!
+Read message from file default_xb.com:
+sv 3
+Loading cpu Eval_2_Search_3...
+Search_1 destructor called.
+Eval_2 destructor called.
+Eval_2 constructor called.
+Creating HashTable_Simple(log_size = 20), memory consumption = 62914560 bytes.
+...loading finished!
+message  &&  *message==0
+Received message: new
+ - created new game
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q k b n r | 8  | 1w
+7 | p p p p p p p p | 7  |
+6 |                 | 6  | White can still castle
+5 |                 | 5  | Black can still castle
+4 |                 | 4  |
+3 |                 | 3  | moves played since progress = 0
+2 | P P P P P P P P | 2  |
+1 | R N B Q K B N R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: random
+ - random ignored
+Received message: level 0 1 2
+ - received time control (0, 1, 2)
+Received message: hard
+ - hard ignored
+Received message: ping 1
+ - responded with pong 1
+Received message: force
+ - cpu is not playing
+Received message: computer
+Error (unknown command): computer. Try typing help
+Received message: time 6000
+ - cpu has 0.01 * 6000 seconds left
+Received message: otim 6000
+ - opponent has 0.01 * 6000 seconds left
+Received message: go
+Best move set to first one generated: Nc3
+Depth 1 best move = d2d4, value = 50
+Depth 2 best move = d2d4, value = 0
+Depth 3 best move = e2e4, value = 50
+Depth 4 best move = e2e4, value = 0
+Depth 5 best move = e2e4, value = 36
+Depth 6 best move = d2d4, value = -1
+65536 positions evaluated
+Depth 7 aborted. Move = d2d4
+moves_played = 0, iterative_ply = 7
+Line of play (Only approximately, eg all search extensions ignored):
+	d4
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q k b n r | 8  | 1b
+7 | p p p p p p p p | 7  |
+6 |                 | 6  | White can still castle
+5 |                 | 5  | Black can still castle
+4 |       P         | 4  |
+3 |                 | 3  | moves played since progress = 0
+2 | P P P   P P P P | 2  |
+1 | R N B Q K B N R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move d4
+1: d2d4
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q k b n r | 8  | 1b
+7 | p p p p p p p p | 7  |
+6 |                 | 6  | White can still castle
+5 |                 | 5  | Black can still castle
+4 |       P         | 4  |
+3 |                 | 3  | moves played since progress = 0
+2 | P P P   P P P P | 2  |
+1 | R N B Q K B N R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6077
+ - cpu has 0.01 * 6077 seconds left
+Received message: otim 6186
+ - opponent has 0.01 * 6186 seconds left
+Received message: usermove Nf6
+ - move Nf6 played
+Game saved as backup.pgn
+Best move set to first one generated: Nd2
+Depth 1 best move = c1g5, value = 60
+Depth 2 best move = c1g5, value = 10
+Depth 3 best move = c1g5, value = 40
+Depth 4 best move = c1g5, value = 4
+Depth 5 best move = b2b3, value = 34
+65536 positions evaluated
+Depth 6 best move = c1g5, value = 4
+Depth 7 aborted. Move = c1g5
+moves_played = 2, iterative_ply = 7
+Line of play (Only approximately, eg all search extensions ignored):
+	Bg5
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q k b   r | 8  | 2b
+7 | p p p p p p p p | 7  |
+6 |           n     | 6  | White can still castle
+5 |             B   | 5  | Black can still castle
+4 |       P         | 4  |
+3 |                 | 3  | moves played since progress = 2
+2 | P P P   P P P P | 2  |
+1 | R N   Q K B N R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Bg5
+1: d2d4  g8f6
+2: c1g5
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q k b   r | 8  | 2b
+7 | p p p p p p p p | 7  |
+6 |           n     | 6  | White can still castle
+5 |             B   | 5  | Black can still castle
+4 |       P         | 4  |
+3 |                 | 3  | moves played since progress = 2
+2 | P P P   P P P P | 2  |
+1 | R N   Q K B N R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6092
+ - cpu has 0.01 * 6092 seconds left
+Received message: otim 6368
+ - opponent has 0.01 * 6368 seconds left
+Received message: usermove d5
+ - move d5 played
+Game saved as backup.pgn
+Best move set to first one generated: Nd2
+Depth 1 best move = b1d2, value = 40
+Depth 2 best move = e2e3, value = 4
+Depth 3 best move = e2e3, value = 4
+Depth 4 best move = e2e3, value = 4
+Depth 5 best move = e2e3, value = 35
+65536 positions evaluated
+Depth 6 aborted. Move = g1f3
+moves_played = 4, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	Nf3
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q k b   r | 8  | 3b
+7 | p p p   p p p p | 7  |
+6 |           n     | 6  | White can still castle
+5 |       p     B   | 5  | Black can still castle
+4 |       P         | 4  |
+3 |           N     | 3  | moves played since progress = 1
+2 | P P P   P P P P | 2  |
+1 | R N   Q K B   R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Nf3
+1: d2d4  g8f6
+2: c1g5  d7d5
+3: g1f3
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q k b   r | 8  | 3b
+7 | p p p   p p p p | 7  |
+6 |           n     | 6  | White can still castle
+5 |       p     B   | 5  | Black can still castle
+4 |       P         | 4  |
+3 |           N     | 3  | moves played since progress = 1
+2 | P P P   P P P P | 2  |
+1 | R N   Q K B   R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6114
+ - cpu has 0.01 * 6114 seconds left
+Received message: otim 6365
+ - opponent has 0.01 * 6365 seconds left
+Received message: usermove Ne4
+ - move Ne4 played
+Game saved as backup.pgn
+Best move set to first one generated: Nbd2
+Depth 1 best move = e2e3, value = 51
+Depth 2 best move = c2c3, value = 5
+Depth 3 best move = c2c3, value = 4
+Depth 4 best move = c2c3, value = 4
+Depth 5 best move = g5f4, value = 12
+65536 positions evaluated
+Depth 6 aborted. Move = g5f4
+moves_played = 6, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	Bf4
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q k b   r | 8  | 4b
+7 | p p p   p p p p | 7  |
+6 |                 | 6  | White can still castle
+5 |       p         | 5  | Black can still castle
+4 |       P n B     | 4  |
+3 |           N     | 3  | moves played since progress = 3
+2 | P P P   P P P P | 2  |
+1 | R N   Q K B   R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Bf4
+2: c1g5  d7d5
+3: g1f3  f6e4
+4: g5f4
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q k b   r | 8  | 4b
+7 | p p p   p p p p | 7  |
+6 |                 | 6  | White can still castle
+5 |       p         | 5  | Black can still castle
+4 |       P n B     | 4  |
+3 |           N     | 3  | moves played since progress = 3
+2 | P P P   P P P P | 2  |
+1 | R N   Q K B   R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6112
+ - cpu has 0.01 * 6112 seconds left
+Received message: otim 6377
+ - opponent has 0.01 * 6377 seconds left
+Received message: usermove e6
+ - move e6 played
+Game saved as backup.pgn
+Best move set to first one generated: Nbd2
+Depth 1 best move = b1d2, value = 12
+Depth 2 best move = b1d2, value = -10
+Depth 3 best move = b1d2, value = -10
+Depth 4 best move = b1d2, value = -6
+Depth 5 best move = e2e3, value = 10
+Depth 6 aborted. Move = e2e3
+moves_played = 8, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	e3
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q k b   r | 8  | 5b
+7 | p p p     p p p | 7  |
+6 |         p       | 6  | White can still castle
+5 |       p         | 5  | Black can still castle
+4 |       P n B     | 4  |
+3 |         P N     | 3  | moves played since progress = 0
+2 | P P P     P P P | 2  |
+1 | R N   Q K B   R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move e3
+3: g1f3  f6e4
+4: g5f4  e7e6
+5: e2e3
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q k b   r | 8  | 5b
+7 | p p p     p p p | 7  |
+6 |         p       | 6  | White can still castle
+5 |       p         | 5  | Black can still castle
+4 |       P n B     | 4  |
+3 |         P N     | 3  | moves played since progress = 0
+2 | P P P     P P P | 2  |
+1 | R N   Q K B   R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6198
+ - cpu has 0.01 * 6198 seconds left
+Received message: otim 6440
+ - opponent has 0.01 * 6440 seconds left
+Received message: usermove Bb4+
+ - move Bb4+ played
+Game saved as backup.pgn
+Best move set to first one generated: Nbd2
+Depth 1 best move = c2c3, value = 16
+Depth 2 best move = c2c3, value = 55
+Depth 3 best move = c2c3, value = 55
+Depth 4 best move = c2c3, value = 34
+Depth 5 best move = c2c3, value = 34
+65536 positions evaluated
+Depth 6 aborted. Move = c2c3
+moves_played = 10, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	c3
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q k     r | 8  | 6b
+7 | p p p     p p p | 7  |
+6 |         p       | 6  | White can still castle
+5 |       p         | 5  | Black can still castle
+4 |   b   P n B     | 4  |
+3 |     P   P N     | 3  | moves played since progress = 0
+2 | P P       P P P | 2  |
+1 | R N   Q K B   R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move c3
+4: g5f4  e7e6
+5: e2e3  f8b4
+6: c2c3
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q k     r | 8  | 6b
+7 | p p p     p p p | 7  |
+6 |         p       | 6  | White can still castle
+5 |       p         | 5  | Black can still castle
+4 |   b   P n B     | 4  |
+3 |     P   P N     | 3  | moves played since progress = 0
+2 | P P       P P P | 2  |
+1 | R N   Q K B   R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6241
+ - cpu has 0.01 * 6241 seconds left
+Received message: otim 6436
+ - opponent has 0.01 * 6436 seconds left
+Received message: usermove Be7
+ - move Be7 played
+Game saved as backup.pgn
+Best move set to first one generated: Nbd2
+Depth 1 best move = f1b5, value = 66
+Depth 2 best move = f1b5, value = 26
+Depth 3 best move = f1d3, value = 46
+Depth 4 best move = f1d3, value = 3
+Depth 5 best move = f1d3, value = 48
+65536 positions evaluated
+Depth 6 aborted. Move = f1d3
+moves_played = 12, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	Bd3
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q k     r | 8  | 7b
+7 | p p p   b p p p | 7  |
+6 |         p       | 6  | White can still castle
+5 |       p         | 5  | Black can still castle
+4 |       P n B     | 4  |
+3 |     P B P N     | 3  | moves played since progress = 2
+2 | P P       P P P | 2  |
+1 | R N   Q K     R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Bd3
+5: e2e3  f8b4
+6: c2c3  b4e7
+7: f1d3
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q k     r | 8  | 7b
+7 | p p p   b p p p | 7  |
+6 |         p       | 6  | White can still castle
+5 |       p         | 5  | Black can still castle
+4 |       P n B     | 4  |
+3 |     P B P N     | 3  | moves played since progress = 2
+2 | P P       P P P | 2  |
+1 | R N   Q K     R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6242
+ - cpu has 0.01 * 6242 seconds left
+Received message: otim 6433
+ - opponent has 0.01 * 6433 seconds left
+Received message: usermove O-O
+ - move O-O played
+Game saved as backup.pgn
+Best move set to first one generated: Nbd2
+Depth 1 best move = e1g1, value = 46
+Depth 2 best move = b1d2, value = 30
+Depth 3 best move = b1d2, value = 30
+Depth 4 best move = b1d2, value = 30
+Depth 5 best move = b1d2, value = 41
+65536 positions evaluated
+Depth 6 aborted. Move = b1d2
+moves_played = 14, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	Nbd2
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q   r k   | 8  | 8b
+7 | p p p   b p p p | 7  |
+6 |         p       | 6  | White can still castle
+5 |       p         | 5  | Black has lost castling
+4 |       P n B     | 4  |
+3 |     P B P N     | 3  | moves played since progress = 4
+2 | P P   N   P P P | 2  |
+1 | R     Q K     R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Nbd2
+6: c2c3  b4e7
+7: f1d3  e8g8
+8: b1d2
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q   r k   | 8  | 8b
+7 | p p p   b p p p | 7  |
+6 |         p       | 6  | White can still castle
+5 |       p         | 5  | Black has lost castling
+4 |       P n B     | 4  |
+3 |     P B P N     | 3  | moves played since progress = 4
+2 | P P   N   P P P | 2  |
+1 | R     Q K     R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6249
+ - cpu has 0.01 * 6249 seconds left
+Received message: otim 6482
+ - opponent has 0.01 * 6482 seconds left
+Received message: usermove Nxd2
+ - move Nxd2 played
+Game saved as backup.pgn
+Best move set to first one generated: Rb1
+Depth 1 best move = f3d2, value = 8
+Depth 2 best move = d1d2, value = 39
+Depth 3 best move = d1d2, value = 41
+Depth 4 best move = d1d2, value = 16
+Depth 5 best move = d1d2, value = 45
+65536 positions evaluated
+Depth 6 aborted. Move = f3d2
+moves_played = 16, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	Nxd2
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q   r k   | 8  | 9b
+7 | p p p   b p p p | 7  |
+6 |         p       | 6  | White can still castle
+5 |       p         | 5  | Black has lost castling
+4 |       P   B     | 4  |
+3 |     P B P       | 3  | moves played since progress = 0
+2 | P P   N   P P P | 2  |
+1 | R     Q K     R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Nxd2
+7: f1d3  e8g8
+8: b1d2  e4d2
+9: f3d2
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r n b q   r k   | 8  | 9b
+7 | p p p   b p p p | 7  |
+6 |         p       | 6  | White can still castle
+5 |       p         | 5  | Black has lost castling
+4 |       P   B     | 4  |
+3 |     P B P       | 3  | moves played since progress = 0
+2 | P P   N   P P P | 2  |
+1 | R     Q K     R | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6294
+ - cpu has 0.01 * 6294 seconds left
+Received message: otim 6478
+ - opponent has 0.01 * 6478 seconds left
+Received message: usermove Nd7
+ - move Nd7 played
+Game saved as backup.pgn
+Best move set to first one generated: Rb1
+Depth 1 best move = e1g1, value = 69
+Depth 2 best move = e1g1, value = 27
+Depth 3 best move = b2b3, value = 29
+Depth 4 best move = e1g1, value = 27
+65536 positions evaluated
+Depth 5 best move = e1g1, value = 47
+Depth 6 aborted. Move = e1g1
+moves_played = 18, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	O-O
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b q   r k   | 8  | 10b
+7 | p p p n b p p p | 7  |
+6 |         p       | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   B     | 4  |
+3 |     P B P       | 3  | moves played since progress = 2
+2 | P P   N   P P P | 2  |
+1 | R     Q   R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move O-O
+8: b1d2  e4d2
+9: f3d2  b8d7
+10: e1g1
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b q   r k   | 8  | 10b
+7 | p p p n b p p p | 7  |
+6 |         p       | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   B     | 4  |
+3 |     P B P       | 3  | moves played since progress = 2
+2 | P P   N   P P P | 2  |
+1 | R     Q   R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6303
+ - cpu has 0.01 * 6303 seconds left
+Received message: otim 6482
+ - opponent has 0.01 * 6482 seconds left
+Received message: usermove Bd6
+ - move Bd6 played
+Game saved as backup.pgn
+Best move set to first one generated: Rb1
+Depth 1 best move = b2b3, value = 86
+Depth 2 best move = b2b3, value = 57
+Depth 3 best move = b2b3, value = 67
+Depth 4 best move = d3b5, value = 64
+Depth 5 aborted. Move = b2b3
+moves_played = 20, iterative_ply = 5
+Line of play (Only approximately, eg all search extensions ignored):
+	b3
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b q   r k   | 8  | 11b
+7 | p p p n   p p p | 7  |
+6 |       b p       | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   B     | 4  |
+3 |   P P B P       | 3  | moves played since progress = 0
+2 | P     N   P P P | 2  |
+1 | R     Q   R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move b3
+9: f3d2  b8d7
+10: e1g1  e7d6
+11: b2b3
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b q   r k   | 8  | 11b
+7 | p p p n   p p p | 7  |
+6 |       b p       | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   B     | 4  |
+3 |   P P B P       | 3  | moves played since progress = 0
+2 | P     N   P P P | 2  |
+1 | R     Q   R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6395
+ - cpu has 0.01 * 6395 seconds left
+Received message: otim 6479
+ - opponent has 0.01 * 6479 seconds left
+Received message: usermove Bxf4
+ - move Bxf4 played
+Game saved as backup.pgn
+Best move set to first one generated: Rb1
+Depth 1 best move = e3f4, value = 73
+Depth 2 best move = e3f4, value = 73
+Depth 3 best move = e3f4, value = 73
+Depth 4 best move = e3f4, value = 73
+Depth 5 best move = e3f4, value = 103
+65536 positions evaluated
+Depth 6 best move = e3f4, value = 68
+Depth 7 aborted. Move = e3f4
+moves_played = 22, iterative_ply = 7
+Line of play (Only approximately, eg all search extensions ignored):
+	exf4
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b q   r k   | 8  | 12b
+7 | p p p n   p p p | 7  |
+6 |         p       | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 |   P P B         | 3  | moves played since progress = 0
+2 | P     N   P P P | 2  |
+1 | R     Q   R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move exf4
+10: e1g1  e7d6
+11: b2b3  d6f4
+12: e3f4
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b q   r k   | 8  | 12b
+7 | p p p n   p p p | 7  |
+6 |         p       | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 |   P P B         | 3  | moves played since progress = 0
+2 | P     N   P P P | 2  |
+1 | R     Q   R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6397
+ - cpu has 0.01 * 6397 seconds left
+Received message: otim 6476
+ - opponent has 0.01 * 6476 seconds left
+Received message: usermove c5
+ - move c5 played
+Game saved as backup.pgn
+Best move set to first one generated: Rb1
+Depth 1 best move = f4f5, value = 134
+Depth 2 best move = d1h5, value = 70
+Depth 3 best move = d1c2, value = 85
+Depth 4 best move = d1c2, value = 82
+Depth 5 best move = d1c2, value = 71
+65536 positions evaluated
+Depth 6 aborted. Move = d1e2
+moves_played = 24, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	Qe2
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b q   r k   | 8  | 13b
+7 | p p   n   p p p | 7  |
+6 |         p       | 6  | White has lost castling
+5 |     p p         | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 |   P P B         | 3  | moves played since progress = 1
+2 | P     N Q P P P | 2  |
+1 | R         R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Qe2
+11: b2b3  d6f4
+12: e3f4  c7c5
+13: d1e2
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b q   r k   | 8  | 13b
+7 | p p   n   p p p | 7  |
+6 |         p       | 6  | White has lost castling
+5 |     p p         | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 |   P P B         | 3  | moves played since progress = 1
+2 | P     N Q P P P | 2  |
+1 | R         R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6405
+ - cpu has 0.01 * 6405 seconds left
+Received message: otim 6473
+ - opponent has 0.01 * 6473 seconds left
+Received message: usermove cxd4
+ - move cxd4 played
+Game saved as backup.pgn
+Best move set to first one generated: Rab1
+Depth 1 best move = c3d4, value = 89
+Depth 2 best move = c3d4, value = 65
+Depth 3 best move = c3d4, value = 80
+Depth 4 best move = c3d4, value = 50
+Depth 5 best move = c3d4, value = 91
+65536 positions evaluated
+Depth 6 aborted. Move = c3d4
+moves_played = 26, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	cxd4
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b q   r k   | 8  | 14b
+7 | p p   n   p p p | 7  |
+6 |         p       | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 |   P   B         | 3  | moves played since progress = 0
+2 | P     N Q P P P | 2  |
+1 | R         R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move cxd4
+12: e3f4  c7c5
+13: d1e2  c5d4
+14: c3d4
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b q   r k   | 8  | 14b
+7 | p p   n   p p p | 7  |
+6 |         p       | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 |   P   B         | 3  | moves played since progress = 0
+2 | P     N Q P P P | 2  |
+1 | R         R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6402
+ - cpu has 0.01 * 6402 seconds left
+Received message: otim 6461
+ - opponent has 0.01 * 6461 seconds left
+Received message: usermove Nf6
+ - move Nf6 played
+Game saved as backup.pgn
+Best move set to first one generated: Rab1
+Depth 1 best move = f4f5, value = 133
+Depth 2 best move = a1d1, value = 91
+Depth 3 best move = a1d1, value = 127
+Depth 4 best move = g2g4, value = 99
+Depth 5 best move = g2g4, value = 149
+65536 positions evaluated
+Depth 6 aborted. Move = g2g4
+moves_played = 28, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	g4
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b q   r k   | 8  | 15b
+7 | p p       p p p | 7  |
+6 |         p n     | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   P P   | 4  |
+3 |   P   B         | 3  | moves played since progress = 0
+2 | P     N Q P   P | 2  |
+1 | R         R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move g4
+13: d1e2  c5d4
+14: c3d4  d7f6
+15: g2g4
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b q   r k   | 8  | 15b
+7 | p p       p p p | 7  |
+6 |         p n     | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   P P   | 4  |
+3 |   P   B         | 3  | moves played since progress = 0
+2 | P     N Q P   P | 2  |
+1 | R         R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6412
+ - cpu has 0.01 * 6412 seconds left
+Received message: otim 6458
+ - opponent has 0.01 * 6458 seconds left
+Received message: usermove Nd7
+ - move Nd7 played
+Game saved as backup.pgn
+Best move set to first one generated: Rab1
+Depth 1 best move = g4g5, value = 136
+Depth 2 best move = g4g5, value = 119
+Depth 3 best move = g4g5, value = 120
+Depth 4 best move = g4g5, value = 120
+Depth 5 best move = g4g5, value = 160
+65536 positions evaluated
+Depth 6 aborted. Move = g4g5
+moves_played = 30, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	g5
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b q   r k   | 8  | 16b
+7 | p p   n   p p p | 7  |
+6 |         p       | 6  | White has lost castling
+5 |       p     P   | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 |   P   B         | 3  | moves played since progress = 0
+2 | P     N Q P   P | 2  |
+1 | R         R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move g5
+14: c3d4  d7f6
+15: g2g4  f6d7
+16: g4g5
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b q   r k   | 8  | 16b
+7 | p p   n   p p p | 7  |
+6 |         p       | 6  | White has lost castling
+5 |       p     P   | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 |   P   B         | 3  | moves played since progress = 0
+2 | P     N Q P   P | 2  |
+1 | R         R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6421
+ - cpu has 0.01 * 6421 seconds left
+Received message: otim 6455
+ - opponent has 0.01 * 6455 seconds left
+Received message: usermove Re8
+ - move Re8 played
+Game saved as backup.pgn
+Best move set to first one generated: Rab1
+Depth 1 best move = a1d1, value = 219
+Depth 2 best move = a1d1, value = 180
+Depth 3 best move = a1d1, value = 220
+Depth 4 best move = d3b5, value = 181
+Depth 5 best move = a1d1, value = 210
+65536 positions evaluated
+Depth 6 aborted. Move = a1d1
+moves_played = 32, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	Rad1
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b q r   k   | 8  | 17b
+7 | p p   n   p p p | 7  |
+6 |         p       | 6  | White has lost castling
+5 |       p     P   | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 |   P   B         | 3  | moves played since progress = 2
+2 | P     N Q P   P | 2  |
+1 |       R   R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Rad1
+15: g2g4  f6d7
+16: g4g5  f8e8
+17: a1d1
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b q r   k   | 8  | 17b
+7 | p p   n   p p p | 7  |
+6 |         p       | 6  | White has lost castling
+5 |       p     P   | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 |   P   B         | 3  | moves played since progress = 2
+2 | P     N Q P   P | 2  |
+1 |       R   R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6425
+ - cpu has 0.01 * 6425 seconds left
+Received message: otim 6452
+ - opponent has 0.01 * 6452 seconds left
+Received message: usermove Nf8
+ - move Nf8 played
+Game saved as backup.pgn
+Best move set to first one generated: Rc1
+Depth 1 best move = d3b5, value = 280
+Depth 2 best move = d3b5, value = 241
+Depth 3 best move = d3b5, value = 261
+Depth 4 best move = d3b5, value = 229
+Depth 5 best move = d2f3, value = 245
+65536 positions evaluated
+Depth 6 aborted. Move = d2f3
+moves_played = 34, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	Nf3
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b q r n k   | 8  | 18b
+7 | p p       p p p | 7  |
+6 |         p       | 6  | White has lost castling
+5 |       p     P   | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 |   P   B   N     | 3  | moves played since progress = 4
+2 | P       Q P   P | 2  |
+1 |       R   R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Nf3
+16: g4g5  f8e8
+17: a1d1  d7f8
+18: d2f3
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b q r n k   | 8  | 18b
+7 | p p       p p p | 7  |
+6 |         p       | 6  | White has lost castling
+5 |       p     P   | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 |   P   B   N     | 3  | moves played since progress = 4
+2 | P       Q P   P | 2  |
+1 |       R   R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6430
+ - cpu has 0.01 * 6430 seconds left
+Received message: otim 6449
+ - opponent has 0.01 * 6449 seconds left
+Received message: usermove Qd6
+ - move Qd6 played
+Game saved as backup.pgn
+Best move set to first one generated: Rd2
+Depth 1 best move = f4f5, value = 261
+Depth 2 best move = f4f5, value = 227
+Depth 3 best move = f4f5, value = 264
+Depth 4 best move = e2e5, value = 237
+Depth 5 best move = e2e5, value = 238
+65536 positions evaluated
+Depth 6 best move = e2e5, value = 230
+Depth 7 aborted. Move = e2e5
+moves_played = 36, iterative_ply = 7
+Line of play (Only approximately, eg all search extensions ignored):
+	Qe5
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b   r n k   | 8  | 19b
+7 | p p       p p p | 7  |
+6 |       q p       | 6  | White has lost castling
+5 |       p Q   P   | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 |   P   B   N     | 3  | moves played since progress = 6
+2 | P         P   P | 2  |
+1 |       R   R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Qe5
+17: a1d1  d7f8
+18: d2f3  d8d6
+19: e2e5
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b   r n k   | 8  | 19b
+7 | p p       p p p | 7  |
+6 |       q p       | 6  | White has lost castling
+5 |       p Q   P   | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 |   P   B   N     | 3  | moves played since progress = 6
+2 | P         P   P | 2  |
+1 |       R   R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6426
+ - cpu has 0.01 * 6426 seconds left
+Received message: otim 6446
+ - opponent has 0.01 * 6446 seconds left
+Received message: usermove Qa3
+ - move Qa3 played
+Game saved as backup.pgn
+Best move set to first one generated: Rd2
+Depth 1 best move = d1d2, value = 299
+Depth 2 best move = d1d2, value = 261
+Depth 3 best move = d1d2, value = 279
+Depth 4 best move = e5g7, value = 250
+Depth 5 best move = d1d2, value = 271
+65536 positions evaluated
+Depth 6 best move = e5g7, value = 250
+Depth 7 aborted. Move = e5g7
+moves_played = 38, iterative_ply = 7
+Line of play (Only approximately, eg all search extensions ignored):
+	Qxg7+
+Position after line of play:
+Num checks = 1, threat_pos = g7
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b   r n k   | 8  | 20b
+7 | p p       p Q p | 7  |
+6 |         p       | 6  | White has lost castling
+5 |       p     P   | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 | q P   B   N     | 3  | moves played since progress = 0
+2 | P         P   P | 2  |
+1 |       R   R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Qxg7+
+18: d2f3  d8d6
+19: e2e5  d6a3
+20: e5g7
+Num checks = 1, threat_pos = g7
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b   r n k   | 8  | 20b
+7 | p p       p Q p | 7  |
+6 |         p       | 6  | White has lost castling
+5 |       p     P   | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 | q P   B   N     | 3  | moves played since progress = 0
+2 | P         P   P | 2  |
+1 |       R   R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6431
+ - cpu has 0.01 * 6431 seconds left
+Received message: otim 6628
+ - opponent has 0.01 * 6628 seconds left
+Received message: usermove Kxg7
+ - move Kxg7 played
+Game saved as backup.pgn
+Best move set to first one generated: Rd2
+Depth 1 best move = d3b5, value = -7772
+Depth 2 best move = d1d2, value = -7785
+Depth 3 best move = d1d2, value = -7785
+Depth 4 best move = d1d2, value = -7785
+Depth 5 best move = d1d2, value = -7785
+Depth 6 best move = d1d2, value = -7846
+65536 positions evaluated
+Depth 7 aborted. Move = d1d2
+moves_played = 40, iterative_ply = 7
+Line of play (Only approximately, eg all search extensions ignored):
+	Rd2
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b   r n     | 8  | 21b
+7 | p p       p k p | 7  |
+6 |         p       | 6  | White has lost castling
+5 |       p     P   | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 | q P   B   N     | 3  | moves played since progress = 1
+2 | P     R   P   P | 2  |
+1 |           R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Rd2
+19: e2e5  d6a3
+20: e5g7  g8g7
+21: d1d2
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b   r n     | 8  | 21b
+7 | p p       p k p | 7  |
+6 |         p       | 6  | White has lost castling
+5 |       p     P   | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 | q P   B   N     | 3  | moves played since progress = 1
+2 | P     R   P   P | 2  |
+1 |           R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6452
+ - cpu has 0.01 * 6452 seconds left
+Received message: otim 6544
+ - opponent has 0.01 * 6544 seconds left
+Received message: usermove f6
+ - move f6 played
+Game saved as backup.pgn
+Best move set to first one generated: Re1
+Depth 1 best move = f4f5, value = -7692
+Depth 2 best move = d3b5, value = -7745
+Depth 3 best move = h2h4, value = -7744
+Depth 4 best move = d3b5, value = -7787
+Depth 5 best move = h2h4, value = -7822
+Depth 6 aborted. Move = d3b5
+moves_played = 42, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	Bb5
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b   r n     | 8  | 22b
+7 | p p         k p | 7  |
+6 |         p p     | 6  | White has lost castling
+5 |   B   p     P   | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 | q P       N     | 3  | moves played since progress = 1
+2 | P     R   P   P | 2  |
+1 |           R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Bb5
+20: e5g7  g8g7
+21: d1d2  f7f6
+22: d3b5
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r   b   r n     | 8  | 22b
+7 | p p         k p | 7  |
+6 |         p p     | 6  | White has lost castling
+5 |   B   p     P   | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 | q P       N     | 3  | moves played since progress = 1
+2 | P     R   P   P | 2  |
+1 |           R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6532
+ - cpu has 0.01 * 6532 seconds left
+Received message: otim 6570
+ - opponent has 0.01 * 6570 seconds left
+Received message: usermove Bd7
+ - move Bd7 played
+Game saved as backup.pgn
+Best move set to first one generated: Re1
+Depth 1 best move = b5d3, value = -7755
+Depth 2 best move = b5d7, value = -7859
+Depth 3 best move = b5d7, value = -7859
+Depth 4 best move = b5d7, value = -7859
+Depth 5 best move = b5d3, value = -7869
+65536 positions evaluated
+Depth 6 aborted. Move = b5d3
+moves_played = 44, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	Bd3
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r       r n     | 8  | 23b
+7 | p p   b     k p | 7  |
+6 |         p p     | 6  | White has lost castling
+5 |       p     P   | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 | q P   B   N     | 3  | moves played since progress = 3
+2 | P     R   P   P | 2  |
+1 |           R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Bd3
+21: d1d2  f7f6
+22: d3b5  c8d7
+23: b5d3
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r       r n     | 8  | 23b
+7 | p p   b     k p | 7  |
+6 |         p p     | 6  | White has lost castling
+5 |       p     P   | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 | q P   B   N     | 3  | moves played since progress = 3
+2 | P     R   P   P | 2  |
+1 |           R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6606
+ - cpu has 0.01 * 6606 seconds left
+Received message: otim 6579
+ - opponent has 0.01 * 6579 seconds left
+Received message: usermove Qd6
+ - move Qd6 played
+Game saved as backup.pgn
+Best move set to first one generated: Re1
+Depth 1 best move = f4f5, value = -7738
+Depth 2 best move = g5f6, value = -7905
+Depth 3 best move = g5f6, value = -7905
+Depth 4 best move = g5f6, value = -7905
+Depth 5 best move = g5f6, value = -7905
+65536 positions evaluated
+Depth 6 aborted. Move = g5f6
+moves_played = 46, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	gxf6+
+Position after line of play:
+Num checks = 1, threat_pos = f6
+    a b c d e f g h
+  +-----------------+    |
+8 | r       r n     | 8  | 24b
+7 | p p   b     k p | 7  |
+6 |       q p P     | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 |   P   B   N     | 3  | moves played since progress = 0
+2 | P     R   P   P | 2  |
+1 |           R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move gxf6+
+22: d3b5  c8d7
+23: b5d3  a3d6
+24: g5f6
+Num checks = 1, threat_pos = f6
+    a b c d e f g h
+  +-----------------+    |
+8 | r       r n     | 8  | 24b
+7 | p p   b     k p | 7  |
+6 |       q p P     | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 |   P   B   N     | 3  | moves played since progress = 0
+2 | P     R   P   P | 2  |
+1 |           R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6604
+ - cpu has 0.01 * 6604 seconds left
+Received message: otim 6571
+ - opponent has 0.01 * 6571 seconds left
+Received message: usermove Kxf6
+ - move Kxf6 played
+Game saved as backup.pgn
+Best move set to first one generated: Re1
+Depth 1 best move = f3e5, value = -7831
+Depth 2 best move = f3e5, value = -7905
+Depth 3 best move = f3e5, value = -7905
+Depth 4 best move = f3e5, value = -7930
+Depth 5 best move = f3e5, value = -7929
+Depth 6 best move = f3e5, value = -7929
+65536 positions evaluated
+Depth 7 aborted. Move = f3e5
+moves_played = 48, iterative_ply = 7
+Line of play (Only approximately, eg all search extensions ignored):
+	Ne5
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r       r n     | 8  | 25b
+7 | p p   b       p | 7  |
+6 |       q p k     | 6  | White has lost castling
+5 |       p N       | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 |   P   B         | 3  | moves played since progress = 1
+2 | P     R   P   P | 2  |
+1 |           R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Ne5
+23: b5d3  a3d6
+24: g5f6  g7f6
+25: f3e5
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r       r n     | 8  | 25b
+7 | p p   b       p | 7  |
+6 |       q p k     | 6  | White has lost castling
+5 |       p N       | 5  | Black has lost castling
+4 |       P   P     | 4  |
+3 |   P   B         | 3  | moves played since progress = 1
+2 | P     R   P   P | 2  |
+1 |           R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6612
+ - cpu has 0.01 * 6612 seconds left
+Received message: otim 6565
+ - opponent has 0.01 * 6565 seconds left
+Received message: usermove Re7
+ - move Re7 played
+Game saved as backup.pgn
+Best move set to first one generated: Re1
+Depth 1 best move = h2h4, value = -7869
+Depth 2 best move = e5g4, value = -7835
+Depth 3 best move = g1h1, value = -7918
+Depth 4 best move = e5g4, value = -7918
+65536 positions evaluated
+Depth 5 aborted. Move = h2h4
+moves_played = 50, iterative_ply = 5
+Line of play (Only approximately, eg all search extensions ignored):
+	h4
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r         n     | 8  | 26b
+7 | p p   b r     p | 7  |
+6 |       q p k     | 6  | White has lost castling
+5 |       p N       | 5  | Black has lost castling
+4 |       P   P   P | 4  |
+3 |   P   B         | 3  | moves played since progress = 0
+2 | P     R   P     | 2  |
+1 |           R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move h4
+24: g5f6  g7f6
+25: f3e5  e8e7
+26: h2h4
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r         n     | 8  | 26b
+7 | p p   b r     p | 7  |
+6 |       q p k     | 6  | White has lost castling
+5 |       p N       | 5  | Black has lost castling
+4 |       P   P   P | 4  |
+3 |   P   B         | 3  | moves played since progress = 0
+2 | P     R   P     | 2  |
+1 |           R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6612
+ - cpu has 0.01 * 6612 seconds left
+Received message: otim 6559
+ - opponent has 0.01 * 6559 seconds left
+Received message: usermove Qb4
+ - move Qb4 played
+Game saved as backup.pgn
+Best move set to first one generated: Re1
+Depth 1 best move = e5f3, value = -7868
+Depth 2 best move = e5f3, value = -7925
+Depth 3 best move = e5f3, value = -7952
+Depth 4 best move = e5f3, value = -7952
+Depth 5 best move = e5f3, value = -8872
+Depth 6 best move = e5f3, value = -8872
+65536 positions evaluated
+Depth 7 aborted. Move = e5f3
+moves_played = 52, iterative_ply = 7
+Line of play (Only approximately, eg all search extensions ignored):
+	Nf3
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r         n     | 8  | 27b
+7 | p p   b r     p | 7  |
+6 |         p k     | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |   q   P   P   P | 4  |
+3 |   P   B   N     | 3  | moves played since progress = 2
+2 | P     R   P     | 2  |
+1 |           R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Nf3
+25: f3e5  e8e7
+26: h2h4  d6b4
+27: e5f3
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r         n     | 8  | 27b
+7 | p p   b r     p | 7  |
+6 |         p k     | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |   q   P   P   P | 4  |
+3 |   P   B   N     | 3  | moves played since progress = 2
+2 | P     R   P     | 2  |
+1 |           R K   | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6615
+ - cpu has 0.01 * 6615 seconds left
+Received message: otim 6554
+ - opponent has 0.01 * 6554 seconds left
+Received message: usermove Rg7+
+ - move Rg7+ played
+Game saved as backup.pgn
+Best move set to first one generated: Kh2
+Depth 1 best move = g1h2, value = -8978
+Depth 2 best move = g1h2, value = -8978
+Depth 3 best move = g1h2, value = -8978
+Depth 4 best move = g1h2, value = -8978
+Depth 5 best move = g1h2, value = -8978
+65536 positions evaluated
+Depth 6 aborted. Move = g1h2
+moves_played = 54, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	Kh2
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r         n     | 8  | 28b
+7 | p p   b     r p | 7  |
+6 |         p k     | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |   q   P   P   P | 4  |
+3 |   P   B   N     | 3  | moves played since progress = 4
+2 | P     R   P   K | 2  |
+1 |           R     | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Kh2
+26: h2h4  d6b4
+27: e5f3  e7g7
+28: g1h2
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r         n     | 8  | 28b
+7 | p p   b     r p | 7  |
+6 |         p k     | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |   q   P   P   P | 4  |
+3 |   P   B   N     | 3  | moves played since progress = 4
+2 | P     R   P   K | 2  |
+1 |           R     | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6629
+ - cpu has 0.01 * 6629 seconds left
+Received message: otim 6548
+ - opponent has 0.01 * 6548 seconds left
+Received message: usermove Rg4
+ - move Rg4 played
+Game saved as backup.pgn
+Best move set to first one generated: Re1
+Depth 1 best move = d3e2, value = -8970
+Depth 2 best move = d2c2, value = -8971
+Depth 3 best move = d2c2, value = -8971
+Depth 4 best move = d2c2, value = -8971
+Depth 5 best move = d2c2, value = -8971
+65536 positions evaluated
+Depth 6 aborted. Move = f1d1
+moves_played = 56, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	Rfd1
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r         n     | 8  | 29b
+7 | p p   b       p | 7  |
+6 |         p k     | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |   q   P   P r P | 4  |
+3 |   P   B   N     | 3  | moves played since progress = 6
+2 | P     R   P   K | 2  |
+1 |       R         | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Rfd1
+27: e5f3  e7g7
+28: g1h2  g7g4
+29: f1d1
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r         n     | 8  | 29b
+7 | p p   b       p | 7  |
+6 |         p k     | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |   q   P   P r P | 4  |
+3 |   P   B   N     | 3  | moves played since progress = 6
+2 | P     R   P   K | 2  |
+1 |       R         | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6633
+ - cpu has 0.01 * 6633 seconds left
+Received message: otim 6542
+ - opponent has 0.01 * 6542 seconds left
+Received message: usermove Rxf4
+ - move Rxf4 played
+Game saved as backup.pgn
+Best move set to first one generated: Rc1
+Depth 1 best move = h2g2, value = -8943
+Depth 2 best move = h2g3, value = -8991
+Depth 3 best move = h2g3, value = -8991
+Depth 4 best move = h2g3, value = -8991
+Depth 5 best move = h2g3, value = -8951
+65536 positions evaluated
+Depth 6 best move = h2g3, value = -8959
+Depth 7 aborted. Move = h2g3
+moves_played = 58, iterative_ply = 7
+Line of play (Only approximately, eg all search extensions ignored):
+	Kg3
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r         n     | 8  | 30b
+7 | p p   b       p | 7  |
+6 |         p k     | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |   q   P   r   P | 4  |
+3 |   P   B   N K   | 3  | moves played since progress = 1
+2 | P     R   P     | 2  |
+1 |       R         | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Kg3
+28: g1h2  g7g4
+29: f1d1  g4f4
+30: h2g3
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r         n     | 8  | 30b
+7 | p p   b       p | 7  |
+6 |         p k     | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |   q   P   r   P | 4  |
+3 |   P   B   N K   | 3  | moves played since progress = 1
+2 | P     R   P     | 2  |
+1 |       R         | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6640
+ - cpu has 0.01 * 6640 seconds left
+Received message: otim 6537
+ - opponent has 0.01 * 6537 seconds left
+Received message: usermove Qd6
+ - move Qd6 played
+Game saved as backup.pgn
+Best move set to first one generated: Rc1
+Depth 1 best move = h4h5, value = -8888
+Depth 2 best move = g3g2, value = -8959
+Depth 3 best move = g3g2, value = -8959
+Depth 4 best move = g3g2, value = -8959
+Depth 5 best move = g3g2, value = -8999
+65536 positions evaluated
+Depth 6 best move = g3g2, value = -9064
+Depth 7 aborted. Move = g3g2
+moves_played = 60, iterative_ply = 7
+Line of play (Only approximately, eg all search extensions ignored):
+	Kg2
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r         n     | 8  | 31b
+7 | p p   b       p | 7  |
+6 |       q p k     | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   r   P | 4  |
+3 |   P   B   N     | 3  | moves played since progress = 3
+2 | P     R   P K   | 2  |
+1 |       R         | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Kg2
+29: f1d1  g4f4
+30: h2g3  b4d6
+31: g3g2
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r         n     | 8  | 31b
+7 | p p   b       p | 7  |
+6 |       q p k     | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   r   P | 4  |
+3 |   P   B   N     | 3  | moves played since progress = 3
+2 | P     R   P K   | 2  |
+1 |       R         | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6645
+ - cpu has 0.01 * 6645 seconds left
+Received message: otim 6553
+ - opponent has 0.01 * 6553 seconds left
+Received message: usermove Ng6
+ - move Ng6 played
+Game saved as backup.pgn
+Best move set to first one generated: Rc1
+Depth 1 best move = h4h5, value = -8907
+Depth 2 best move = h4h5, value = -8895
+Depth 3 best move = h4h5, value = -8895
+Depth 4 best move = h4h5, value = -8895
+Depth 5 best move = d3g6, value = -9047
+Depth 6 aborted. Move = d3g6
+moves_played = 62, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	Bxg6
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r               | 8  | 32b
+7 | p p   b       p | 7  |
+6 |       q p k B   | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   r   P | 4  |
+3 |   P       N     | 3  | moves played since progress = 0
+2 | P     R   P K   | 2  |
+1 |       R         | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Bxg6
+30: h2g3  b4d6
+31: g3g2  f8g6
+32: d3g6
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r               | 8  | 32b
+7 | p p   b       p | 7  |
+6 |       q p k B   | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   r   P | 4  |
+3 |   P       N     | 3  | moves played since progress = 0
+2 | P     R   P K   | 2  |
+1 |       R         | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6727
+ - cpu has 0.01 * 6727 seconds left
+Received message: otim 6548
+ - opponent has 0.01 * 6548 seconds left
+Received message: usermove hxg6
+ - move hxg6 played
+Game saved as backup.pgn
+Best move set to first one generated: Rc1
+Depth 1 best move = a2a4, value = -8875
+Depth 2 best move = a2a4, value = -8993
+Depth 3 best move = a2a4, value = -8978
+Depth 4 best move = a2a4, value = -9051
+Depth 5 best move = d1e1, value = -9039
+65536 positions evaluated
+Depth 6 aborted. Move = d1e1
+moves_played = 64, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	Re1
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r               | 8  | 33b
+7 | p p   b         | 7  |
+6 |       q p k p   | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   r   P | 4  |
+3 |   P       N     | 3  | moves played since progress = 1
+2 | P     R   P K   | 2  |
+1 |         R       | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Re1
+31: g3g2  f8g6
+32: d3g6  h7g6
+33: d1e1
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 | r               | 8  | 33b
+7 | p p   b         | 7  |
+6 |       q p k p   | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   r   P | 4  |
+3 |   P       N     | 3  | moves played since progress = 1
+2 | P     R   P K   | 2  |
+1 |         R       | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6735
+ - cpu has 0.01 * 6735 seconds left
+Received message: otim 6541
+ - opponent has 0.01 * 6541 seconds left
+Received message: usermove Rf8
+ - move Rf8 played
+Game saved as backup.pgn
+Best move set to first one generated: Ree2
+Depth 1 best move = e1e5, value = -9018
+Depth 2 best move = a2a4, value = -9071
+Depth 3 best move = a2a4, value = -9016
+Depth 4 best move = a2a4, value = -9071
+Depth 5 best move = e1e5, value = -9033
+65536 positions evaluated
+Depth 6 aborted. Move = e1e5
+moves_played = 66, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	Re5
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 |           r     | 8  | 34b
+7 | p p   b         | 7  |
+6 |       q p k p   | 6  | White has lost castling
+5 |       p R       | 5  | Black has lost castling
+4 |       P   r   P | 4  |
+3 |   P       N     | 3  | moves played since progress = 3
+2 | P     R   P K   | 2  |
+1 |                 | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Re5
+32: d3g6  h7g6
+33: d1e1  a8f8
+34: e1e5
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 |           r     | 8  | 34b
+7 | p p   b         | 7  |
+6 |       q p k p   | 6  | White has lost castling
+5 |       p R       | 5  | Black has lost castling
+4 |       P   r   P | 4  |
+3 |   P       N     | 3  | moves played since progress = 3
+2 | P     R   P K   | 2  |
+1 |                 | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6742
+ - cpu has 0.01 * 6742 seconds left
+Received message: otim 6536
+ - opponent has 0.01 * 6536 seconds left
+Received message: usermove Ke7
+ - move Ke7 played
+Game saved as backup.pgn
+Best move set to first one generated: a3
+Depth 1 best move = h4h5, value = -8911
+Depth 2 best move = e5e3, value = -9050
+Depth 3 best move = e5e3, value = -9004
+Depth 4 best move = e5e3, value = -9103
+Depth 5 best move = e5e3, value = -9037
+65536 positions evaluated
+Depth 6 best move = e5e3, value = -9062
+Depth 7 aborted. Move = e5e3
+moves_played = 68, iterative_ply = 7
+Line of play (Only approximately, eg all search extensions ignored):
+	Re3
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 |           r     | 8  | 35b
+7 | p p   b k       | 7  |
+6 |       q p   p   | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   r   P | 4  |
+3 |   P     R N     | 3  | moves played since progress = 5
+2 | P     R   P K   | 2  |
+1 |                 | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Re3
+33: d1e1  a8f8
+34: e1e5  f6e7
+35: e5e3
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 |           r     | 8  | 35b
+7 | p p   b k       | 7  |
+6 |       q p   p   | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P   r   P | 4  |
+3 |   P     R N     | 3  | moves played since progress = 5
+2 | P     R   P K   | 2  |
+1 |                 | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6742
+ - cpu has 0.01 * 6742 seconds left
+Received message: otim 6535
+ - opponent has 0.01 * 6535 seconds left
+Received message: usermove Rg4+
+ - move Rg4+ played
+Game saved as backup.pgn
+Best move set to first one generated: Kf1
+Depth 1 best move = g2h3, value = -8994
+Depth 2 best move = g2h3, value = -8948
+Depth 3 best move = g2h3, value = -8948
+Depth 4 best move = g2h3, value = -9005
+Depth 5 best move = g2h3, value = -9005
+65536 positions evaluated
+Depth 6 aborted. Move = g2h3
+moves_played = 70, iterative_ply = 6
+Line of play (Only approximately, eg all search extensions ignored):
+	Kh3
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 |           r     | 8  | 36b
+7 | p p   b k       | 7  |
+6 |       q p   p   | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P     r P | 4  |
+3 |   P     R N   K | 3  | moves played since progress = 7
+2 | P     R   P     | 2  |
+1 |                 | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Kh3
+34: e1e5  f6e7
+35: e5e3  f4g4
+36: g2h3
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 |           r     | 8  | 36b
+7 | p p   b k       | 7  |
+6 |       q p   p   | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P     r P | 4  |
+3 |   P     R N   K | 3  | moves played since progress = 7
+2 | P     R   P     | 2  |
+1 |                 | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6742
+ - cpu has 0.01 * 6742 seconds left
+Received message: otim 5920
+ - opponent has 0.01 * 5920 seconds left
+Received message: usermove Rxf3+
+ - move Rxf3+ played
+Game saved as backup.pgn
+Best move set to first one generated: Rxf3
+Depth 1 best move = e3f3, value = -8022
+Depth 2 best move = e3f3, value = -8001
+Depth 3 best move = e3f3, value = -8022
+Depth 4 best move = e3f3, value = -7972
+Depth 5 best move = e3f3, value = -7972
+Depth 6 best move = e3f3, value = -9289
+Depth 7 best move = e3f3, value = -9289
+65536 positions evaluated
+Depth 8 aborted. Move = e3f3
+moves_played = 72, iterative_ply = 8
+Line of play (Only approximately, eg all search extensions ignored):
+	Rxf3
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 |                 | 8  | 37b
+7 | p p   b k       | 7  |
+6 |       q p   p   | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P     r P | 4  |
+3 |   P       R   K | 3  | moves played since progress = 0
+2 | P     R   P     | 2  |
+1 |                 | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Rxf3
+35: e5e3  f4g4
+36: g2h3  f8f3
+37: e3f3
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 |                 | 8  | 37b
+7 | p p   b k       | 7  |
+6 |       q p   p   | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P     r P | 4  |
+3 |   P       R   K | 3  | moves played since progress = 0
+2 | P     R   P     | 2  |
+1 |                 | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6763
+ - cpu has 0.01 * 6763 seconds left
+Received message: otim 5914
+ - opponent has 0.01 * 5914 seconds left
+Received message: usermove Rxh4+
+ - move Rxh4+ played
+Game saved as backup.pgn
+Best move set to first one generated: Kg2
+Depth 1 best move = h3h4, value = -3114
+Depth 2 best move = h3h4, value = -3033
+Depth 3 best move = h3h4, value = -4109
+Depth 4 best move = h3h4, value = -3128
+Depth 5 best move = h3h4, value = -3128
+Depth 6 best move = h3h4, value = -9074
+Depth 7 best move = h3h4, value = -9074
+65536 positions evaluated
+Depth 8 aborted. Move = h3h4
+moves_played = 74, iterative_ply = 8
+Line of play (Only approximately, eg all search extensions ignored):
+	Kxh4
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 |                 | 8  | 38b
+7 | p p   b k       | 7  |
+6 |       q p   p   | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P       K | 4  |
+3 |   P       R     | 3  | moves played since progress = 0
+2 | P     R   P     | 2  |
+1 |                 | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Kxh4
+36: g2h3  f8f3
+37: e3f3  g4h4
+38: h3h4
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 |                 | 8  | 38b
+7 | p p   b k       | 7  |
+6 |       q p   p   | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P       K | 4  |
+3 |   P       R     | 3  | moves played since progress = 0
+2 | P     R   P     | 2  |
+1 |                 | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6764
+ - cpu has 0.01 * 6764 seconds left
+Received message: otim 6101
+ - opponent has 0.01 * 6101 seconds left
+Received message: usermove Qh2+
+ - move Qh2+ played
+Game saved as backup.pgn
+Best move set to first one generated: Rh3
+Depth 1 best move = h4g4, value = -M4
+Depth 2 best move = h4g4, value = -M4
+Depth 3 best move = h4g4, value = -M4
+Depth 4 best move = h4g4, value = -M4
+Depth 5 best move = h4g4, value = -M4
+Depth 6 best move = h4g4, value = -M4
+Depth 7 best move = h4g4, value = -14400
+Depth 8 best move = h4g4, value = -14400
+65536 positions evaluated
+Depth 9 aborted. Move = h4g4
+moves_played = 76, iterative_ply = 9
+Line of play (Only approximately, eg all search extensions ignored):
+	Kg4
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 |                 | 8  | 39b
+7 | p p   b k       | 7  |
+6 |         p   p   | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P     K   | 4  |
+3 |   P       R     | 3  | moves played since progress = 2
+2 | P     R   P   q | 2  |
+1 |                 | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Kg4
+37: e3f3  g4h4
+38: h3h4  d6h2
+39: h4g4
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 |                 | 8  | 39b
+7 | p p   b k       | 7  |
+6 |         p   p   | 6  | White has lost castling
+5 |       p         | 5  | Black has lost castling
+4 |       P     K   | 4  |
+3 |   P       R     | 3  | moves played since progress = 2
+2 | P     R   P   q | 2  |
+1 |                 | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6781
+ - cpu has 0.01 * 6781 seconds left
+Received message: otim 6287
+ - opponent has 0.01 * 6287 seconds left
+Received message: usermove e5+
+ - move e5+ played
+Game saved as backup.pgn
+Best move set to first one generated: Rf5
+Depth 1 best move = f3f5, value = 0
+Search stopped: Game theoretical value found!
+moves_played = 78, iterative_ply = 1
+Line of play (Only approximately, eg all search extensions ignored):
+	Rf5
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 |                 | 8  | 40b
+7 | p p   b k       | 7  |
+6 |             p   | 6  | White has lost castling
+5 |       p p R     | 5  | Black has lost castling
+4 |       P     K   | 4  |
+3 |   P             | 3  | moves played since progress = 1
+2 | P     R   P   q | 2  |
+1 |                 | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move Rf5
+38: h3h4  d6h2
+39: h4g4  e6e5
+40: f3f5
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 |                 | 8  | 40b
+7 | p p   b k       | 7  |
+6 |             p   | 6  | White has lost castling
+5 |       p p R     | 5  | Black has lost castling
+4 |       P     K   | 4  |
+3 |   P             | 3  | moves played since progress = 1
+2 | P     R   P   q | 2  |
+1 |                 | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 6967
+ - cpu has 0.01 * 6967 seconds left
+Received message: otim 6473
+ - opponent has 0.01 * 6473 seconds left
+Received message: usermove Qg2+
+ - move Qg2+ played
+Game saved as backup.pgn
+Only one move possible - returning immediately.
+ - computer replies with move Kh4
+39: h4g4  e6e5
+40: f3f5  h2g2
+41: g4h4
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 |                 | 8  | 41b
+7 | p p   b k       | 7  |
+6 |             p   | 6  | White has lost castling
+5 |       p p R     | 5  | Black has lost castling
+4 |       P       K | 4  |
+3 |   P             | 3  | moves played since progress = 3
+2 | P     R   P q   | 2  |
+1 |                 | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 7153
+ - cpu has 0.01 * 7153 seconds left
+Received message: otim 6659
+ - opponent has 0.01 * 6659 seconds left
+Received message: usermove Bxf5
+ - move Bxf5 played
+Game saved as backup.pgn
+Best move set to first one generated: a3
+Depth 1 best move = d4e5, value = -6966
+Depth 2 best move = f2f3, value = -M2
+Depth 3 best move = f2f3, value = -M2
+Depth 4 best move = f2f3, value = -M2
+Depth 5 best move = f2f3, value = -M2
+Depth 6 best move = f2f3, value = -M2
+Depth 7 best move = f2f3, value = -M2
+Depth 8 aborted. Move = f2f3
+moves_played = 82, iterative_ply = 8
+Line of play (Only approximately, eg all search extensions ignored):
+	f3
+Position after line of play:
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 |                 | 8  | 42b
+7 | p p     k       | 7  |
+6 |             p   | 6  | White has lost castling
+5 |       p p b     | 5  | Black has lost castling
+4 |       P       K | 4  |
+3 |   P       P     | 3  | moves played since progress = 0
+2 | P     R     q   | 2  |
+1 |                 | 1  |
+  +-----------------+    |
+    a b c d e f g h
+ - computer replies with move f3
+40: f3f5  h2g2
+41: g4h4  d7f5
+42: f2f3
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 |                 | 8  | 42b
+7 | p p     k       | 7  |
+6 |             p   | 6  | White has lost castling
+5 |       p p b     | 5  | Black has lost castling
+4 |       P       K | 4  |
+3 |   P       P     | 3  | moves played since progress = 0
+2 | P     R     q   | 2  |
+1 |                 | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 7223
+ - cpu has 0.01 * 7223 seconds left
+Received message: otim 6846
+ - opponent has 0.01 * 6846 seconds left
+Received message: usermove Qh3+
+ - move Qh3+ played
+Game saved as backup.pgn
+Only one move possible - returning immediately.
+ - computer replies with move Kg5
+41: g4h4  d7f5
+42: f2f3  g2h3
+43: h4g5
+Num checks = 0
+    a b c d e f g h
+  +-----------------+    |
+8 |                 | 8  | 43b
+7 | p p     k       | 7  |
+6 |             p   | 6  | White has lost castling
+5 |       p p b K   | 5  | Black has lost castling
+4 |       P         | 4  |
+3 |   P       P   q | 3  | moves played since progress = 2
+2 | P     R         | 2  |
+1 |                 | 1  |
+  +-----------------+    |
+    a b c d e f g h
+Received message: time 7409
+ - cpu has 0.01 * 7409 seconds left
+Received message: otim 7032
+ - opponent has 0.01 * 7032 seconds left
+Received message: usermove Qh5#
+ - move Qh5# played
+Game saved as backup.pgn
+0-1 {Black mates}
+Received message: result 0-1 {computer wins as black}
+Error (unknown command): result 0-1 {computer wins as black}. Try typing help
+Received message: force
+ - cpu is not playing
+Received message: ping 2

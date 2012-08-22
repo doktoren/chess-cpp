@@ -1,0 +1,42 @@
+[Event "Informal Game"]
+[Site "Paris, France FRA"]
+[Date "1858.??.??"]
+[Round "-"]
+[White "Morphy, Paul"]
+[Black "Duke of Brunswick and Count Isouard"]
+[Result "1-0"]
+
+1. e4 e5
+2. Nf3 d6
+{This is Philidor's Defense.}
+
+3. d4 Bg4
+4. dxe5 Bxf3
+{If ... dxe5, then 5. Qxd8 Kxd8 and Black has lost the castling privilege.}
+
+5. Qxf3 dxe5
+6. Bc4 Nf6
+7. Qb3 Qe7
+8. Nc3
+{White prefers fast development to material.}
+
+8. ... c6
+9. Bg5 b5
+10. Nxb5!
+{Morphy chooses not to retreat the bishop, which would allow Black to gain time for development.}
+  
+10. ... cxb5
+11. Bxb5+ Nbd7
+12. 0-0-0 
+{The combination of the bishop's pin on the knight and the open file for the rook will lead to Black's defeat.}
+
+12. ... Rd8
+13. Rxd7 Rxd7
+14. Rd1 Qe6
+{Compare the activity of the White pieces with the idleness of the Black pieces.}
+
+15. Bxd7+ Nxd7
+{If ... Qxd7, then 16. Qb8+ Ke7 17. Qxe5+ Kd8 18. Bxf6+ gxf6 19. Qxf6+ Kc8 20. Rxd7 Kxd7 21. Qxh8 and White is clearly winning.}
+
+16. Qb8+! Nxb8
+17. Rd8#

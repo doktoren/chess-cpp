@@ -279,7 +279,7 @@ char SEE::calc_see(int piece, ushort aggressor, ushort defender) {
 // loadfen 8/8/5n2/b1k1p3/1R1r1PPN/P1K5/6P1/6B1 w - -
 
 
-inline void SEE::reevaluate_position(Position pos, Piece piece) {
+void SEE::reevaluate_position(Position pos, Piece piece) {
   int new_see = see(pos, piece);
 
   if (new_see) {

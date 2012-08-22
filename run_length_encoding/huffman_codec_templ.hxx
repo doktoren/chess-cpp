@@ -48,7 +48,7 @@ template <class TYPE, class ElementStreamer>
 Huffman<TYPE, ElementStreamer>::Huffman(const vector<pair<TYPE, float> > & distribution, bool makeCanonical) :
   tree(0)
 {
-  init(distribution, makeCanonica);
+  init(distribution, makeCanonical);
 }
 
 template <class TYPE>
@@ -94,8 +94,8 @@ void Huffman<TYPE, ElementStreamer>::init(vector<pair<TYPE, int> > &elem_counts,
     if (i==elem_counts.size()  ||  elem_counts[i].second != n) {
       // (log2 sum_i(k_i*n_i)) * sum_i(k_i*n_i) - sum(k_i*n_i*log2(n_i)) -
       // element_streamer.bit_size()*sum_i(k_i*n_i) + element_streamer.bit_size()*sum_i(k_i)
-      gain += element_streamer.average_bit_size()*k - k*n*log2(n);
-      double rest = total_count*(log2(total_count) - element_streamer.average_bit_size());
+      gain += element_streamer.average_bit_size()*k - k*n*(log(n)/log(2));
+      double rest = total_count*(log(total_count)/log(2) - element_streamer.average_bit_size());
       if (gain+rest > max_gain) {
 	max_gain = gain+rest;
 	insuf_count = n;

@@ -871,6 +871,7 @@ void Eval_3::move_piece(Position from, Position to) {
     pawn_bitboards[PIECE_COLOR[piece]].clear_bit(from);
     pawn_bitboards[PIECE_COLOR[piece]].set_bit(to);
   }
+
   Board3plus::move_piece(from, to);
 }
 

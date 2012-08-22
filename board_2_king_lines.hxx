@@ -517,7 +517,7 @@ bool Board2::check_if_moved(Position pos) const {
 // it is not nescessary to remove the king from its origin
 // (CHECK_TABLE is also defined for patterns with 2 kings of
 //  same color next to each other)
-inline bool Board2::check_if_king_placed(Position pos) const {
+bool Board2::check_if_king_placed(Position pos) const {
   assert(legal_pos(pos));
 
   // cerr << "Check if king placed on " << POS_NAME[pos] << "?\n";

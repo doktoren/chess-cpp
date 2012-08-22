@@ -4,6 +4,7 @@
 using namespace std;
 
 #include <vector>
+#include <assert.h>
 
 #include "board_3.hxx"
 #include "endgame_table_bdd.hxx"
@@ -11,14 +12,9 @@ using namespace std;
 
 #include "endgame_Nalimov.hxx"
 
-#define ENDGAME_TABLE_WIN -124
-#define ENDGAME_TABLE_DRAW -125
-#define ENDGAME_TABLE_LOSS -126
-#define ENDGAME_TABLE_UNKNOWN -127
-#define ENDGAME_TABLE_ILLEGAL -128
-inline bool is_special_value(int val) { return val <= -124; }
+#include "endgame_values.hxx"
 
-string endgame_value_to_string(int v);
+
 
 struct EndgameSettings : public SettingListener {
   EndgameSettings(Settings *_settings) : SettingListener(_settings, "Endgame_") {
@@ -47,6 +43,8 @@ struct EndgameSettings : public SettingListener {
     output_preprocessed_bdd_tables = get_bool("output_preprocessed_bdd_tables");
 
     verify_bdd_with_table = get_bool("verify_bdd_with_table");
+
+    reduce_information = get_bool("reduce_information");
 
     // Square permutations:
     square_enum_white_pawn   = get_int("square_enum_white_pawn");
@@ -90,6 +88,8 @@ struct EndgameSettings : public SettingListener {
   bool *output_preprocessed_bdd_tables;
 
   bool *verify_bdd_with_table;
+
+  bool *reduce_information;
 
   // Square permutations:
   int *square_enum_white_pawn;
@@ -200,6 +200,9 @@ public:
   void cmp_random_probe_with_Nalimov(uint num_probes);
 
   void run_length_encode(int stm, int method = 2, bool map_dont_cares = true);
+
+
+  bool reduce_information();
 
   // Status
   bool bdd_loaded() { return bdd[0] && (symmetric_endgame || bdd[1]); }

@@ -10,6 +10,9 @@ Endgame_cluster_functions_preferred = true
 // MUST be set in the interval [0..64]. 0 represents win/draw/loss information.
 Endgame_bdd_mate_depth_round_up_to_multiples_of_n = 1
 
+// If true, then a mix of DTM and WDL values is used
+Endgame_reduce_information = true
+
 Endgame_calc_sifting = true
 
 // Use mappings[number]. mappings defined in endgame_square_permutations.cxx
@@ -133,7 +136,7 @@ Search3_show_line_of_play = false
 Search3_show_value_of_each_move_from_root = true
 
 //NDEBUG : setting still enabled. Only used if XBOARD not defined
-Search3_time_per_move_in_ms = 10000
+Search3_time_per_move_in_ms = 20000
 
 //NDEBUG : not used (false)
 Search3_trace_search = true

@@ -1,0 +1,10 @@
+Version 1.0:  2005.02.15
+* Current version at the time of handin in the thesis.
+* See thesis for details.
+
+
+Version 1.1: 2006.11.11
+* Remove mapping_of_wildcards.cxx
+* Renamed mapping_of_wildcards2.cxx to mapping_of_wildcards.cxx
+* More stuff
+

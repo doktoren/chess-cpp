@@ -8,6 +8,7 @@
 #include <assert.h>
 #include <fcntl.h>
 #include <stack>
+#include <cmath>
 
 // Possible optimizations:
 // When doing the split into several bdd, when the splits are determined
@@ -15,15 +16,15 @@
 
 
 // Only placed here for debugging purposes!
-inline string endgame_value_to_string(int v) {
+inline string _endgame_value_to_string(int v) {
   if (v <= -124) {
     switch (v) {
     case -124:
       return "GW";
     case -125:
-      return "GL";
-    case -126:
       return "draw";
+    case -126:
+      return "GL";
     case -127:
       return "????";
     case -128:
@@ -37,8 +38,13 @@ inline string endgame_value_to_string(int v) {
   }
 }
 
+inline int miin(int a, int b) { return a>b?b:a; }
 
-
+/*
+inline double log2(double vvv) {
+  return log(vvv)/log(2);
+}
+*/
 
 
 
@@ -642,7 +648,7 @@ void BDD::init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][6
 	cbo << "0'th order\\\\\ncluster:";
 	for (int i=-128; i<128; i++)
 	  if (count[i])
-	    cbo << " & " << endgame_value_to_string(i);
+	    cbo << " & " << _endgame_value_to_string(i);
 	cbo << " & entropy\\\\\n\\hline\n";
 	
 	double sum_entropy = 0;
@@ -787,7 +793,7 @@ void BDD::init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][6
       cbo << "0'th order&\\\\\n";
       for (int i=-128; i<128; i++)
 	if (count[0][i]+count[1][i])
-	  cbo << " & " << endgame_value_to_string(i);
+	  cbo << " & " << _endgame_value_to_string(i);
       cbo << " & entropy & Size\\\\\n\\hline\n";
 
       for (int _cl=0; _cl<3; _cl++) {
@@ -950,9 +956,11 @@ void BDD::print(ostream &os, bool print_bdds) {
   //os << "Mapping: " << mapping_name((int)mapping_type) << ":\n";
   //print_map64(os, mapping, 2, 10);
 
-  for (int i=0; i<5; i++) {
-    os << "base_subsets[" << i << "]:\n";
-    print_signed_map64(os, &(clustering.base_subsets[i<<6]), 5, 10);
+  if (clustering_kind == 1) {
+    for (int i=0; i<5; i++) {
+      os << "base_subsets[" << i << "]:\n";
+      print_signed_map64(os, &(clustering.base_subsets[i<<6]), 5, 10);
+    }
   }
 
   os << "Number of clusters = " << (int)sub_bdds.size();

@@ -1,0 +1,765 @@
+BEGIN
+
+Endgame_do_preprocessing_after_sifting = false:
+med sifting:
+
+KBBK_wtm.bdd : 147443  (2 clusters)
+KBBK_btm.bdd : 197683
+
+Endgame_do_preprocessing_after_sifting = true:
+
+uden sifting:
+KBBK_wtm.bdd : 147443  (2 clusters) (accidentally the same number as above)
+KBBK_btm.bdd : 198547
+
+med sifting:
+KBBK_wtm.bdd : 176980
+KBBK_btm.bdd : 193844
+
+END
+
+
+-rw-r--r--  1 doktoren users  198355 Jan 12 13:57 KBBK_btm.bdd
+-rw-r--r--  1 doktoren users  151594 Jan 12 13:55 KBBK_wtm.bdd
+-rw-r--r--  1 doktoren users    1199 Jan 12 13:53 KBK_btm.bdd
+-rw-r--r--  1 doktoren users    1199 Jan 12 13:53 KBK_wtm.bdd
+-rw-r--r--  1 doktoren users    1103 Jan 12 13:53 KK_wtm.bdd
+-rw-r--r--  1 doktoren users    1199 Jan 12 13:53 KNK_btm.bdd
+-rw-r--r--  1 doktoren users    1199 Jan 12 13:53 KNK_wtm.bdd
+-rw-r--r--  1 doktoren users   20443 Jan 12 13:53 KPK_btm.bdd
+-rw-r--r--  1 doktoren users   25191 Jan 12 13:53 KPK_wtm.bdd
+-rw-r--r--  1 doktoren users 1472250 Jan 12 14:34 KQKR_btm.bdd
+-rw-r--r--  1 doktoren users  862164 Jan 12 14:11 KQKR_wtm.bdd
+-rw-r--r--  1 doktoren users   10890 Jan 12 13:53 KQK_btm.bdd
+-rw-r--r--  1 doktoren users    6680 Jan 12 13:53 KQK_wtm.bdd
+-rw-r--r--  1 doktoren users   12424 Jan 12 13:53 KRK_btm.bdd
+-rw-r--r--  1 doktoren users    9786 Jan 12 13:53 KRK_wtm.bdd
+
+
+
+-rw-r--r--  1 doktoren users 197643 Jan 14 13:41 KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 148875 Jan 14 13:40 KBBK_wtm.bdd
+-rw-r--r--  1 doktoren users   1203 Jan 14 13:35 KBK_btm.bdd
+-rw-r--r--  1 doktoren users   1203 Jan 14 13:35 KBK_wtm.bdd
+-rw-r--r--  1 doktoren users   1107 Jan 14 13:35 KK_wtm.bdd
+-rw-r--r--  1 doktoren users   1203 Jan 14 13:35 KNK_btm.bdd
+-rw-r--r--  1 doktoren users   1203 Jan 14 13:35 KNK_wtm.bdd
+-rw-r--r--  1 doktoren users  20447 Jan 14 13:36 KPK_btm.bdd
+-rw-r--r--  1 doktoren users  25372 Jan 14 13:36 KPK_wtm.bdd
+-rw-r--r--  1 doktoren users  10894 Jan 14 13:36 KQK_btm.bdd
+-rw-r--r--  1 doktoren users   6684 Jan 14 13:36 KQK_wtm.bdd
+-rw-r--r--  1 doktoren users  12781 Jan 14 13:36 KRK_btm.bdd
+-rw-r--r--  1 doktoren users   9790 Jan 14 13:36 KRK_wtm.bdd
+
+
+-rw-r--r--  1 doktoren users  1699 Jan 14 13:48 KBK_btm.bdd
+-rw-r--r--  1 doktoren users  2399 Jan 14 13:48 KBK_wtm.bdd
+-rw-r--r--  1 doktoren users  1147 Jan 14 13:48 KK_wtm.bdd
+-rw-r--r--  1 doktoren users  1699 Jan 14 13:48 KNK_btm.bdd
+-rw-r--r--  1 doktoren users  1955 Jan 14 13:48 KNK_wtm.bdd
+-rw-r--r--  1 doktoren users 19587 Jan 14 13:48 KPK_btm.bdd
+-rw-r--r--  1 doktoren users 25615 Jan 14 13:48 KPK_wtm.bdd
+-rw-r--r--  1 doktoren users 11954 Jan 14 13:48 KQK_btm.bdd
+-rw-r--r--  1 doktoren users 11836 Jan 14 13:48 KQK_wtm.bdd
+-rw-r--r--  1 doktoren users 13724 Jan 14 13:48 KRK_btm.bdd
+-rw-r--r--  1 doktoren users 11982 Jan 14 13:48 KRK_wtm.bdd
+
+
+
+
+mapping AFTER sifting:
+-rw-r--r--  1 doktoren users   551 Jan 14 15:09 KBK_btm.bdd
+-rw-r--r--  1 doktoren users   551 Jan 14 15:09 KBK_wtm.bdd
+-rw-r--r--  1 doktoren users   455 Jan 14 15:09 KK_wtm.bdd
+-rw-r--r--  1 doktoren users   551 Jan 14 15:09 KNK_btm.bdd
+-rw-r--r--  1 doktoren users   551 Jan 14 15:09 KNK_wtm.bdd
+-rw-r--r--  1 doktoren users 15171 Jan 14 15:09 KPK_btm.bdd
+-rw-r--r--  1 doktoren users 19627 Jan 14 15:09 KPK_wtm.bdd
+-rw-r--r--  1 doktoren users 10266 Jan 14 15:09 KQK_btm.bdd
+-rw-r--r--  1 doktoren users  6084 Jan 14 15:09 KQK_wtm.bdd
+-rw-r--r--  1 doktoren users 12020 Jan 14 15:09 KRK_btm.bdd
+-rw-r--r--  1 doktoren users  9070 Jan 14 15:09 KRK_wtm.bdd
+
+
+mapping BEFORE sifting:
+-rw-r--r--  1 doktoren users   551 Jan 14 15:13 KBK_btm.bdd
+-rw-r--r--  1 doktoren users   551 Jan 14 15:13 KBK_wtm.bdd
+-rw-r--r--  1 doktoren users   455 Jan 14 15:13 KK_wtm.bdd
+-rw-r--r--  1 doktoren users   551 Jan 14 15:13 KNK_btm.bdd
+-rw-r--r--  1 doktoren users   551 Jan 14 15:13 KNK_wtm.bdd
+-rw-r--r--  1 doktoren users 20551 Jan 14 15:13 KPK_btm.bdd
+-rw-r--r--  1 doktoren users 25543 Jan 14 15:13 KPK_wtm.bdd
+-rw-r--r--  1 doktoren users 10578 Jan 14 15:13 KQK_btm.bdd
+-rw-r--r--  1 doktoren users  6012 Jan 14 15:13 KQK_wtm.bdd
+-rw-r--r--  1 doktoren users 12672 Jan 14 15:13 KRK_btm.bdd
+-rw-r--r--  1 doktoren users  9130 Jan 14 15:13 KRK_wtm.bdd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+KBBK: btm
+
+Cluster 0 (numbers are in 1/1000):
+*(0) draw(0) M1(0) M2(0) M3(0) M4(0) M5(0) M6(0) M7(0) M8(0) M9(0) M10(0) M11(0) M12(0) M13(0) M14(0) M15(0) M16(0) M17(0) M18(0) M19(0) 
+Cluster 1 (numbers are in 1/1000):
+*(0) draw(0) M1(0) M2(0) M3(0) M4(0) M5(0) M6(0) M7(0) M8(0) M9(0) M10(0) M11(0) M12(0) M13(0) M14(0) M15(0) M16(0) M17(0) M18(0) M19(0) 
+Cluster 2 (numbers are in 1/1000):
+*(0) draw(494) M1(85) M2(13) M3(277) M4(14) M5(110) M6(0) M7(2) M8(0) M9(0) M10(0) M11(0) M12(0) M13(0) M14(0) M15(0) M16(0) M17(0) M18(0) M19(0) 
+Cluster 3 (numbers are in 1/1000):
+*(0) draw(498) M1(0) M2(0) M3(69) M4(62) M5(231) M6(54) M7(60) M8(13) M9(8) M10(0) M11(0) M12(0) M13(0) M14(0) M15(0) M16(0) M17(0) M18(0) M19(0) 
+Cluster 4 (numbers are in 1/1000):
+*(0) draw(501) M1(1) M2(11) M3(6) M4(51) M5(37) M6(80) M7(87) M8(77) M9(78) M10(46) M11(13) M12(3) M13(0) M14(1) M15(0) M16(0) M17(0) M18(0) M19(0) 
+Cluster 5 (numbers are in 1/1000):
+*(0) draw(501) M1(0) M2(0) M3(2) M4(22) M5(8) M6(40) M7(59) M8(63) M9(85) M10(89) M11(76) M12(36) M13(9) M14(1) M15(0) M16(0) M17(0) M18(0) M19(0) 
+Cluster 6 (numbers are in 1/1000):
+*(0) draw(504) M1(2) M2(0) M3(0) M4(0) M5(10) M6(11) M7(17) M8(36) M9(58) M10(84) M11(101) M12(68) M13(47) M14(25) M15(17) M16(5) M17(5) M18(1) M19(0) 
+Cluster 7 (numbers are in 1/1000):
+*(0) draw(504) M1(0) M2(0) M3(0) M4(0) M5(3) M6(3) M7(10) M8(13) M9(29) M10(50) M11(93) M12(98) M13(97) M14(61) M15(27) M16(5) M17(1) M18(0) M19(0) 
+Cluster 8 (numbers are in 1/1000):
+*(0) draw(508) M1(1) M2(0) M3(0) M4(0) M5(0) M6(2) M7(4) M8(16) M9(15) M10(28) M11(46) M12(72) M13(96) M14(89) M15(69) M16(37) M17(8) M18(0) M19(0) 
+Cluster 9 (numbers are in 1/1000):
+*(0) draw(510) M1(0) M2(0) M3(0) M4(0) M5(0) M6(0) M7(4) M8(7) M9(11) M10(25) M11(29) M12(51) M13(71) M14(94) M15(87) M16(69) M17(30) M18(4) M19(0) 
+Cluster 10 (numbers are in 1/1000):
+*(0) draw(510) M1(0) M2(0) M3(0) M4(0) M5(0) M6(0) M7(0) M8(3) M9(12) M10(15) M11(29) M12(37) M13(64) M14(76) M15(90) M16(91) M17(59) M18(8) M19(0) 
+Cluster 11 (numbers are in 1/1000):
+*(0) draw(507) M1(0) M2(0) M3(0) M4(0) M5(0) M6(0) M7(0) M8(0) M9(5) M10(8) M11(26) M12(54) M13(75) M14(83) M15(91) M16(94) M17(47) M18(6) M19(0) 
+Cluster 12 (numbers are in 1/1000):
+*(0) draw(505) M1(0) M2(0) M3(0) M4(0) M5(0) M6(0) M7(0) M8(0) M9(0) M10(8) M11(21) M12(28) M13(71) M14(106) M15(95) M16(121) M17(36) M18(2) M19(0) 
+Cluster 13 (numbers are in 1/1000):
+*(0) draw(501) M1(0) M2(0) M3(0) M4(0) M5(0) M6(0) M7(0) M8(0) M9(0)
+M10(1) M11(19) M12(48) M13(49) M14(135) M15(130) M16(90) M17(23)
+M18(1) M19(0)
+
+
+
+*(0) draw(000) M1(00) M2(00) M3(000) M4(00) M5(000) M6(00) M7(00) M8(00) M9(00) M10(00) M11(000) M12(00) M13(00) M14(000) M15(000) M16(000) M17(00) M18(0) M19(0) 
+*(0) draw(000) M1(00) M2(00) M3(000) M4(00) M5(000) M6(00) M7(00) M8(00) M9(00) M10(00) M11(000) M12(00) M13(00) M14(000) M15(000) M16(000) M17(00) M18(0) M19(0) 
+*(0) draw(494) M1(85) M2(13) M3(277) M4(14) M5(110) M6(00) M7(02) M8(00) M9(00) M10(00) M11(000) M12(00) M13(00) M14(000) M15(000) M16(000) M17(00) M18(0) M19(0) 
+*(0) draw(498) M1(00) M2(00) M3(069) M4(62) M5(231) M6(54) M7(60) M8(13) M9(08) M10(00) M11(000) M12(00) M13(00) M14(000) M15(000) M16(000) M17(00) M18(0) M19(0) 
+*(0) draw(501) M1(01) M2(11) M3(006) M4(51) M5(037) M6(80) M7(87) M8(77) M9(78) M10(46) M11(013) M12(03) M13(00) M14(001) M15(000) M16(000) M17(00) M18(0) M19(0) 
+*(0) draw(501) M1(00) M2(00) M3(002) M4(22) M5(008) M6(40) M7(59) M8(63) M9(85) M10(89) M11(076) M12(36) M13(09) M14(001) M15(000) M16(000) M17(00) M18(0) M19(0) 
+*(0) draw(504) M1(02) M2(00) M3(000) M4(00) M5(010) M6(11) M7(17) M8(36) M9(58) M10(84) M11(101) M12(68) M13(47) M14(025) M15(017) M16(005) M17(05) M18(1) M19(0) 
+*(0) draw(504) M1(00) M2(00) M3(000) M4(00) M5(003) M6(03) M7(10) M8(13) M9(29) M10(50) M11(093) M12(98) M13(97) M14(061) M15(027) M16(005) M17(01) M18(0) M19(0) 
+*(0) draw(508) M1(01) M2(00) M3(000) M4(00) M5(000) M6(02) M7(04) M8(16) M9(15) M10(28) M11(046) M12(72) M13(96) M14(089) M15(069) M16(037) M17(08) M18(0) M19(0) 
+*(0) draw(510) M1(00) M2(00) M3(000) M4(00) M5(000) M6(00) M7(04) M8(07) M9(11) M10(25) M11(029) M12(51) M13(71) M14(094) M15(087) M16(069) M17(30) M18(4) M19(0) 
+*(0) draw(510) M1(00) M2(00) M3(000) M4(00) M5(000) M6(00) M7(00) M8(03) M9(12) M10(15) M11(029) M12(37) M13(64) M14(076) M15(090) M16(091) M17(59) M18(8) M19(0) 
+*(0) draw(507) M1(00) M2(00) M3(000) M4(00) M5(000) M6(00) M7(00) M8(00) M9(05) M10(08) M11(026) M12(54) M13(75) M14(083) M15(091) M16(094) M17(47) M18(6) M19(0) 
+*(0) draw(505) M1(00) M2(00) M3(000) M4(00) M5(000) M6(00) M7(00) M8(00) M9(00) M10(08) M11(021) M12(28) M13(71) M14(106) M15(095) M16(121) M17(36) M18(2) M19(0) 
+*(0) draw(501) M1(00) M2(00) M3(000) M4(00) M5(000) M6(00) M7(00) M8(00) M9(00) M10(01) M11(019) M12(48) M13(49) M14(135) M15(130) M16(090) M17(23) M18(1) M19(0)
+
+
+Cluster 0 (numbers are in 1/1000):
+*(0) draw(0) -M19(0) -M18(0) -M17(0) -M16(0) -M15(0) -M14(0) -M13(0) -M12(0) -M11(0) -M10(0) -M9(0) -M8(0) -M7(0) -M6(0) -M5(0) -M4(0) -M3(0) -M2(0) -M1(0) -M0(0) 
+Cluster 1 (numbers are in 1/1000):
+*(0) draw(0) -M19(0) -M18(0) -M17(0) -M16(0) -M15(0) -M14(0) -M13(0) -M12(0) -M11(0) -M10(0) -M9(0) -M8(0) -M7(0) -M6(0) -M5(0) -M4(0) -M3(0) -M2(0) -M1(0) -M0(0) 
+Cluster 2 (numbers are in 1/1000):
+*(0) draw(571) -M19(0) -M18(0) -M17(0) -M16(0) -M15(0) -M14(0) -M13(0) -M12(1) -M11(1) -M10(4) -M9(0) -M8(5) -M7(20) -M6(87) -M5(55) -M4(158) -M3(24) -M2(44) -M1(7) -
+M0(17) 
+Cluster 3 (numbers are in 1/1000):
+*(0) draw(539) -M19(0) -M18(0) -M17(0) -M16(0) -M15(0) -M14(1) -M13(0) -M12(6) -M11(6) -M10(53) -M9(98) -M8(117) -M7(87) -M6(60) -M5(14) -M4(11) -M3(1) -M2(0) -M1(0) 
+-M0(0) 
+Cluster 4 (numbers are in 1/1000):
+*(0) draw(554) -M19(0) -M18(0) -M17(1) -M16(2) -M15(6) -M14(7) -M13(8) -M12(18) -M11(47) -M10(68) -M9(79) -M8(72) -M7(48) -M6(40) -M5(23) -M4(6) -M3(9) -M2(0) -M1(3) 
+-M0(0) 
+Cluster 5 (numbers are in 1/1000):
+*(0) draw(570) -M19(0) -M18(0) -M17(1) -M16(2) -M15(7) -M14(17) -M13(43) -M12(75) -M11(100) -M10(86) -M9(49) -M8(26) -M7(12) -M6(4) -M5(0) -M4(0) -M3(0) -M2(0) -M1(0)
+ -M0(0) 
+Cluster 6 (numbers are in 1/1000):
+*(0) draw(569) -M19(0) -M18(3) -M17(17) -M16(28) -M15(31) -M14(48) -M13(67) -M12(66) -M11(59) -M10(48) -M9(25) -M8(17) -M7(6) -M6(3) -M5(1) -M4(1) -M3(0) -M2(0) -M1(0
+) -M0(0) 
+Cluster 7 (numbers are in 1/1000):
+*(0) draw(582) -M19(0) -M18(0) -M17(6) -M16(29) -M15(62) -M14(91) -M13(87) -M12(64) -M11(38) -M10(24) -M9(8) -M8(2) -M7(1) -M6(0) -M5(0) -M4(0) -M3(0) -M2(0) -M1(0) -
+M0(0) 
+Cluster 8 (numbers are in 1/1000):
+*(0) draw(580) -M19(0) -M18(1) -M17(22) -M16(65) -M15(90) -M14(83) -M13(63) -M12(42) -M11(24) -M10(12) -M9(6) -M8(2) -M7(2) -M6(0) -M5(0) -M4(0) -M3(0) -M2(0) -M1(0) 
+-M0(0) 
+Cluster 9 (numbers are in 1/1000):
+*(0) draw(593) -M19(0) -M18(8) -M17(56) -M16(99) -M15(89) -M14(61) -M13(44) -M12(23) -M11(13) -M10(5) -M9(3) -M8(0) -M7(0) -M6(0) -M5(0) -M4(0) -M3(0) -M2(0) -M1(0) -
+M0(0) 
+Cluster 10 (numbers are in 1/1000):
+*(0) draw(594) -M19(0) -M18(12) -M17(71) -M16(109) -M15(81) -M14(55) -M13(35) -M12(23) -M11(10) -M10(4) -M9(1) -M8(0) -M7(0) -M6(0) -M5(0) -M4(0) -M3(0) -M2(0) -M1(0)
+ -M0(0) 
+Cluster 11 (numbers are in 1/1000):
+*(0) draw(587) -M19(0) -M18(9) -M17(69) -M16(117) -M15(90) -M14(55) -M13(43) -M12(16) -M11(6) -M10(1) -M9(0) -M8(0) -M7(0) -M6(0) -M5(0) -M4(0) -M3(0) -M2(0) -M1(0) -
+M0(0) 
+Cluster 12 (numbers are in 1/1000):
+*(0) draw(588) -M19(0) -M18(6) -M17(65) -M16(129) -M15(106) -M14(61) -M13(28) -M12(9) -M11(2) -M10(1) -M9(0) -M8(0) -M7(0) -M6(0) -M5(0) -M4(0) -M3(0) -M2(0) -M1(0) -
+M0(0) 
+Cluster 13 (numbers are in 1/1000):
+*(0) draw(567) -M19(0) -M18(2) -M17(73) -M16(212) -M15(85) -M14(33) -M13(16) -M12(4) -M11(3) -M10(0) -M9(0) -M8(0) -M7(0) -M6(0) -M5(0) -M4(0) -M3(0) -M2(0) -M1(0) -M
+0(0) 
+
+
+
+
+
+
+
+
+clustering_method 0, do_preprocessing false, calc_sifting false, do_preprocessing_after_sifting false
+-rw-r--r--  1 doktoren users  363171 Jan 18 09:14 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users  384918 Jan 18 09:14 ../endgames/KBBK_wtm.bdd
+-rw-r--r--  1 doktoren users   28595 Jan 18 09:13 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users   35099 Jan 18 09:13 ../endgames/KPK_wtm.bdd
+-rw-r--r--  1 doktoren users 1524014 Jan 18 09:26 ../endgames/KQKR_btm.bdd
+-rw-r--r--  1 doktoren users 1216080 Jan 18 09:19 ../endgames/KQKR_wtm.bdd
+-rw-r--r--  1 doktoren users   11670 Jan 18 09:13 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users   11368 Jan 18 09:13 ../endgames/KQK_wtm.bdd
+-rw-r--r--  1 doktoren users   14416 Jan 18 09:13 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users   12758 Jan 18 09:13 ../endgames/KRK_wtm.bdd
+
+clustering_method 0, do_preprocessing true, calc_sifting false, do_preprocessing_after_sifting false
+-rw-r--r--  1 doktoren users  198531 Jan 18 09:27 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users  151014 Jan 18 09:27 ../endgames/KBBK_wtm.bdd
+-rw-r--r--  1 doktoren users   23635 Jan 18 09:26 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users   28715 Jan 18 09:26 ../endgames/KPK_wtm.bdd
+-rw-r--r--  1 doktoren users 1473554 Jan 18 09:39 ../endgames/KQKR_btm.bdd
+-rw-r--r--  1 doktoren users  861800 Jan 18 09:31 ../endgames/KQKR_wtm.bdd
+-rw-r--r--  1 doktoren users   10714 Jan 18 09:26 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users    6032 Jan 18 09:26 ../endgames/KQK_wtm.bdd
+-rw-r--r--  1 doktoren users   13204 Jan 18 09:26 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users    9138 Jan 18 09:26 ../endgames/KRK_wtm.bdd
+
+clustering_method 0, do_preprocessing false, calc_sifting true, do_preprocessing_after_sifting false
+-rw-r--r--  1 doktoren users  266951 Jan 18 09:41 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users  281602 Jan 18 09:40 ../endgames/KBBK_wtm.bdd
+-rw-r--r--  1 doktoren users   18919 Jan 18 09:39 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users   24935 Jan 18 09:39 ../endgames/KPK_wtm.bdd
+-rw-r--r--  1 doktoren users 1267938 Jan 18 09:51 ../endgames/KQKR_btm.bdd
+-rw-r--r--  1 doktoren users 1210856 Jan 18 09:46 ../endgames/KQKR_wtm.bdd
+-rw-r--r--  1 doktoren users   11302 Jan 18 09:39 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users   11148 Jan 18 09:39 ../endgames/KQK_wtm.bdd
+-rw-r--r--  1 doktoren users   13060 Jan 18 09:39 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users   11314 Jan 18 09:39 ../endgames/KRK_wtm.bdd
+
+clustering_method 0, do_preprocessing true, calc_sifting true, do_preprocessing_after_sifting false
+-rw-r--r--  1 doktoren users  197807 Jan 18 09:53 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users  151150 Jan 18 09:52 ../endgames/KBBK_wtm.bdd
+-rw-r--r--  1 doktoren users   20555 Jan 18 09:51 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users   25551 Jan 18 09:51 ../endgames/KPK_wtm.bdd
+-rw-r--r--  1 doktoren users 1471618 Jan 18 10:07 ../endgames/KQKR_btm.bdd
+-rw-r--r--  1 doktoren users  861884 Jan 18 09:58 ../endgames/KQKR_wtm.bdd
+-rw-r--r--  1 doktoren users   10578 Jan 18 09:51 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users    6004 Jan 18 09:51 ../endgames/KQK_wtm.bdd
+-rw-r--r--  1 doktoren users   12672 Jan 18 09:51 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users    9130 Jan 18 09:51 ../endgames/KRK_wtm.bdd
+
+clustering_method 0, do_preprocessing true, calc_sifting true, do_preprocessing_after_sifting true
+-rw-r--r--  1 doktoren users  194147 Jan 18 10:09 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users  177282 Jan 18 10:08 ../endgames/KBBK_wtm.bdd
+-rw-r--r--  1 doktoren users   15219 Jan 18 10:07 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users   19651 Jan 18 10:07 ../endgames/KPK_wtm.bdd
+-rw-r--r--  1 doktoren users 1104306 Jan 18 10:27 ../endgames/KQKR_btm.bdd
+-rw-r--r--  1 doktoren users  864528 Jan 18 10:18 ../endgames/KQKR_wtm.bdd
+-rw-r--r--  1 doktoren users   10266 Jan 18 10:07 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users    6100 Jan 18 10:07 ../endgames/KQK_wtm.bdd
+-rw-r--r--  1 doktoren users   12020 Jan 18 10:07 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users    9070 Jan 18 10:07 ../endgames/KRK_wtm.bdd
+
+
+
+
+
+In all tests below these values will apply
+    clustering_method 2
+    do_preprocessing_after_sifting true
+    calc_sifting true
+    do_preprocessing true
+Testing square perm. for king and rook in endgame KRK
+square_enum_rook 0, square_enum_king 3
+-rw-r--r--  1 doktoren users 13692 Jan 19 09:40 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  8882 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 1, square_enum_king 3
+-rw-r--r--  1 doktoren users 13672 Jan 19 09:40 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  8914 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 2, square_enum_king 3
+-rw-r--r--  1 doktoren users 13776 Jan 19 09:40 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  8926 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 3, square_enum_king 3
+-rw-r--r--  1 doktoren users 13676 Jan 19 09:40 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  8890 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 4, square_enum_king 3
+-rw-r--r--  1 doktoren users 13708 Jan 19 09:40 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  8874 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 5, square_enum_king 3
+-rw-r--r--  1 doktoren users 13848 Jan 19 09:40 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  9018 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 6, square_enum_king 3
+-rw-r--r--  1 doktoren users 13724 Jan 19 09:40 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  8898 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 7, square_enum_king 3
+-rw-r--r--  1 doktoren users 13684 Jan 19 09:40 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  8862 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 8, square_enum_king 3
+-rw-r--r--  1 doktoren users 13676 Jan 19 09:40 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  8842 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 0, square_enum_king 4
+-rw-r--r--  1 doktoren users 11844 Jan 19 09:40 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  7846 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 1, square_enum_king 4
+-rw-r--r--  1 doktoren users 11756 Jan 19 09:40 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  8010 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 2, square_enum_king 4
+-rw-r--r--  1 doktoren users 11792 Jan 19 09:40 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  7874 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 3, square_enum_king 4
+-rw-r--r--  1 doktoren users 11796 Jan 19 09:40 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  7810 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 4, square_enum_king 4
+-rw-r--r--  1 doktoren users 11876 Jan 19 09:40 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  7842 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 5, square_enum_king 4
+-rw-r--r--  1 doktoren users 11796 Jan 19 09:40 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  7906 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 6, square_enum_king 4
+-rw-r--r--  1 doktoren users 11756 Jan 19 09:40 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  7866 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 7, square_enum_king 4
+-rw-r--r--  1 doktoren users 11756 Jan 19 09:40 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  7838 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 8, square_enum_king 4
+-rw-r--r--  1 doktoren users 10004 Jan 19 09:40 ../endgames/KRK_btm.bdd  !!!
+-rw-r--r--  1 doktoren users  7838 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 0, square_enum_king 8
+-rw-r--r--  1 doktoren users 11728 Jan 19 09:40 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  7786 Jan 19 09:40 ../endgames/KRK_wtm.bdd
+square_enum_rook 1, square_enum_king 8
+-rw-r--r--  1 doktoren users 12108 Jan 19 09:41 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  7954 Jan 19 09:41 ../endgames/KRK_wtm.bdd
+square_enum_rook 2, square_enum_king 8
+-rw-r--r--  1 doktoren users 12164 Jan 19 09:41 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  7838 Jan 19 09:41 ../endgames/KRK_wtm.bdd
+square_enum_rook 3, square_enum_king 8
+-rw-r--r--  1 doktoren users 12092 Jan 19 09:41 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  7786 Jan 19 09:41 ../endgames/KRK_wtm.bdd
+square_enum_rook 4, square_enum_king 8
+-rw-r--r--  1 doktoren users 11732 Jan 19 09:41 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  7766 Jan 19 09:41 ../endgames/KRK_wtm.bdd
+square_enum_rook 5, square_enum_king 8
+-rw-r--r--  1 doktoren users 12212 Jan 19 09:41 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  7870 Jan 19 09:41 ../endgames/KRK_wtm.bdd
+square_enum_rook 6, square_enum_king 8
+-rw-r--r--  1 doktoren users 12072 Jan 19 09:41 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  7842 Jan 19 09:41 ../endgames/KRK_wtm.bdd
+square_enum_rook 7, square_enum_king 8
+-rw-r--r--  1 doktoren users 12068 Jan 19 09:41 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  7818 Jan 19 09:41 ../endgames/KRK_wtm.bdd
+square_enum_rook 8, square_enum_king 8
+-rw-r--r--  1 doktoren users 11636 Jan 19 09:41 ../endgames/KRK_btm.bdd
+-rw-r--r--  1 doktoren users  7750 Jan 19 09:41 ../endgames/KRK_wtm.bdd  !!!
+
+
+
+
+
+
+
+In all tests below these values will apply
+    clustering_method 2
+    do_preprocessing_after_sifting true
+    calc_sifting true
+    do_preprocessing true
+Testing square perm. for king and queen in endgame KQK
+square_enum_queen 0, square_enum_king 3
+-rw-r--r--  1 doktoren users 10718 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users  6036 Jan 19 09:47 ../endgames/KQK_wtm.bdd
+square_enum_queen 1, square_enum_king 3
+-rw-r--r--  1 doktoren users 10766 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users  5944 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 2, square_enum_king 3
+-rw-r--r--  1 doktoren users 10822 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users  6032 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 3, square_enum_king 3
+-rw-r--r--  1 doktoren users 10738 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users  5952 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 4, square_enum_king 3
+-rw-r--r--  1 doktoren users 10722 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users  6040 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 5, square_enum_king 3
+-rw-r--r--  1 doktoren users 10826 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users  6052 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 6, square_enum_king 3
+-rw-r--r--  1 doktoren users 10710 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users  5944 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 7, square_enum_king 3
+-rw-r--r--  1 doktoren users 10754 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users  6044 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 8, square_enum_king 3
+-rw-r--r--  1 doktoren users 6886 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users 6068 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 0, square_enum_king 4
+-rw-r--r--  1 doktoren users 9122 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users 5744 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 1, square_enum_king 4
+-rw-r--r--  1 doktoren users 9386 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users 5396 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 2, square_enum_king 4
+-rw-r--r--  1 doktoren users 9386 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users 5512 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 3, square_enum_king 4
+-rw-r--r--  1 doktoren users 9358 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users 5468 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 4, square_enum_king 4
+-rw-r--r--  1 doktoren users 9150 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users 5764 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 5, square_enum_king 4
+-rw-r--r--  1 doktoren users 9386 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users 5512 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 6, square_enum_king 4
+-rw-r--r--  1 doktoren users 9362 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users 5428 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 7, square_enum_king 4
+-rw-r--r--  1 doktoren users 9382 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users 5532 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 8, square_enum_king 4
+-rw-r--r--  1 doktoren users 6798 Jan 19 09:48 ../endgames/KQK_btm.bdd  !!!
+-rw-r--r--  1 doktoren users 4692 Jan 19 09:48 ../endgames/KQK_wtm.bdd  !!!
+square_enum_queen 0, square_enum_king 8
+-rw-r--r--  1 doktoren users 9098 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users 5320 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 1, square_enum_king 8
+-rw-r--r--  1 doktoren users 9762 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users 5244 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 2, square_enum_king 8
+-rw-r--r--  1 doktoren users 9774 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users 5396 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 3, square_enum_king 8
+-rw-r--r--  1 doktoren users 9694 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users 5304 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 4, square_enum_king 8
+-rw-r--r--  1 doktoren users 9082 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users 5348 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 5, square_enum_king 8
+-rw-r--r--  1 doktoren users 9790 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users 5368 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 6, square_enum_king 8
+-rw-r--r--  1 doktoren users 9691 Jan 19 09:48 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users 5356 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 7, square_enum_king 8
+-rw-r--r--  1 doktoren users 9686 Jan 19 09:49 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users 5436 Jan 19 09:48 ../endgames/KQK_wtm.bdd
+square_enum_queen 8, square_enum_king 8
+-rw-r--r--  1 doktoren users 6842 Jan 19 09:49 ../endgames/KQK_btm.bdd
+-rw-r--r--  1 doktoren users 4696 Jan 19 09:49 ../endgames/KQK_wtm.bdd
+
+
+
+In all tests below these values will apply
+    clustering_method 2
+    do_preprocessing_after_sifting true
+    calc_sifting true
+    do_preprocessing true
+Testing square perm. for king and pawn in endgame KPK
+square_enum_pawn 0, square_enum_king 3
+-rw-r--r--  1 doktoren users 22891 Jan 19 09:55 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 29583 Jan 19 09:55 ../endgames/KPK_wtm.bdd
+square_enum_pawn 1, square_enum_king 3
+-rw-r--r--  1 doktoren users 22987 Jan 19 09:55 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 30171 Jan 19 09:55 ../endgames/KPK_wtm.bdd
+square_enum_pawn 2, square_enum_king 3
+-rw-r--r--  1 doktoren users 24723 Jan 19 09:55 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 30127 Jan 19 09:55 ../endgames/KPK_wtm.bdd
+square_enum_pawn 3, square_enum_king 3
+-rw-r--r--  1 doktoren users 23303 Jan 19 09:55 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 30059 Jan 19 09:55 ../endgames/KPK_wtm.bdd
+square_enum_pawn 4, square_enum_king 3
+-rw-r--r--  1 doktoren users 22887 Jan 19 09:55 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 29515 Jan 19 09:55 ../endgames/KPK_wtm.bdd
+square_enum_pawn 5, square_enum_king 3
+-rw-r--r--  1 doktoren users 24727 Jan 19 09:55 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 30219 Jan 19 09:55 ../endgames/KPK_wtm.bdd
+square_enum_pawn 6, square_enum_king 3
+-rw-r--r--  1 doktoren users 23723 Jan 19 09:55 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 30087 Jan 19 09:55 ../endgames/KPK_wtm.bdd
+square_enum_pawn 7, square_enum_king 3
+-rw-r--r--  1 doktoren users 22091 Jan 19 09:56 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 29231 Jan 19 09:56 ../endgames/KPK_wtm.bdd
+square_enum_pawn 8, square_enum_king 3
+-rw-r--r--  1 doktoren users 21419 Jan 19 09:56 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 29043 Jan 19 09:56 ../endgames/KPK_wtm.bdd
+square_enum_pawn 0, square_enum_king 4
+-rw-r--r--  1 doktoren users 16551 Jan 19 09:56 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 21191 Jan 19 09:56 ../endgames/KPK_wtm.bdd
+square_enum_pawn 1, square_enum_king 4
+-rw-r--r--  1 doktoren users 17227 Jan 19 09:56 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 21151 Jan 19 09:56 ../endgames/KPK_wtm.bdd
+square_enum_pawn 2, square_enum_king 4
+-rw-r--r--  1 doktoren users 17195 Jan 19 09:56 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 21175 Jan 19 09:56 ../endgames/KPK_wtm.bdd
+square_enum_pawn 3, square_enum_king 4
+-rw-r--r--  1 doktoren users 17235 Jan 19 09:56 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 21195 Jan 19 09:56 ../endgames/KPK_wtm.bdd
+square_enum_pawn 4, square_enum_king 4
+-rw-r--r--  1 doktoren users 16571 Jan 19 09:56 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 21191 Jan 19 09:56 ../endgames/KPK_wtm.bdd
+square_enum_pawn 5, square_enum_king 4
+-rw-r--r--  1 doktoren users 17211 Jan 19 09:56 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 21199 Jan 19 09:56 ../endgames/KPK_wtm.bdd
+square_enum_pawn 6, square_enum_king 4
+-rw-r--r--  1 doktoren users 17215 Jan 19 09:56 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 21191 Jan 19 09:56 ../endgames/KPK_wtm.bdd
+square_enum_pawn 7, square_enum_king 4
+-rw-r--r--  1 doktoren users 17251 Jan 19 09:56 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 21167 Jan 19 09:56 ../endgames/KPK_wtm.bdd
+square_enum_pawn 8, square_enum_king 4
+-rw-r--r--  1 doktoren users 16487 Jan 19 09:57 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 20575 Jan 19 09:56 ../endgames/KPK_wtm.bdd  !!!
+square_enum_pawn 0, square_enum_king 8
+-rw-r--r--  1 doktoren users 16375 Jan 19 09:57 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 21015 Jan 19 09:57 ../endgames/KPK_wtm.bdd
+square_enum_pawn 1, square_enum_king 8
+-rw-r--r--  1 doktoren users 16815 Jan 19 09:57 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 20747 Jan 19 09:57 ../endgames/KPK_wtm.bdd
+square_enum_pawn 2, square_enum_king 8
+-rw-r--r--  1 doktoren users 16863 Jan 19 09:57 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 20803 Jan 19 09:57 ../endgames/KPK_wtm.bdd
+square_enum_pawn 3, square_enum_king 8
+-rw-r--r--  1 doktoren users 16879 Jan 19 09:57 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 20731 Jan 19 09:57 ../endgames/KPK_wtm.bdd
+square_enum_pawn 4, square_enum_king 8
+-rw-r--r--  1 doktoren users 16339 Jan 19 09:57 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 20983 Jan 19 09:57 ../endgames/KPK_wtm.bdd
+square_enum_pawn 5, square_enum_king 8
+-rw-r--r--  1 doktoren users 16819 Jan 19 09:57 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 20695 Jan 19 09:57 ../endgames/KPK_wtm.bdd
+square_enum_pawn 6, square_enum_king 8
+-rw-r--r--  1 doktoren users 16867 Jan 19 09:57 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 20759 Jan 19 09:57 ../endgames/KPK_wtm.bdd
+square_enum_pawn 7, square_enum_king 8
+-rw-r--r--  1 doktoren users 16863 Jan 19 09:57 ../endgames/KPK_btm.bdd
+-rw-r--r--  1 doktoren users 20755 Jan 19 09:57 ../endgames/KPK_wtm.bdd
+square_enum_pawn 8, square_enum_king 8
+-rw-r--r--  1 doktoren users 16143 Jan 19 09:57 ../endgames/KPK_btm.bdd  !!!
+-rw-r--r--  1 doktoren users 20999 Jan 19 09:57 ../endgames/KPK_wtm.bdd
+
+
+
+In all tests below these values will apply
+    clustering_method 2
+    do_preprocessing_after_sifting true
+    calc_sifting true
+    do_preprocessing true
+Testing square perm. for king and bishop in endgame KBBK
+square_enum_bishop 0, square_enum_king 3
+-rw-r--r--  1 doktoren users 133499 Jan 19 10:09 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 152550 Jan 19 10:07 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 1, square_enum_king 3
+-rw-r--r--  1 doktoren users 151415 Jan 19 10:14 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 108399 Jan 19 10:12 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 2, square_enum_king 3
+-rw-r--r--  1 doktoren users 207336 Jan 19 10:23 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 144741 Jan 19 10:20 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 3, square_enum_king 3
+-rw-r--r--  1 doktoren users 213364 Jan 19 10:31 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 147744 Jan 19 10:28 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 4, square_enum_king 3
+-rw-r--r--  1 doktoren users 133475 Jan 19 10:36 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 152650 Jan 19 10:34 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 5, square_enum_king 3
+-rw-r--r--  1 doktoren users 156936 Jan 19 10:42 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 131519 Jan 19 10:39 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 6, square_enum_king 3
+-rw-r--r--  1 doktoren users 225871 Jan 19 10:46 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 121678 Jan 19 10:44 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 7, square_enum_king 3
+-rw-r--r--  1 doktoren users 140179 Jan 19 10:49 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 102426 Jan 19 10:48 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 8, square_enum_king 3
+-rw-r--r--  1 doktoren users 127435 Jan 19 10:53 ../endgames/KBBK_btm.bdd  !!!
+-rw-r--r--  1 doktoren users 101218 Jan 19 10:51 ../endgames/KBBK_wtm.bdd  !!!
+square_enum_bishop 0, square_enum_king 4
+-rw-r--r--  1 doktoren users 137359 Jan 19 10:57 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 110838 Jan 19 10:55 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 1, square_enum_king 4
+-rw-r--r--  1 doktoren users 142235 Jan 19 11:01 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 110746 Jan 19 10:59 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 2, square_enum_king 4
+-rw-r--r--  1 doktoren users 196895 Jan 19 11:06 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 173806 Jan 19 11:03 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 3, square_enum_king 4
+-rw-r--r--  1 doktoren users 204603 Jan 19 11:14 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 158529 Jan 19 11:12 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 4, square_enum_king 4
+-rw-r--r--  1 doktoren users 136979 Jan 19 11:19 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 106339 Jan 19 11:17 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 5, square_enum_king 4
+-rw-r--r--  1 doktoren users 180483 Jan 19 11:28 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 169618 Jan 19 11:26 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 6, square_enum_king 4
+-rw-r--r--  1 doktoren users 191459 Jan 19 11:33 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 170922 Jan 19 11:31 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 7, square_enum_king 4
+-rw-r--r--  1 doktoren users 133719 Jan 19 11:36 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 102298 Jan 19 11:34 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 8, square_enum_king 4
+-rw-r--r--  1 doktoren users 130659 Jan 19 11:40 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 101554 Jan 19 11:38 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 0, square_enum_king 8
+-rw-r--r--  1 doktoren users 137919 Jan 19 11:48 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 161389 Jan 19 11:46 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 1, square_enum_king 8
+-rw-r--r--  1 doktoren users 143487 Jan 19 11:52 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 116482 Jan 19 11:50 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 2, square_enum_king 8
+-rw-r--r--  1 doktoren users 187915 Jan 19 12:29 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 176126 Jan 19 12:27 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 3, square_enum_king 8
+-rw-r--r--  1 doktoren users 210095 Jan 19 12:34 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 172114 Jan 19 12:32 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 4, square_enum_king 8
+-rw-r--r--  1 doktoren users 137919 Jan 19 12:42 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 161389 Jan 19 12:40 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 5, square_enum_king 8
+-rw-r--r--  1 doktoren users 179099 Jan 19 12:47 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 183018 Jan 19 12:45 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 6, square_enum_king 8
+-rw-r--r--  1 doktoren users 149647 Jan 19 12:51 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 177066 Jan 19 12:49 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 7, square_enum_king 8
+-rw-r--r--  1 doktoren users 149091 Jan 19 12:55 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 171902 Jan 19 12:53 ../endgames/KBBK_wtm.bdd
+square_enum_bishop 8, square_enum_king 8
+-rw-r--r--  1 doktoren users 143651 Jan 19 12:59 ../endgames/KBBK_btm.bdd
+-rw-r--r--  1 doktoren users 107650 Jan 19 12:57 ../endgames/KBBK_wtm.bdd
+
+
+
+In all tests below these values will apply
+    clustering_method 2
+    do_preprocessing_after_sifting true
+    calc_sifting true
+    do_preprocessing true
+Testing square perm. for king and knight in endgame KBNK
+square_enum_knight 0, square_enum_king 3
+-rw-r--r--  1 doktoren users 752681 Jan 19 11:02 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 615756 Jan 19 10:53 ../endgames/KBNK_wtm.bdd
+square_enum_knight 1, square_enum_king 3
+-rw-r--r--  1 doktoren users 752509 Jan 19 11:17 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 615616 Jan 19 11:08 ../endgames/KBNK_wtm.bdd
+square_enum_knight 2, square_enum_king 3
+-rw-r--r--  1 doktoren users 752385 Jan 19 11:33 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 615888 Jan 19 11:23 ../endgames/KBNK_wtm.bdd
+square_enum_knight 3, square_enum_king 3
+-rw-r--r--  1 doktoren users 752905 Jan 19 11:48 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 615940 Jan 19 11:39 ../endgames/KBNK_wtm.bdd
+square_enum_knight 4, square_enum_king 3
+-rw-r--r--  1 doktoren users 752701 Jan 19 12:03 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 615772 Jan 19 11:54 ../endgames/KBNK_wtm.bdd
+square_enum_knight 5, square_enum_king 3
+-rw-r--r--  1 doktoren users 752585 Jan 19 12:18 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 616184 Jan 19 12:09 ../endgames/KBNK_wtm.bdd
+square_enum_knight 6, square_enum_king 3
+-rw-r--r--  1 doktoren users 752673 Jan 19 12:34 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 615752 Jan 19 12:24 ../endgames/KBNK_wtm.bdd
+square_enum_knight 7, square_enum_king 3
+-rw-r--r--  1 doktoren users 752741 Jan 19 12:49 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 615808 Jan 19 12:39 ../endgames/KBNK_wtm.bdd
+square_enum_knight 8, square_enum_king 3
+-rw-r--r--  1 doktoren users 645537 Jan 19 13:02 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 615800 Jan 19 12:55 ../endgames/KBNK_wtm.bdd
+square_enum_knight 0, square_enum_king 4
+-rw-r--r--  1 doktoren users 875657 Jan 19 13:23 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 605988 Jan 19 13:14 ../endgames/KBNK_wtm.bdd
+square_enum_knight 1, square_enum_king 4
+-rw-r--r--  1 doktoren users 875549 Jan 19 13:42 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 745216 Jan 19 13:32 ../endgames/KBNK_wtm.bdd
+square_enum_knight 2, square_enum_king 4
+-rw-r--r--  1 doktoren users 875865 Jan 19 14:00 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 744904 Jan 19 13:51 ../endgames/KBNK_wtm.bdd
+square_enum_knight 3, square_enum_king 4
+-rw-r--r--  1 doktoren users 875969 Jan 19 14:19 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 744880 Jan 19 14:09 ../endgames/KBNK_wtm.bdd
+square_enum_knight 4, square_enum_king 4
+-rw-r--r--  1 doktoren users 875677 Jan 19 14:39 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 605988 Jan 19 14:30 ../endgames/KBNK_wtm.bdd
+square_enum_knight 5, square_enum_king 4
+-rw-r--r--  1 doktoren users 876049 Jan 19 14:58 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 745104 Jan 19 14:48 ../endgames/KBNK_wtm.bdd
+square_enum_knight 6, square_enum_king 4
+-rw-r--r--  1 doktoren users 875849 Jan 19 15:16 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 745044 Jan 19 15:07 ../endgames/KBNK_wtm.bdd
+square_enum_knight 7, square_enum_king 4
+-rw-r--r--  1 doktoren users 875565 Jan 19 15:36 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 608012 Jan 19 15:27 ../endgames/KBNK_wtm.bdd
+square_enum_knight 8, square_enum_king 4
+-rw-r--r--  1 doktoren users 623897 Jan 19 15:53 ../endgames/KBNK_btm.bdd  !!!
+-rw-r--r--  1 doktoren users 574364 Jan 19 15:46 ../endgames/KBNK_wtm.bdd
+square_enum_knight 0, square_enum_king 8
+-rw-r--r--  1 doktoren users 861605 Jan 19 16:13 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 809764 Jan 19 16:04 ../endgames/KBNK_wtm.bdd
+square_enum_knight 1, square_enum_king 8
+-rw-r--r--  1 doktoren users 861489 Jan 19 16:31 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 750800 Jan 19 16:22 ../endgames/KBNK_wtm.bdd
+square_enum_knight 2, square_enum_king 8
+-rw-r--r--  1 doktoren users 861705 Jan 19 16:49 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 750940 Jan 19 16:40 ../endgames/KBNK_wtm.bdd
+square_enum_knight 3, square_enum_king 8
+-rw-r--r--  1 doktoren users 861653 Jan 19 17:07 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 750652 Jan 19 16:58 ../endgames/KBNK_wtm.bdd
+square_enum_knight 4, square_enum_king 8
+-rw-r--r--  1 doktoren users 861305 Jan 19 17:26 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 809732 Jan 19 17:17 ../endgames/KBNK_wtm.bdd
+square_enum_knight 5, square_enum_king 8
+-rw-r--r--  1 doktoren users 861869 Jan 19 17:44 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 750932 Jan 19 17:35 ../endgames/KBNK_wtm.bdd
+square_enum_knight 6, square_enum_king 8
+-rw-r--r--  1 doktoren users 861405 Jan 19 18:02 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 751168 Jan 19 17:53 ../endgames/KBNK_wtm.bdd
+square_enum_knight 7, square_enum_king 8
+-rw-r--r--  1 doktoren users 861325 Jan 19 18:20 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 750752 Jan 19 18:11 ../endgames/KBNK_wtm.bdd
+square_enum_knight 8, square_enum_king 8
+-rw-r--r--  1 doktoren users 845285 Jan 19 18:39 ../endgames/KBNK_btm.bdd
+-rw-r--r--  1 doktoren users 574112 Jan 19 18:29 ../endgames/KBNK_wtm.bdd  !!!
+
+
+
+-rw-r--r--  1 doktoren users  999402 Jan 19 11:15 KQKR_btm.bdd
+-rw-r--r--  1 doktoren users  831900 Jan 19 10:59 KQKR_wtm.bdd
+
+
+
+
+
+
+
+
+
+
+
+// COMPARE wildcard mapping algorithms
+// Normal:
+-rw-r--r--  1 doktoren users   15259 Jan 23 12:05 KPK_btm.bdd
+-rw-r--r--  1 doktoren users   19479 Jan 23 12:05 KPK_wtm.bdd
+-rw-r--r--  1 doktoren users    6806 Jan 23 12:05 KQK_btm.bdd
+-rw-r--r--  1 doktoren users    4532 Jan 23 12:05 KQK_wtm.bdd
+-rw-r--r--  1 doktoren users   10064 Jan 23 12:05 KRK_btm.bdd
+-rw-r--r--  1 doktoren users    7606 Jan 23 12:05 KRK_wtm.bdd
+
+// Ny
+-rw-r--r--  1 doktoren users   15491 Jan 23 12:22 KPK_btm.bdd
+-rw-r--r--  1 doktoren users   19563 Jan 23 12:22 KPK_wtm.bdd
+-rw-r--r--  1 doktoren users    6998 Jan 23 12:22 KQK_btm.bdd
+-rw-r--r--  1 doktoren users    4556 Jan 23 12:22 KQK_wtm.bdd
+-rw-r--r--  1 doktoren users   10196 Jan 23 12:22 KRK_btm.bdd
+-rw-r--r--  1 doktoren users    7666 Jan 23 12:22 KRK_wtm.bdd
+
+// Ny, med 2 gennemloeb
+-rw-r--r--  1 doktoren users   15419 Jan 23 12:20 KPK_btm.bdd
+-rw-r--r--  1 doktoren users   19467 Jan 23 12:20 KPK_wtm.bdd
+-rw-r--r--  1 doktoren users    6978 Jan 23 12:20 KQK_btm.bdd
+-rw-r--r--  1 doktoren users    4552 Jan 23 12:20 KQK_wtm.bdd
+-rw-r--r--  1 doktoren users   10144 Jan 23 12:20 KRK_btm.bdd
+-rw-r--r--  1 doktoren users    7630 Jan 23 12:20 KRK_wtm.bdd

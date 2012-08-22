@@ -1,0 +1,149 @@
+xboard
+protover 2
+accepted usermove
+accepted ping
+accepted myname
+accepted san
+accepted analyze
+accepted colors
+accepted sigint
+accepted sigterm
+accepted done
+new
+random
+level 40 5 0
+hard
+ping 1
+time 30000
+otim 30000
+force
+dir
+enter ed
+#>>test_results.txt: eup KK 0 3
+#>>test_results.txt: eup KPK 0 3
+#>>test_results.txt: eup KPK 1 3
+#>>test_results.txt: eup KNK 0 3
+#>>test_results.txt: eup KNK 1 3
+#>>test_results.txt: eup KBK 0 3
+#>>test_results.txt: eup KBK 1 3
+#>>test_results.txt: eup KRK 0 3
+#>>test_results.txt: eup KRK 1 3
+#>>test_results.txt: eup KQK 0 3
+#>>test_results.txt: eup KQK 1 3
+#
+#>>test_results.txt: eup KPPK 0 3
+#>>test_results.txt: eup KPPK 1 3
+#>>test_results.txt: eup KNNK 0 3
+#>>test_results.txt: eup KNNK 1 3
+#>>test_results.txt: eup KBBK 0 3
+#>>test_results.txt: eup KBBK 1 3
+#>>test_results.txt: eup KRRK 0 3
+#>>test_results.txt: eup KRRK 1 3
+#>>test_results.txt: eup KQQK 0 3
+#>>test_results.txt: eup KQQK 1 3
+#
+#>>test_results.txt: eup KPKP 0 3
+#>>test_results.txt: eup KNKN 0 3
+#>>test_results.txt: eup KBKB 0 3
+#>>test_results.txt: eup KRKR 0 3
+#>>test_results.txt: eup KQKQ 0 3
+#
+#>>test_results.txt: eup KNKP 0 3
+#>>test_results.txt: eup KNKP 1 3
+#>>test_results.txt: eup KBKP 0 3
+#>>test_results.txt: eup KBKP 1 3
+#>>test_results.txt: eup KRKP 0 3
+#>>test_results.txt: eup KRKP 1 3
+#>>test_results.txt: eup KQKP 0 3
+#>>test_results.txt: eup KQKP 1 3
+#>>test_results.txt: eup KBKN 0 3
+#>>test_results.txt: eup KBKN 1 3
+#>>test_results.txt: eup KRKN 0 3
+#>>test_results.txt: eup KRKN 1 3
+#>>test_results.txt: eup KQKN 0 3
+#>>test_results.txt: eup KQKN 1 3
+#>>test_results.txt: eup KRKB 0 3
+#>>test_results.txt: eup KRKB 1 3
+#>>test_results.txt: eup KQKB 0 3
+#>>test_results.txt: eup KQKB 1 3
+#>>test_results.txt: eup KQKR 0 3
+#>>test_results.txt: eup KQKR 1 3
+#
+#>>test_results.txt: eup KNPK 0 3
+#>>test_results.txt: eup KNPK 1 3
+#>>test_results.txt: eup KBPK 0 3
+#>>test_results.txt: eup KBPK 1 3
+#>>test_results.txt: eup KRPK 0 3
+#>>test_results.txt: eup KRPK 1 3
+#>>test_results.txt: eup KQPK 0 3
+#>>test_results.txt: eup KQPK 1 3
+#>>test_results.txt: eup KBNK 0 3
+#>>test_results.txt: eup KBNK 1 3
+#>>test_results.txt: eup KRNK 0 3
+#>>test_results.txt: eup KRNK 1 3
+#>>test_results.txt: eup KQNK 0 3
+#>>test_results.txt: eup KQNK 1 3
+#>>test_results.txt: eup KRBK 0 3
+#>>test_results.txt: eup KRBK 1 3
+#>>test_results.txt: eup KQBK 0 3
+#>>test_results.txt: eup KQBK 1 3
+#>>test_results.txt: eup KQRK 0 3
+#>>test_results.txt: eup KQRK 1 3
+#
+#>>test_results.txt: eup KRRKQ 0 3
+#>>test_results.txt: eup KRRKQ 1 3
+#>>test_results.txt: eup KNNNK 0 3
+#>>test_results.txt: eup KNNNK 1 3
+#>>test_results.txt: eup KBBBK 0 3
+#>>test_results.txt: eup KBBBK 1 3
+#>>test_results.txt: eup KRRRK 0 3
+#>>test_results.txt: eup KRRRK 1 3
+#>>test_results.txt: eup KQQQK 0 3
+#>>test_results.txt: eup KQQQK 1 3
+#
+>>test_results.txt: eup KNNKN 0 3
+>>test_results.txt: eup KNNKN 1 3
+#>>test_results.txt: eup KBBKN 0 3
+#>>test_results.txt: eup KBBKN 1 3
+#>>test_results.txt: eup KRRKN 0 3
+#>>test_results.txt: eup KRRKN 1 3
+#>>test_results.txt: eup KQQKN 0 3
+#>>test_results.txt: eup KQQKN 1 3
+>>test_results.txt: eup KNNKB 0 3
+>>test_results.txt: eup KNNKB 1 3
+>>test_results.txt: eup KBBKB 0 3
+>>test_results.txt: eup KBBKB 1 3
+#>>test_results.txt: eup KRRKB 0 3
+#>>test_results.txt: eup KRRKB 1 3
+#>>test_results.txt: eup KQQKB 0 3
+#>>test_results.txt: eup KQQKB 1 3
+>>test_results.txt: eup KNNKR 0 3
+>>test_results.txt: eup KNNKR 1 3
+>>test_results.txt: eup KBBKR 0 3
+>>test_results.txt: eup KBBKR 1 3
+>>test_results.txt: eup KRRKR 0 3
+>>test_results.txt: eup KRRKR 1 3
+#>>test_results.txt: eup KQQKR 0 3
+#>>test_results.txt: eup KQQKR 1 3
+>>test_results.txt: eup KNNKQ 0 3
+>>test_results.txt: eup KNNKQ 1 3
+>>test_results.txt: eup KBBKQ 0 3
+>>test_results.txt: eup KBBKQ 1 3
+>>test_results.txt: eup KRRKQ 0 3
+>>test_results.txt: eup KRRKQ 1 3
+>>test_results.txt: eup KQQKQ 0 3
+>>test_results.txt: eup KQQKQ 1 3
+#
+#>>test_results.txt: eup KBNKN 0 3
+#>>test_results.txt: eup KBNKN 1 3
+#>>test_results.txt: eup KRNKN 0 3
+#>>test_results.txt: eup KRNKN 1 3
+#>>test_results.txt: eup KQNKN 0 3
+#>>test_results.txt: eup KQNKN 1 3
+#>>test_results.txt: eup KRBKN 0 3
+#>>test_results.txt: eup KRBKN 1 3
+#>>test_results.txt: eup KQBKN 0 3
+#>>test_results.txt: eup KQBKN 1 3
+#>>test_results.txt: eup KQRKN 0 3
+>>test_results.txt: eup KQRKN 1 3
+quit

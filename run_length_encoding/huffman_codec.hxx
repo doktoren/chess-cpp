@@ -4,6 +4,7 @@
 #include <map>
 #include <queue>
 #include <iostream>
+#include <cmath>
 
 #include "PredictionModel.hxx"
 #include "bit_stream.hxx"

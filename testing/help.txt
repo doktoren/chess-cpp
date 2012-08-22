@@ -1,0 +1,26 @@
+// Musen virker ikke:
+Ctrl Alt F1, login, Ctrl Alt F7
+
+
+a2ps -Psk -1 --chars-per-line=130 tmp.txt
+
+// Using tar and gzip
+// Compress:
+tar cvf - 20041016 >20041016.tar
+gzip 20041016.tar
+// Decompress
+gunzip 20041016.tar.gz
+tar -x <20041016.tar
+
+// ef kører programmet med anden malloc, således at ramområderne
+// udenfor det returnerede erklæres som illegale (eller hvad det nu hedder).
+ef ./chess
+
+// Nedenstående sikrer coredump (?)
+ulimit -Sc1000000
+gdb chess core
+
+// Vis definerede blah
+nm chess
+
+// Hvis programmet pludselig ikke virker, så husk at prøve make clean

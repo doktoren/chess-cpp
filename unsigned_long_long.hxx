@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+typedef unsigned long ulong;
+
 using namespace std;
 
 // Todo: Currently the program only works if USE_LONG_LONG is not defined

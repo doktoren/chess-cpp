@@ -1,3 +1,8 @@
+#include "endgame_indexing.hxx"
+
+#include "endgame_values.hxx"
+#include "endgame_piece_enumerations.hxx"
+
 // Todo:
 // All the assert(0) statements have been inserted because now a
 // bdd is created for each side to move.
@@ -38,8 +43,6 @@
 //
 // In the bdd index the order KBBK = k1,b1,b2,k2
 //   0-5: b1, 6-11: b2, 12-17: free_king, 18-21: remapped_bound_king
-
-typedef int (*TableIndexToBDDIndex)(int index);
 
 #define TABLE_INDEX_TO_BDD_INDEX(name, max_men) \
 int name ## _table_index_to_bdd_index(int index) { \

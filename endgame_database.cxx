@@ -14,8 +14,8 @@
 
 // Implementation:
 
-#include "endgame_en_passant.cxx"
-#include "endgame_indexing.cxx"
+#include "endgame_en_passant.hxx"
+#include "endgame_indexing.hxx"
 
 //#include "algorithm_best_permutation.hxx"
 
@@ -322,21 +322,6 @@ void EndgameFunctionality::keep_only_stm(int stm) {
 }
 */
 
-// -123 <= a,b <= 124 or they can represent a draw:
-// return negative if a worse than b, 0 if equal, positive otherwise
-int endgame_cmp(char a, char b) {
-  assert(!is_special_value(a) || a == ENDGAME_TABLE_DRAW);
-  assert(!is_special_value(b) || b == ENDGAME_TABLE_DRAW);
-
-  if (a<=0) { // a lost or drawn
-    if (b>0) return -1;// b won
-    return b-a; // b lost or drawn. small values of a and b are best
-  }
-  // a won
-  if (b<=0) return 1; // b lost or drawn
-  return b-a;// b won. small values of a and b are best
-}
-
 
 // If endgame KBKP, and bishop captured by pawn being promoted to queen,
 // then s is K_KQ  (and stm is BLACK).
@@ -528,9 +513,9 @@ bool EndgameFunctionality::load_table(bool restrict_to_stm, bool build_if_nesces
   // It is the responsibility of the endgame construction to load and release
   // the dependency endgames.
   if (*(endgame_settings->construction_method) == 0) {
-#include "endgame_simple_construction.cxx"
+#include "endgame_simple_construction.cxx_"
   } else {
-#include "endgame_retrograde_construction.cxx"
+#include "endgame_retrograde_construction.cxx_"
   }
 
 
@@ -623,6 +608,8 @@ bool EndgameFunctionality::load_bdd(bool restrict_to_stm,
   if (!load_table(restrict_to_stm, build_tables_if_nescessary, restricted_stm))
     return false;
 
+  if (*(endgame_settings->reduce_information)) reduce_information();
+
   cerr << "REMINDER: most (all?) of the information shown will also be written to big_output.txt\n";
 
   if (!bdd[WHITE]  &&  (!restrict_to_stm  ||  restricted_stm==WHITE)) {
@@ -634,7 +621,7 @@ bool EndgameFunctionality::load_bdd(bool restrict_to_stm,
       init_bdd(*(bdd[WHITE]), WHITE, !wtm_table_was_loaded);
       if ( *(endgame_settings->verify_bdd_with_table)) {
 	load_table(true, true, WHITE);
-	compare_bdd_with_table(WHITE);//todo: only if NDEBUG not defined
+	//compare_bdd_with_table(WHITE);//todo: only if NDEBUG not defined
 	if (!wtm_table_was_loaded  &&  table[WHITE]) {
 	  delete table[WHITE];
 	  table[WHITE] = 0;
@@ -653,7 +640,7 @@ bool EndgameFunctionality::load_bdd(bool restrict_to_stm,
       init_bdd(*(bdd[BLACK]), BLACK, !btm_table_was_loaded);
       if ( *(endgame_settings->verify_bdd_with_table)) {
 	load_table(true, true, BLACK);
-	compare_bdd_with_table(BLACK);//todo: only if NDEBUG not defined
+	//compare_bdd_with_table(BLACK);//todo: only if NDEBUG not defined
 	if (!wtm_table_was_loaded  &&  table[BLACK]) {
 	  delete table[BLACK];
 	  table[BLACK] = 0;
@@ -1364,8 +1351,7 @@ void EndgameFunctionality::inspect(ostream &os, vector<Position> positions) {
 // 2 : Print number of positions judged legal, statically unr., etc.
 // 4 : (only used if 2 also used) Print latex stuff
 void EndgameFunctionality::
-find_unreachable_positions(BitList &unreachable, int player,
-			   int test_depth, int print) {
+find_unreachable_positions(BitList &unreachable, int player, int test_depth, int print) {
   // If unreachable is specified (not dummy Bitlist()), then it must have correct size.
   assert(unreachable.size() == 0  ||  unreachable.size() == table_size);
 
@@ -1466,6 +1452,92 @@ find_unreachable_positions(BitList &unreachable, int player,
 }
 
 
+
+
+
+// print is a sum of
+// 1 : Write each position judged unreachable to big_output.txt
+// 2 : Print number of positions judged legal, statically unr., etc.
+// 4 : (only used if 2 also used) Print latex stuff
+bool EndgameFunctionality::reduce_information() {
+  if (!table[0] || (!symmetric_endgame && !table[1])) {
+    cerr << "Error: EndgameFunctionality::reduce_information: table must be fully loaded.\n";
+    return false;
+  }
+
+  BitList bl[2];
+  if (table[0]) bl[0].init(table_size);
+  if (table[1]) bl[1].init(table_size);
+
+  Board2 board;
+  vector<PiecePos> piece_list(num_pieces);
+  for (int i=0; i<num_pieces; i++)
+    piece_list[i].piece = pieces[i];
+
+  for (int player=0; player<(symmetric_endgame ? 1 : 2); player++) {
+    for (uint i=0; i<table_size; i++) {
+      if ((i&0x3FFF)==0) { cerr << i << " "; cerr.flush(); }
+      
+      (*decompress_table_index)(i, piece_list);
+      bool legal_position = board.set_board(piece_list, player);
+      
+      if (legal_position) {
+	int max_value = 0; // -M0, worst possible
+	pair<uint, int> max;
+	
+	Move move = board.moves();
+	while (board.next_move(move)) {
+	  if (!(move.is_en_passant()  ||  move.is_pawn_promotion()  ||  board[move.to])) {
+	    Undo undo = board.execute_move(move);
+	    
+	    pair<uint, int> tmp = get_table_index_and_stm(board);
+	  
+	    char v = add_ply_to_endgame_value(table[tmp.second][tmp.first]);
+	  
+	    if (endgame_cmp(v, max_value) >= 0) {
+	      max_value = v;
+	      max = tmp;
+	    }
+	  
+	    board.undo_move(move, undo);
+	  }
+	}
+
+	bl[max.second].set(max.first);
+      }
+    }
+  }
+  
+  cerr << "table_size = " << table_size << "\n";
+  cerr << "white: " << bl[0].count_on() << "\n";
+  if (table[1]) cerr << "black: " << bl[1].count_on() << "\n";
+
+  for (int player=0; player<(symmetric_endgame ? 1 : 2); player++) {
+    char worst_win = 1;
+    char worst_loss = 0;
+    
+    for (uint i=0; i<table_size; i++) {
+      if (!is_special_value(table[player][i])) {
+	if (table[player][i] > 0) {
+	  // A win
+	  if (table[player][i] > worst_win) worst_win = table[player][i];
+	} else {
+	  // A loss
+	  if (table[player][i] < worst_loss) worst_loss = table[player][i];
+	}
+      }
+    }
+
+    for (uint i=0; i<table_size; i++) {
+      if (!bl[player][i]  &&  !is_special_value(table[player][i])) {
+	table[player][i] = (table[player][i]>0 ? worst_win : worst_loss);
+      }
+    }
+  }
+
+  return true;
+}
+
 void EndgameFunctionality::verify_against_Nalimov() {
   EFState state = get_state();
   load_table(false, true);
@@ -1493,8 +1565,11 @@ void EndgameFunctionality::verify_against_Nalimov() {
 	  cerr << "Error! Table value (" << endgame_value_to_string(my_value)
 	       << ") not consistent with Nalimov's value ("
 	       << endgame_value_to_string(Nalimov_value) << ")!\n";
+/*
+	  // Todo: won't compile for some reason...
 	  for (int i=0; i<num_pieces; i++)
 	    cerr << piece_list[i] << " ";
+*/
 	  cerr << (player ? "btm" : "wtm") << "\n";
 	  board.print_board(cerr);
 	  //exit(1);
@@ -2071,6 +2146,7 @@ void Endgames::init() {
 #endif
 
   init_cluster_functions();
+
 }
 
 void Endgames::destroy_tables() {
@@ -2283,6 +2359,12 @@ bool clr_endgame_database(void *ignored, Board *board, ostream& os, vector<strin
        << "    hrle pattern stm map_dont_cares\n"
        << "      - huffman run length encode, archieves better performance.\n";
 
+    
+  } else if (dot_demand(p, 3, "hej", "hej", 0)) {
+    vector<int> m = endgames.get_name_matches(parse_result[0]);
+    for (uint i=0; i<m.size(); i++)
+      endgames[m[i]].reduce_information();
+
 #ifdef ALLOW_5_MEN_ENDGAME
   } else if (dot_demand(p, 5, "a", "b", "c", 1, 0)) {
     cerr << "Doing secret stuff with KRRRK...\n";
@@ -2353,13 +2435,6 @@ bool clr_endgame_database(void *ignored, Board *board, ostream& os, vector<strin
 	cerr << endgames[m[i]].get_name();
       }
       cerr << "\n";
-    }
-
-  } else if (dot_demand(p, 2, "test", 0)) {
-    switch (atoi(parse_result[0].c_str())) {
-    case 0:
-      test_wildcard_mapping2();
-      break;
     }
 
   } else if (dot_demand(p, 4, "latex", "print", "square", "permutations")) {

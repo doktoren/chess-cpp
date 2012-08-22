@@ -1,0 +1,24 @@
+xboard
+protover 2
+accepted usermove
+accepted ping
+accepted myname
+accepted san
+accepted analyze
+accepted colors
+accepted sigint
+accepted sigterm
+accepted done
+new
+random
+level 40 5 0
+hard
+ping 1
+time 30000
+otim 30000
+force
+# nice -n 19 time ./run <test_time
+dir
+enter ed
+load table KPPK
+quit

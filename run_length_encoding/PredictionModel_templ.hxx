@@ -2,6 +2,10 @@ template <class TYPE, class ElementStreamer>
 ZerothOrderModel<TYPE, ElementStreamer>::ZerothOrderModel(string filename) :
   count(0), distribution_initialized(false)
 {
+
+  assert(0); // I don't want to fix this code now.
+
+  /*
   ibstream<file_ibstream> in(filename);
   
   TYPE element;
@@ -11,6 +15,7 @@ ZerothOrderModel<TYPE, ElementStreamer>::ZerothOrderModel(string filename) :
   }
 
   in.close();
+  */
 }
 
 template <class TYPE, class ElementStreamer>
