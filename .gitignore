@@ -1,0 +1,7 @@
+# Temporary files
+*~
+*/*~
+
+# Auto generated files
+*.o
+*.d

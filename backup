@@ -1,0 +1,22 @@
+mkdir $1
+cp *.?xx $1
+cp backup $1
+cp cleanup $1
+cp tarzip $1
+cp untarzip $1
+cp run $1
+cp kill $1
+cp Makefile $1
+cp help.txt $1
+cp *.com $1
+cp *.set $1
+mkdir $1/probe_Nalimov
+cp probe_Nalimov/*.cpp $1/probe_Nalimov
+cp probe_Nalimov/*.h $1/probe_Nalimov
+cp probe_Nalimov/*.cxx $1/probe_Nalimov
+mkdir $1/help_programs
+cp help_programs/*.cxx $1/help_programs
+mkdir $1/run_length_encoding
+cp run_length_encoding/*.?xx $1/run_length_encoding
+./tarzip $1
+cp $1.tar.gz newest_backup.tar.gz
