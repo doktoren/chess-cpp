@@ -10,7 +10,7 @@ using namespace std;
 // CLR(self, Board (Engine), output, command line argument list)
 #include "board.hxx"
 class Board;
-typedef bool CommandLineReceiver(void *, Board *, ostream&, vector<string>&);
+typedef bool CommandLineReceiver(Board *, ostream&, vector<string>&);
 
 
 vector<string> parse(string s);

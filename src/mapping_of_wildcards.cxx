@@ -677,7 +677,7 @@ vector<int> mergesort(int begin, int end) {
 
 
 void map_wildcards(uchar *bdd_table, int log_size) {
-  cbo << "map_wildcards2(" << (int)bdd_table << ", " << log_size << ") called.\n";
+  cbo << "map_wildcards2(" << log_size << ") called.\n";
   int size = 1 << log_size;
 
   table = bdd_table;

@@ -179,10 +179,6 @@ public:
 
     int subset_number;
     switch (clustering_kind) {
-    case 0:
-      assert(0);
-      break;
-
     case 1:
       subset_number = (clustering.base_subsets[index & 0x3F]
 		       + clustering.base_subsets[64 | ((index>>6) & 0x3F)]
@@ -210,7 +206,9 @@ public:
 							     );
       break;
     default:
+      subset_number = 0; // Avoid warning
       assert(0);
+      break; // Avoid warning
     }
 
 

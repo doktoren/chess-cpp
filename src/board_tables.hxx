@@ -3,8 +3,6 @@
 
 #include <string>
 
-using namespace std;
-
 extern const bool IS_KNIGHT_OR_KING[13+2];
 extern const bool IS_PAWN_OR_KING[13+2];
 extern const bool IS_KING[13+2];
@@ -13,23 +11,23 @@ extern const bool IS_LONG_DISTANCE_PIECE[13+2];
 
 #define EAST 1
 // (index 0)
-#define WEST  -1
+#define WEST  (-1)
 // (index 4)
 #define NORTH 8
 // (index 1)
-#define SOUTH -8
+#define SOUTH (-8)
 // (index 5)
-#define NORTH_EAST 8+1
+#define NORTH_EAST (NORTH + EAST)
 // (index 2)
-#define SOUTH_WEST -8-1
+#define SOUTH_WEST (SOUTH + WEST)
 // (index 6)
-#define NORTH_WEST 8-1
+#define NORTH_WEST (NORTH + WEST)
 // (index 3)
-#define SOUTH_EAST -8+1
+#define SOUTH_EAST (SOUTH + EAST)
 // (index 7)
 extern const int DIRECTIONS[9];
-extern const string SDIRECTION_NAME[8];
-extern const string UDIRECTION_NAME[4];
+extern const std::string SDIRECTION_NAME[8];
+extern const std::string UDIRECTION_NAME[4];
 
 extern const int direction_dc[8];
 extern const int direction_dr[8];

@@ -49,7 +49,7 @@
 typedef int (*TableIndexToBDDIndex)(int index);
 
 #define TABLE_INDEX_TO_BDD_INDEX(name, max_men) \
-int name ## _table_index_to_bdd_index(int index);
+int name ## _table_index_to_bdd_index(int index)
 
 // construct_bdd_table creates the table from which the bdd
 // will be initialized. All entries are mapped to [0..convert_table.size()[

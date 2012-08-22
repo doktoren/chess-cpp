@@ -1,6 +1,6 @@
 #ifndef _EXPERIMENTING_
 #define _EXPERIMENTING_
-// This file contains all the defines that controll the compression
+// This file contains all the defines that control the compression
 
 // MAX_MEN must be 4 or 5
 // The files generated will be the same no matter if MAX_MEN is 4 or 5.

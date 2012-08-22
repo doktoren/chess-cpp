@@ -2,9 +2,16 @@ Version 1.0:  2005.02.15
 * Current version at the time of handin in the thesis.
 * See thesis for details.
 
-
 Version 1.1: 2006.11.11
 * Remove mapping_of_wildcards.cxx
 * Renamed mapping_of_wildcards2.cxx to mapping_of_wildcards.cxx
 * More stuff
 
+Version 1.2: 2012.08.22
+* (Made available on github on this date.)
+* Deleting Nalimov related code.
+* Deleting several code segments that were already commented out.
+* Moving source code to src directory.
+* Correcting indentation in some files.
+* Making necessary fixes such that it works with g++ version on a 64 bit Mac version 10.6.8:
+  i686-apple-darwin10-g++-4.2.1 (GCC) 4.2.1 (Apple Inc. build 5666) (dot 3)

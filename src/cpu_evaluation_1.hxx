@@ -20,7 +20,7 @@ public:
     return clr_evaluation;
   }
 
-  static bool clr_evaluation(void *ignored, Board *board, ostream& os, vector<string> &p);
+  static bool clr_evaluation(Board *board, ostream& os, vector<string> &p);
   void print_eval_stat(ostream& os);
 
 protected:

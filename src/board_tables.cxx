@@ -28,9 +28,9 @@ const int direction_dc[8] = {1,0,1,-1,-1,0,-1,1};
 const int direction_dr[8] = {0,1,1,1,0,-1,-1,-1};
 const int DIRECTIONS[9] = {EAST, NORTH, NORTH_EAST, NORTH_WEST,
 				  WEST, SOUTH, SOUTH_WEST, SOUTH_EAST, 0};
-const string SDIRECTION_NAME[8] = {"east", "north", "north east", "north west",
+const std::string SDIRECTION_NAME[8] = {"east", "north", "north east", "north west",
 					  "west", "south", "south west", "south east"};
-const string UDIRECTION_NAME[4] = {"east or west", "north or south",
+const std::string UDIRECTION_NAME[4] = {"east or west", "north or south",
 					  "north east or south west", "north west or south east"};
 
 const bool BORDER_COLUMN[8] = {1,0,0,0,0,0,0,1};

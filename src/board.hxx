@@ -479,7 +479,7 @@ public:
 
 
   // clr_board : clr is an abbreviation for command line receiver
-  static bool clr_board(void *ignored, Board *board, ostream& os, vector<string> &p);
+  static bool clr_board(Board *board, ostream& os, vector<string> &p);
   void print_board(ostream& os) const;
   void print_counters(ostream &os);
 

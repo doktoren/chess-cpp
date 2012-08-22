@@ -41,20 +41,6 @@ string endgame_value_to_string(char v) {
   }
 }
 
-/*
-inline bool same(int a, int b) {
-  return a==b  ||  a==255  ||  b==255;
-}
-
-int dist(int pos1, int pos2) {
-  int dc = (pos1&7)-(pos2&7);
-  if (dc<0) dc = -dc;
-  int dr = (pos1>>3)-(pos2>>3);
-  if (dr<0) dr = -dr;
-  if (dr>dc) return dr; return dc;
-}
-*/
-
 template <class INT_TYPE>
 void print_map(INT_TYPE *m, int digits_per_num = 2) {
   for (int i=0; i<8*(digits_per_num+1)+3; i++) cerr << '+'; cerr << '\n';
@@ -64,8 +50,8 @@ void print_map(INT_TYPE *m, int digits_per_num = 2) {
       int tmp = m[(r<<3)|c];
       int f = 10;
       for (int i=1; i<digits_per_num; i++) {
-	if (f>tmp) cerr << ' ';
-	f*=10;
+        if (f>tmp) cerr << ' ';
+        f*=10;
       }
       cerr << tmp << ' ';
     }
@@ -75,31 +61,26 @@ void print_map(INT_TYPE *m, int digits_per_num = 2) {
 }
 
 
-
-
-
-
-
 // Sorting order : KQRBNPkqrbnp
 const bool GT[16][16] =
-  {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-   {0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
-   {0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0},
-   {0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0},
-   {0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0},
-   {0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0},
-   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-   {0,1,1,1,1,1,1,0,1,1,1,1,1,0,0,0},
-   {0,1,1,1,1,1,1,0,0,1,1,1,1,0,0,0},
-   {0,1,1,1,1,1,1,0,0,0,1,1,1,0,0,0},
-   {0,1,1,1,1,1,1,0,0,0,0,1,1,0,0,0},
-   {0,1,1,1,1,1,1,0,0,0,0,0,1,0,0,0},
-   {0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
-   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+{{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
+    {0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,1,1,1,1,1,1,0,1,1,1,1,1,0,0,0},
+    {0,1,1,1,1,1,1,0,0,1,1,1,1,0,0,0},
+    {0,1,1,1,1,1,1,0,0,0,1,1,1,0,0,0},
+    {0,1,1,1,1,1,1,0,0,0,0,1,1,0,0,0},
+    {0,1,1,1,1,1,1,0,0,0,0,0,1,0,0,0},
+    {0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 
-inline void sort_piece_pos(vector<PiecePos> &pieces) {
+void sort_piece_pos(vector<PiecePos> &pieces) {
   switch(pieces.size()) {
   case 2:
     if (GT[pieces[0].piece][pieces[1].piece]) swap(pieces[0], pieces[1]);
@@ -113,11 +94,11 @@ inline void sort_piece_pos(vector<PiecePos> &pieces) {
     // Partial sort pieces[0..1] and pieces[2..3]
     if (GT[pieces[0].piece][pieces[1].piece]) swap(pieces[0], pieces[1]);
     if (GT[pieces[2].piece][pieces[3].piece]) swap(pieces[2], pieces[3]);
-    
+
     // Find smallest and largest element
     if (GT[pieces[0].piece][pieces[2].piece]) swap(pieces[0], pieces[2]);
     if (GT[pieces[1].piece][pieces[3].piece]) swap(pieces[1], pieces[3]);
-    
+
     // Sort middle elements
     if (GT[pieces[1].piece][pieces[2].piece]) swap(pieces[1], pieces[2]);
     return;
@@ -129,14 +110,14 @@ inline void sort_piece_pos(vector<PiecePos> &pieces) {
     if (GT[pieces[0].piece][pieces[3].piece]) swap(pieces[0], pieces[3]);
     if (GT[pieces[1].piece][pieces[4].piece]) swap(pieces[1], pieces[4]);
     if (GT[pieces[1].piece][pieces[3].piece]) swap(pieces[1], pieces[3]);
-    
+
     // find the place for pieces[2]
     if (GT[pieces[1].piece][pieces[2].piece]) {
       swap(pieces[1], pieces[2]);
       if (GT[pieces[0].piece][pieces[1].piece]) swap(pieces[0], pieces[1]);
-      
+
     } else if (GT[pieces[2].piece][pieces[3].piece]) {
-      
+
       swap(pieces[2], pieces[3]);
       if (GT[pieces[3].piece][pieces[4].piece]) swap(pieces[3], pieces[4]);
     }
@@ -150,11 +131,11 @@ inline void sort_piece_pos(vector<PiecePos> &pieces) {
 #endif
   }
   assert(0);
-  
+
 }
 
-inline bool swap_piece_pos(vector<PiecePos> &pieces,
-			   bool symmetric_endgame_and_btm) {
+bool swap_piece_pos(vector<PiecePos> &pieces,
+    bool symmetric_endgame_and_btm) {
   //cerr << "pieces.size() = " << pieces.size() << "\n";
 
   switch (pieces.size()) {
@@ -182,15 +163,15 @@ inline bool swap_piece_pos(vector<PiecePos> &pieces,
     }
     if (PIECE_KIND[pieces[2].piece] == KING) {
       if (PIECE_KIND[pieces[1].piece] < PIECE_KIND[pieces[3].piece]) {
-	swap(pieces[0], pieces[2]);
-	swap(pieces[1], pieces[3]);
-	return true;
+        swap(pieces[0], pieces[2]);
+        swap(pieces[1], pieces[3]);
+        return true;
       }
       // NEW!
       if (symmetric_endgame_and_btm) {
-	swap(pieces[0], pieces[2]);
-	swap(pieces[1], pieces[3]);
-	return true;
+        swap(pieces[0], pieces[2]);
+        swap(pieces[1], pieces[3]);
+        return true;
       }
     }
     // PIECE_KIND[pieces[3]] == KING 
@@ -225,19 +206,19 @@ inline bool swap_piece_pos(vector<PiecePos> &pieces,
 
 EndgameFunctionality::
 EndgameFunctionality(int (*compress_table_index)(vector<PiecePos> &),
-		     void (*decompress_table_index)(int, vector<PiecePos>&),
-		     BDD_Index (*preprocess_bdd_index)(const vector<PiecePos>&),
-		     int (*table_index_to_bdd_index)(int),
-		     uint table_size, string name) :
-  compress_table_index(compress_table_index),
-  decompress_table_index(decompress_table_index),
-  preprocess_bdd_index(preprocess_bdd_index),
-  table_index_to_bdd_index(table_index_to_bdd_index),
-  table_size(table_size), name(name), num_pieces(name.size())
+    void (*decompress_table_index)(int, vector<PiecePos>&),
+    BDD_Index (*preprocess_bdd_index)(const vector<PiecePos>&),
+    int (*table_index_to_bdd_index)(int),
+    uint table_size, string name) :
+    compress_table_index(compress_table_index),
+    decompress_table_index(decompress_table_index),
+    preprocess_bdd_index(preprocess_bdd_index),
+    table_index_to_bdd_index(table_index_to_bdd_index),
+    table_size(table_size), name(name), num_pieces(name.size())
 {
   table[0] = table[1] = 0;
   bdd[0] = bdd[1] = 0;
-  
+
   pawnless_endgame = true;
   int ep = 0;
   for (int i=0; i<num_pieces; i++) {
@@ -249,10 +230,10 @@ EndgameFunctionality(int (*compress_table_index)(vector<PiecePos> &),
   }
 
   const int tmp_tbl[13] = {0,
-			   0x100000, 0x8000, 0x400, 0x20, 0x1, 0,
-			   -0x100000, -0x8000, -0x400, -0x20, -0x1, 0};
+      0x100000, 0x8000, 0x400, 0x20, 0x1, 0,
+      -0x100000, -0x8000, -0x400, -0x20, -0x1, 0};
   int material_balance = 0;
-  
+
   pieces[0] = WKING;
   bool white_pieces = true;
   for (int i=1; i<num_pieces; i++) {
@@ -264,7 +245,7 @@ EndgameFunctionality(int (*compress_table_index)(vector<PiecePos> &),
     }
     material_balance += tmp_tbl[pieces[i]];
   }
-  
+
   symmetric_endgame = (material_balance == 0);
 }
 
@@ -320,7 +301,7 @@ void EndgameFunctionality::keep_only_stm(int stm) {
     if (bdd[stm]) { bdd[stm]->clear(); delete bdd[stm]; bdd[stm] = 0; }
   }
 }
-*/
+ */
 
 
 // If endgame KBKP, and bishop captured by pawn being promoted to queen,
@@ -333,8 +314,8 @@ int endgame_dependency_needed_stm(Piece *p, int num_pieces, int stm) {
     if (p[i] == 0) {
       --num_pieces;
       for (int j=i; j<num_pieces; j++) {
-	p[j] = p[j+1];
-	assert(p[j] != 0);
+        p[j] = p[j+1];
+        assert(p[j] != 0);
       }
       break;
     }
@@ -350,7 +331,7 @@ int endgame_dependency_needed_stm(Piece *p, int num_pieces, int stm) {
   vector<PiecePos> pp(num_pieces);
   for (int i=0; i<num_pieces; i++)
     pp[i].piece = p[i];
-  
+
   return !stm ^ swap_piece_pos(pp, stm && symmetric);
 }
 
@@ -382,58 +363,58 @@ map<int, EFState> EndgameFunctionality::load_dependency(int stm) {
       piece_stm = BLACK;
     } else {
       if (piece_stm != stm) {
-	// This piece can be captured
-	int hv = hash_value - ENDGAME_HASHING_CONSTANTS[pieces[i]];
+        // This piece can be captured
+        int hv = hash_value - ENDGAME_HASHING_CONSTANTS[pieces[i]];
 
-	memcpy(_pieces, pieces, MAX_MEN);
-	_pieces[i] = 0;
-	int needed_stm = endgame_dependency_needed_stm(_pieces, num_pieces, stm);
+        memcpy(_pieces, pieces, MAX_MEN);
+        _pieces[i] = 0;
+        int needed_stm = endgame_dependency_needed_stm(_pieces, num_pieces, stm);
 
-	if (!endgames[hv].table_or_bdd_loaded(needed_stm)) {
-	  cerr << "Construction of " << name << (stm ? " btm" : " wtm") << " requires "
-	       << endgames[hv].name  << (needed_stm ? " btm" : " wtm") << " to be loaded.\n";
-	  old_states[hv] = endgames[hv].get_state();
-	  endgames[hv].load_table(true, true, needed_stm);
-	}
+        if (!endgames[hv].table_or_bdd_loaded(needed_stm)) {
+          cerr << "Construction of " << name << (stm ? " btm" : " wtm") << " requires "
+              << endgames[hv].name  << (needed_stm ? " btm" : " wtm") << " to be loaded.\n";
+          old_states[hv] = endgames[hv].get_state();
+          endgames[hv].load_table(true, true, needed_stm);
+        }
       } else if (PIECE_KIND[pieces[i]] == PAWN) {
-	// This piece can be promoted
-	for (int j=1; j<5; j++) {
-	  // Promoted to piece pieces[i]+j
-	  int hv = hash_value - ENDGAME_HASHING_CONSTANTS[pieces[i]]
-	    + ENDGAME_HASHING_CONSTANTS[pieces[i] + j];
+        // This piece can be promoted
+        for (int j=1; j<5; j++) {
+          // Promoted to piece pieces[i]+j
+          int hv = hash_value - ENDGAME_HASHING_CONSTANTS[pieces[i]]
+                                                          + ENDGAME_HASHING_CONSTANTS[pieces[i] + j];
 
-	  memcpy(_pieces, pieces, MAX_MEN);
-	  _pieces[i] = PAWN + j;
-	  int  needed_stm = endgame_dependency_needed_stm(_pieces, num_pieces, stm);
-	  
-	  if (!endgames[hv].table_or_bdd_loaded(needed_stm)) {
-	    cerr << "Construction of " << name << (stm ? " btm" : " wtm") << " requires "
-		 << endgames[hv].name  << (needed_stm ? " btm" : " wtm") << " to be loaded.\n";
-	    old_states[hv] = endgames[hv].get_state();
-	    endgames[hv].load_table(true, true, needed_stm);
-	  }
-	  
-	  // It can be promoted while capturing an opponent piece!
-	  for (int ii=1; ii<num_pieces; ii++) {
-	    if (PIECE_COLOR[pieces[i]] != PIECE_COLOR[pieces[ii]]  &&
-		PIECE_KIND[pieces[ii]] != KING  &&
-		PIECE_KIND[pieces[ii]] != PAWN) {
-	      int hv2 = hv - ENDGAME_HASHING_CONSTANTS[pieces[ii]];
-	      
-	      memcpy(_pieces, pieces, MAX_MEN);
-	      _pieces[i] = PAWN + j;
-	      _pieces[ii] = 0;
-	      needed_stm = endgame_dependency_needed_stm(_pieces, num_pieces, stm);
+          memcpy(_pieces, pieces, MAX_MEN);
+          _pieces[i] = PAWN + j;
+          int  needed_stm = endgame_dependency_needed_stm(_pieces, num_pieces, stm);
 
-	      if (!endgames[hv2].table_or_bdd_loaded(needed_stm)) {
-		cerr << "Construction of " << name << (stm ? " btm" : " wtm") << " requires "
-		     << endgames[hv].name  << (needed_stm ? " btm" : " wtm") << " to be loaded.\n";
-		old_states[hv2] = endgames[hv2].get_state();
-		endgames[hv2].load_table(true, true, needed_stm);
-	      }
-	    }
-	  }
-	}
+          if (!endgames[hv].table_or_bdd_loaded(needed_stm)) {
+            cerr << "Construction of " << name << (stm ? " btm" : " wtm") << " requires "
+                << endgames[hv].name  << (needed_stm ? " btm" : " wtm") << " to be loaded.\n";
+            old_states[hv] = endgames[hv].get_state();
+            endgames[hv].load_table(true, true, needed_stm);
+          }
+
+          // It can be promoted while capturing an opponent piece!
+          for (int ii=1; ii<num_pieces; ii++) {
+            if (PIECE_COLOR[pieces[i]] != PIECE_COLOR[pieces[ii]]  &&
+                PIECE_KIND[pieces[ii]] != KING  &&
+                PIECE_KIND[pieces[ii]] != PAWN) {
+              int hv2 = hv - ENDGAME_HASHING_CONSTANTS[pieces[ii]];
+
+              memcpy(_pieces, pieces, MAX_MEN);
+              _pieces[i] = PAWN + j;
+              _pieces[ii] = 0;
+              needed_stm = endgame_dependency_needed_stm(_pieces, num_pieces, stm);
+
+              if (!endgames[hv2].table_or_bdd_loaded(needed_stm)) {
+                cerr << "Construction of " << name << (stm ? " btm" : " wtm") << " requires "
+                    << endgames[hv].name  << (needed_stm ? " btm" : " wtm") << " to be loaded.\n";
+                old_states[hv2] = endgames[hv2].get_state();
+                endgames[hv2].load_table(true, true, needed_stm);
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -451,10 +432,10 @@ void EndgameFunctionality::release_dependency(const map<int, EFState> &old_state
 
 
 bool EndgameFunctionality::load_table(bool restrict_to_stm, bool build_if_nescessary,
-				      int restricted_stm) {
+    int restricted_stm) {
   assert(restricted_stm==0  ||  restricted_stm==1);
   cerr << "EndgameFunctionality::load_table(r_t_stm " << restrict_to_stm
-       << ", b_i_n " << build_if_nescessary << ", r_stm " << restricted_stm << ")(" << name << ")\n";
+      << ", b_i_n " << build_if_nescessary << ", r_stm " << restricted_stm << ")(" << name << ")\n";
 
   if (symmetric_endgame  &&  restrict_to_stm  &&  restricted_stm==BLACK)
     cerr << name << ":load_table(...): wtm is loaded instead of btm (symmetric endgame)\n";
@@ -482,40 +463,40 @@ bool EndgameFunctionality::load_table(bool restrict_to_stm, bool build_if_nesces
 
     if (can_be_loaded) {
       if (wtm_needed) {
-	string filename = endgames.get_directory() + name + "_wtm.dat";
-	cerr << "loading endgame " << filename << "\n";
-	int fd = open(filename.c_str(), O_RDONLY, 0);
-	if (fd != -1) {
-	  //load_define_value(fd, BOUND_KING, "BOUND_KING");
-	  table[WHITE] = new char[table_size];
-	  read(fd, table[WHITE], sizeof(char)*table_size);
-	  close(fd);
-	}
+        string filename = endgames.get_directory() + name + "_wtm.dat";
+        cerr << "loading endgame " << filename << "\n";
+        int fd = open(filename.c_str(), O_RDONLY, 0);
+        if (fd != -1) {
+          //load_define_value(fd, BOUND_KING, "BOUND_KING");
+          table[WHITE] = new char[table_size];
+          read(fd, table[WHITE], sizeof(char)*table_size);
+          close(fd);
+        }
       }
       if (btm_needed) {
-	string filename = endgames.get_directory() + name + "_btm.dat";
-	cerr << "loading endgame " << filename << "\n";
-	int fd = open(filename.c_str(), O_RDONLY, 0);
-	if (fd != -1) {
-	  //load_define_value(fd, BOUND_KING, "BOUND_KING");
-	  table[BLACK] = new char[table_size];
-	  read(fd, table[BLACK], sizeof(char)*table_size);
-	  close(fd);
-	}
+        string filename = endgames.get_directory() + name + "_btm.dat";
+        cerr << "loading endgame " << filename << "\n";
+        int fd = open(filename.c_str(), O_RDONLY, 0);
+        if (fd != -1) {
+          //load_define_value(fd, BOUND_KING, "BOUND_KING");
+          table[BLACK] = new char[table_size];
+          read(fd, table[BLACK], sizeof(char)*table_size);
+          close(fd);
+        }
       }
 
       return true;
     }
   }
-  
+
   if (!build_if_nescessary) return false;
 
   // It is the responsibility of the endgame construction to load and release
   // the dependency endgames.
   if (*(endgame_settings->construction_method) == 0) {
-#include "endgame_simple_construction.cxx_"
+#include "endgame_simple_construction.cxx"
   } else {
-#include "endgame_retrograde_construction.cxx_"
+#include "endgame_retrograde_construction.cxx"
   }
 
 
@@ -526,11 +507,11 @@ bool EndgameFunctionality::load_table(bool restrict_to_stm, bool build_if_nesces
       //int fd = open(filename.c_str(), O_RDONLY, 0);
       int fd = creat(filename.c_str(), 0666);
       if (fd != -1) {
-	//save_define_value(fd, BOUND_KING);
-	write(fd, table[0], sizeof(char)*table_size);
-	close(fd);
+        //save_define_value(fd, BOUND_KING);
+        write(fd, table[0], sizeof(char)*table_size);
+        close(fd);
       } else {
-	cerr << "Error opening file " << filename << "\n";
+        cerr << "Error opening file " << filename << "\n";
       }
     }
     if (!symmetric_endgame) {
@@ -540,11 +521,11 @@ bool EndgameFunctionality::load_table(bool restrict_to_stm, bool build_if_nesces
       //int fd = open(filename.c_str(), O_RDONLY, 0);
       int fd = creat(filename.c_str(), 0666);
       if (fd != -1) {
-	//save_define_value(fd, BOUND_KING);
-	write(fd, table[1], sizeof(char)*table_size);
-	close(fd);
+        //save_define_value(fd, BOUND_KING);
+        write(fd, table[1], sizeof(char)*table_size);
+        close(fd);
       } else {
-	cerr << "Error opening file " << filename << "\n";
+        cerr << "Error opening file " << filename << "\n";
       }
     }
   }
@@ -557,9 +538,9 @@ bool EndgameFunctionality::load_table(bool restrict_to_stm, bool build_if_nesces
 
 // Todo: split up such that only one side is constucted (more memory efficient)
 bool EndgameFunctionality::load_bdd(bool restrict_to_stm,
-				    bool build_from_tables_if_nescessary,
-				    bool build_tables_if_nescessary,
-				    int restricted_stm) {
+    bool build_from_tables_if_nescessary,
+    bool build_tables_if_nescessary,
+    int restricted_stm) {
   assert(restricted_stm==0  ||  restricted_stm==1);
 
   if (symmetric_endgame  &&  restrict_to_stm  &&  restricted_stm==BLACK)
@@ -574,7 +555,7 @@ bool EndgameFunctionality::load_bdd(bool restrict_to_stm,
   if (bdd[restricted_stm]  &&  (restrict_to_stm  ||  bdd[restricted_stm^1]))
     return true;
 
-  
+
   { // Try to load the bdd from files
     bool can_be_loaded = true;
 
@@ -588,12 +569,12 @@ bool EndgameFunctionality::load_bdd(bool restrict_to_stm,
 
     if (can_be_loaded) {
       if (wtm_needed) {
-	bdd[WHITE] = new BDD;
-	bdd[WHITE]->load(endgames.get_directory() + name + "_wtm.bdd");
+        bdd[WHITE] = new BDD;
+        bdd[WHITE]->load(endgames.get_directory() + name + "_wtm.bdd");
       }
       if (btm_needed) {
-	bdd[BLACK] = new BDD;
-	bdd[BLACK]->load(endgames.get_directory() + name + "_btm.bdd");
+        bdd[BLACK] = new BDD;
+        bdd[BLACK]->load(endgames.get_directory() + name + "_btm.bdd");
       }
 
       return true;
@@ -620,12 +601,12 @@ bool EndgameFunctionality::load_bdd(bool restrict_to_stm,
       //cerr << "Ready to create wtm bdd 1\n";
       init_bdd(*(bdd[WHITE]), WHITE, !wtm_table_was_loaded);
       if ( *(endgame_settings->verify_bdd_with_table)) {
-	load_table(true, true, WHITE);
-	//compare_bdd_with_table(WHITE);//todo: only if NDEBUG not defined
-	if (!wtm_table_was_loaded  &&  table[WHITE]) {
-	  delete table[WHITE];
-	  table[WHITE] = 0;
-	}
+        load_table(true, true, WHITE);
+        //compare_bdd_with_table(WHITE);//todo: only if NDEBUG not defined
+        if (!wtm_table_was_loaded  &&  table[WHITE]) {
+          delete table[WHITE];
+          table[WHITE] = 0;
+        }
       }
       //cerr << "Ready to create wtm bdd 2\n";
       bdd[WHITE]->save(endgames.get_directory() + name + "_wtm.bdd");
@@ -639,12 +620,12 @@ bool EndgameFunctionality::load_bdd(bool restrict_to_stm,
     } else {
       init_bdd(*(bdd[BLACK]), BLACK, !btm_table_was_loaded);
       if ( *(endgame_settings->verify_bdd_with_table)) {
-	load_table(true, true, BLACK);
-	//compare_bdd_with_table(BLACK);//todo: only if NDEBUG not defined
-	if (!wtm_table_was_loaded  &&  table[BLACK]) {
-	  delete table[BLACK];
-	  table[BLACK] = 0;
-	}
+        load_table(true, true, BLACK);
+        //compare_bdd_with_table(BLACK);//todo: only if NDEBUG not defined
+        if (!wtm_table_was_loaded  &&  table[BLACK]) {
+          delete table[BLACK];
+          table[BLACK] = 0;
+        }
       }
       bdd[BLACK]->save(endgames.get_directory() + name + "_btm.bdd");
     }
@@ -670,18 +651,18 @@ void EndgameFunctionality::init_bdd(BDD &bdd, int player, bool delete_table) {
     cerr << "Identify all unreachable positions...\n";
     BitList unreachable(table_size, false);
     find_unreachable_positions(unreachable, player,
-			       *(endgame_settings->unreachability_depth_test), 0);
+        *(endgame_settings->unreachability_depth_test), 0);
     bdd_table =
-      construct_bdd_table(table[player], table_index_to_bdd_index, table_size, calc_log_bdd_size(),
-			  *(endgame_settings->bdd_mate_depth_round_up_to_multiples_of_n),
-			  convert_table, unreachable);
+        construct_bdd_table(table[player], table_index_to_bdd_index, table_size, calc_log_bdd_size(),
+            *(endgame_settings->bdd_mate_depth_round_up_to_multiples_of_n),
+            convert_table, unreachable);
 
   } else {
 
     bdd_table =
-      construct_bdd_table(table[player], table_index_to_bdd_index, table_size, calc_log_bdd_size(),
-			  *(endgame_settings->bdd_mate_depth_round_up_to_multiples_of_n),
-			  convert_table, BitList());
+        construct_bdd_table(table[player], table_index_to_bdd_index, table_size, calc_log_bdd_size(),
+            *(endgame_settings->bdd_mate_depth_round_up_to_multiples_of_n),
+            convert_table, BitList());
   }
 
   bdd.set_convert_table(convert_table);
@@ -693,34 +674,34 @@ void EndgameFunctionality::init_bdd(BDD &bdd, int player, bool delete_table) {
 
   if (*(endgame_settings->clustering_method) != 0) {
     if (*(endgame_settings->cluster_functions_preferred)  &&
-	bdd.try_using_specialized_cluster_function(calc_hash_value())) {
+        bdd.try_using_specialized_cluster_function(calc_hash_value())) {
       // Using cluster function
     } else {
 
       switch(*(endgame_settings->clustering_method)) {
       case 0:
-	// Nothing to do!
-	break;
+        // Nothing to do!
+        break;
       case 1:
-	// Use king positions to determine cluster
-	bdd.use_king_pos_as_subsets(bdd_table, calc_log_bdd_size());
-	break;
+        // Use king positions to determine cluster
+        bdd.use_king_pos_as_subsets(bdd_table, calc_log_bdd_size());
+        break;
       case 2:
-	{
-	  // Make each piece contribute with a factor of 6 to the number
-	  // of subsets, except for the bound king (3 or 4 depending on amount of symmetry)
-	  vector<int> base_subset_sizes(num_pieces, 6);
-	  if (pawnless_endgame) base_subset_sizes[num_pieces-1] -=3;
-	  else base_subset_sizes[num_pieces-1] -= 2;
-	  
-	  bdd.determine_cluster_subsets_based_on_clustering(base_subset_sizes,
-							    bdd_table, calc_log_bdd_size());
-	}
-	break;
+      {
+        // Make each piece contribute with a factor of 6 to the number
+        // of subsets, except for the bound king (3 or 4 depending on amount of symmetry)
+        vector<int> base_subset_sizes(num_pieces, 6);
+        if (pawnless_endgame) base_subset_sizes[num_pieces-1] -=3;
+        else base_subset_sizes[num_pieces-1] -= 2;
+
+        bdd.determine_cluster_subsets_based_on_clustering(base_subset_sizes,
+            bdd_table, calc_log_bdd_size());
+      }
+      break;
       default:
-	cerr << "Error: Setting Endgame_clustering_method has illegal value "
-	     << *(endgame_settings->clustering_method) << "\n";
-	exit(1);
+        cerr << "Error: Setting Endgame_clustering_method has illegal value "
+        << *(endgame_settings->clustering_method) << "\n";
+        exit(1);
       }
     }
   }
@@ -735,50 +716,50 @@ void EndgameFunctionality::init_bdd(BDD &bdd, int player, bool delete_table) {
       uchar *m = 0;
       switch (pieces[p]) {
       case WHITE_PAWN:
-	m = mappings[*(endgame_settings->square_enum_white_pawn)];
-	break;
+        m = mappings[*(endgame_settings->square_enum_white_pawn)];
+        break;
       case WHITE_KNIGHT:
-	m = mappings[*(endgame_settings->square_enum_white_knight)];
-	break;
+        m = mappings[*(endgame_settings->square_enum_white_knight)];
+        break;
       case WHITE_BISHOP:
-	m = mappings[*(endgame_settings->square_enum_white_bishop)];
-	break;
+        m = mappings[*(endgame_settings->square_enum_white_bishop)];
+        break;
       case WHITE_ROOK:
-	m = mappings[*(endgame_settings->square_enum_white_rook)];
-	break;
+        m = mappings[*(endgame_settings->square_enum_white_rook)];
+        break;
       case WHITE_QUEEN:
-	m = mappings[*(endgame_settings->square_enum_white_queen)];
-	break;
+        m = mappings[*(endgame_settings->square_enum_white_queen)];
+        break;
       case WHITE_KING:
-	m = mappings[*(endgame_settings->square_enum_white_king)];
-	break;
+        m = mappings[*(endgame_settings->square_enum_white_king)];
+        break;
       case BLACK_PAWN:
-	m = mappings[*(endgame_settings->square_enum_black_pawn)];
-	break;
+        m = mappings[*(endgame_settings->square_enum_black_pawn)];
+        break;
       case BLACK_KNIGHT:
-	m = mappings[*(endgame_settings->square_enum_black_knight)];
-	break;
+        m = mappings[*(endgame_settings->square_enum_black_knight)];
+        break;
       case BLACK_BISHOP:
-	m = mappings[*(endgame_settings->square_enum_black_bishop)];
-	break;
+        m = mappings[*(endgame_settings->square_enum_black_bishop)];
+        break;
       case BLACK_ROOK:
-	m = mappings[*(endgame_settings->square_enum_black_rook)];
-	break;
+        m = mappings[*(endgame_settings->square_enum_black_rook)];
+        break;
       case BLACK_QUEEN:
-	m = mappings[*(endgame_settings->square_enum_black_queen)];
-	break;
+        m = mappings[*(endgame_settings->square_enum_black_queen)];
+        break;
       case BLACK_KING:
-	m = mappings[*(endgame_settings->square_enum_black_king)];
-	break;
+        m = mappings[*(endgame_settings->square_enum_black_king)];
+        break;
       default:
-	cerr << "Wrong piece value = " << (int)(pieces[p]) << "\n";
-	assert(0);
-	exit(1);
+        cerr << "Wrong piece value = " << (int)(pieces[p]) << "\n";
+        assert(0);
+        exit(1);
       }
-      
+
       for (int i=0; i<64; i++) {
-	permutations[p][i] = m[i];
-	inv_bit_perm[p][m[i]] = i;
+        permutations[p][i] = m[i];
+        inv_bit_perm[p][m[i]] = i;
       }
     }
 
@@ -801,13 +782,13 @@ void EndgameFunctionality::init_bdd(BDD &bdd, int player, bool delete_table) {
   if (*(endgame_settings->clustering_method) == 0) {
     //No clustering
     bdd.init_no_clustering(bdd_table, calc_log_bdd_size(),
-			   *(endgame_settings->do_preprocessing),
-			   *(endgame_settings->calc_sifting),
-			   *(endgame_settings->do_preprocessing_after_sifting));
+        *(endgame_settings->do_preprocessing),
+        *(endgame_settings->calc_sifting),
+        *(endgame_settings->do_preprocessing_after_sifting));
   } else {
     bdd.init(bdd_table, calc_log_bdd_size(), inv_bit_perm,
-	     *(endgame_settings->do_preprocessing), *(endgame_settings->calc_sifting),
-	     *(endgame_settings->do_preprocessing_after_sifting));
+        *(endgame_settings->do_preprocessing), *(endgame_settings->calc_sifting),
+        *(endgame_settings->do_preprocessing_after_sifting));
   }
 
   if (*(endgame_settings->do_preprocessing)  &&
@@ -832,7 +813,7 @@ void EndgameFunctionality::init_bdd(BDD &bdd, int player, bool delete_table) {
 // KRPKB, KXPKY, K2K1, K2KX,
 bool EndgameFunctionality::name_match(string name_pattern) {
   // divide name and _name into white parts and black parts
-  uint tmp;
+  string::size_type tmp;
 
   if (name_pattern == "*") name_pattern = "K*K*";
 
@@ -854,21 +835,21 @@ bool EndgameFunctionality::name_match(string name_pattern) {
     if (n[side] == np[side]) continue;
     if (np[side] == "K*") continue;
     if (np[side].size()==2  &&
-	(int)n[side].size() == 1+(np[side][1] - '0')) continue;
-    
+        (int)n[side].size() == 1+(np[side][1] - '0')) continue;
+
 
     string _n = n[side];
     for (uint i=1; i<_n.size(); i++) {
       assert(n[side][i] != 'K');
       if (n[side][i-1] == n[side][i]) {
-	// Use last naming
-	_n[i] = _n[i-1];
+        // Use last naming
+        _n[i] = _n[i-1];
       } else {
-	if (n[side][i] == 'P') {
-	  _n[i] = 'P';
-	} else {
-	  _n[i] = next++;
-	}
+        if (n[side][i] == 'P') {
+          _n[i] = 'P';
+        } else {
+          _n[i] = next++;
+        }
       }
     }
     if (_n == np[side]) continue;
@@ -891,7 +872,7 @@ int EndgameFunctionality::legal_position(int player, int table_index) {
   if (!board.set_board(piece_list, player)) return 0;
 
   if (board.unreachable_position()) return 1;
-  
+
   int test_depth = *(endgame_settings->unreachability_depth_test);
   if (test_depth > 0  &&  board.unreachable_position(test_depth)) return 1;
 
@@ -918,17 +899,17 @@ void EndgameFunctionality::compare_bdd_with_table(int player) {
       map_values[i] = i;
     if (!mult) {
       for (int i=-123; i<=0; i++)
-	map_values[i] = ENDGAME_TABLE_LOSS;
+        map_values[i] = ENDGAME_TABLE_LOSS;
       for (int i=1; i<128; i++)
-	map_values[i] = ENDGAME_TABLE_WIN;
+        map_values[i] = ENDGAME_TABLE_WIN;
     } else {
       for (int i=-123; i<=0; i++) {
-	int tmp = mult*(-((-i + (mult-1))/mult));
-	map_values[i] = (tmp < -123) ? -123 : tmp;
+        int tmp = mult*(-((-i + (mult-1))/mult));
+        map_values[i] = (tmp < -123) ? -123 : tmp;
       }
       for (int i=1; i<128; i++) {
-	int tmp = mult*((i + (mult-1))/mult);
-	map_values[i] = (tmp > 123) ? 123 : tmp;
+        int tmp = mult*((i + (mult-1))/mult);
+        map_values[i] = (tmp > 123) ? 123 : tmp;
       }
     }
   }
@@ -943,16 +924,16 @@ void EndgameFunctionality::compare_bdd_with_table(int player) {
       char bdd_value = (*(bdd[player]))[bdd_index];
 
       if (table_value != bdd_value) {
-	if (legal_position(player, i) == 1) {
-	  differed_on_unreachable_positions = true;
-	} else {
-	  ++error_count;
-	  if (!(error_count & (error_count-1)))
-	    cerr << "Error number " << error_count << ": (" << (player ? "btm" : "wtm") << "): "
-		 << endgame_value_to_string(table_value) << " = table[" << i << "] != bdd["
-		 << bdd_index << "] = " << endgame_value_to_string(bdd_value) << "\n"
-		 << "(No more errors are shown).\n";
-	}
+        if (legal_position(player, i) == 1) {
+          differed_on_unreachable_positions = true;
+        } else {
+          ++error_count;
+          if (!(error_count & (error_count-1)))
+            cerr << "Error number " << error_count << ": (" << (player ? "btm" : "wtm") << "): "
+            << endgame_value_to_string(table_value) << " = table[" << i << "] != bdd["
+            << bdd_index << "] = " << endgame_value_to_string(bdd_value) << "\n"
+            << "(No more errors are shown).\n";
+        }
       }
     }
   }
@@ -994,9 +975,9 @@ triple<uint, uint, int> EndgameFunctionality::get_table_and_bdd_index_and_stm(co
       pp[i].pos ^= 7<<3;
 
   cerr << "swapped = " << (int)swapped
-       << ", symmetric_endgame = " << (int)symmetric_endgame << ", player = "
-       << (int)board.get_player()
-       << ", && = " << (symmetric_endgame  &&  board.get_player()) << "\n";
+      << ", symmetric_endgame = " << (int)symmetric_endgame << ", player = "
+      << (int)board.get_player()
+      << ", && = " << (symmetric_endgame  &&  board.get_player()) << "\n";
 
   for (int i=0; i<num_pieces; i++) {
     if (i) cerr << ",";
@@ -1005,8 +986,8 @@ triple<uint, uint, int> EndgameFunctionality::get_table_and_bdd_index_and_stm(co
   cerr << "\n";
 
   return triple<uint, uint, int>(compress_table_index(pp),
-				 preprocess_bdd_index(pp).index(),
-				 board.get_player() ^ swapped);
+      preprocess_bdd_index(pp).index(),
+      board.get_player() ^ swapped);
 }
 
 
@@ -1077,10 +1058,10 @@ char EndgameFunctionality::index_function(const Board2 &board) {
     if (swapped) {
       // fix pawn problem (their move direction dependent on their player) by mirroring board
       for (int i=0; i<num_pieces; i++) {
-	pp[i].pos ^= 7<<3;
-	
-	// It is not nescessary to actually change the color of the pieces ?
-	//pp[i].piece = SWAP_PIECE_COLOR[pp[i].piece];
+        pp[i].pos ^= 7<<3;
+
+        // It is not nescessary to actually change the color of the pieces ?
+        //pp[i].piece = SWAP_PIECE_COLOR[pp[i].piece];
       }
     }
 
@@ -1102,7 +1083,7 @@ char EndgameFunctionality::index_function(const Board2 &board) {
 	//cerr << "Encoding en passant: " << POS_NAME[pp[1].pos] << ", " << POS_NAME[pp[3].pos] << "\n";
 	encode_en_passant(pp[1].pos, pp[3].pos);
 	//cerr << "After: " << POS_NAME[pp[1].pos] << ", " << POS_NAME[pp[3].pos] << "\n";
-	
+
       } else {
 	assert(PIECE_KIND[pp[4].piece]==PAWN);
 	// We know black pawn is pp[4], but (pp[1],pp[4]) or (pp[2],pp[4]) ?
@@ -1162,11 +1143,11 @@ char EndgameFunctionality::index_function(const Board2 &board) {
       }
     }
 #endif
-    */
+     */
   }
 
   // If it is a symmetric endgame with btm then swapped will be true
-  
+
   { // First try to index table
     char *tmp = table[board.get_player() ^ swapped];
     if (tmp) {
@@ -1204,24 +1185,21 @@ void EndgameFunctionality::print(ostream &os) {
   } else {
     if (table_or_bdd_loaded(WHITE)  ||  table_or_bdd_loaded(BLACK)) {
       for (int stm=0; stm<2; stm++) if (table_or_bdd_loaded(stm)) {
-	os << name << (stm ? " btm" : " wtm") << "-part loaded as a ";
-	if (table_loaded(stm)) {
-	  os << "table\n";
-	} else {
-	  os << "bdd\n";
-	}
+        os << name << (stm ? " btm" : " wtm") << "-part loaded as a ";
+        if (table_loaded(stm)) {
+          os << "table\n";
+        } else {
+          os << "bdd\n";
+        }
       }
     } else {
       os << name << " not loaded.\n";
       return;
     }
   }
-  os << "\ttable[0] = " << (int)table[0] << ", table[1] = " << (int)table[1] << "\n";
   os << "\ttable_size = " << table_size << "\n";
-  os << "\tbdd[0] = " << (int)bdd[0] << " (num c.=" << num_bdd_clusters(0)
-     << "), bdd[1] = " << (int)bdd[1] << " (num c.=" << num_bdd_clusters(1) << ")\n";
   os << "\tsymmetric_endgame = " << symmetric_endgame
-     << "\tpawnless_endgame = " << pawnless_endgame << "\n";
+      << "\tpawnless_endgame = " << pawnless_endgame << "\n";
 }
 
 void EndgameFunctionality::print_bdd(ostream &os, bool print_bdds) {
@@ -1245,58 +1223,58 @@ void EndgameFunctionality::print_table_verifier(ostream &os) {
       vector<int> count(256);
 
       for (uint i=0; i<table_size; i++)
-	++count[table[p][i]+128];
+        ++count[table[p][i]+128];
 
       for (int i=0; !is_special_value(i); i--)
-	if (count[i+128]) {
-	  os << (p ? "btm: " : "wtm: ") << "Lost in " << signedToString(-i, 3, 10)
-	     << ":" << signedToString(count[i+128], 14, 10) << "\n";
-	  total[p] += count[i+128];
-	}
+        if (count[i+128]) {
+          os << (p ? "btm: " : "wtm: ") << "Lost in " << signedToString(-i, 3, 10)
+	         << ":" << signedToString(count[i+128], 14, 10) << "\n";
+          total[p] += count[i+128];
+        }
       if (count[ENDGAME_TABLE_DRAW+128]) {
-	os << (p ? "btm: " : "wtm: ") << "Draws:      "
-	   << signedToString(count[ENDGAME_TABLE_DRAW+128], 14, 10) << "\n";
-	total[p] += count[ENDGAME_TABLE_DRAW+128];
+        os << (p ? "btm: " : "wtm: ") << "Draws:      "
+            << signedToString(count[ENDGAME_TABLE_DRAW+128], 14, 10) << "\n";
+        total[p] += count[ENDGAME_TABLE_DRAW+128];
 
       }
       for (int i=127; i; i--)
-	if (count[i+128]) {
-	  os << (p ? "btm: " : "wtm: ") << "Mate in " << signedToString(i, 3, 10)
-	     << ":" << signedToString(count[i+128], 14, 10) << "\n";
-	  total[p] += count[i+128];
-	}
+        if (count[i+128]) {
+          os << (p ? "btm: " : "wtm: ") << "Mate in " << signedToString(i, 3, 10)
+	         << ":" << signedToString(count[i+128], 14, 10) << "\n";
+          total[p] += count[i+128];
+        }
       if (count[ENDGAME_TABLE_ILLEGAL+128]) {
-	  os << (p ? "btm: " : "wtm: ") << "Broken positions:"
-	     << signedToString(count[ENDGAME_TABLE_ILLEGAL+128], 9, 10) << "\n";
-	  total_broken[p] += count[ENDGAME_TABLE_ILLEGAL+128];
+        os << (p ? "btm: " : "wtm: ") << "Broken positions:"
+            << signedToString(count[ENDGAME_TABLE_ILLEGAL+128], 9, 10) << "\n";
+        total_broken[p] += count[ENDGAME_TABLE_ILLEGAL+128];
       }
     }
-  
+
   os << "Total: " << total[WHITE]+total[BLACK]
-     << " (" << total[WHITE] << "+" << total[BLACK] << ") + broken positions: "
-     << total_broken[WHITE]+total_broken[BLACK] << " ("
-     << total_broken[WHITE] << "+" << total_broken[BLACK] << ")\n"
-     << "Size is " << (100.0*(total_broken[WHITE]+total_broken[BLACK]))/(total[WHITE]+total[BLACK])
-     << "% bigger than optimal.\n";
+                                        << " (" << total[WHITE] << "+" << total[BLACK] << ") + broken positions: "
+                                        << total_broken[WHITE]+total_broken[BLACK] << " ("
+                                        << total_broken[WHITE] << "+" << total_broken[BLACK] << ")\n"
+                                        << "Size is " << (100.0*(total_broken[WHITE]+total_broken[BLACK]))/(total[WHITE]+total[BLACK])
+                                        << "% bigger than optimal.\n";
 }
 
 // inspect(cerr, {64, e2, f7, f6}) prints map
 void EndgameFunctionality::inspect(ostream &os, vector<Position> positions) {
   assert((int)positions.size() == num_pieces);
-  
+
   vector<PiecePos> pp(num_pieces);
   int index = 0;
   for (int i=0; i<num_pieces; i++) {
     pp[i] = PiecePos(pieces[i], positions[i]);
     if (positions[i] == ILLEGAL_POS) index = i;
   }
-  
+
   //os << "index = " << index << "\n";
-  
+
   int wk_index = 0;
   int bk_index = 1;
   while (pieces[bk_index] != BKING) ++bk_index;
-  
+
   bool pawn_inspection = PIECE_KIND[pieces[index]]==PAWN;
   //os << pawn_inspection << '\n';
 
@@ -1304,44 +1282,44 @@ void EndgameFunctionality::inspect(ostream &os, vector<Position> positions) {
     int values[64];
     for (int i=0; i<64; i++) {
       pp[index].pos = i;
-      
+
       //os << (int)pp[wk_index].pos << " --- " << (int)pp[bk_index].pos << '\n';
       if ((pawn_inspection  &&  (ROW[i]==0  ||  ROW[i]==7))  ||
-	  kings_too_near(pp[wk_index].pos, pp[bk_index].pos)) {
-	values[i] = ENDGAME_TABLE_ILLEGAL;
-	
+          kings_too_near(pp[wk_index].pos, pp[bk_index].pos)) {
+        values[i] = ENDGAME_TABLE_ILLEGAL;
+
       } else {
-	
-	if (table[player]) {
-	  if (piece_overlap(pp)) {
-	    values[i] = ENDGAME_TABLE_ILLEGAL;
-	  } else {
-	    values[i] = table[player][compress_table_index(pp)];
-	  }
-	  
-	} else if (bdd[player]) {
-	  /*
+
+        if (table[player]) {
+          if (piece_overlap(pp)) {
+            values[i] = ENDGAME_TABLE_ILLEGAL;
+          } else {
+            values[i] = table[player][compress_table_index(pp)];
+          }
+
+        } else if (bdd[player]) {
+          /*
 	    todo:
 	  int index = compress_bdd_index(player, pp);
 	  int features = extract_features(index, bdd_log_size, pp, player);
 	  values[i] = bdd->index(index, features);
-	  */
-	  values[i] = 0;
-	} else {
-	  assert(0);
-	}
+           */
+          values[i] = 0;
+        } else {
+          assert(0);
+        }
       }
       //os << i << " -> " << values[i] << '\n';
     }
-    
+
     string s[64];
     for (int i=0; i<64; i++)
       s[i] = endgame_value_to_string(values[i]);
     for (int i=0; i<num_pieces; i++)
       if (i!=index)
-	s[pp[i].pos] = "-"+PIECE_SCHAR[pieces[i]]+"-";
+        s[pp[i].pos] = "-"+PIECE_SCHAR[pieces[i]]+"-";
     os << "Result if " << PPIECE_NAME[pieces[index]] << " is inserted ("
-       << PLAYER_NAME[player] << " to move)\n";
+        << PLAYER_NAME[player] << " to move)\n";
     print_string_map64(os, s, 4);
   }
 }
@@ -1360,8 +1338,8 @@ find_unreachable_positions(BitList &unreachable, int player, int test_depth, int
   if (print) {
     if ((print & (2+4))==2)
       cerr << "Finding unreachable positions in the " << name << " endgame.\n"
-	   << "Each position judged unreachable will be written to big_output.txt.\n"
-	   << "Number of positions = " << table_size << "\n";
+      << "Each position judged unreachable will be written to big_output.txt.\n"
+      << "Number of positions = " << table_size << "\n";
     if (print & 1)
       big_output << "\n\nBEGIN: EndgameFunctionality::examine_unreachable_positions\n\n\n";
   }
@@ -1372,7 +1350,7 @@ find_unreachable_positions(BitList &unreachable, int player, int test_depth, int
     piece_list[i].piece = pieces[i];
 
   vector<int> count(test_depth+3);
-  
+
   for (uint i=0; i<table_size; i++) {
     if (print && (print & (2+4))==2  &&  (i&0x3FFF)==0) {
       cerr << i << " "; cerr.flush();
@@ -1383,46 +1361,46 @@ find_unreachable_positions(BitList &unreachable, int player, int test_depth, int
 
     if (legal_position) {
       bool static_unreachable = board.unreachable_position();
-      
+
       int max_undo_depth = 0;
       if (test_depth > 0) {
-	max_undo_depth = board.unreachable_position(test_depth);
-	
-	// Verify the static unreachable test
-	if (static_unreachable  &&  (max_undo_depth==0)) {
-	  // static_unreachable check failed (or maybe the other, but that's less likely)
-	  cerr << "Error: position below is judged static unreachable,\n"
-	       << "but it is possible to undo a move!\n";
-	  board.print_board(cerr);
-	  assert(0);
-	  exit(1);
-	}
+        max_undo_depth = board.unreachable_position(test_depth);
+
+        // Verify the static unreachable test
+        if (static_unreachable  &&  (max_undo_depth==0)) {
+          // static_unreachable check failed (or maybe the other, but that's less likely)
+          cerr << "Error: position below is judged static unreachable,\n"
+              << "but it is possible to undo a move!\n";
+          board.print_board(cerr);
+          assert(0);
+          exit(1);
+        }
       }
-      
+
       if (static_unreachable  ||  max_undo_depth) {
-	
-	if (unreachable.size()) unreachable.set(i);
-	
-	if (static_unreachable) {
-	  ++count[2];
-	  if (print & 1) {
-	    big_output << "Static decided unreachable position:\n";
-	    board.print_board(big_output);
-	  }
-	} else {
-	  ++count[max_undo_depth+2];
-	  if ((print & 1)) {
-	    big_output << "Undoing the " << max_undo_depth << "'th move failed:\n";
-	    board.print_board(big_output);
-	  }
-	}
+
+        if (unreachable.size()) unreachable.set(i);
+
+        if (static_unreachable) {
+          ++count[2];
+          if (print & 1) {
+            big_output << "Static decided unreachable position:\n";
+            board.print_board(big_output);
+          }
+        } else {
+          ++count[max_undo_depth+2];
+          if ((print & 1)) {
+            big_output << "Undoing the " << max_undo_depth << "'th move failed:\n";
+            board.print_board(big_output);
+          }
+        }
       } else {
-	++count[1];
+        ++count[1];
       }
 
       if (max_undo_depth >= 3){
-	cerr << "Undoing the " << max_undo_depth << "'th move failed:\n";
-	board.print_board(cerr);
+        cerr << "Undoing the " << max_undo_depth << "'th move failed:\n";
+        board.print_board(cerr);
       }
 
     } else {
@@ -1434,15 +1412,15 @@ find_unreachable_positions(BitList &unreachable, int player, int test_depth, int
     if (print & 4) {
       cerr << name << " - " << (player?"b":"w") << "tm";
       for (int i=0; i<test_depth+3; i++)
-	cerr << "&" << count[i];
+        cerr << "&" << count[i];
       cerr << "\\\\\n";
     } else {
       cerr << "\nResult for " << name << " with " << (player?"black":"white") << " to move.\n"
-	   << "Illegal positions:             " << count[0] << "\n"
-	   << "(Assumed) reachable positions: " << count[1] << "\n"
-	   << "Static decided unreachable p.: " << count[2] << "\n";
+          << "Illegal positions:             " << count[0] << "\n"
+          << "(Assumed) reachable positions: " << count[1] << "\n"
+          << "Static decided unreachable p.: " << count[2] << "\n";
       for (int d=1; d<=test_depth; d++) {
-	cerr << "Undoing the " << d << "'th move failed:  " << count[d+2] << "\n";
+        cerr << "Undoing the " << d << "'th move failed:  " << count[d+2] << "\n";
       }
       cerr << "(See big_output.txt for further details)\n";
     }
@@ -1477,37 +1455,37 @@ bool EndgameFunctionality::reduce_information() {
   for (int player=0; player<(symmetric_endgame ? 1 : 2); player++) {
     for (uint i=0; i<table_size; i++) {
       if ((i&0x3FFF)==0) { cerr << i << " "; cerr.flush(); }
-      
+
       (*decompress_table_index)(i, piece_list);
       bool legal_position = board.set_board(piece_list, player);
-      
-      if (legal_position) {
-	int max_value = 0; // -M0, worst possible
-	pair<uint, int> max;
-	
-	Move move = board.moves();
-	while (board.next_move(move)) {
-	  if (!(move.is_en_passant()  ||  move.is_pawn_promotion()  ||  board[move.to])) {
-	    Undo undo = board.execute_move(move);
-	    
-	    pair<uint, int> tmp = get_table_index_and_stm(board);
-	  
-	    char v = add_ply_to_endgame_value(table[tmp.second][tmp.first]);
-	  
-	    if (endgame_cmp(v, max_value) >= 0) {
-	      max_value = v;
-	      max = tmp;
-	    }
-	  
-	    board.undo_move(move, undo);
-	  }
-	}
 
-	bl[max.second].set(max.first);
+      if (legal_position) {
+        int max_value = 0; // -M0, worst possible
+        pair<uint, int> max;
+
+        Move move = board.moves();
+        while (board.next_move(move)) {
+          if (!(move.is_en_passant()  ||  move.is_pawn_promotion()  ||  board[move.to])) {
+            Undo undo = board.execute_move(move);
+
+            pair<uint, int> tmp = get_table_index_and_stm(board);
+
+            char v = add_ply_to_endgame_value(table[tmp.second][tmp.first]);
+
+            if (endgame_cmp(v, max_value) >= 0) {
+              max_value = v;
+              max = tmp;
+            }
+
+            board.undo_move(move, undo);
+          }
+        }
+
+        bl[max.second].set(max.first);
       }
     }
   }
-  
+
   cerr << "table_size = " << table_size << "\n";
   cerr << "white: " << bl[0].count_on() << "\n";
   if (table[1]) cerr << "black: " << bl[1].count_on() << "\n";
@@ -1515,193 +1493,28 @@ bool EndgameFunctionality::reduce_information() {
   for (int player=0; player<(symmetric_endgame ? 1 : 2); player++) {
     char worst_win = 1;
     char worst_loss = 0;
-    
+
     for (uint i=0; i<table_size; i++) {
       if (!is_special_value(table[player][i])) {
-	if (table[player][i] > 0) {
-	  // A win
-	  if (table[player][i] > worst_win) worst_win = table[player][i];
-	} else {
-	  // A loss
-	  if (table[player][i] < worst_loss) worst_loss = table[player][i];
-	}
+        if (table[player][i] > 0) {
+          // A win
+          if (table[player][i] > worst_win) worst_win = table[player][i];
+        } else {
+          // A loss
+          if (table[player][i] < worst_loss) worst_loss = table[player][i];
+        }
       }
     }
 
     for (uint i=0; i<table_size; i++) {
       if (!bl[player][i]  &&  !is_special_value(table[player][i])) {
-	table[player][i] = (table[player][i]>0 ? worst_win : worst_loss);
+        table[player][i] = (table[player][i]>0 ? worst_win : worst_loss);
       }
     }
   }
 
   return true;
 }
-
-void EndgameFunctionality::verify_against_Nalimov() {
-  EFState state = get_state();
-  load_table(false, true);
-
-  init_Nalimov_egtb(endgame_settings->Nalimov_directory,
-		    *(endgame_settings->Nalimov_cache_size));
-
-  Board2 board;
-  vector<PiecePos> piece_list(num_pieces);
-  for (int i=0; i<num_pieces; i++)
-    piece_list[i].piece = pieces[i];
-
-  cerr << "Comparing all values in endgame " << name << " against Nalimov's tables.\n";
-  for (int player=0; player<(symmetric_endgame ? 1 : 2); player++) {
-    for (uint i=0; i<table_size; i++) {
-
-      (*decompress_table_index)(i, piece_list);
-      if (board.set_board(piece_list, player)  &&
-	  !board.get_castling_capabilities()) {// Ignore positions with castling
-	char my_value = index_function(board);
-	for (int i=0; i<num_pieces; i++)
-	  piece_list[i].piece = pieces[i];
-	char Nalimov_value = index_Nalimov_egtb(piece_list, player, board.en_passant_square());
-	if (my_value != Nalimov_value) {	  
-	  cerr << "Error! Table value (" << endgame_value_to_string(my_value)
-	       << ") not consistent with Nalimov's value ("
-	       << endgame_value_to_string(Nalimov_value) << ")!\n";
-/*
-	  // Todo: won't compile for some reason...
-	  for (int i=0; i<num_pieces; i++)
-	    cerr << piece_list[i] << " ";
-*/
-	  cerr << (player ? "btm" : "wtm") << "\n";
-	  board.print_board(cerr);
-	  //exit(1);
-	}
-      }
-    }
-  }
-  restore_state(state);
-  cerr << "Succesfull!\n";
-}
-
-void EndgameFunctionality::cmp_random_probe_with_Nalimov(uint num_probes) {
-  if (!table_or_bdd_loaded(WHITE)  ||
-      (!symmetric_endgame  &&  !table_or_bdd_loaded(BLACK))) {
-    cerr << "Endgame must be loaded for both stm's\n";
-    return;
-  }
-
-  cerr << "Initializing cmp_random_probe_with_Nalimov(" << num_probes << ")...\n";
-
-  init_Nalimov_egtb(endgame_settings->Nalimov_directory,
-		    *(endgame_settings->Nalimov_cache_size));
-
-  Board2 board;
-  vector<PiecePos> piece_list(num_pieces);
-  for (int i=0; i<num_pieces; i++)
-    piece_list[i].piece = pieces[i];
-
-  BitList bl(num_probes);
-  uint randseed = (rand()<<16) ^ rand();
-  srand(randseed);
-  uint num_succesfull_probes = 0;
-  for (uint i=0; i<num_probes; i++) {
-    int probe = rand()<<16;
-    probe ^= rand();
-    int player = probe&1;
-    probe = (probe>>1) % table_size;
-
-    (*decompress_table_index)(probe, piece_list);
-    if (board.set_board(piece_list, player)  &&
-	!board.get_castling_capabilities()) {
-      ++num_succesfull_probes;
-      bl.set(i);
-    }
-  }
-  cerr << "Number of succesfull probes = " << num_succesfull_probes << "\n";
-
-  time_t start_clock_time;
-
-  int irrelevant = 0;
-
-  cerr << "Evaluating time for non-Nalimov indexing\n";
-  srand(randseed);
-  start_clock_time = time(NULL);
-  for (uint i=0; i<num_probes; i++) {
-    int probe = rand()<<16;
-    probe ^= rand();
-    if (bl[i]) {
-      int player = probe&1;
-      probe = (probe>>1) % table_size;
-
-      (*decompress_table_index)(probe, piece_list);
-      
-      { // Index
-	vector<PiecePos> pp = piece_list;
-	sort_piece_pos(pp);
-	bool swapped = swap_piece_pos(pp, symmetric_endgame  &&  player);
-	if (!pawnless_endgame  &&  swapped)
-	  for (int i=0; i<num_pieces; i++)
-	    pp[i].pos ^= 7<<3;
-
-	/*
-
-    ef.load_bdd();
-    int p = parse_result[0][0] == 'b'  ||  parse_result[0][0] == '1';
-    int n = atoi(parse_result[1].c_str());
-    for (int i=0; i<n; i++) {
-      BDD_Index b;
-      int r = rand();
-      b[0] = r & 0x3F;
-      b[1] = (r>>=6) & 0x3F;
-      b[2] = (r>>=6) & 0x3F;
-      b[3] = (r>>=6) & 0x3F;
-      b[4] = (r>>=6) & 0xF;
-      ef.direct_bdd_index(p, b);
-    }
-	*/
-
-
-	// First try to index table
-	char *tmp = table[player ^ swapped];
-	if (tmp) {
-	  int index = compress_table_index(pp);
-	  //board.print_board(cerr);
-	  //cerr << "above has index(" << index << ")\n";
-	  irrelevant += tmp[index];// Just to give the statement some effect
-
-	} else {
-	
-	  // Then try to index bdd
-	  BDD *tmp = bdd[player ^ swapped];
-	  irrelevant += tmp->operator[](preprocess_bdd_index(pp));
-	}
-      }
-
-      //my_assert(board.set_board(piece_list, player));
-      //index_function(board);
-    }
-  }
-  cerr << "Time: " << (double)difftime(time(NULL), start_clock_time) << " seconds.\n";
-
-  cerr << "Evaluating time for Nalimov indexing (ignoring castling and e.p.)\n";
-  srand(randseed);
-  start_clock_time = time(NULL);
-  for (uint i=0; i<num_probes; i++) {
-    int probe = rand()<<16;
-    probe ^= rand();
-    if (bl[i]) {
-      int player = probe&1;
-      probe = (probe>>1) % table_size;
-
-      (*decompress_table_index)(probe, piece_list);
-      for (int i=0; i<num_pieces; i++)
-	piece_list[i].piece = pieces[i];
-
-      irrelevant += index_Nalimov_egtb(piece_list, player);
-    }
-  }
-  cerr << "Time: " << (double)difftime(time(NULL), start_clock_time) << " seconds.\n";
-  cerr << "Something irrelevant: " << irrelevant << "\n";
-}
-
 
 bool EndgameFunctionality::bdd_contains_only_win_draw_loss_info(int stm) {
   assert(stm==0  ||  stm==1);
@@ -1738,9 +1551,9 @@ void EndgameFunctionality::run_length_encode(int stm, int method, bool map_dont_
     cerr << "Mapping all won in n to ENDGAME_TABLE_WIN, and lost in n to ENDGAME_TABLE_LOSS\n";
     for (uint i=0; i<table_size; i++) {
       if (table[stm][i] > 0) {
-	table[stm][i] = ENDGAME_TABLE_WIN;
+        table[stm][i] = ENDGAME_TABLE_WIN;
       } else if (table[stm][i] <= 0  &&  !is_special_value(table[stm][i])) {
-	table[stm][i] = ENDGAME_TABLE_LOSS;
+        table[stm][i] = ENDGAME_TABLE_LOSS;
       }
     }
     restore_table = true;
@@ -1789,86 +1602,86 @@ bool Endgames::construct_from_table_index(Board2 &board, string endgame_name, ui
 
 
 #define _KXK(sname, name, piece, table_size) \
-  endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
-					 decompress_ ## name ## _table_index, \
-					 preprocess_ ## name ## _bdd_index, \
-					 name ## _table_index_to_bdd_index, \
-					 table_size, sname); \
-  tmp[DB_W ## piece ## _VALUE] = \
-  tmp[DB_B ## piece ## _VALUE] = sname
+    endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
+        decompress_ ## name ## _table_index, \
+        preprocess_ ## name ## _bdd_index, \
+        name ## _table_index_to_bdd_index, \
+        table_size, sname); \
+        tmp[DB_W ## piece ## _VALUE] = \
+        tmp[DB_B ## piece ## _VALUE] = sname
 #define _KXYK(sname, name, piece1, piece2, table_size) \
-  endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
-					 decompress_ ## name ## _table_index, \
-					 preprocess_ ## name ## _bdd_index, \
-					 name ## _table_index_to_bdd_index, \
-					 table_size, sname); \
-  tmp[DB_W ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE] = \
-  tmp[DB_B ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE] = sname
+    endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
+        decompress_ ## name ## _table_index, \
+        preprocess_ ## name ## _bdd_index, \
+        name ## _table_index_to_bdd_index, \
+        table_size, sname); \
+        tmp[DB_W ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE] = \
+        tmp[DB_B ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE] = sname
 #define _KXKY(sname, name, piece1, piece2, table_size) \
-  endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
-					 decompress_ ## name ## _table_index, \
-					 preprocess_ ## name ## _bdd_index, \
-					 name ## _table_index_to_bdd_index, \
-					 table_size, sname); \
-  tmp[DB_W ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE] = \
-  tmp[DB_B ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE] = sname
+    endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
+        decompress_ ## name ## _table_index, \
+        preprocess_ ## name ## _bdd_index, \
+        name ## _table_index_to_bdd_index, \
+        table_size, sname); \
+        tmp[DB_W ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE] = \
+        tmp[DB_B ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE] = sname
 
 #ifdef ALLOW_5_MEN_ENDGAME
 // K+3 vs K
 #define _KXXXK(sname, name, piece, table_size) \
-  endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
-					 decompress_ ## name ## _table_index, \
-					 preprocess_ ## name ## _bdd_index, \
-					 name ## _table_index_to_bdd_index, \
-					 table_size, sname); \
-  tmp[3*DB_W ## piece ## _VALUE] = \
-  tmp[3*DB_B ## piece ## _VALUE] = sname
+    endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
+        decompress_ ## name ## _table_index, \
+        preprocess_ ## name ## _bdd_index, \
+        name ## _table_index_to_bdd_index, \
+        table_size, sname); \
+        tmp[3*DB_W ## piece ## _VALUE] = \
+        tmp[3*DB_B ## piece ## _VALUE] = sname
 #define _KXXYK(sname, name, piece1, piece2, table_size) \
-  endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
-					 decompress_ ## name ## _table_index, \
-					 preprocess_ ## name ## _bdd_index, \
-					 name ## _table_index_to_bdd_index, \
-					 table_size, sname); \
-  tmp[2*DB_W ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE] = \
-  tmp[2*DB_B ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE] = sname
+    endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
+        decompress_ ## name ## _table_index, \
+        preprocess_ ## name ## _bdd_index, \
+        name ## _table_index_to_bdd_index, \
+        table_size, sname); \
+        tmp[2*DB_W ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE] = \
+        tmp[2*DB_B ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE] = sname
 /*
 #define _KXYYK(sname, name, piece1, piece2, table_size) \
   _KXXYK(sname, name, piece2, piece1, table_size)
-*/
+ */
 #define _KXYYK(sname, name, piece1, piece2, table_size) \
-  endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
-					 decompress_ ## name ## _table_index, \
-					 preprocess_ ## name ## _bdd_index, \
-					 name ## _table_index_to_bdd_index, \
-					 table_size, sname); \
-  tmp[DB_W ## piece1 ## _VALUE + 2*DB_W ## piece2 ## _VALUE] = \
-  tmp[DB_B ## piece1 ## _VALUE + 2*DB_B ## piece2 ## _VALUE] = sname
+    endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
+        decompress_ ## name ## _table_index, \
+        preprocess_ ## name ## _bdd_index, \
+        name ## _table_index_to_bdd_index, \
+        table_size, sname); \
+        tmp[DB_W ## piece1 ## _VALUE + 2*DB_W ## piece2 ## _VALUE] = \
+        tmp[DB_B ## piece1 ## _VALUE + 2*DB_B ## piece2 ## _VALUE] = sname
 #define _KXYZK(sname, name, piece1, piece2, piece3, table_size) \
-  endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
-					 decompress_ ## name ## _table_index, \
-					 preprocess_ ## name ## _bdd_index, \
-					 name ## _table_index_to_bdd_index, \
-					 table_size, sname); \
-  tmp[DB_W ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE + DB_W ## piece3 ## _VALUE] = \
-  tmp[DB_B ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE + DB_B ## piece3 ## _VALUE] = sname
+    endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
+        decompress_ ## name ## _table_index, \
+        preprocess_ ## name ## _bdd_index, \
+        name ## _table_index_to_bdd_index, \
+        table_size, sname); \
+        tmp[DB_W ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE + DB_W ## piece3 ## _VALUE] = \
+        tmp[DB_B ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE + DB_B ## piece3 ## _VALUE] = sname
 
 // K+2 vs K+1
 #define _KXXKY(sname, name, piece1, piece2, table_size) \
-  endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
-					 decompress_ ## name ## _table_index, \
-					 preprocess_ ## name ## _bdd_index, \
-					 name ## _table_index_to_bdd_index, \
-					 table_size, sname); \
-  tmp[2*DB_W ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE] = \
-  tmp[2*DB_B ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE] = sname
+    endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
+        decompress_ ## name ## _table_index, \
+        preprocess_ ## name ## _bdd_index, \
+        name ## _table_index_to_bdd_index, \
+        table_size, sname); \
+        tmp[2*DB_W ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE] = \
+        tmp[2*DB_B ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE] = sname
 #define _KXYKZ(sname, name, piece1, piece2, piece3, table_size) \
-  endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
-					 decompress_ ## name ## _table_index, \
-					 preprocess_ ## name ## _bdd_index, \
-					 name ## _table_index_to_bdd_index, \
-					 table_size, sname); \
-  tmp[DB_W ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE + DB_B ## piece3 ## _VALUE] = \
-  tmp[DB_B ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE + DB_W ## piece3 ## _VALUE] = sname
+    endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
+        decompress_ ## name ## _table_index, \
+        preprocess_ ## name ## _bdd_index, \
+        name ## _table_index_to_bdd_index, \
+        table_size, sname); \
+        tmp[DB_W ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE + DB_B ## piece3 ## _VALUE] = \
+        tmp[DB_B ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE + DB_W ## piece3 ## _VALUE] = sname
 
 #endif
 void Endgames::init() {
@@ -1876,15 +1689,15 @@ void Endgames::init() {
   initialized = true;
 
   cerr << "Initializing endgames\n";
-  
+
   map<int, string> tmp;
-  
+
   { // 2-men endgame
     endgames["KK"] = EndgameFunctionality(compress_KK_table_index,
-					  decompress_KK_table_index,
-					  preprocess_KK_bdd_index,
-					  KK_table_index_to_bdd_index,
-					  462, "KK");
+        decompress_KK_table_index,
+        preprocess_KK_bdd_index,
+        KK_table_index_to_bdd_index,
+        462, "KK");
     tmp[0] = "KK";
   }
 
@@ -1944,60 +1757,60 @@ void Endgames::init() {
 
     { // ENDGAMES WITH K+3 vs K
 
-      
+
       { // KXXXK endgames
-	_KXXXK("KPPPK", KPPPK, PAWN  , 1806*(46*47*48/6));
-	_KXXXK("KNNNK", KXXXK, KNIGHT, 462*(62*63*64/6));
-	_KXXXK("KBBBK", KXXXK, BISHOP, 462*(62*63*64/6));
-	_KXXXK("KRRRK", KXXXK, ROOK  , 462*(62*63*64/6));
-	_KXXXK("KQQQK", KXXXK, QUEEN , 462*(62*63*64/6));
+        _KXXXK("KPPPK", KPPPK, PAWN  , 1806*(46*47*48/6));
+        _KXXXK("KNNNK", KXXXK, KNIGHT, 462*(62*63*64/6));
+        _KXXXK("KBBBK", KXXXK, BISHOP, 462*(62*63*64/6));
+        _KXXXK("KRRRK", KXXXK, ROOK  , 462*(62*63*64/6));
+        _KXXXK("KQQQK", KXXXK, QUEEN , 462*(62*63*64/6));
       }
-      
+
       { // KXXYK/KXYYK endgames
-	_KXXYK("KNNPK", KXXPK, KNIGHT, PAWN  , 1806*(63*64/2)*48);
-	_KXXYK("KBBPK", KXXPK, BISHOP, PAWN  , 1806*(63*64/2)*48);
-	_KXXYK("KRRPK", KXXPK, ROOK  , PAWN  , 1806*(63*64/2)*48);
-	_KXXYK("KQQPK", KXXPK, QUEEN , PAWN  , 1806*(63*64/2)*48);
-	
-	_KXXYK("KBBNK", KXXYK, BISHOP, KNIGHT, 462*(63*64/2)*64);
-	_KXXYK("KRRNK", KXXYK, ROOK  , KNIGHT, 462*(63*64/2)*64);
-	_KXXYK("KQQNK", KXXYK, QUEEN , KNIGHT, 462*(63*64/2)*64);
-	
-	_KXXYK("KRRBK", KXXYK, ROOK  , BISHOP, 462*(63*64/2)*64);
-	_KXXYK("KQQBK", KXXYK, QUEEN , BISHOP, 462*(63*64/2)*64);
-	
-	_KXXYK("KQQRK", KXXYK, QUEEN , ROOK  , 462*(63*64/2)*64);
-	
-	
-	
-	_KXYYK("KNPPK", KXPPK, KNIGHT, PAWN  , 1806*(47*48/2)*64);
-	_KXYYK("KBPPK", KXPPK, BISHOP, PAWN  , 1806*(47*48/2)*64);
-	_KXYYK("KRPPK", KXPPK, ROOK  , PAWN  , 1806*(47*48/2)*64);
-	_KXYYK("KQPPK", KXPPK, QUEEN , PAWN  , 1806*(47*48/2)*64);
-	
-	_KXYYK("KBNNK", KXYYK, BISHOP, KNIGHT, 462*(63*64/2)*64);
-	_KXYYK("KRNNK", KXYYK, ROOK  , KNIGHT, 462*(63*64/2)*64);
-	_KXYYK("KQNNK", KXYYK, QUEEN , KNIGHT, 462*(63*64/2)*64);
-	
-	_KXYYK("KRBBK", KXYYK, ROOK  , BISHOP, 462*(63*64/2)*64);
-	_KXYYK("KQBBK", KXYYK, QUEEN , BISHOP, 462*(63*64/2)*64);
-	
-	_KXYYK("KQRRK", KXYYK, QUEEN , ROOK  , 462*(63*64/2)*64);
+        _KXXYK("KNNPK", KXXPK, KNIGHT, PAWN  , 1806*(63*64/2)*48);
+        _KXXYK("KBBPK", KXXPK, BISHOP, PAWN  , 1806*(63*64/2)*48);
+        _KXXYK("KRRPK", KXXPK, ROOK  , PAWN  , 1806*(63*64/2)*48);
+        _KXXYK("KQQPK", KXXPK, QUEEN , PAWN  , 1806*(63*64/2)*48);
+
+        _KXXYK("KBBNK", KXXYK, BISHOP, KNIGHT, 462*(63*64/2)*64);
+        _KXXYK("KRRNK", KXXYK, ROOK  , KNIGHT, 462*(63*64/2)*64);
+        _KXXYK("KQQNK", KXXYK, QUEEN , KNIGHT, 462*(63*64/2)*64);
+
+        _KXXYK("KRRBK", KXXYK, ROOK  , BISHOP, 462*(63*64/2)*64);
+        _KXXYK("KQQBK", KXXYK, QUEEN , BISHOP, 462*(63*64/2)*64);
+
+        _KXXYK("KQQRK", KXXYK, QUEEN , ROOK  , 462*(63*64/2)*64);
+
+
+
+        _KXYYK("KNPPK", KXPPK, KNIGHT, PAWN  , 1806*(47*48/2)*64);
+        _KXYYK("KBPPK", KXPPK, BISHOP, PAWN  , 1806*(47*48/2)*64);
+        _KXYYK("KRPPK", KXPPK, ROOK  , PAWN  , 1806*(47*48/2)*64);
+        _KXYYK("KQPPK", KXPPK, QUEEN , PAWN  , 1806*(47*48/2)*64);
+
+        _KXYYK("KBNNK", KXYYK, BISHOP, KNIGHT, 462*(63*64/2)*64);
+        _KXYYK("KRNNK", KXYYK, ROOK  , KNIGHT, 462*(63*64/2)*64);
+        _KXYYK("KQNNK", KXYYK, QUEEN , KNIGHT, 462*(63*64/2)*64);
+
+        _KXYYK("KRBBK", KXYYK, ROOK  , BISHOP, 462*(63*64/2)*64);
+        _KXYYK("KQBBK", KXYYK, QUEEN , BISHOP, 462*(63*64/2)*64);
+
+        _KXYYK("KQRRK", KXYYK, QUEEN , ROOK  , 462*(63*64/2)*64);
       }
-      
+
       { // KXYZK endgames
-	_KXYZK("KBNPK", KXYPK, BISHOP, KNIGHT, PAWN  , 1806*64*64*48);
-	_KXYZK("KRNPK", KXYPK, ROOK  , KNIGHT, PAWN  , 1806*64*64*48);
-	_KXYZK("KQNPK", KXYPK, QUEEN , KNIGHT, PAWN  , 1806*64*64*48);
-	_KXYZK("KRBPK", KXYPK, ROOK  , BISHOP, PAWN  , 1806*64*64*48);
-	_KXYZK("KQBPK", KXYPK, QUEEN , BISHOP, PAWN  , 1806*64*64*48);
-	_KXYZK("KQRPK", KXYPK, QUEEN , ROOK  , PAWN  , 1806*64*64*48);
-	
-	_KXYZK("KRBNK", KXYPK, ROOK  , BISHOP, KNIGHT, 462*64*64*64);
-	_KXYZK("KQBNK", KXYPK, QUEEN , BISHOP, KNIGHT, 462*64*64*64);
-	_KXYZK("KQRNK", KXYPK, QUEEN , ROOK  , KNIGHT, 462*64*64*64);
-	
-	_KXYZK("KQRBK", KXYPK, QUEEN , ROOK  , BISHOP, 462*64*64*64);
+        _KXYZK("KBNPK", KXYPK, BISHOP, KNIGHT, PAWN  , 1806*64*64*48);
+        _KXYZK("KRNPK", KXYPK, ROOK  , KNIGHT, PAWN  , 1806*64*64*48);
+        _KXYZK("KQNPK", KXYPK, QUEEN , KNIGHT, PAWN  , 1806*64*64*48);
+        _KXYZK("KRBPK", KXYPK, ROOK  , BISHOP, PAWN  , 1806*64*64*48);
+        _KXYZK("KQBPK", KXYPK, QUEEN , BISHOP, PAWN  , 1806*64*64*48);
+        _KXYZK("KQRPK", KXYPK, QUEEN , ROOK  , PAWN  , 1806*64*64*48);
+
+        _KXYZK("KRBNK", KXYPK, ROOK  , BISHOP, KNIGHT, 462*64*64*64);
+        _KXYZK("KQBNK", KXYPK, QUEEN , BISHOP, KNIGHT, 462*64*64*64);
+        _KXYZK("KQRNK", KXYPK, QUEEN , ROOK  , KNIGHT, 462*64*64*64);
+
+        _KXYZK("KQRBK", KXYPK, QUEEN , ROOK  , BISHOP, 462*64*64*64);
       }
     }
 
@@ -2006,116 +1819,116 @@ void Endgames::init() {
 
       { // KXXKY endgames
 
-	// IMPORTANT!!!  THERE IS A PROBLEM WITH THE KPPKP ENDGAME:
-	// Some positions are won/lost in up to 127 => out of range!
-	_KXXKY("KPPKP", KPPKP, PAWN  , PAWN  , 1806*(47*48/2)*48);//!!!
-	
-	_KXXKY("KNNKP", KXXKP, KNIGHT, PAWN  , 1806*(63*64/2)*48);
-	_KXXKY("KBBKP", KXXKP, BISHOP, PAWN  , 1806*(63*64/2)*48);
-	_KXXKY("KRRKP", KXXKP, ROOK  , PAWN  , 1806*(63*64/2)*48);
-	_KXXKY("KQQKP", KXXKP, QUEEN , PAWN  , 1806*(63*64/2)*48);
-	
-	_KXXKY("KPPKN", KPPKX, PAWN  , KNIGHT, 1806*(47*48/2)*64);
-	_KXXKY("KNNKN", KXXKY, KNIGHT, KNIGHT, 462*(63*64/2)*64);
-	_KXXKY("KBBKN", KXXKY, BISHOP, KNIGHT, 462*(63*64/2)*64);
-	_KXXKY("KRRKN", KXXKY, ROOK  , KNIGHT, 462*(63*64/2)*64);
-	_KXXKY("KQQKN", KXXKY, QUEEN , KNIGHT, 462*(63*64/2)*64);
-      
-	_KXXKY("KPPKB", KPPKX, PAWN  , BISHOP, 1806*(47*48/2)*64);
-	_KXXKY("KNNKB", KXXKY, KNIGHT, BISHOP, 462*(63*64/2)*64);
-	_KXXKY("KBBKB", KXXKY, BISHOP, BISHOP, 462*(63*64/2)*64);
-	_KXXKY("KRRKB", KXXKY, ROOK  , BISHOP, 462*(63*64/2)*64);
-	_KXXKY("KQQKB", KXXKY, QUEEN , BISHOP, 462*(63*64/2)*64);
-	
-	_KXXKY("KPPKR", KPPKX, PAWN  , ROOK  , 1806*(47*48/2)*64);
-	_KXXKY("KNNKR", KXXKY, KNIGHT, ROOK  , 462*(63*64/2)*64);
-	_KXXKY("KBBKR", KXXKY, BISHOP, ROOK  , 462*(63*64/2)*64);
-	_KXXKY("KRRKR", KXXKY, ROOK  , ROOK  , 462*(63*64/2)*64);
-	_KXXKY("KQQKR", KXXKY, QUEEN , ROOK  , 462*(63*64/2)*64);
-	
-	_KXXKY("KPPKQ", KPPKX, PAWN  , QUEEN , 1806*(47*48/2)*64);
-	_KXXKY("KNNKQ", KXXKY, KNIGHT, QUEEN , 462*(63*64/2)*64);
-	_KXXKY("KBBKQ", KXXKY, BISHOP, QUEEN , 462*(63*64/2)*64);
-	_KXXKY("KRRKQ", KXXKY, ROOK  , QUEEN , 462*(63*64/2)*64);
-	_KXXKY("KQQKQ", KXXKY, QUEEN , QUEEN , 462*(63*64/2)*64);
+        // IMPORTANT!!!  THERE IS A PROBLEM WITH THE KPPKP ENDGAME:
+        // Some positions are won/lost in up to 127 => out of range!
+        _KXXKY("KPPKP", KPPKP, PAWN  , PAWN  , 1806*(47*48/2)*48);//!!!
+
+        _KXXKY("KNNKP", KXXKP, KNIGHT, PAWN  , 1806*(63*64/2)*48);
+        _KXXKY("KBBKP", KXXKP, BISHOP, PAWN  , 1806*(63*64/2)*48);
+        _KXXKY("KRRKP", KXXKP, ROOK  , PAWN  , 1806*(63*64/2)*48);
+        _KXXKY("KQQKP", KXXKP, QUEEN , PAWN  , 1806*(63*64/2)*48);
+
+        _KXXKY("KPPKN", KPPKX, PAWN  , KNIGHT, 1806*(47*48/2)*64);
+        _KXXKY("KNNKN", KXXKY, KNIGHT, KNIGHT, 462*(63*64/2)*64);
+        _KXXKY("KBBKN", KXXKY, BISHOP, KNIGHT, 462*(63*64/2)*64);
+        _KXXKY("KRRKN", KXXKY, ROOK  , KNIGHT, 462*(63*64/2)*64);
+        _KXXKY("KQQKN", KXXKY, QUEEN , KNIGHT, 462*(63*64/2)*64);
+
+        _KXXKY("KPPKB", KPPKX, PAWN  , BISHOP, 1806*(47*48/2)*64);
+        _KXXKY("KNNKB", KXXKY, KNIGHT, BISHOP, 462*(63*64/2)*64);
+        _KXXKY("KBBKB", KXXKY, BISHOP, BISHOP, 462*(63*64/2)*64);
+        _KXXKY("KRRKB", KXXKY, ROOK  , BISHOP, 462*(63*64/2)*64);
+        _KXXKY("KQQKB", KXXKY, QUEEN , BISHOP, 462*(63*64/2)*64);
+
+        _KXXKY("KPPKR", KPPKX, PAWN  , ROOK  , 1806*(47*48/2)*64);
+        _KXXKY("KNNKR", KXXKY, KNIGHT, ROOK  , 462*(63*64/2)*64);
+        _KXXKY("KBBKR", KXXKY, BISHOP, ROOK  , 462*(63*64/2)*64);
+        _KXXKY("KRRKR", KXXKY, ROOK  , ROOK  , 462*(63*64/2)*64);
+        _KXXKY("KQQKR", KXXKY, QUEEN , ROOK  , 462*(63*64/2)*64);
+
+        _KXXKY("KPPKQ", KPPKX, PAWN  , QUEEN , 1806*(47*48/2)*64);
+        _KXXKY("KNNKQ", KXXKY, KNIGHT, QUEEN , 462*(63*64/2)*64);
+        _KXXKY("KBBKQ", KXXKY, BISHOP, QUEEN , 462*(63*64/2)*64);
+        _KXXKY("KRRKQ", KXXKY, ROOK  , QUEEN , 462*(63*64/2)*64);
+        _KXXKY("KQQKQ", KXXKY, QUEEN , QUEEN , 462*(63*64/2)*64);
       }
-      
+
       { // KXYKZ endgames
-	_KXYKZ("KNPKP", KXPKY, KNIGHT, PAWN  , PAWN  , 1806*48*48*64);
-	_KXYKZ("KBPKP", KXPKY, BISHOP, PAWN  , PAWN  , 1806*48*48*64);
-	_KXYKZ("KRPKP", KXPKY, ROOK  , PAWN  , PAWN  , 1806*48*48*64);
-	_KXYKZ("KQPKP", KXPKY, QUEEN , PAWN  , PAWN  , 1806*48*48*64);
-	
-	_KXYKZ("KNPKN", KXPKY, KNIGHT, PAWN  , KNIGHT, 1806*48*64*64);
-	_KXYKZ("KBPKN", KXPKY, BISHOP, PAWN  , KNIGHT, 1806*48*64*64);
-	_KXYKZ("KRPKN", KXPKY, ROOK  , PAWN  , KNIGHT, 1806*48*64*64);
-	_KXYKZ("KQPKN", KXPKY, QUEEN , PAWN  , KNIGHT, 1806*48*64*64);
-	
-	_KXYKZ("KNPKB", KXPKY, KNIGHT, PAWN  , BISHOP, 1806*48*64*64);
-	_KXYKZ("KBPKB", KXPKY, BISHOP, PAWN  , BISHOP, 1806*48*64*64);
-	_KXYKZ("KRPKB", KXPKY, ROOK  , PAWN  , BISHOP, 1806*48*64*64);
-	_KXYKZ("KQPKB", KXPKY, QUEEN , PAWN  , BISHOP, 1806*48*64*64);
-	
-	_KXYKZ("KNPKR", KXPKY, KNIGHT, PAWN  , ROOK  , 1806*48*64*64);
-	_KXYKZ("KBPKR", KXPKY, BISHOP, PAWN  , ROOK  , 1806*48*64*64);
-	_KXYKZ("KRPKR", KXPKY, ROOK  , PAWN  , ROOK  , 1806*48*64*64);
-	_KXYKZ("KQPKR", KXPKY, QUEEN , PAWN  , ROOK  , 1806*48*64*64);
-	
-	_KXYKZ("KNPKQ", KXPKY, KNIGHT, PAWN  , QUEEN , 1806*48*64*64);
-	_KXYKZ("KBPKQ", KXPKY, BISHOP, PAWN  , QUEEN , 1806*48*64*64);
-	_KXYKZ("KRPKQ", KXPKY, ROOK  , PAWN  , QUEEN , 1806*48*64*64);
-	_KXYKZ("KQPKQ", KXPKY, QUEEN , PAWN  , QUEEN , 1806*48*64*64);//124>=x>=-123 (close!)
-	
-	
+        _KXYKZ("KNPKP", KXPKY, KNIGHT, PAWN  , PAWN  , 1806*48*48*64);
+        _KXYKZ("KBPKP", KXPKY, BISHOP, PAWN  , PAWN  , 1806*48*48*64);
+        _KXYKZ("KRPKP", KXPKY, ROOK  , PAWN  , PAWN  , 1806*48*48*64);
+        _KXYKZ("KQPKP", KXPKY, QUEEN , PAWN  , PAWN  , 1806*48*48*64);
 
-	_KXYKZ("KBNKP", KXPKY, BISHOP, KNIGHT, PAWN  , 1806*64*48*64);
-	_KXYKZ("KRNKP", KXPKY, ROOK  , KNIGHT, PAWN  , 1806*64*48*64);
-	_KXYKZ("KQNKP", KXPKY, QUEEN , KNIGHT, PAWN  , 1806*64*48*64);
+        _KXYKZ("KNPKN", KXPKY, KNIGHT, PAWN  , KNIGHT, 1806*48*64*64);
+        _KXYKZ("KBPKN", KXPKY, BISHOP, PAWN  , KNIGHT, 1806*48*64*64);
+        _KXYKZ("KRPKN", KXPKY, ROOK  , PAWN  , KNIGHT, 1806*48*64*64);
+        _KXYKZ("KQPKN", KXPKY, QUEEN , PAWN  , KNIGHT, 1806*48*64*64);
 
-	_KXYKZ("KBNKN", KXYKZ, BISHOP, KNIGHT, KNIGHT, 462*64*64*64);
-	_KXYKZ("KRNKN", KXYKZ, ROOK  , KNIGHT, KNIGHT, 462*64*64*64);
-	_KXYKZ("KQNKN", KXYKZ, QUEEN , KNIGHT, KNIGHT, 462*64*64*64);
-	
-	_KXYKZ("KBNKB", KXYKZ, BISHOP, KNIGHT, BISHOP, 462*64*64*64);
-	_KXYKZ("KRNKB", KXYKZ, ROOK  , KNIGHT, BISHOP, 462*64*64*64);
-	_KXYKZ("KQNKB", KXYKZ, QUEEN , KNIGHT, BISHOP, 462*64*64*64);
-	
-	_KXYKZ("KBNKR", KXYKZ, BISHOP, KNIGHT, ROOK  , 462*64*64*64);
-	_KXYKZ("KRNKR", KXYKZ, ROOK  , KNIGHT, ROOK  , 462*64*64*64);
-	_KXYKZ("KQNKR", KXYKZ, QUEEN , KNIGHT, ROOK  , 462*64*64*64);
-	
-	_KXYKZ("KBNKQ", KXYKZ, BISHOP, KNIGHT, QUEEN , 462*64*64*64);
-	_KXYKZ("KRNKQ", KXYKZ, ROOK  , KNIGHT, QUEEN , 462*64*64*64);
-	_KXYKZ("KQNKQ", KXYKZ, QUEEN , KNIGHT, QUEEN , 462*64*64*64);
-	
-	
-	
-	_KXYKZ("KRBKP", KXYKP, ROOK  , BISHOP, PAWN  , 1806*64*48*64);
-	_KXYKZ("KQBKP", KXYKP, QUEEN , BISHOP, PAWN  , 1806*64*48*64);
-	
-	_KXYKZ("KRBKN", KXYKZ, ROOK  , BISHOP, KNIGHT, 462*64*64*64);
-	_KXYKZ("KQBKN", KXYKZ, QUEEN , BISHOP, KNIGHT, 462*64*64*64);
-	
-	_KXYKZ("KRBKB", KXYKZ, ROOK  , BISHOP, BISHOP, 462*64*64*64);
-	_KXYKZ("KQBKB", KXYKZ, QUEEN , BISHOP, BISHOP, 462*64*64*64);
-	
-	_KXYKZ("KRBKR", KXYKZ, ROOK  , BISHOP, ROOK  , 462*64*64*64);
-	_KXYKZ("KQBKR", KXYKZ, QUEEN , BISHOP, ROOK  , 462*64*64*64);
-	
-	_KXYKZ("KRBKQ", KXYKZ, ROOK  , BISHOP, QUEEN , 462*64*64*64);
-	_KXYKZ("KQBKQ", KXYKZ, QUEEN , BISHOP, QUEEN , 462*64*64*64);
-	
-	
-	
-	_KXYKZ("KQRKP", KXYKP, QUEEN , ROOK  , PAWN  , 1806*64*48*64);
-	
-	_KXYKZ("KQRKN", KXYKZ, QUEEN , ROOK  , KNIGHT, 462*64*64*64);
-	
-	_KXYKZ("KQRKB", KXYKZ, QUEEN , ROOK  , BISHOP, 462*64*64*64);
+        _KXYKZ("KNPKB", KXPKY, KNIGHT, PAWN  , BISHOP, 1806*48*64*64);
+        _KXYKZ("KBPKB", KXPKY, BISHOP, PAWN  , BISHOP, 1806*48*64*64);
+        _KXYKZ("KRPKB", KXPKY, ROOK  , PAWN  , BISHOP, 1806*48*64*64);
+        _KXYKZ("KQPKB", KXPKY, QUEEN , PAWN  , BISHOP, 1806*48*64*64);
 
-	_KXYKZ("KQRKR", KXYKZ, QUEEN , ROOK  , ROOK  , 462*64*64*64);
-	
-	_KXYKZ("KQRKQ", KXYKZ, QUEEN , ROOK  , QUEEN , 462*64*64*64);
+        _KXYKZ("KNPKR", KXPKY, KNIGHT, PAWN  , ROOK  , 1806*48*64*64);
+        _KXYKZ("KBPKR", KXPKY, BISHOP, PAWN  , ROOK  , 1806*48*64*64);
+        _KXYKZ("KRPKR", KXPKY, ROOK  , PAWN  , ROOK  , 1806*48*64*64);
+        _KXYKZ("KQPKR", KXPKY, QUEEN , PAWN  , ROOK  , 1806*48*64*64);
+
+        _KXYKZ("KNPKQ", KXPKY, KNIGHT, PAWN  , QUEEN , 1806*48*64*64);
+        _KXYKZ("KBPKQ", KXPKY, BISHOP, PAWN  , QUEEN , 1806*48*64*64);
+        _KXYKZ("KRPKQ", KXPKY, ROOK  , PAWN  , QUEEN , 1806*48*64*64);
+        _KXYKZ("KQPKQ", KXPKY, QUEEN , PAWN  , QUEEN , 1806*48*64*64);//124>=x>=-123 (close!)
+
+
+
+        _KXYKZ("KBNKP", KXPKY, BISHOP, KNIGHT, PAWN  , 1806*64*48*64);
+        _KXYKZ("KRNKP", KXPKY, ROOK  , KNIGHT, PAWN  , 1806*64*48*64);
+        _KXYKZ("KQNKP", KXPKY, QUEEN , KNIGHT, PAWN  , 1806*64*48*64);
+
+        _KXYKZ("KBNKN", KXYKZ, BISHOP, KNIGHT, KNIGHT, 462*64*64*64);
+        _KXYKZ("KRNKN", KXYKZ, ROOK  , KNIGHT, KNIGHT, 462*64*64*64);
+        _KXYKZ("KQNKN", KXYKZ, QUEEN , KNIGHT, KNIGHT, 462*64*64*64);
+
+        _KXYKZ("KBNKB", KXYKZ, BISHOP, KNIGHT, BISHOP, 462*64*64*64);
+        _KXYKZ("KRNKB", KXYKZ, ROOK  , KNIGHT, BISHOP, 462*64*64*64);
+        _KXYKZ("KQNKB", KXYKZ, QUEEN , KNIGHT, BISHOP, 462*64*64*64);
+
+        _KXYKZ("KBNKR", KXYKZ, BISHOP, KNIGHT, ROOK  , 462*64*64*64);
+        _KXYKZ("KRNKR", KXYKZ, ROOK  , KNIGHT, ROOK  , 462*64*64*64);
+        _KXYKZ("KQNKR", KXYKZ, QUEEN , KNIGHT, ROOK  , 462*64*64*64);
+
+        _KXYKZ("KBNKQ", KXYKZ, BISHOP, KNIGHT, QUEEN , 462*64*64*64);
+        _KXYKZ("KRNKQ", KXYKZ, ROOK  , KNIGHT, QUEEN , 462*64*64*64);
+        _KXYKZ("KQNKQ", KXYKZ, QUEEN , KNIGHT, QUEEN , 462*64*64*64);
+
+
+
+        _KXYKZ("KRBKP", KXYKP, ROOK  , BISHOP, PAWN  , 1806*64*48*64);
+        _KXYKZ("KQBKP", KXYKP, QUEEN , BISHOP, PAWN  , 1806*64*48*64);
+
+        _KXYKZ("KRBKN", KXYKZ, ROOK  , BISHOP, KNIGHT, 462*64*64*64);
+        _KXYKZ("KQBKN", KXYKZ, QUEEN , BISHOP, KNIGHT, 462*64*64*64);
+
+        _KXYKZ("KRBKB", KXYKZ, ROOK  , BISHOP, BISHOP, 462*64*64*64);
+        _KXYKZ("KQBKB", KXYKZ, QUEEN , BISHOP, BISHOP, 462*64*64*64);
+
+        _KXYKZ("KRBKR", KXYKZ, ROOK  , BISHOP, ROOK  , 462*64*64*64);
+        _KXYKZ("KQBKR", KXYKZ, QUEEN , BISHOP, ROOK  , 462*64*64*64);
+
+        _KXYKZ("KRBKQ", KXYKZ, ROOK  , BISHOP, QUEEN , 462*64*64*64);
+        _KXYKZ("KQBKQ", KXYKZ, QUEEN , BISHOP, QUEEN , 462*64*64*64);
+
+
+
+        _KXYKZ("KQRKP", KXYKP, QUEEN , ROOK  , PAWN  , 1806*64*48*64);
+
+        _KXYKZ("KQRKN", KXYKZ, QUEEN , ROOK  , KNIGHT, 462*64*64*64);
+
+        _KXYKZ("KQRKB", KXYKZ, QUEEN , ROOK  , BISHOP, 462*64*64*64);
+
+        _KXYKZ("KQRKR", KXYKZ, QUEEN , ROOK  , ROOK  , 462*64*64*64);
+
+        _KXYKZ("KQRKQ", KXYKZ, QUEEN , ROOK  , QUEEN , 462*64*64*64);
       }
     }
 
@@ -2125,7 +1938,7 @@ void Endgames::init() {
   // Assume (!!!!!!!!!!!!!!!) that the addresses of the entries
   // in the map no longer change (from here, nothing is added, deleted
   // or modified in the map)
-  
+
   { // Initialize hash_list
     for (int i=0; i<DB_ARRAY_LENGTH; i++)//todo: replace 3*744+1
       hash_list[i] = 0;
@@ -2141,8 +1954,10 @@ void Endgames::init() {
 #ifndef NDEBUG
   verify_piece_enumerations();
   verify_en_passant_encoding();
+#ifdef ALLOW_5_MEN_ENDGAME
   verify_xxx_compress();
   verify_ppp_compress();
+#endif
 #endif
 
   init_cluster_functions();
@@ -2165,7 +1980,7 @@ void Endgames::keep_only_wtm() {
   for (I i=endgames.begin(); i!=endgames.end(); i++)
     i->second.keep_only_wtm();
 }
-*/
+ */
 
 
 vector<int> Endgames::get_name_matches(string name_pattern) {
@@ -2201,27 +2016,27 @@ void Endgames::build_bdds(string name_pattern) {
 }
 
 void Endgames::load_tables(string name_pattern,
-			   bool restrict_to_stm,
-			   bool build_if_nescessary,
-			   int restricted_stm)
+    bool restrict_to_stm,
+    bool build_if_nescessary,
+    int restricted_stm)
 { 
   vector<int> m = get_name_matches(name_pattern);
   for (uint i=0; i<m.size(); i++) {
     hash_list[m[i]]->load_table(restrict_to_stm, build_if_nescessary,
-			      restricted_stm);
+        restricted_stm);
     hash_list[m[i]]->print(cerr);
   }
 }
 void Endgames::load_bdds(string name_pattern,
-			 bool restrict_to_stm,
-			 bool build_from_tables_if_nescessary,
-			 bool build_tables_if_nescessary,
-			 int restricted_stm)
+    bool restrict_to_stm,
+    bool build_from_tables_if_nescessary,
+    bool build_tables_if_nescessary,
+    int restricted_stm)
 {
   vector<int> m = get_name_matches(name_pattern);
   for (uint i=0; i<m.size(); i++) {
     hash_list[m[i]]->load_bdd(restrict_to_stm, build_from_tables_if_nescessary,
-			    build_tables_if_nescessary, restricted_stm);
+        build_tables_if_nescessary, restricted_stm);
   }
 }
 
@@ -2247,119 +2062,109 @@ void Endgames::inspect(ostream &os, string s) {
   if (ok) {
     for (int i=0; i<num_pieces; i++) {
       if (s[4*i+1] == '#') {
-	if (unknown_found  ||  s[4*i+2] != '#') {
-	  ok = false;
-	  break;
-	}
-	unknown_found = true;
+        if (unknown_found  ||  s[4*i+2] != '#') {
+          ok = false;
+          break;
+        }
+        unknown_found = true;
       } else {
-	if (s[4*i+1]<'a'  ||  'h'<s[4*i+1]  ||  s[4*i+2]<'1'  ||  '8'<s[4*i+2]) {
-	  ok = false;
-	  break;
-	}
+        if (s[4*i+1]<'a'  ||  'h'<s[4*i+1]  ||  s[4*i+2]<'1'  ||  '8'<s[4*i+2]) {
+          ok = false;
+          break;
+        }
       }
     }
     if (!unknown_found) {
       os << "Endgames::inspect(..., " << s << "):\n"
-	 << "No unknown position? All combinations tried!\n";
+          << "No unknown position? All combinations tried!\n";
     }
   }
   if (ok) {
     string name(num_pieces, ' ');
     for (int i=0; i<num_pieces; i++)
-      name[i] = s[4*i] & ~32;//Conv. to lowercase
-    
+      name[i] = s[4*i] & ~32;// Convert to lower case
+
     if (supported(name)) {
       vector<Position> positions(num_pieces);
       for (int i=0; i<num_pieces; i++)
-	if (s[4*i+1] == '#') {
-	  positions[i] = ILLEGAL_POS;
-	} else {
-	  positions[i] = CR_TO_POS[s[4*i+1]-'a'][s[4*i+2]-'1'];
-	}
-      
+        if (s[4*i+1] == '#') {
+          positions[i] = ILLEGAL_POS;
+        } else {
+          positions[i] = CR_TO_POS[s[4*i+1]-'a'][s[4*i+2]-'1'];
+        }
+
       if (unknown_found) {
-	endgames[name].inspect(os, positions);
+        endgames[name].inspect(os, positions);
       } else {
-	for (int i=0; i<num_pieces; i++) {
-	  int tmp = positions[i];
-	  positions[i] = ILLEGAL_POS;
-	  endgames[name].inspect(os, positions);
-	  positions[i] = tmp;
-	}
+        for (int i=0; i<num_pieces; i++) {
+          int tmp = positions[i];
+          positions[i] = ILLEGAL_POS;
+          endgames[name].inspect(os, positions);
+          positions[i] = tmp;
+        }
       }
-      
+
     } else {
       os << "Endgames::inspect(..., " << s << "):\n"
-	 << "The piece combination " << name << " was not found.\n";
+          << "The piece combination " << name << " was not found.\n";
     }
-    
+
   } else {
     os << "Endgames::inspect(..., " << s << "): wrong format!\n"
-       << "Examples of use: inspect(cerr, K## Ra2 Kg1), inspect(cerr, k## ra2 kg1)\n";
+        << "Examples of use: inspect(cerr, K## Ra2 Kg1), inspect(cerr, k## ra2 kg1)\n";
   }
 }
 
-bool clr_endgame_database(void *ignored, Board *board, ostream& os, vector<string> &p) {
+bool clr_endgame_database(Board *board, ostream& os, vector<string> &p) {
   Board *_b = reinterpret_cast<Board *>(board);
   Board2 &b = *dynamic_cast<Board2plus *>(_b);
 
   if (dot_demand(p, 1, "help")) {
     os << "Endgame database, help:\n"
-       << "    print matches pattern  or  pm pattern\n"
-       << "      - A limited version of pattern matching.\n"
-       << "      - Examples \"pm K*K*\", \"pm K2K*\", \"pm KXKB\", not \"K1NK\"\n"
-       << "    load table pattern [r] [b] or  lt pattern [r] [b]\n"
-       << "      - b=t/f : build_if_nescessary, default is false.\n"
-       << "      - r=t/f : restrict_to_wtm, default is false.\n"
-       << "    build table pattern  or  bt pattern\n"
-       << "    load bdd pattern [b1] [b2] [r] or  lb pattern [b1] [b2] [r]\n"
-       << "      - b1=t/f : build_from_tables_if_nescessary, default is false.\n"
-       << "      - b2=t/f : build_tables_if_nescessary, default is false.\n"
-       << "      - r=t/f : restrict_to_wtm, default is false.\n"
-       << "    build bdd pattern  or  bb pattern\n"
-       << "    print bdd pattern  or  pb pattern\n"
-       << "      - (load) and print endgame bdd's or just x.\n"
-       << "    delete database  or  dd\n"
-       << "      - remove endgame tables from memory\n"
-       << "    inspect [p1 p2] [p3] [p4] [p5]\n"
-       << "      - Example: \"inspect K## Ra2 Kg1\"\n"
-       << "    verify table pattern  or  vt pattern\n"
-       << "      - Print number of positions with draw, mate in n, etc.\n"
-       << "        (comparing this to Nalimov's .tbs files verifies the\n"
-       << "         correctness of the endgames)\n"
-       << "    verify bdd pattern  or  vb pattern\n"
-       << "      - Verifies the bdd against the table (both must be loaded).\n"
-       << "    verify against Nalimov pattern  or  vaN pattern\n"
-       << "      - compare the endgame tables with Nalimov's tables.\n"
-       << "    print settings  or  ps\n"
-       << "    set name value\n"
-       << "      - example \"set do_preprocessing false\"\n"
-       << "    print pattern or  p pattern\n"
-       << "    index database  or  id\n"
-       << "      - Find value of current position in endgame table.\n"
-       << "    show table index  or  sti\n"
-       << "      - Shows endgame table/bdd index of position and stm.\n"
-       << "    construct from table index name index stm  or  cfti name index stm\n"
-       << "      - Sets board according to name, index and stm.\n"
-       << "      - name is KK,KRK,...,KRKP,... index is 0..max, stm is w,b,0 or 1\n"
-       << "      - Example: \"cfti KRK 2132 w\"\n"
-       << "    examine unreachable positions name stm depth  or  eup name stm depth\n"
-       << "      - For each position in endgame \"name\" with stm (0 or 1), try to\n"
-       << "      - undo depth moves. If depth=0 use static unreachability test.\n"
-       << "      - if positions spelled w. cap. P,each unr.p. wr. to big_output.txt\n"
-       << "    init Nalimov egtb [cachesize]  or  iNe [cachesize]\n"
-       << "      - Enables the use of Nalimov's endgame tables (if setting active_endgame=1)\n"
-       << "      - default cachesize is specified in default.set\n"
-       << "    probe speed endgame num_probes  or  ps endgame num_probes\n"
-       << "      - Compares how fast num_probes random probes in endgame are performed\n"
-       << "      - compared to Nalimov's endgame tables.\n"
-       << "    rle pattern stm map_dont_cares\n"
-       << "      - Examples \"rle KQK 0 t\", \"rle KBBK 1 t\"\n"
-       << "    hrle pattern stm map_dont_cares\n"
-       << "      - huffman run length encode, archieves better performance.\n";
+        << "    print matches pattern  or  pm pattern\n"
+        << "      - A limited version of pattern matching.\n"
+        << "      - Examples \"pm K*K*\", \"pm K2K*\", \"pm KXKB\", not \"K1NK\"\n"
+        << "    load table pattern [r] [b] or  lt pattern [r] [b]\n"
+        << "      - b=t/f : build_if_nescessary, default is false.\n"
+        << "      - r=t/f : restrict_to_wtm, default is false.\n"
+        << "    build table pattern  or  bt pattern\n"
+        << "    load bdd pattern [b1] [b2] [r] or  lb pattern [b1] [b2] [r]\n"
+        << "      - b1=t/f : build_from_tables_if_nescessary, default is false.\n"
+        << "      - b2=t/f : build_tables_if_nescessary, default is false.\n"
+        << "      - r=t/f : restrict_to_wtm, default is false.\n"
+        << "    build bdd pattern  or  bb pattern\n"
+        << "    print bdd pattern  or  pb pattern\n"
+        << "      - (load) and print endgame bdd's or just x.\n"
+        << "    delete database  or  dd\n"
+        << "      - remove endgame tables from memory\n"
+        << "    inspect [p1 p2] [p3] [p4] [p5]\n"
+        << "      - Example: \"inspect K## Ra2 Kg1\"\n"
+        << "    verify table pattern  or  vt pattern\n"
+        << "      - Print number of positions with draw, mate in n, etc.\n"
+        << "    verify bdd pattern  or  vb pattern\n"
+        << "      - Verifies the bdd against the table (both must be loaded).\n"
+        << "    print settings  or  ps\n"
+        << "    set name value\n"
+        << "      - example \"set do_preprocessing false\"\n"
+        << "    print pattern or  p pattern\n"
+        << "    index database  or  id\n"
+        << "      - Find value of current position in endgame table.\n"
+        << "    show table index  or  sti\n"
+        << "      - Shows endgame table/bdd index of position and stm.\n"
+        << "    construct from table index name index stm  or  cfti name index stm\n"
+        << "      - Sets board according to name, index and stm.\n"
+        << "      - name is KK,KRK,...,KRKP,... index is 0..max, stm is w,b,0 or 1\n"
+        << "      - Example: \"cfti KRK 2132 w\"\n"
+        << "    examine unreachable positions name stm depth  or  eup name stm depth\n"
+        << "      - For each position in endgame \"name\" with stm (0 or 1), try to\n"
+        << "      - undo depth moves. If depth=0 use static unreachability test.\n"
+        << "      - if positions spelled w. cap. P,each unr.p. wr. to big_output.txt\n"
+        << "    rle pattern stm map_dont_cares\n"
+        << "      - Examples \"rle KQK 0 t\", \"rle KBBK 1 t\"\n"
+        << "    hrle pattern stm map_dont_cares\n"
+        << "      - huffman run length encode, archieves better performance.\n";
 
-    
+
   } else if (dot_demand(p, 3, "hej", "hej", 0)) {
     vector<int> m = endgames.get_name_matches(parse_result[0]);
     for (uint i=0; i<m.size(); i++)
@@ -2420,19 +2225,13 @@ bool clr_endgame_database(void *ignored, Board *board, ostream& os, vector<strin
     cerr << "done\n";
 #endif
 
-
-  } else if (dot_demand(p, 4, "verify", "against", "Nalimov", 0)) {
-    vector<int> m = endgames.get_name_matches(parse_result[0]);
-    for (uint i=0; i<m.size(); i++)
-      endgames[m[i]].verify_against_Nalimov();
-
   } else if (dot_demand(p, 3, "print", "matches", 0)) {
     vector<int> m = endgames.get_name_matches(parse_result[0]);
     if (m.size()) {
       cerr << "Pattern " << parse_result[0] << " matches the following endgames:\n";
       for (uint i=0; i<m.size(); i++) {
-	if (i) cerr << ", ";
-	cerr << endgames[m[i]].get_name();
+        if (i) cerr << ", ";
+        cerr << endgames[m[i]].get_name();
       }
       cerr << "\n";
     }
@@ -2448,9 +2247,9 @@ bool clr_endgame_database(void *ignored, Board *board, ostream& os, vector<strin
       int stm = (parse_result[1][0]=='b')  ||  (parse_result[1][0]=='1');
       bool map_dont_cares = parse_result[2][0]=='t';
       for (uint i=0; i<m.size(); i++)
-	endgames[m[i]].run_length_encode(stm, 1, map_dont_cares);
+        endgames[m[i]].run_length_encode(stm, 1, map_dont_cares);
     }
-    
+
   } else if (dot_demand(p, 4, "hrle", 0, 1, 1)) {
     vector<int> m = endgames.get_name_matches(parse_result[0]);
     if (m.size()) {
@@ -2458,43 +2257,20 @@ bool clr_endgame_database(void *ignored, Board *board, ostream& os, vector<strin
       int stm = (parse_result[1][0]=='b')  ||  (parse_result[1][0]=='1');
       bool map_dont_cares = parse_result[2][0]=='t';
       for (uint i=0; i<m.size(); i++)
-	endgames[m[i]].run_length_encode(stm, 2, map_dont_cares);
-    }
-
-  }  else if (dot_demand(p, 4, "probe", "speed", 0, 0)) {
-    if (endgames.supported(parse_result[0])) {
-      endgames[parse_result[0]].cmp_random_probe_with_Nalimov(atoi(parse_result[1].c_str()));
-    } else {
-      os << "Unknown endgame " << parse_result[0] << "\n";
-    }
-
-  } else if (dot_demand(p, 3, "init", "Nalimov", "egtb")  ||
-	     dot_demand(p, 4, "init", "Nalimov", "egtb", 0)) {
-    if (Nalimov_egtb_is_initialized()) {
-      cerr << "Nalimov endgame tables are already initialized!\n";
-    } else {
-      int cache_size = parse_result.size() ? atoi(parse_result[0].c_str()) :
-	(*(endgame_settings->Nalimov_cache_size));
-      if (cache_size < (1<<14)  ||  (1<<29) < cache_size) {
-	cerr << "Error: cachesize must be in the interval [" << (1<<14)  << ".." << (1<<29) << "]\n";
-      } else {
-	init_Nalimov_egtb(endgame_settings->Nalimov_directory, cache_size);
-	*(endgame_settings->active_endgame) = 1;
-	cerr << "The Nalimov endgame tables are now used per default.\n";
-      }
+        endgames[m[i]].run_length_encode(stm, 2, map_dont_cares);
     }
 
   } else if (dot_demand(p, 6, "examine", "unreachable", "positions", 0, 1, 0)  ||
-	     dot_demand(p, 6, "examine", "unreachable", "Positions", 0, 1, 0)) {
+      dot_demand(p, 6, "examine", "unreachable", "Positions", 0, 1, 0)) {
     int write_pos = dot_demand(p, 6, "examine", "unreachable", "Positions", 0, 1, 0) ? 1 : 0;
     if (endgames.supported(parse_result[0])) {
       int stm = atoi(parse_result[1].c_str());
       int test_depth = atoi(parse_result[2].c_str());
       if ((stm==0 || stm==1)  &&  (0<=test_depth && test_depth<10)) {
-	BitList bl;
-	endgames[parse_result[0]].find_unreachable_positions(bl, stm, test_depth, write_pos+2+4);
+        BitList bl;
+        endgames[parse_result[0]].find_unreachable_positions(bl, stm, test_depth, write_pos+2+4);
       } else {
-	cerr << "Stm or depth not in legal interval ([0..1] and [0..9])\n";
+        cerr << "Stm or depth not in legal interval ([0..1] and [0..9])\n";
       }
     } else {
       os << "Unknown endgame table " << parse_result[0] << "\n";
@@ -2536,14 +2312,14 @@ bool clr_endgame_database(void *ignored, Board *board, ostream& os, vector<strin
     bool buid_from_tables_if_nescessary = parse_result[1][0] == 't';
     bool buid_tables_if_nescessary = parse_result[2][0] == 't';
     endgames.load_bdds(parse_result[0], false,
-		       buid_from_tables_if_nescessary, buid_tables_if_nescessary);
+        buid_from_tables_if_nescessary, buid_tables_if_nescessary);
   } else if (dot_demand(p, 6, "load", "bdd", 0, 1, 1, 1)) {
     os << "Loading endgame bdds.\n";
     bool buid_from_tables_if_nescessary = parse_result[1][0] == 't';
     bool buid_tables_if_nescessary = parse_result[2][0] == 't';
     bool restrict_to_wtm = parse_result[3][0] == 't';
     endgames.load_bdds(parse_result[0], restrict_to_wtm,
-		       buid_from_tables_if_nescessary, buid_tables_if_nescessary);
+        buid_from_tables_if_nescessary, buid_tables_if_nescessary);
     // END load bdd
 
     // BEGIN verify stuff
@@ -2561,27 +2337,27 @@ bool clr_endgame_database(void *ignored, Board *board, ostream& os, vector<strin
       endgames[m[i]].load_bdd();
       endgames[m[i]].compare_bdd_with_table(WHITE);
       if (!endgames[m[i]].is_symmetric())
-	endgames[m[i]].compare_bdd_with_table(BLACK);
+        endgames[m[i]].compare_bdd_with_table(BLACK);
     }
     // END verify stuff
 
-    
+
   } else if (dot_demand(p, 3, "print", "bdd", 0)) {
     vector<int> m = endgames.get_name_matches(parse_result[0]);
     for (uint i=0; i<m.size(); i++)
       if (endgames[m[i]].load_bdd())
-	endgames[m[i]].print_bdd(os, true);
-    
+        endgames[m[i]].print_bdd(os, true);
+
   } else if (dot_demand(p, 2, "delete", "database")) {
     os << "clearing endgame database from mem...\n";
     os.flush();
     endgames.destroy_tables();
     endgames.destroy_bdd();
     os << "done\n";
-    
+
   } else if (dot_demand(p, 2, "inspect", 0)) {
     endgames.inspect(os, parse_result[0]);
-    
+
   } else if (dot_demand(p, 3, "inspect", 3, 3)) {
     string s = parse_result[0]+"_"+parse_result[1];
     endgames.inspect(os, s);
@@ -2589,14 +2365,14 @@ bool clr_endgame_database(void *ignored, Board *board, ostream& os, vector<strin
   } else if (dot_demand(p, 4, "inspect", 3, 3, 3)) {
     string s = parse_result[0]+"_"+parse_result[1]+"_"+parse_result[2];
     endgames.inspect(os, s);
-    
+
   } else if (dot_demand(p, 5, "inspect", 3, 3, 3, 3)) {
     string s = parse_result[0]+"_"+parse_result[1]+"_"+parse_result[2]+"_"+parse_result[3];
     endgames.inspect(os, s);
-    
+
   } else if (dot_demand(p, 6, "inspect", 3, 3, 3, 3, 3)) {
     string s = parse_result[0]+"_"+parse_result[1]+"_"+parse_result[2]+"_"+
-      parse_result[3]+"_"+parse_result[4];
+        parse_result[3]+"_"+parse_result[4];
     endgames.inspect(os, s);
 
   } else if (dot_demand(p, 3, "set", 0, 0)) {
@@ -2606,7 +2382,7 @@ bool clr_endgame_database(void *ignored, Board *board, ostream& os, vector<strin
 
   } else if (dot_demand(p, 2, "print", "settings")) {
     endgame_settings->print(os);
-    
+
   } else if (dot_demand(p, 1, "print")) {
     endgames.print(os);
 
@@ -2614,15 +2390,15 @@ bool clr_endgame_database(void *ignored, Board *board, ostream& os, vector<strin
     vector<int> m = endgames.get_name_matches(parse_result[0]);
     for (uint i=0; i<m.size(); i++)
       endgames[m[i]].print(os);
-  
+
   } else if (dot_demand(p, 3, "print", "latex", "kingfs")) {
     latex_print_king_fs_indeces(os);
-  
+
   } else if (dot_demand(p, 2, "index", "database")) {
     int value;
     if (endgame_table_index(b, value)) {
       os << "Found position in endgame table. value = "
-	 << game_theoretical_value_to_string(value) << '\n';
+          << game_theoretical_value_to_string(value) << '\n';
     } else {
       os << "Did not find position in endgame table.\n";
     }
@@ -2630,20 +2406,20 @@ bool clr_endgame_database(void *ignored, Board *board, ostream& os, vector<strin
     if (status == GAME_OPEN) {
       Move move = b.moves();
       while (b.next_move(move)) {
-	os << b.moveToSAN(move) << ": \t";
-	Undo undo = b.execute_move(move);
-	if (endgame_table_index(b, value)) {
-	  if (value) {
-	    // Adjust value to this player
-	    value = -value;
-	    if (value >= GUARANTEED_WIN) value--;
-	    if (value <= GUARANTEED_LOSS) value++;
-	  }
-	  os << game_theoretical_value_to_string(value);
-	}
-	else os << "?";
-	os << "\n";
-	b.undo_move(move, undo);
+        os << b.moveToSAN(move) << ": \t";
+        Undo undo = b.execute_move(move);
+        if (endgame_table_index(b, value)) {
+          if (value) {
+            // Adjust value to this player
+            value = -value;
+            if (value >= GUARANTEED_WIN) value--;
+            if (value <= GUARANTEED_LOSS) value++;
+          }
+          os << game_theoretical_value_to_string(value);
+        }
+        else os << "?";
+        os << "\n";
+        b.undo_move(move, undo);
       }
     }
 
@@ -2656,14 +2432,14 @@ bool clr_endgame_database(void *ignored, Board *board, ostream& os, vector<strin
       triple<uint, uint, int> i = endgames[hash_value].get_table_and_bdd_index_and_stm(b);
 
       os << "Endgame " << endgames.get_endgame_name(b) << ":\n"
-	 << "(table index, bdd index, stm) = ("
-	 << i.first << ", " << i.second << " ("
-	 << toString(i.second, endgames[b.get_endgame_hashing()].calc_log_bdd_size(), 2)
-	 << "b), " << i.third << ")\n";
-      
+          << "(table index, bdd index, stm) = ("
+          << i.first << ", " << i.second << " ("
+          << toString(i.second, endgames[b.get_endgame_hashing()].calc_log_bdd_size(), 2)
+          << "b), " << i.third << ")\n";
+
       pair<int, int> p = endgames[hash_value].getModifiedOBDDIndexAndClusterValue(b);
       if (p.first != -1)
-	cerr << "\t(Mod. bdd index, cluster) = (" << p.first << "," << p.second << ")\n";
+        cerr << "\t(Mod. bdd index, cluster) = (" << p.first << "," << p.second << ")\n";
     }
 
   } else if (dot_demand(p, 7, "construct", "from", "table", "index", 0, 0, 1)) {
@@ -2683,10 +2459,10 @@ bool clr_endgame_database(void *ignored, Board *board, ostream& os, vector<strin
 
   } else return false;
   return true;
-  
+
 }
 
-  
+
 string Endgames::get_endgame_name(const Board2 &board) {
   int hash_value = board.get_endgame_hashing();
   if (board.get_num_pieces() <= MAX_MEN  &&  supported(hash_value)) {

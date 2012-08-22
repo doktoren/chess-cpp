@@ -165,7 +165,7 @@ BDD_Index preprocess_KK_bdd_index(const vector<PiecePos> &piece_list) {
   result[1] = ir.remapped_bound_king();
   return result;
 }
-TABLE_INDEX_TO_BDD_INDEX(KK,2);
+TABLE_INDEX_TO_BDD_INDEX(KK,2)
 
 
 
@@ -203,7 +203,7 @@ BDD_Index preprocess_KXK_bdd_index(const vector<PiecePos> &piece_list) {
   result[2] = ir.remapped_bound_king();
   return result;
 }
-TABLE_INDEX_TO_BDD_INDEX(KXK,3);
+TABLE_INDEX_TO_BDD_INDEX(KXK,3)
 
 // ############################
 // ##########  KPK  ###########
@@ -239,7 +239,7 @@ BDD_Index preprocess_KPK_bdd_index(const vector<PiecePos> &piece_list) {
   result[2] = ir.remapped_bound_king();
   return result;
 }
-TABLE_INDEX_TO_BDD_INDEX(KPK,3);
+TABLE_INDEX_TO_BDD_INDEX(KPK,3)
 
 // #############################
 // ##########  KXXK  ###########
@@ -278,7 +278,7 @@ BDD_Index preprocess_KXXK_bdd_index(const vector<PiecePos> &piece_list) {
   result[3] = ir.remapped_bound_king();
   return result;
 }
-TABLE_INDEX_TO_BDD_INDEX(KXXK,4);
+TABLE_INDEX_TO_BDD_INDEX(KXXK,4)
 
 // #############################
 // ##########  KXYK  ###########
@@ -306,7 +306,7 @@ BDD_Index preprocess_KXYK_bdd_index(const vector<PiecePos> &piece_list) {
   result[3] = ir.remapped_bound_king();
   return result;
 }
-TABLE_INDEX_TO_BDD_INDEX(KXYK,4);
+TABLE_INDEX_TO_BDD_INDEX(KXYK,4)
 
 // #############################
 // ##########  KXKY  ###########
@@ -334,7 +334,7 @@ BDD_Index preprocess_KXKY_bdd_index(const vector<PiecePos> &piece_list) {
   result[3] = ir.remapped_bound_king();
   return result;
 }
-TABLE_INDEX_TO_BDD_INDEX(KXKY,4);
+TABLE_INDEX_TO_BDD_INDEX(KXKY,4)
 
 // #############################
 // ##########  KPPK  ###########
@@ -387,7 +387,7 @@ BDD_Index preprocess_KPPK_bdd_index(const vector<PiecePos> &piece_list) {
   result[3] = ir.remapped_bound_king();
   return result;
 }
-TABLE_INDEX_TO_BDD_INDEX(KPPK,4);
+TABLE_INDEX_TO_BDD_INDEX(KPPK,4)
 
 // #############################
 // ##########  KXPK  ###########
@@ -430,7 +430,7 @@ BDD_Index preprocess_KXPK_bdd_index(const vector<PiecePos> &piece_list) {
   result[3] = ir.remapped_bound_king();
   return result;
 }
-TABLE_INDEX_TO_BDD_INDEX(KXPK,4);
+TABLE_INDEX_TO_BDD_INDEX(KXPK,4)
 
 // #############################
 // ##########  KPKP  ###########
@@ -459,7 +459,7 @@ BDD_Index preprocess_KPKP_bdd_index(const vector<PiecePos> &piece_list) {
   result[3] = ir.remapped_bound_king();
   return result;
 }
-TABLE_INDEX_TO_BDD_INDEX(KPKP,4);
+TABLE_INDEX_TO_BDD_INDEX(KPKP,4)
 
 // #############################
 // ##########  KXKP  ###########
@@ -487,7 +487,7 @@ BDD_Index preprocess_KXKP_bdd_index(const vector<PiecePos> &piece_list) {
   result[3] = ir.remapped_bound_king();
   return result;
 }
-TABLE_INDEX_TO_BDD_INDEX(KXKP,4);
+TABLE_INDEX_TO_BDD_INDEX(KXKP,4)
 
 
 #ifdef ALLOW_5_MEN_ENDGAME

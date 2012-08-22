@@ -25,7 +25,7 @@ int Eval_1::evaluate(int alpha, int beta) {
   else return value;
 }
 
-bool Eval_1::clr_evaluation(void *ignored, Board *board, ostream& os, vector<string> &p) {
+bool Eval_1::clr_evaluation(Board *board, ostream& os, vector<string> &p) {
   Board *_b = reinterpret_cast<Board *>(board);
   Eval_1 &b = *dynamic_cast<Eval_1 *>(_b);
 

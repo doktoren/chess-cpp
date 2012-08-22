@@ -16,7 +16,7 @@
 
 
 // Only placed here for debugging purposes!
-inline string _endgame_value_to_string(int v) {
+string _endgame_value_to_string(int v) {
   if (v <= -124) {
     switch (v) {
     case -124:
@@ -39,15 +39,6 @@ inline string _endgame_value_to_string(int v) {
 }
 
 inline int miin(int a, int b) { return a>b?b:a; }
-
-/*
-inline double log2(double vvv) {
-  return log(vvv)/log(2);
-}
-*/
-
-
-
 
 #include "endgame_database.hxx"
 
@@ -389,7 +380,7 @@ void BDD::init_no_clustering(uchar *bdd_table, int log_bdd_size,
 
   do_mapping_after_sifting &= do_preprocessing & calc_sifting;
 
-  cbo << "BDD::init_no_clustering(" << (int)bdd_table << "," << log_bdd_size << ","
+  cbo << "BDD::init_no_clustering(" << log_bdd_size << ","
       << do_preprocessing << "," << calc_sifting << ")\n";
 
   assert(clustering_kind == 0);
@@ -526,7 +517,7 @@ void BDD::init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][6
   assert(clustering_kind);
   do_mapping_after_sifting &= do_preprocessing & calc_sifting;
 
-  cbo << "BDD::init(" << (int)bdd_table << "," << log_bdd_size << ","
+  cbo << "BDD::init(" << log_bdd_size << ","
       << do_preprocessing << "," << calc_sifting << ")\n";
 
   int bdd_size = 1 << log_bdd_size;

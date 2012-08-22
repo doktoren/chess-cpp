@@ -1,13 +1,21 @@
 #ifndef _TYPEDEFS_
 #define _TYPEDEFS_
 
-
 using namespace std;
 
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
 typedef unsigned long ulong;
+
+// http://sourceforge.net/apps/mediawiki/predef/index.php?title=Architectures
+#ifdef __x86_64__
+typedef unsigned long ptr_int;
+#else
+#ifdef __i386__
+typedef unsigned int ptr_int;
+#endif
+#endif
 
 #include "piece_pos.hxx"
 

@@ -1,3 +1,0 @@
-gunzip $1.tar.gz
-tar -x <$1.tar
-rm $1.tar

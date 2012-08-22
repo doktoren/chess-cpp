@@ -227,7 +227,7 @@ Move Board2::moves_from_to(Position pos, Position dest) const {
 // Returns true if
 // a) the move is a castling move
 // b) something prevents the player to castle
-inline bool Board2::is_illegal_castling_move(Move move) const {
+bool Board2::is_illegal_castling_move(Move move) const {
   //cerr << "Checking " << move.toString() << "\n";
 
   if (CASTLING[move.from] && CASTLING[move.to]) {
@@ -263,7 +263,7 @@ inline bool Board2::is_illegal_castling_move(Move move) const {
 // If it is a king move, bit_board must be updated.
 // (move.blah & PROTECTS_KING  <=>  Check if piece moved) must hold.
 // Will update move.special_move if it returns true.
-inline bool Board2::legal_move(Move& move) const {
+bool Board2::legal_move(Move& move) const {
   assert(legal_pos(move.from) && legal_pos(move.to) && board[move.from]);
 
   if (PIECE_COLOR[board[move.to]] == player) return false;
@@ -325,7 +325,7 @@ inline bool Board2::legal_move(Move& move) const {
 }
 
 // assumptions made about move
-inline bool Board2::obstacle_free_move(Move move) const {
+bool Board2::obstacle_free_move(Move move) const {
   if (IS_KNIGHT_OR_KING[board[move.from]]) return true;
   if (PIECE_KIND[board[move.from]] == PAWN) {
     // obst. free if either  a) the move is not move 2 forward, or
@@ -341,7 +341,7 @@ inline bool Board2::obstacle_free_move(Move move) const {
   return true;
 }
 
-inline bool Board2::next_move_fixed_destination(Move &move, Piece piece_kind) const {
+bool Board2::next_move_fixed_destination(Move &move, Piece piece_kind) const {
   if (move.to & 0x80) {
     // Try <move.from, move.to-0x80> next
     move.to -= 0x80;
@@ -587,7 +587,7 @@ void Board2::undo_move(Move move, Undo undo) {
 // insert_piece, remove_piece and move_piece are declared virtual.
 // It will be very usefull to be able to extend them later on.
 
-inline void Board2::bit_board_insert(Position pos, Piece piece, bool player) {
+void Board2::bit_board_insert(Position pos, Piece piece, bool player) {
   ull rest = BIT_BOARDS[piece][pos];
   if (rest[king_pos[player^1]]) {
     //cerr << "Add check for " << PIECE_NAME[piece] << " at " << POS_NAME[pos] << '\n';
@@ -607,7 +607,7 @@ inline void Board2::bit_board_insert(Position pos, Piece piece, bool player) {
     rest = new_rest;
   }
 }
-inline void Board2::bit_board_remove(Position pos, Piece piece, bool player) {
+void Board2::bit_board_remove(Position pos, Piece piece, bool player) {
   bit_boards[0][player] &= ~BIT_BOARDS[piece][pos];
   int i=0;
   ull diff = (~bit_boards[i][player]) & bit_boards[i+1][player];
@@ -726,7 +726,7 @@ void Board2::place_kings(Position white_king, Position black_king) {
 //#####################################################################
 
 
-bool Board2::clr_board2(void *ignored, Board *board, ostream& os, vector<string> &p) {
+bool Board2::clr_board2(Board *board, ostream& os, vector<string> &p) {
   Board *_b = reinterpret_cast<Board *>(board);
   Board2 &b = *dynamic_cast<Board2 *>(_b);
 
@@ -1692,7 +1692,7 @@ struct EnPassantPP {
 };
 
 
-inline Position Board2::captured_en_passant_pawn(Position from, Position pawn_capture_pos) {
+Position Board2::captured_en_passant_pawn(Position from, Position pawn_capture_pos) {
   int dr = player ? 8 : -8;
   // Check that:
   // 1) 2 squares behind captured pawn are empty

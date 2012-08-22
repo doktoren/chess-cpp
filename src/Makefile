@@ -1,24 +1,13 @@
 CXX = g++
 
-# -Q is a good option for debugging
-CFLAGS  = -Wall -g -ggdb -DNDEBUG
-#CFLAGS  = -O3 -Wall -pedantic -ansi -march=pentium4 -Woverloaded-virtual -felide-constructors -DNDEBUG -ffast-math -fomit-frame-pointer
-CFLAGS_DB = -ggdb3 -pg -Wall -pedantic -ansi# -march=pentium4 -Woverloaded-virtual -felide-constructors
-CFLAGS_XB = -O3 -Wall -pedantic -ansi -march=pentium4 -Woverloaded-virtual -felide-constructors -DNDEBUG -DXBOARD -ffast-math -fomit-frame-pointer
-CFLAGS_DB_XB = -ggdb3 -pg -Wall -pedantic -ansi -march=pentium4 -Woverloaded-virtual -felide-constructors -DXBOARD
+CFLAGS  = -O3 -arch x86_64 -Wall -pedantic -ansi -DNDEBUG
+CFLAGS_DB = -ggdb3 -pg -Wall -pedantic -ansi
+CFLAGS_XB = -O3 -Wall -pedantic -ansi -DNDEBUG -DXBOARD
+CFLAGS_DB_XB = -ggdb3 -pg -Wall -pedantic -ansi -DXBOARD
 
-CFLAGS_NALIMOV = -O3 -DNDEBUG -Wall -ansi -march=pentium4 -Woverloaded-virtual -felide-constructors
-CFLAGS_NALIMOV_DB = -Wall -ansi -march=pentium4 -Woverloaded-virtual -felide-constructors
-
-#TEST = -ggdb3 -O3 -Wall -pedantic -ansi -march=pentium4 -Woverloaded-virtual -felide-constructors -ffast-math -fno-strict-aliasing
-
-TEST = -ggdb3 -O3 -pg -Wall -pedantic -ansi -march=pentium4 -Woverloaded-virtual -felide-constructors
-
-# tilføj chess.o ?
-# put endgame_database.o tilbage (før chess.o)
 MODS = board.o endgame_table_bdd.o mapping_of_wildcards.o \
 endgame_run_length_encoding.o run_length_encoding/bit_stream.o \
-endgame_clustering_functions.o endgame_Nalimov.o board_2.o endgame_castling.o \
+endgame_clustering_functions.o board_2.o endgame_castling.o \
 endgame_piece_enumerations.o endgame_square_permutations.o \
 binary_decision_diagram.o endgame_database.o endgame_indexing.o endgame_en_passant.o \
  \
@@ -48,29 +37,10 @@ chess: $(MODS)
 %.o: %.cxx
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
-#endgame_Nalimov.o:
-#	$(CXX) -c $(CFLAGS_NALIMOV) $< -o $@
-
-#board.o: board.cxx
-#	$(CXX) $(CFLAGS) -c -o $@ $<
-
 %.d: %.cxx
 	g++ -MM $< -o $@
 
 include ${MODS:.o=.d}
 
 clean:
-	-rm -f *.o
-
-#clean:
-#	-/bin/rm -f *.d
-#	-rm -f *~
-#	-rm -f *.o
-
-#rm -f test *~ *.d *.o */*~ */*.d */*.o
-
-#rm -f test *~ *.d *.o .\#* \#* a.out chess core tmp.* .nfs* incoming.txt big_output.txt probe_Nalimov/*~ probe_Nalimov/test help_programs/*~ help_programs/test help_programs/a.out run_length_encoding/*~ run_length_encoding/*.o
-
-#gprof chess -b --ignore-non-functions >profiling.txt
-
-# http://www.gnu.org/software/make/manual/make.html#Automatic-Variables
+	-rm -f *.o *.d */*.o */*.d

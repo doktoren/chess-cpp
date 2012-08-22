@@ -57,23 +57,13 @@ Endgame_mark_unreachable_as_dont_cares = true
 // if 0, then only static test is performed, otherwise n moves is tried undone
 Endgame_unreachability_depth_test = 3
 
-Endgame_directory = "/users/doktoren/public_html/master_thesis/endgames/"
-
-Endgame_verify_bdd_with_table = true
+Endgame_directory = "endgames/"
 
 // 0 = simple method, 1 = retrograde
 Endgame_construction_method = 1
 
 // If ...show_progress, then for each new mate depth a winning/losing position is shown
 Endgame_construction_show_progress = true
-
-// Determines which endgame is used by engine. 0:own endgames, 1:Nalimov
-Endgame_active_endgame = 0
-
-// Must be at least 16384
-Endgame_Nalimov_cache_size = 1048576
-
-Endgame_Nalimov_directory = "/users/doktoren/public_html/master_thesis/Nalimov/"
 
 //NDEBUG = false
 Eval3_show_evaluation_info = false
@@ -136,7 +126,7 @@ Search3_show_line_of_play = false
 Search3_show_value_of_each_move_from_root = true
 
 //NDEBUG : setting still enabled. Only used if XBOARD not defined
-Search3_time_per_move_in_ms = 20000
+Search3_time_per_move_in_ms = 2000
 
 //NDEBUG : not used (false)
 Search3_trace_search = true

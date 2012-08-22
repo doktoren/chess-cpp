@@ -84,7 +84,7 @@ public:
   }
 
   CommandLineReceiver* get_clr_evaluation() { return clr_evaluation; }
-  static bool clr_evaluation(void *ignored, Board *board, ostream& os, vector<string> &p);
+  static bool clr_evaluation(Board *board, ostream& os, vector<string> &p);
   void print_eval_stat(ostream& os);
 
   bool passed_pawn(Position pos);
@@ -103,8 +103,6 @@ protected:
   int castling_value();
   int control_value();
   int opening_library_value() ;
-
-  int diverse();
 
   int piece_value;
   ull pawn_bitboards[2];

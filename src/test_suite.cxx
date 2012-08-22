@@ -8,7 +8,7 @@
 #include <map>
 #include <queue>
 
-bool TestSuite::clr_test_suite(void *ignored, Board *board, ostream& os, vector<string> &p) {
+bool TestSuite::clr_test_suite(Board *board, ostream& os, vector<string> &p) {
   if (dot_demand(p, 1, "help")) {
     os << "Test suite, help:\n"
        << "    test all pgns plus  or  tapp\n"
@@ -160,7 +160,7 @@ const bool GT[16][16] =
  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
-inline void sort_5_piece_pos(vector<PiecePos> &pieces) {
+void sort_5_piece_pos(vector<PiecePos> &pieces) {
   // start by sorting pieces[0,1,3,4] like sort_4_piece_pos
   if (GT[pieces[0].piece][pieces[1].piece]) swap(pieces[0], pieces[1]);
   if (GT[pieces[3].piece][pieces[4].piece]) swap(pieces[3], pieces[4]);
@@ -179,7 +179,7 @@ inline void sort_5_piece_pos(vector<PiecePos> &pieces) {
     if (GT[pieces[3].piece][pieces[4].piece]) swap(pieces[3], pieces[4]);
   }
 }
-inline bool swap_5_piece_pos(vector<PiecePos> &pieces) {
+bool swap_5_piece_pos(vector<PiecePos> &pieces) {
   if (PIECE_KIND[pieces[1].piece] == KING) {
     PiecePos weak_king = pieces[0];
     pieces[0] = pieces[1];

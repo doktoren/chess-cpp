@@ -8,7 +8,7 @@
 #include "streams.hxx"
 
 // shared memory
-extern void *shared_mem;
+extern void *shared_mem_pool;
 extern void init_shared_mem(int size);
 extern void* get_shared_mem(int size);
 

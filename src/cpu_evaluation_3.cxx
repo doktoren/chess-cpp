@@ -54,20 +54,20 @@ void Eval_3::reset_all() {
   Board3plus::reset_all();
 }
 
-bool Eval_3::clr_evaluation(void *ignored, Board *board, ostream& os, vector<string> &p) {
+bool Eval_3::clr_evaluation(Board *board, ostream& os, vector<string> &p) {
   Board *_b = reinterpret_cast<Board *>(board);
   Eval_3 &b = *dynamic_cast<Eval_3 *>(_b);
 
   if (dot_demand(p, 1, "help")) {
     os << "Evaluation 3, help:\n"
-       << "    print board  or  pb  or  dir\n"
-       << "      - print board\n"
-       << "    print eval stat  or  pes\n"
-       << "    print evaluation  or  pe\n"
-       << "    print evaluation 2  or  pe2\n"
-       << "      - show evaluation after each possible move\n";
+        << "    print board  or  pb  or  dir\n"
+        << "      - print board\n"
+        << "    print eval stat  or  pes\n"
+        << "    print evaluation  or  pe\n"
+        << "    print evaluation 2  or  pe2\n"
+        << "      - show evaluation after each possible move\n";
   } else if (dot_demand(p, 1, "dir")  ||
-	     dot_demand(p, 2, "print", "board")) {
+      dot_demand(p, 2, "print", "board")) {
     b.print_board(os);
   } else if (dot_demand(p, 3, "print", "eval", "statistic")) {
     b.print_eval_stat(cerr);
@@ -102,7 +102,7 @@ void Eval_3::print_eval_stat(ostream& os) {
        << ',' << GAME_PHASE_PLY[moves_played][MID_GAME]
        << ',' << GAME_PHASE_PLY[moves_played][END_GAME] << ")\n";
   }
-  */
+   */
 }
 
 //###############  PROTECTED  ##################
@@ -141,7 +141,7 @@ void Eval_3::set_piece_values() {
   assert(0<=game_phase_value  &&  game_phase_value<=256);
   if (FALSE(show_evaluation_info))
     cerr << "Game phase (" << game_phase[0] << "," << game_phase[1] << ","
-	 << game_phase[2] << "), value(0..256) = " << game_phase_value << '\n';
+    << game_phase[2] << "), value(0..256) = " << game_phase_value << '\n';
 
   init_piece_values();
   init_control_values();
@@ -152,8 +152,8 @@ void Eval_3::set_piece_values() {
     if (board[p]) {
       piece_value += piece_values[board[p]][p];
       if (false && FALSE(show_evaluation_info))
-	cerr << "Piece " << PIECE_SCHAR[board[p]] << " on " << POS_NAME[p]
-	     << " value = " << piece_values[board[p]][p] << '\n';
+        cerr << "Piece " << PIECE_SCHAR[board[p]] << " on " << POS_NAME[p]
+                                                                        << " value = " << piece_values[board[p]][p] << '\n';
     }
   if (FALSE(show_evaluation_info)) {
     cerr << "Piece material value in root position = " << piece_value << '\n';
@@ -165,38 +165,38 @@ void Eval_3::set_piece_values() {
 }
 
 ull PASSED_PAWN_BITBOARDS[2][64];
-inline void Eval_3::init_passed_pawns_bitboards() {
+void Eval_3::init_passed_pawns_bitboards() {
   for (int player=0; player<2; player++) 
     for (int r=0; r<8; r++)
       for (int c=0; c<8; c++) {
-	int p = CR_TO_POS[c][r];
-	
-	if (r==0 || r==7) {
-	  PASSED_PAWN_BITBOARDS[player][p] = 0;
-	} else {
-	  
-	  ull tmp = 0;
-	  for (int c2=(c?(c-1):c); c2<=(c==7?c:(c+1)); c2++) {
-	    if (player==WHITE) {
-	      for (int r2=r+1; r2<8; r2++) {
-		int p2 = CR_TO_POS[c2][r2];
-		tmp |= p2;
-	      }
-	    } else {
-	      for (int r2=0; r2<r; r2++) {
-		int p2 = CR_TO_POS[c2][r2];
-		tmp |= p2;
-	      }
-	    }
-	  }
-	  PASSED_PAWN_BITBOARDS[player][p] = tmp;
-	}
+        int p = CR_TO_POS[c][r];
+
+        if (r==0 || r==7) {
+          PASSED_PAWN_BITBOARDS[player][p] = 0;
+        } else {
+
+          ull tmp = 0;
+          for (int c2=(c?(c-1):c); c2<=(c==7?c:(c+1)); c2++) {
+            if (player==WHITE) {
+              for (int r2=r+1; r2<8; r2++) {
+                int p2 = CR_TO_POS[c2][r2];
+                tmp |= p2;
+              }
+            } else {
+              for (int r2=0; r2<r; r2++) {
+                int p2 = CR_TO_POS[c2][r2];
+                tmp |= p2;
+              }
+            }
+          }
+          PASSED_PAWN_BITBOARDS[player][p] = tmp;
+        }
       }
 }
 
 const int PASSED_PAWN_BONUS[8] = {0,10,15,25,35,48,80,0};
 const int PAWN_PROTECTED_PASSED_PAWN_BONUS[8] = {0,10,15,25,35,48,80,0};
-inline int Eval_3::passed_pawns_value() {
+int Eval_3::passed_pawns_value() {
   int result = 0;
   for (int i=0; i<8; i++) {
     if (piece_number.number_used(W_PAWN_ID(i))) {
@@ -204,32 +204,32 @@ inline int Eval_3::passed_pawns_value() {
 
       // the piece is either a pawn, or a piece promoted from a pawn
       if (board[position]==WPAWN) {
-	if (!(pawn_bitboards[BLACK] & PASSED_PAWN_BITBOARDS[WHITE][position]).as_bool()) {
-	  // a passed pawn!
+        if (!(pawn_bitboards[BLACK] & PASSED_PAWN_BITBOARDS[WHITE][position]).as_bool()) {
+          // a passed pawn!
 
-	  int num_protecting_pawns = 0;
-	  if (COLUMN[position]!=0  &&  board[position-9]==WPAWN) ++num_protecting_pawns;
-	  if (COLUMN[position]!=7  &&  board[position-7]==WPAWN) ++num_protecting_pawns;
+          int num_protecting_pawns = 0;
+          if (COLUMN[position]!=0  &&  board[position-9]==WPAWN) ++num_protecting_pawns;
+          if (COLUMN[position]!=7  &&  board[position-7]==WPAWN) ++num_protecting_pawns;
 
-	  // control will typically be around [-5,...,5]
-	  int control = 4;
-	  //control += see.control_measure(position) + see.control_measure(position+8);
-	  // further bonus for pawn backup:
-	  control += 4*num_protecting_pawns;
+          // control will typically be around [-5,...,5]
+          int control = 4;
+          //control += see.control_measure(position) + see.control_measure(position+8);
+          // further bonus for pawn backup:
+          control += 4*num_protecting_pawns;
 
-	  // It may not be penalized
-	  if (control > 0) {
-	    if (FALSE(show_evaluation_info)) {
-	      cerr << "Passed pawn on " << POS_NAME[position] << " bonus = control("
-		   << control << ") * PPB(" << PASSED_PAWN_BONUS[ROW[position]] << ")\n";
-	      cerr << "Black pawns:\n";
-	      print_bit_board(cerr, pawn_bitboards[BLACK]);
-	      cerr << "White passed pawn bitboard:\n";
-	      print_bit_board(cerr, PASSED_PAWN_BITBOARDS[WHITE][position]);
-	    }
-	    result += control * PASSED_PAWN_BONUS[ROW[position]];
-	  }
-	}
+          // It may not be penalized
+          if (control > 0) {
+            if (FALSE(show_evaluation_info)) {
+              cerr << "Passed pawn on " << POS_NAME[position] << " bonus = control("
+                  << control << ") * PPB(" << PASSED_PAWN_BONUS[ROW[position]] << ")\n";
+              cerr << "Black pawns:\n";
+              print_bit_board(cerr, pawn_bitboards[BLACK]);
+              cerr << "White passed pawn bitboard:\n";
+              print_bit_board(cerr, PASSED_PAWN_BITBOARDS[WHITE][position]);
+            }
+            result += control * PASSED_PAWN_BONUS[ROW[position]];
+          }
+        }
       }
     }
     if (piece_number.number_used(B_PAWN_ID(i))) {
@@ -237,33 +237,33 @@ inline int Eval_3::passed_pawns_value() {
       // the piece is either a pawn, or a piece promoted from a pawn
       if (board[position]==BPAWN) {
 
-	if (!(pawn_bitboards[WHITE] & PASSED_PAWN_BITBOARDS[BLACK][position]).as_bool()) {
-	  // a passed pawn!
+        if (!(pawn_bitboards[WHITE] & PASSED_PAWN_BITBOARDS[BLACK][position]).as_bool()) {
+          // a passed pawn!
 
-	  int num_protecting_pawns = 0;
-	  if (COLUMN[position]!=0  &&  board[position+7]==BPAWN) ++num_protecting_pawns;
-	  if (COLUMN[position]!=7  &&  board[position+9]==BPAWN) ++num_protecting_pawns;
+          int num_protecting_pawns = 0;
+          if (COLUMN[position]!=0  &&  board[position+7]==BPAWN) ++num_protecting_pawns;
+          if (COLUMN[position]!=7  &&  board[position+9]==BPAWN) ++num_protecting_pawns;
 
-	  // control will typically be around [-5,...,5]
-	  // see.control_measure returns control relative to white, hence the minus
-	  int control = 4;
-	  //control -= see.control_measure(position) + see.control_measure(position-8);
-	  // further bonus for pawn backup:
-	  control += 4*num_protecting_pawns;
+          // control will typically be around [-5,...,5]
+          // see.control_measure returns control relative to white, hence the minus
+          int control = 4;
+          //control -= see.control_measure(position) + see.control_measure(position-8);
+          // further bonus for pawn backup:
+          control += 4*num_protecting_pawns;
 
-	  // It may not be penalized
-	  if (control > 0) {
-	    if (FALSE(show_evaluation_info)) {
-	      cerr << "Passed pawn on " << POS_NAME[position] << " bonus = control("
-		   << control << ") * PPB(" << PASSED_PAWN_BONUS[7^ROW[position]] << ")\n";
-	      cerr << "White pawns:\n";
-	      print_bit_board(cerr, pawn_bitboards[WHITE]);
-	      cerr << "Black passed pawn bitboard:\n";
-	      print_bit_board(cerr, PASSED_PAWN_BITBOARDS[BLACK][position]);
-	    }
-	    result -= control * PASSED_PAWN_BONUS[7^ROW[position]];
-	  }
-	}
+          // It may not be penalized
+          if (control > 0) {
+            if (FALSE(show_evaluation_info)) {
+              cerr << "Passed pawn on " << POS_NAME[position] << " bonus = control("
+                  << control << ") * PPB(" << PASSED_PAWN_BONUS[7^ROW[position]] << ")\n";
+              cerr << "White pawns:\n";
+              print_bit_board(cerr, pawn_bitboards[WHITE]);
+              cerr << "Black passed pawn bitboard:\n";
+              print_bit_board(cerr, PASSED_PAWN_BITBOARDS[BLACK][position]);
+            }
+            result -= control * PASSED_PAWN_BONUS[7^ROW[position]];
+          }
+        }
       }
     }
   }
@@ -276,12 +276,12 @@ inline int Eval_3::passed_pawns_value() {
 // DOUBLE_PAWN_BONUS[2][0] : 2 pairs of isolated double pawns
 // DOUBLE_PAWN_BONUS[1][2] : double pawns, with pawns at both sides (!)
 const int DOUBLE_PAWN_BONUS[5][8] = 
-  {{0, 0, 0, 0, 0, 0, 0, 0},
-   {-240, -80, -10, 0, 0, 0, 0, 0},
-   {-480, -320, -160, -90, -20, 0, 0, 0},
-   {-720, -560, -400, 0, 0, 0, 0, 0},
-   {-960, 0, 0, 0, 0, 0, 0, 0}};
-inline int Eval_3::double_pawns_value() {
+{{0, 0, 0, 0, 0, 0, 0, 0},
+    {-240, -80, -10, 0, 0, 0, 0, 0},
+    {-480, -320, -160, -90, -20, 0, 0, 0},
+    {-720, -560, -400, 0, 0, 0, 0, 0},
+    {-960, 0, 0, 0, 0, 0, 0, 0}};
+int Eval_3::double_pawns_value() {
   int value = 0;
   uchar row;
 
@@ -316,7 +316,7 @@ inline int Eval_3::double_pawns_value() {
 
   if (FALSE(show_evaluation_info))
     cerr << "Double_pawns_value = " << value << '\n';
-  
+
   return value;
 }
 
@@ -338,7 +338,7 @@ int Eval_3::pawn_structure_value() {
 
 #include "board_define_position_constants.hxx"
 const int POTENTIAL_CASTLING_BONUS[4] = {0, 160, 120, 200};
-inline int Eval_3::castling_value() {
+int Eval_3::castling_value() {
   int value = 0;
 
   // bonus for potential castlings
@@ -352,7 +352,7 @@ inline int Eval_3::castling_value() {
 #include "board_undef_position_constants.hxx"
 
 
-inline int Eval_3::control_value() {
+int Eval_3::control_value() {
   int value = 0;
 
   for (int p=0; p<64; p++) {
@@ -379,7 +379,7 @@ inline int Eval_3::control_value() {
   return value/32;
 }
 
-inline int Eval_3::opening_library_value() {
+int Eval_3::opening_library_value() {
   if (get_num_pieces() > 26) {
     int value = opening_library->num_occurences(hash_value);
     if (FALSE(show_evaluation_info))
@@ -387,7 +387,7 @@ inline int Eval_3::opening_library_value() {
     if (value) {
       value = 32*(floor_log(value)+1);
       if (FALSE(show_evaluation_info))
-	cerr << "\tvalue = " << value << '\n';
+        cerr << "\tvalue = " << value << '\n';
       return value;
     }
   } else {
@@ -396,15 +396,6 @@ inline int Eval_3::opening_library_value() {
   }
   return 0;
 }
-
-
-//const bool LONG_RANGE_PIECE[13]= {0, 0,0,1,1,1,0, 0,0,1,1,1,0};
-inline int Eval_3::diverse() {
-  int value = 0;
-
-  return value;
-}
-
 
 const int CHECKED_PENALTY = 100;
 int Eval_3::evaluate(int alpha, int beta) {
@@ -423,7 +414,6 @@ int Eval_3::evaluate(int alpha, int beta) {
   if (FALSE(show_evaluation_info)) cerr << "Value d: " << value << "\n";
   //value += opening_library_value();
   //if (FALSE(show_evaluation_info)) cerr << "Value e: " << value << "\n";
-  value += diverse();
   if (FALSE(show_evaluation_info)) cerr << "Value f: " << value << "\n";
 
   if (player) value = -value;
@@ -511,7 +501,7 @@ void Eval_3::init_piece_values() {
     for (int p=0; p<64; p++) {
       // 0 <= wking_center_dist <= 14
       int center_dist = abs(2*ROW[p] - 7) + abs(2*COLUMN[p] - 7);
-      
+
       // ()*() <= 64*14
       int bonus = ((game_phase_value-192)*(14-center_dist)) / 16;
 
@@ -628,7 +618,7 @@ void Eval_3::init_piece_values() {
       // keep king behind pawns
       int c = COLUMN[king_pos[WHITE]];
       int r = ROW[king_pos[WHITE]];
-    
+
       if (test(c, r+1)) piece_values[WPAWN][CR_TO_POS[c][r+1]] += p_e3;
       if (test(c, r+2)) piece_values[WPAWN][CR_TO_POS[c][r+2]] += p_e4;
       if (test(c-1, r)) piece_values[WPAWN][CR_TO_POS[c-1][r]] += p_f2;
@@ -647,7 +637,7 @@ void Eval_3::init_piece_values() {
       // keep king behind pawns
       int c = COLUMN[king_pos[BLACK]];
       int r = ROW[king_pos[BLACK]];
-    
+
       if (test(c, r-1)) piece_values[BPAWN][CR_TO_POS[c][r-1]] -= p_e3;
       if (test(c, r-2)) piece_values[BPAWN][CR_TO_POS[c][r-2]] -= p_e4;
       if (test(c-1, r)) piece_values[BPAWN][CR_TO_POS[c-1][r]] -= p_f2;
@@ -754,7 +744,7 @@ void Eval_3::init_piece_values() {
       piece_values[BPAWN][b6] -= p_3l;
       piece_values[BPAWN][c6] -= p_3l;
       //piece_values[BPAWN][d6] -= p_3l;
- 
+
       piece_values[BPAWN][f7] -= p_2s;
       piece_values[BPAWN][g7] -= p_2s;
       piece_values[BPAWN][h7] -= p_2s;
@@ -767,25 +757,25 @@ void Eval_3::init_piece_values() {
 
 void Eval_3::init_control_values() {
   const int _DEFAULT[64] =
-    {00, 20, 40, 60, 60, 40, 20, 00,
-     20, 40, 60, 70, 70, 60, 40, 20,
-     40, 60, 80, 90, 90, 80, 60, 40,
-     50, 75, 90, 99, 99, 90, 75, 50,
-     50, 75, 90, 99, 99, 90, 75, 50,
-     40, 60, 80, 90, 90, 80, 60, 40,
-     20, 40, 60, 70, 70, 60, 40, 20,
-     00, 20, 40, 60, 60, 40, 20, 00};
-  
+  {00, 20, 40, 60, 60, 40, 20, 00,
+      20, 40, 60, 70, 70, 60, 40, 20,
+      40, 60, 80, 90, 90, 80, 60, 40,
+      50, 75, 90, 99, 99, 90, 75, 50,
+      50, 75, 90, 99, 99, 90, 75, 50,
+      40, 60, 80, 90, 90, 80, 60, 40,
+      20, 40, 60, 70, 70, 60, 40, 20,
+      00, 20, 40, 60, 60, 40, 20, 00};
+
   // 255 - 99 = 156, 156/2 = 78
   // max distance = 7+7
   //const int BLAH[15] = {78, 70, 60, 30, 0, 0, 0,0,0,0,0,0,0,0,0};
 
   const int BLAH[4][4] =
-    {{78, 60, 30, 0},
-     {60, 50, 18, 0},
-     {30, 18, 5, 0},
-     {0, 0, 0, 0}};
-  
+  {{78, 60, 30, 0},
+      {60, 50, 18, 0},
+      {30, 18, 5, 0},
+      {0, 0, 0, 0}};
+
   for (int p=0; p<64; p++) {
     // king protection not important in opening game
     int king_protection_importance = min(game_phase_value, 1<<7);
@@ -813,7 +803,7 @@ void Eval_3::init_control_values() {
 
 inline bool Eval_3::passed_pawn(Position pos) {
   if (PIECE_KIND[board[pos]] != PAWN) return false;
-  
+
   if (board[pos]==WPAWN) {
     return !(pawn_bitboards[BLACK] & PASSED_PAWN_BITBOARDS[WHITE][pos]).as_bool();
   } else {
@@ -831,7 +821,7 @@ void Eval_3::insert_piece(Position pos, Piece piece) {
   if (board[pos]) {
     Piece piece = board[pos];
     piece_value -= piece_values[piece][pos];
-    
+
     if (PIECE_KIND[piece]==PAWN) {
       pawn_bitboards[PIECE_COLOR[piece]].clear_bit(pos);
     }

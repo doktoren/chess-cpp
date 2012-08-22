@@ -1,6 +1,7 @@
 #include "cpu_communication_module.hxx"
 
 #include <assert.h>
+#include <string.h>
 
 #include "streams.hxx"
 
@@ -43,19 +44,12 @@ bool MessageQueue::empty() {
   return first == last;
 }
 
-char* MessageQueue::top() {
-  assert(!empty());
-  
-  return &(mem[first * MAX_MESSAGE_SIZE]);
-}
-
-void MessageQueue::pop() {
+void MessageQueue::pop(char* destination) {
   if (empty()) {
     cerr << "Error: MessageQueue::pop(), but empty!\n";
     assert(0);
   }
-  
-  //cerr << "popping " << top() << "\n";
+  strcpy(destination, &(mem[first * MAX_MESSAGE_SIZE]));
   first = (first+1) % MAX_UNREAD_MESSAGES;
 }
 

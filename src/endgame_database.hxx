@@ -10,8 +10,6 @@ using namespace std;
 #include "endgame_table_bdd.hxx"
 #include "settings.hxx"
 
-#include "endgame_Nalimov.hxx"
-
 #include "endgame_values.hxx"
 
 
@@ -60,11 +58,6 @@ struct EndgameSettings : public SettingListener {
     square_enum_black_rook   = get_int("square_enum_black_rook");
     square_enum_black_queen  = get_int("square_enum_black_queen");
     square_enum_black_king   = get_int("square_enum_black_king");
-
-    // Nalimov stuff
-    active_endgame = get_int("active_endgame");
-    Nalimov_cache_size = get_int("Nalimov_cache_size");
-    Nalimov_directory = get_string("Nalimov_directory");
   }
 
   int *bdd_mate_depth_round_up_to_multiples_of_n;
@@ -105,11 +98,6 @@ struct EndgameSettings : public SettingListener {
   int *square_enum_black_rook;
   int *square_enum_black_queen;
   int *square_enum_black_king;
-
-  // Nalimov stuff
-  int *active_endgame;
-  int *Nalimov_cache_size;
-  char *Nalimov_directory;
 };
 
 extern EndgameSettings *endgame_settings;
@@ -194,10 +182,6 @@ public:
   triple<uint, uint, int> get_table_and_bdd_index_and_stm(const Board2 &board);
   pair<int, int> getModifiedOBDDIndexAndClusterValue(const Board2 &board);
   bool construct_from_table_index(Board2 &board, uint index, int pl);
-
-
-  void verify_against_Nalimov();
-  void cmp_random_probe_with_Nalimov(uint num_probes);
 
   void run_length_encode(int stm, int method = 2, bool map_dont_cares = true);
 
@@ -381,22 +365,11 @@ extern Endgames endgames;
 extern bool ENDGAME_TABLES_LOADED;
 
 
-bool clr_endgame_database(void *ignored, Board *board, ostream& os, vector<string> &p);
+bool clr_endgame_database(Board *board, ostream& os, vector<string> &p);
 
 inline bool endgame_table_index(Board2 &board, int &value) {
-  if (*(endgame_settings->active_endgame) == 1) {
-    if (board.get_num_pieces() > 6)
-      return false;
-    
-    vector<PiecePos> pp(board.get_num_pieces());
-    board.get_piece_list(pp);
-
-    value = index_Nalimov_egtb(pp, board.get_player(), board.en_passant_square());
-
-  } else {
-
-    if (board.get_num_pieces() > MAX_MEN)
-      return false;
+	if (board.get_num_pieces() > MAX_MEN)
+	  return false;
 
     if (!endgames.supported(board.get_endgame_hashing())) {
       assert(0);
@@ -407,15 +380,6 @@ inline bool endgame_table_index(Board2 &board, int &value) {
 
     value = endgames[board.get_endgame_hashing()][board];
 
-    /*
-    if (value != nalimov_value) {
-      cerr << "Error: value = " << value << ", Nalimov value = " << nalimov_value << "\n";
-      board.print_board(cerr);
-      assert(0);
-      exit(1);
-    }
-    */
-  }
 
   if (is_special_value(value)) {
     switch (value) {

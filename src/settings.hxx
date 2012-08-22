@@ -10,8 +10,6 @@
 
 #include "typedefs.hxx"
 
-using namespace std;
-
 // All settings should work such that the default value means "do nothing"
 #ifdef NDEBUG
 #define TEST(setting) false

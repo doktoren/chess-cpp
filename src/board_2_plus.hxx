@@ -8,11 +8,6 @@
 #include "move_set.hxx"
 #include "my_vector.hxx"
 
-// moved to static_exchange_evaluation
-//#define CAN_ATTACK (1<<4)
-//#define CAN_NON_ATTACK (1<<5)
-//#define FURTHER_MOVEMENT_POSSIBLE (1<<6)
-
 class Board2plus : public Board2 {
 public:
   // The constructor will NOT initialize to standard opening.
@@ -41,9 +36,7 @@ public:
   // set_board, loadFEN is remapping the piece numbers
   bool loadFEN(string FEN);
 
-
-
-  static bool clr_board2plus(void *ignored, Board *board, ostream &os, vector<string> &p);
+  static bool clr_board2plus(Board *board, ostream &os, vector<string> &p);
 
   bool king_capture_possible() {
     // king_capture_possible iff this player has control over enemy kings position

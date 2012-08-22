@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+#include "typedefs.hxx"
+
 using namespace std;
 
 struct Example_HashValue {

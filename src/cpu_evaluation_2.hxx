@@ -17,7 +17,7 @@ public:
   int fast_evaluate() { return evaluate(-INF, INF); }
 
   CommandLineReceiver* get_clr_evaluation() { return clr_evaluation; }
-  static bool clr_evaluation(void *ignored, Board *board, ostream& os, vector<string> &p);
+  static bool clr_evaluation(Board *board, ostream& os, vector<string> &p);
   void print_eval_stat(ostream& os);
 
 protected:

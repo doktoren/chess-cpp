@@ -22,7 +22,7 @@ Move Search_1::calculate_move(ostream& os) {
   return search.best_move();
 }
 
-bool Search_1::clr_search(void *ignored, Board *board, ostream& os, vector<string> &p) {
+bool Search_1::clr_search(Board *board, ostream& os, vector<string> &p) {
   Board *_b = reinterpret_cast<Board *>(board);
   Search_1 &b = *dynamic_cast<Search_1 *>(_b);
 

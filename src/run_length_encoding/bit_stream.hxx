@@ -10,30 +10,7 @@ using namespace std;
 typedef unsigned char uchar;
 typedef unsigned int uint;
 
-
 #include "../help_functions.hxx"
-/*
-extern const int uchar_log[256];
-
-// define log 0 = 0
-inline int floor_log(uint n) {
-  if (n & 0xFFFF0000) {
-    if (n & 0xFF000000) return 24 + uchar_log[n >> 24];
-    return 16 + uchar_log[n >> 16];
-  } else {
-    if (n & 0xFF00) return 8 + uchar_log[n >> 8];
-    return uchar_log[n];
-  }  
-}
-
-inline int ceil_log(uint n) {
-  if (n) return floor_log(n-1)+1;
-  return 0;
-}
-
-static const char HEX_CHAR[16]=
-{'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-*/
 
 struct n_bit {
   n_bit() : num_bits(0), value(0) {}
@@ -47,8 +24,6 @@ struct n_bit {
 };
 
 string toString(n_bit nb);
-
-//inline double log2(double d) { return log(d)/log(2.0); }
 
 static const int unary_length_specifier[7] =
 {2, 4, 7, 11, 16, 22, 32};

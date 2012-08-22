@@ -50,7 +50,7 @@ public:
   // game_status_reason is set by calling calc_game_status()
   int game_status_reason;
 
-  static bool clr_board2(void *ignored, Board *board, ostream& os, vector<string> &p);
+  static bool clr_board2(Board *board, ostream& os, vector<string> &p);
   void print_board(ostream& os) const;
 
   void print_king_threats(ostream& os);

@@ -33,32 +33,4 @@ private:
   Engine& operator=(const Engine&);
 };
 
-/*
-class DummyEngine : public Engine {
-public:
-  DummyEngine(CPU_CommunicationModule *comm = 0) : Engine(comm) {}
-  ~DummyEngine();
-
-  Move calculate_move(ostream& os) { return Move(); }
-
-  int root_evaluate() { return 0; }
-  int evaluate() { return evaluate(-INF, INF); }
-  int evaluate(int alpha, int beta) { return 0; }
-  // fast_evaluate typically counts pieces
-  int fast_evaluate() { return 0; }
-
-  CPU_CommunicationModule *comm;
-
-  CommandLineReceiver* get_clr_evaluation() { return 0; }
-  CommandLineReceiver* get_clr_search() { return 0; }
-protected:
-  void init_evaluation() {}
-
-private:
-  // Private to prevent copying:
-  DummyEngine(const Engine&);
-  DummyEngine& operator=(const Engine&);
-};
-*/
-
 #endif

@@ -16,7 +16,8 @@
 
 // Specified in .hxx:
 //BEGIN
-void *shared_mem;
+void *shared_mem_pool, *shared_mem_offset;
+int shared_mem_remaining;
 void init_shared_mem(int size);
 void* get_shared_mem(int size);
 
@@ -35,32 +36,28 @@ void init_shared_mem(int size) {
     cerr << "Could not create shared memory ID\n";
     exit(1);
   }
-  
+
   // Attach shared memory
-  shared_mem = shmat(shmid, 0, 0);
-  if (shared_mem == (char *)-1) {
+  shared_mem_pool = shmat(shmid, 0, 0);
+  if (shared_mem_pool == (char *)-1) {
     cerr << "Child (engine) could not attach shared memory pointer.\n";
     exit(1);
   }
-
-  *((int *)shared_mem) = (int)shared_mem + 8;
-  ((int *)shared_mem)[1] = size - 8;
+  shared_mem_offset = shared_mem_pool;
+  shared_mem_remaining = size;
 }
 
 void* get_shared_mem(int size) {
-  assert(size <= ((int *)shared_mem)[1]);
-
-  char *result = (char *)(*((int *)shared_mem));
-  *((int *)shared_mem) += size;
-  ((int *)shared_mem)[1] += size;
-
-  return (void *)result;
+  assert(size <= shared_mem_remaining);
+  void* result = shared_mem_offset;
+  shared_mem_offset = &(((char*)shared_mem_offset)[size]);
+  return result;
 }
 
 void detach_shared_memory() {
-  if (shmdt(shared_mem) == -1) {
+  if (shmdt(shared_mem_pool) == -1) {
     cerr << "Child (engine) could not detach from shared memory segment.\n";
-    cerr << "    (address = " << shared_mem << ")\n";
+    cerr << "    (address = " << shared_mem_pool << ")\n";
     //cerr << "    (errno = " << errno << ")\n";
     exit(1);
   }
@@ -72,14 +69,7 @@ void im_parant__kill_me() {
   int _status;
   wait(&_status);
 
-
-  // detach from shared memory
-  if (shmdt(shared_mem) == -1) {
-    cerr << "Parent could not detach from shared memory segment.\n";
-    cerr << "    (address = " << shared_mem << ")\n";
-    // cerr << "    (errno = " << errno << ")\n";
-    exit(1);
-  }
+  detach_shared_memory();
 
   // destroy shared memory
   int result = shmctl(shmid, IPC_RMID, 0);
@@ -98,7 +88,7 @@ bool spawn_listener() {
   not_called_before = false;
 
 
-  // cin is not proberly set to being unbuffered by this!
+  // cin is not properly set to being unbuffered by this!
   cout.setf(ios::unitbuf);
   //cout.rdbuf()->setbuf(NULL, 0);
   cin.setf(ios::unitbuf);
@@ -113,12 +103,6 @@ bool spawn_listener() {
   mq = new MessageQueue();
   comm = new CPU_CommunicationModule();
 
-  /*
-    // Initialize shared memory variables.
-    received_message = (bool *)shared_mem;
-    message = (char *)((int)shared_mem+4);
-  */
-
   // Spawn the thread
   child_thread = fork();
   if (child_thread == (pid_t)-1) {
@@ -126,27 +110,10 @@ bool spawn_listener() {
     exit(1);
   }
 
-  if (/*!*/child_thread) {
-    /*
-    // Attach shared memory
-    shared_mem = shmat(shmid, 0, 0);
-    if (shared_mem == (char *)-1) {
-      cerr << "Child (engine) could not attach shared memory pointer.\n";
-      exit(1);
-    }
-    */
-
+  if (child_thread) {
     // child process returns
     return true;
   }
-  /*
-  // Attach shared memory
-  shared_mem = shmat(shmid, 0, 0);
-  if (shared_mem == (char *)-1) {
-    cerr << "Parent (engine) could not attach shared memory pointer.\n";
-    exit(1);
-  }
-  */
 
   // Store incoming messages in file incoming.txt
 
@@ -155,27 +122,22 @@ bool spawn_listener() {
 
   string s;
   do {
-    cin.sync();
     s = "";
     getline(cin, s);
 
     if (s != "") {
-      out << s << "\n";
+      out << "Read " << s << "\n";
       if (!is_interrupt_message(s)) {
-	//cerr << "mq->push(" << s << ")\n";
-	if (!mq->push(s.c_str())) {
-	  cerr << "Error: spawn_listener: !mq->push(" << s << ")\n";
-	  assert(0);
-	}
+        //cerr << "mq->push(" << s << ")\n";
+        if (!mq->push(s.c_str())) {
+          cerr << "Error: spawn_listener: !mq->push(" << s << ")\n";
+          assert(0);
+        }
       }
+    } else {
+      // sleep for 100 ms
+      usleep(100000);
     }
-    
-    /*
-    while (*received_message) {
-      // sleep for 40 ms
-      usleep(40);
-    }
-    */
 
   } while (s != "quit");
 

@@ -1013,7 +1013,7 @@ index database
 //#############################################################
 
 
-bool Board::clr_board(void *ignored, Board *board, ostream& os, vector<string> &p) {
+bool Board::clr_board(Board *board, ostream& os, vector<string> &p) {
   Board *_b = reinterpret_cast<Board *>(board);
   Board &b = *dynamic_cast<Board *>(_b);
 

@@ -15,9 +15,9 @@ public:
   bool loadPGN(string filename);
 
 #ifdef PLUS
-  static bool clr_board3plus(void *ignored, Board *board, ostream& os, vector<string> &p);
+  static bool clr_board3plus(Board *board, ostream& os, vector<string> &p);
 #else
-  static bool clr_board3(void *ignored, Board *board, ostream& os, vector<string> &p);
+  static bool clr_board3(Board *board, ostream& os, vector<string> &p);
 #endif
 
   // from_move == 0  <=>  defined by show_last_num_moves

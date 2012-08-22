@@ -10,7 +10,7 @@ class TestSuite {
 public:
   TestSuite();
 
-  static bool clr_test_suite(void *ignored, Board *board, ostream& os, vector<string> &p);
+  static bool clr_test_suite(Board *board, ostream& os, vector<string> &p);
 
   static void test_load_pgns(string filename);
   static void test_all_pgns();

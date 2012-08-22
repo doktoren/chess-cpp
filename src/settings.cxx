@@ -5,6 +5,8 @@
 
 #include "help_functions.hxx"
 
+using namespace std;
+
 int string_count = 0;
 char *new_string(int allocated_size = 256) {
   ++string_count;

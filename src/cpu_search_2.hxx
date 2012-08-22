@@ -19,7 +19,7 @@ public:
 
   CommandLineReceiver* get_clr_search() { return clr_search; }
 
-  static bool clr_search(void *ignored, Board *board, ostream& os, vector<string> &p);
+  static bool clr_search(Board *board, ostream& os, vector<string> &p);
   void print_search_stat(ostream& os);
 
 protected:

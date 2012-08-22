@@ -113,8 +113,7 @@ public:
   MessageQueue();
   
   bool empty();
-  char* top();
-  void pop();
+  void pop(char *destination);
 
   bool push(const char *message);
 
@@ -125,7 +124,5 @@ private:
   char *mem;
   int first, last;
 };
-
-
 
 #endif

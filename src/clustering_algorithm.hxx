@@ -5,6 +5,8 @@ using namespace std;
 
 #include <vector>
 
+#include "typedefs.hxx"
+
 // elements[0..n-1][0..N-1], each element is a vector of N values
 // and represents a point in R^N.
 // Each element is assigned an weight >= 0

@@ -29,7 +29,7 @@ void Board2plus::reset_all() {
 }
 
 // More efficient impl than in board_2
-inline int Board2plus::calc_game_status_ignore_50_move_rule_and_move_repetition() {
+int Board2plus::calc_game_status_ignore_50_move_rule_and_move_repetition() {
   // Insufficient material left?
   // Sufficient material is:
   // a) a pawn, a rook or a queen
@@ -80,7 +80,7 @@ inline int Board2plus::calc_game_status_ignore_50_move_rule_and_move_repetition(
 
 // if this function returns true, and hash_value_after_move(move)
 // is found in transposition table, then the move is legal
-inline bool Board2plus::legal_move(Move& move) {
+bool Board2plus::legal_move(Move& move) {
   assert(legal_pos(move.from) && legal_pos(move.to) && board[move.from]);
 
   // Cannot move enemy pieces (error in line below)
@@ -189,7 +189,7 @@ inline bool Board2plus::legal_move(Move& move) {
 
 // The path must be obstacle free.
 // todo: define_move_type need only be set once for every piece
-inline void Board2plus::define_move_type(Move& move) {
+void Board2plus::define_move_type(Move& move) {
   // set move.special_move, move.blah
 
   assert(legal_pos(move.from) && legal_pos(move.to) && board[move.from]);
@@ -855,7 +855,7 @@ void Board2plus::init_see_list(MyVector<pair<Position, char> > &see_list, bool p
 
 
 
-bool Board2plus::clr_board2plus(void *ignored, Board *board, ostream &os, vector<string> &p) {
+bool Board2plus::clr_board2plus(Board *board, ostream &os, vector<string> &p) {
   Board *_b = reinterpret_cast<Board *>(board);
   Board2plus &b = *dynamic_cast<Board2plus *>(_b);
 
@@ -892,7 +892,7 @@ bool Board2plus::clr_board2plus(void *ignored, Board *board, ostream &os, vector
   } else if (dot_demand(p, 3, "test", "see", "list")) {
     b.see.test_see_list();
 
-  } else if (dot_demand(p, 4, "see", 1, 6, 6)) {
+  } else if (dot_demand(p, 4, "see", (ptr_int)1, (ptr_int)6, (ptr_int)6)) {
     Piece victim = PIECE_KIND[char_to_piece(parse_result[0][0])];
     if (victim) {
       ushort a = 0;
@@ -918,7 +918,7 @@ bool Board2plus::clr_board2plus(void *ignored, Board *board, ostream &os, vector
       cerr << "Invalid target!\n";
     }
 
-  } else if (dot_demand(p, 4, "see2", 1, 3, 3)) {
+  } else if (dot_demand(p, 4, "see2", (ptr_int)1, (ptr_int)3, (ptr_int)3)) {
     Piece victim = char_to_piece(parse_result[0][0]);
     int a = 100*(parse_result[1][0]-'0') + 10*(parse_result[1][1]-'0') + (parse_result[1][2]-'0');
     int d = 100*(parse_result[2][0]-'0') + 10*(parse_result[2][1]-'0') + (parse_result[2][2]-'0');

@@ -22,9 +22,9 @@ bool ClassName::loadPGN(string filename) {
 }
 
 #ifdef PLUS
-bool ClassName::clr_board3plus(void *ignored, Board *board, ostream& os, vector<string> &p)
+bool ClassName::clr_board3plus(Board *board, ostream& os, vector<string> &p)
 #else
-bool ClassName::clr_board3(void *ignored, Board *board, ostream& os, vector<string> &p)
+bool ClassName::clr_board3(Board *board, ostream& os, vector<string> &p)
 #endif
 {
   Board *_b = reinterpret_cast<Board *>(board);
