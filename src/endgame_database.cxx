@@ -862,7 +862,12 @@ bool EndgameFunctionality::name_match(string name_pattern) {
   return match;
 }
 
-
+/**
+ * Returns
+ * 0 for an illegal position
+ * 1 for an unreachable position
+ * 2 for a legal position
+ */
 int EndgameFunctionality::legal_position(int player, int table_index) {
   Board2 board;
   vector<PiecePos> piece_list(num_pieces);

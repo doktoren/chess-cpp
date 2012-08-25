@@ -13,7 +13,6 @@
 template <class TYPE>
 class HuffTreeNode;
 
-// To do: Pak denne struct ind
 struct WHC {
   WHC() : w(0), h(0), c(0) {}
   WHC(int w, int h, int c) : w(w), h(h), c(c) {}
@@ -25,6 +24,7 @@ template <class TYPE, class ElementStreamer = DefaultElementStreamer<TYPE> >
 class Huffman {
 public:
   Huffman();
+  ~Huffman() { delete tree; }
 
   void init(const vector<pair<TYPE, float> > &distribution, bool makeCanonical = false);
   Huffman(const vector<pair<TYPE, float> > &distribution, bool makeCanonical = false);
@@ -37,8 +37,6 @@ public:
   Huffman(ibstream<INPUT_MODEL> &in);
   template<class INPUT_MODEL>
   void init(ibstream<INPUT_MODEL> &in);
-
-  ~Huffman() { delete tree; }
 
   // This description is what is being read by the constructor.
   template<class OUTPUT_MODEL>

@@ -4,7 +4,7 @@
 class BinaryRunLengthEncoder {
 public:
   BinaryRunLengthEncoder(obstream *out) : out(out), init(false) {}
-  
+
   void addBit(bool bit) {
     if (!init) {
       init = true;
@@ -22,7 +22,7 @@ public:
       count = 1;
     }
   }
-  
+
   void finalize() {
     if (init) {
       out->writeArbitraryNumber(count);
@@ -52,7 +52,7 @@ public:
     --count;
     return last_bit;
   }
-  
+
 private:
   int count;
   bool last_bit;

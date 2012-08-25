@@ -1,3 +1,4 @@
+
 #ifdef ALLOW_5_MEN_ENDGAME
 if (num_pieces == 5) {
   cerr << "################################################################\n"
@@ -37,36 +38,7 @@ for (int player=0; player<(symmetric_endgame ? 1 : 2); player++) {
 
   for (uint i=0; i<table_size; i++) {
     (*decompress_table_index)(i, piece_list);
-
-    //cerr << "decompress_table_index_en_passant: " << decompress_table_index_en_passant << "\n";
-
-    /*
-#include "board_define_position_constants.hxx"
-      bool test = (piece_list[0].pos == a1)  &&  (piece_list[1].pos == a4)  &&
-	(piece_list[2].pos == e1)  &&  (piece_list[3].pos == b4);
-#include "board_undef_position_constan			 int &_castling, int &_en_passant,// use 0, ILLEGAL_POS as default
-			 int _moves_played_since_progress = 0, int full_move_number = 1);ts.hxx"
-      if (test) cerr << "Interesting position: index = " << i << "\n";
-     */
-
     bool legal_position = board.set_board(piece_list, player);
-
-    /* No need to trash unreachable positions in the table.
-	 They are trashed when constructing the bdd instead.
-      if (legal_position  &&  board.unreachable_position()  &&
-     *(endgame_settings->trash_unreachable_positions)) {
-	board.print_board(big_output);
-	legal_position = false;
-      }
-     */
-
-    /*
-      cerr << "index = " << i << ", position = ";
-      for (uint j=0; j<piece_list.size(); j++)
-	cerr << POS_NAME[piece_list[j].pos] << ", ";
-      cerr << "player = " << player << "\n";
-     */
-
     if (legal_position) {
       int status;
       switch (status = board.calc_game_status()) {
@@ -110,15 +82,6 @@ for (int player=0; player<(symmetric_endgame ? 1 : 2); player++) {
     } else {
 
       table[player][i] = ENDGAME_TABLE_ILLEGAL;
-
-      /*
-	if (i==258376) {
-	  cerr << "Illegal position:\n(k1,p1,p2,k2,p3)=(" << POS_NAME[piece_list[0].pos] << ", "
-	  << POS_NAME[piece_list[1].pos] << ", " << POS_NAME[piece_list[2].pos] << ", "
-	  << POS_NAME[piece_list[3].pos] << ", " << POS_NAME[piece_list[4].pos]
-	  << "), player = " << player << "\n";
-	}
-       */
     }
   }
 }
