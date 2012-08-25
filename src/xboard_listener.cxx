@@ -12,7 +12,7 @@
 #include <stdio.h>
 
 #include "xboard_listener.hxx"
-#include "cpu_communication_module.hxx"
+#include "engine/cpu_communication_module.hxx"
 
 // Specified in .hxx:
 //BEGIN

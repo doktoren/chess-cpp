@@ -2,7 +2,7 @@
 
 #include <assert.h>
 
-#include "help_functions.hxx"
+#include "util/help_functions.hxx"
 #include "board_define_position_constants.hxx"
 #include "board_move_tables.hxx"
 #include "board_tables.hxx"

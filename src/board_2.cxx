@@ -3,11 +3,11 @@
 #include <assert.h>
 #include <bitset>
 
-#include "help_functions.hxx"
+#include "util/help_functions.hxx"
 #include "board_move_tables.hxx"
 #include "board_2_king_lines.hxx"
 #include "board_define_position_constants.hxx"
-#include "endgame_castling.hxx"
+#include "endgames/endgame_castling.hxx"
 
 #define INVALID_DIRECTION 16
 #define KNIGHT_DIRECTION 8

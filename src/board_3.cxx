@@ -4,7 +4,7 @@
 #include "board_move_tables.hxx"
 #include "file_loader.hxx"
 
-#include "hash_table.hxx"
+#include "util/hash_table.hxx"
 
 ostream& operator<<(ostream& os, const RepetitionInfo& rep) {
   os << "NumRep(" << rep.num_repetitions << ')';

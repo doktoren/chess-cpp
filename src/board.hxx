@@ -6,7 +6,7 @@
 #include <assert.h>
 
 #include "typedefs.hxx"
-#include "help_functions.hxx"
+#include "util/help_functions.hxx"
 #include "parser.hxx"
 
 #define PRINT_CONSTRUCTOR_DESTRUCTOR_CALLS false

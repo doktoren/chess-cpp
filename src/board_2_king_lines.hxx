@@ -3,8 +3,6 @@
 
 #include "board_tables.hxx"
 
-// The line below does not work if a certain optimization is on
-//#define checktable(pa, pl) (CHECK_TABLE[((ushort *)(&(pa)))[pl]])
 #define checktable(pa, pl) (CHECK_TABLE[(pl) ? ((pa) >> 16) : ((pa) & 0xFFFF)])
 
 // board_king_lines contains functionality to maintain the

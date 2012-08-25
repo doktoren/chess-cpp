@@ -1,6 +1,6 @@
 #include "hash_value.hxx"
 
-#include "help_functions.hxx"
+#include "util/help_functions.hxx"
 
 ostream& operator<<(ostream& os, const HashValue& hash_value) {
   os << "HashValue(" << toString(hash_value.low, 8, 16) << ','

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <fstream>
 
-#include "help_functions.hxx"
+#include "util/help_functions.hxx"
 
 using namespace std;
 

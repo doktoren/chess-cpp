@@ -1,9 +1,9 @@
 #include "test_suite.hxx"
 
 #include "file_loader.hxx"
-#include "help_functions.hxx"
+#include "util/help_functions.hxx"
 
-#include "cpu_engines.hxx"
+#include "engine/cpu_engines.hxx"
 
 #include <map>
 #include <queue>

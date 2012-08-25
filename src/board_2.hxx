@@ -2,7 +2,7 @@
 #define _BOARD_2_
 
 #include "move_and_undo.hxx"
-#include "unsigned_long_long.hxx"
+#include "util/unsigned_long_long.hxx"
 
 #include "board.hxx"
 

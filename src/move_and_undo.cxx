@@ -3,7 +3,7 @@
 
 #include "move_and_undo.hxx"
 
-#include "help_functions.hxx"
+#include "util/help_functions.hxx"
 
 ostream& operator<<(ostream& os, const Move& move) {
   switch (move.blah&7) {

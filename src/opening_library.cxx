@@ -1,7 +1,7 @@
 #include "opening_library.hxx"
 
 #include "board_3.hxx"
-#include "hash_table.hxx"
+#include "util/hash_table.hxx"
 
 OpeningLibrary *opening_library;
 

@@ -105,20 +105,5 @@ inline struct_cbo& operator<<(struct_cbo& os, const TYPE& type) {
   return os;
 }
 extern struct_cbo cbo;
-/*
-inline struct_cbo& operator<<(struct_cbo& os, const string& str) {
-  cout << str;
-  return os;
-}
-inline struct_cbo& operator<<(struct_cbo& os, const char* str) {
-  //cout << "#const char*#";
-  return os << string(str);
-}
-inline struct_cbo& operator<<(struct_cbo& os, const char& ch) {
-  //cout << "#const char&#";
-  return os << string(ch, 1);
-}
-*/
-
 
 #endif

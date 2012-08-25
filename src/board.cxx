@@ -4,8 +4,8 @@
 
 #include "board.hxx"
 
-#include "endgame_castling.hxx"
-#include "endgame_en_passant.hxx"
+#include "endgames/endgame_castling.hxx"
+#include "endgames/endgame_en_passant.hxx"
 
 const bool WHITE_PIECE[13] =
 {   false,

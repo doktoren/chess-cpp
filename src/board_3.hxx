@@ -1,7 +1,7 @@
 #ifndef _BOARD_3_
 #define _BOARD_3_
 
-#include "hash_table.hxx"
+#include "util/hash_table.hxx"
 #include "hash_value.hxx"
 
 #include "board_2.hxx"

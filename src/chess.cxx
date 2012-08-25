@@ -6,14 +6,14 @@
 #include <unistd.h>
 
 #include "xboard_listener.hxx"
-#include "cpu_engines.hxx"
+#include "engine/cpu_engines.hxx"
 #include "file_loader.hxx"
 #include "opening_library.hxx"
 #include "parser.hxx"
-#include "endgame_database.hxx"
-#include "endgame_table_bdd.hxx"
+#include "endgames/endgame_database.hxx"
+#include "compression/endgame_table_bdd.hxx"
 #include "test_suite.hxx"
-#include "endgame_piece_enumerations.hxx"
+#include "compression/endgame_piece_enumerations.hxx"
 
 // By making a pointer to cpu, fork() will not duplicate it.
 int search_version;

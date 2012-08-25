@@ -5,7 +5,7 @@
 #include <map>
 
 #include "board_2.hxx"
-#include "hash_table.hxx"
+#include "util/hash_table.hxx"
 #include "hash_value.hxx"
 #include "transposition_table_content.hxx"
 
