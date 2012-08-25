@@ -178,7 +178,6 @@ extern const string ROW_NAME[66];
 
 inline Piece char_to_piece(char ch) {
   switch(ch) {
-    // case ' ': return 0; break;
   case 'P': return WPAWN; break;
   case 'N': return WKNIGHT; break;
   case 'B': return WBISHOP; break;
@@ -213,9 +212,6 @@ inline int inv_reflect(int pos, int inv_refl) {
 //################################
 
 #define board_iterate(p) for(Position p=0; legal_pos(p); ++p)
-
-// So far, only CV_normal supported
-enum ChessVariant {CV_normal, CV_wildcastle, CV_nocastle, CV_fisherandom, CV_bughouse, CV_crazyhouse, CV_losers, CV_suicide, CV_giveaway, CV_twokings, CV_kriegspiel, CV_atomic, CV_3check, CV_unknown};
 
 // See also board_position_constants.hxx
 
@@ -406,7 +402,7 @@ struct Error {
   Error() {}
   Error(string name) : name(name) {}
   void print(ostream &os) {
-    os << "The error \"" << name << "\" has occured\n";
+    os << "The error \"" << name << "\" has occurred\n";
   }
   string name;
 };
@@ -605,9 +601,6 @@ protected:
     }
   }
   */
-
-  // So far only CV_normal supported
-  ChessVariant variant;
 
   union {
     struct {

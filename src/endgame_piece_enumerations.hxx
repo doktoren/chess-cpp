@@ -10,7 +10,7 @@ void verify_piece_enumerations();
 struct IndexRefl {
   IndexRefl() : index(-1) {}
   IndexRefl(int index, int refl) : index(index), refl(refl) {}
-  
+
   bool is_valid() { return index != -1; }
 
   int index;
@@ -52,9 +52,9 @@ struct BDDIndexRefl {
   uchar free_king() { return free_k; }
 
   uchar remapped_bound_king() { return remapped_bound_k; }
-  
+
   bool is_valid() { return valid; }
-  
+
   // if pawnless endgame then 0<=index<1024, else 0<=index<2048
   int index() {
     return (remapped_bound_king() << 6) | free_king();
@@ -203,6 +203,6 @@ void verify_ppp_compress();
 
 #endif
 
-void latex_print_king_fs_indeces(ostream &os);
+void latex_print_king_fs_indexes(ostream &os);
 
 #endif

@@ -8,8 +8,6 @@
 #define ENDGAME_TABLE_ILLEGAL -128
 inline bool is_special_value(int val) { return val <= -124; }
 
-string endgame_value_to_string(char v);
-
 // -123 <= a,b <= 124 or they can represent a draw:
 // return negative if a worse than b, 0 if equal, positive otherwise
 inline int endgame_cmp(char a, char b) {

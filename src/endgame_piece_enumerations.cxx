@@ -30,7 +30,7 @@ bool piece_overlap(int num_pieces, ...) {
 +  1  9 10 11 11 10  9  1 +
 +  0  1  2  3  3  2  1  0 +
 +++++++++++++++++++++++++++
-*/
+ */
 
 /*
 Has been moved to board.?xx
@@ -60,7 +60,7 @@ void init_reflection_table() {
     cerr << (int)REFLECTION_TABLE[i];
   cerr << "};\n\n";
 }
-*/
+ */
 
 
 int XX_COMPRESS[64*64];// XX_compress[(j<<6)|i], j<i
@@ -119,15 +119,15 @@ void init_XXX_tables() {
 
   for (int p1=0; p1<62; p1++)
     XXX_COMPRESS_P1[p1] = (11531*p1-186*p1*p1+p1*p1*p1)/6;
-  
+
   for (int p2=0; p2<63; p2++)
     XXX_COMPRESS_P2_MINUS_64[p2] = (125*p2-p2*p2)/2 - 64;
 
   for (int p1=0; p1<62; p1++)
     for (int p2=p1+1; p2<63; p2++)
       for (int p3=p2+1; p3<64; p3++)
-	XXX_DECOMPRESS[xxx_compress(p1, p2, p3)] =
-	  triple<Position, Position, Position>(p1,p2,p3);
+        XXX_DECOMPRESS[xxx_compress(p1, p2, p3)] =
+            triple<Position, Position, Position>(p1,p2,p3);
 }
 
 
@@ -147,8 +147,8 @@ void init_PPP_tables() {
   for (int pawn1=8; pawn1<54; pawn1++)
     for (int pawn2=pawn1+1; pawn2<55; pawn2++)
       for (int pawn3=pawn2+1; pawn3<56; pawn3++)
-	PPP_DECOMPRESS[ppp_compress(pawn1, pawn2, pawn3)] =
-	  triple<Position, Position, Position>(pawn1,pawn2,pawn3);
+        PPP_DECOMPRESS[ppp_compress(pawn1, pawn2, pawn3)] =
+            triple<Position, Position, Position>(pawn1,pawn2,pawn3);
 }
 
 #endif
@@ -181,7 +181,7 @@ void init_king_full_symmetry() {
   // 2: horizontal reflection
   // 4: diagonal reflection
   int REFLECTION[64] =
-    { 0, 0, 0, 0, 1, 1, 1, 1,
+  { 0, 0, 0, 0, 1, 1, 1, 1,
       4, 0, 0, 0, 1, 1, 1, 5,
       4, 4, 0, 0, 1, 1, 5, 5,
       4, 4, 4, 0, 1, 5, 5, 5,
@@ -189,7 +189,7 @@ void init_king_full_symmetry() {
       6, 6, 2, 2, 3, 3, 7, 7,
       6, 2, 2, 2, 3, 3, 3, 7,
       2, 2, 2, 2, 3, 3, 3, 3 };
-  
+
   map<pair<int,int>, int> tmp;
   int number = 0;
 
@@ -206,34 +206,34 @@ void init_king_full_symmetry() {
 
 
       if (kings_too_near(white_king, black_king)) {
-	// discarded
-	king_full_symmetry(white_king, black_king) = IndexRefl(-1, 0);
+        // discarded
+        king_full_symmetry(white_king, black_king) = IndexRefl(-1, 0);
       } else {
-	
-	int refl = REFLECTION[bound_king];
 
-	int bound_pos = reflect(bound_king, refl);
-	int free_pos = reflect(free_king, refl);
-	if (ROW[bound_pos]==COLUMN[bound_pos]  &&
-	    ROW[free_pos]>COLUMN[free_pos]) {
-	  refl += 4;
-	  free_pos = reflect(free_pos, 4);
-	}
+        int refl = REFLECTION[bound_king];
+
+        int bound_pos = reflect(bound_king, refl);
+        int free_pos = reflect(free_king, refl);
+        if (ROW[bound_pos]==COLUMN[bound_pos]  &&
+            ROW[free_pos]>COLUMN[free_pos]) {
+          refl += 4;
+          free_pos = reflect(free_pos, 4);
+        }
 
 #if BOUND_KING==1
-	pair<int, int> index(free_pos, bound_pos);
+        pair<int, int> index(free_pos, bound_pos);
 #else
-	pair<int, int> index(bound_pos, free_pos);
+        pair<int, int> index(bound_pos, free_pos);
 #endif
 
-	if (tmp.count(index)==0) {
-	  if (print_pairs)
-	    cerr << '(' << POS_NAME[index.first] << ", " << POS_NAME[index.second] << "), ";
-	  KING_FS_POS[number] = index;
-	  tmp[index] = ++number;
-	}
-	
-	king_full_symmetry(white_king, black_king) = IndexRefl(tmp[index]-1, refl);
+        if (tmp.count(index)==0) {
+          if (print_pairs)
+            cerr << '(' << POS_NAME[index.first] << ", " << POS_NAME[index.second] << "), ";
+          KING_FS_POS[number] = index;
+          tmp[index] = ++number;
+        }
+
+        king_full_symmetry(white_king, black_king) = IndexRefl(tmp[index]-1, refl);
       }
     }
 
@@ -245,9 +245,9 @@ void init_king_full_symmetry() {
     for (int black_king=0; black_king<64; black_king++) {
       IndexRefl ir = king_full_symmetry(white_king, black_king);
       if (ir.is_valid()) {
-	bdd_king_full_symmetry(white_king, black_king) = BDDIndexRefl(KING_FS_POS[ir.index], ir.refl);
+        bdd_king_full_symmetry(white_king, black_king) = BDDIndexRefl(KING_FS_POS[ir.index], ir.refl);
       } else {
-	bdd_king_full_symmetry(white_king, black_king).valid = false;
+        bdd_king_full_symmetry(white_king, black_king).valid = false;
       }
     }
   }
@@ -257,31 +257,31 @@ void verify_king_full_symmetry() {
   for (int white_king=0; white_king<64; white_king++) {
     for (int black_king=0; black_king<64; black_king++) {
       if (!kings_too_near(white_king, black_king)) {
-	IndexRefl ir = king_full_symmetry(white_king,black_king);
-	pair<Position, Position> wblack_king = KING_FS_POS[ir.index];
+        IndexRefl ir = king_full_symmetry(white_king,black_king);
+        pair<Position, Position> wblack_king = KING_FS_POS[ir.index];
 
-	int _white_king = reflect(white_king, ir.refl);
-	int _black_king = reflect(black_king, ir.refl);
+        int _white_king = reflect(white_king, ir.refl);
+        int _black_king = reflect(black_king, ir.refl);
 
-	if (wblack_king.first != _white_king  ||  wblack_king.second != _black_king) {
-	  cerr << "Error: k1k2 = (" << POS_NAME[wblack_king.first] << ','
-	       << POS_NAME[wblack_king.second]
-	       << "), (k1,k2) = (" << POS_NAME[white_king] << ',' << POS_NAME[black_king]
-	       << "), (_k1,_k2) = (" << POS_NAME[_white_king] << ',' << POS_NAME[_black_king]
-	       << "), index = " << ir.index << ", refl = " << ir.refl << "\n";
-	}
+        if (wblack_king.first != _white_king  ||  wblack_king.second != _black_king) {
+          cerr << "Error: k1k2 = (" << POS_NAME[wblack_king.first] << ','
+              << POS_NAME[wblack_king.second]
+                          << "), (k1,k2) = (" << POS_NAME[white_king] << ',' << POS_NAME[black_king]
+                                                                                         << "), (_k1,_k2) = (" << POS_NAME[_white_king] << ',' << POS_NAME[_black_king]
+                                                                                                                                                           << "), index = " << ir.index << ", refl = " << ir.refl << "\n";
+        }
 
-	BDDIndexRefl bir = bdd_king_full_symmetry(white_king, black_king);
-	assert(bir.is_valid());
-	assert(reflect(white_king, bir.refl) == bir.white_king());
-	assert(reflect(black_king, bir.refl) == bir.black_king());
+        BDDIndexRefl bir = bdd_king_full_symmetry(white_king, black_king);
+        assert(bir.is_valid());
+        assert(reflect(white_king, bir.refl) == bir.white_king());
+        assert(reflect(black_king, bir.refl) == bir.black_king());
       }
     }
   }
 }
 
 
-void latex_print_king_fs_indeces(ostream &os) {
+void latex_print_king_fs_indexes(ostream &os) {
   string l[64];
   for (int white_king=0; white_king<64; white_king++) {
     os << "White king on " << POS_NAME[white_king] << '\n';
@@ -290,12 +290,12 @@ void latex_print_king_fs_indeces(ostream &os) {
       int index = ir.index;
       if (index == -1) l[black_king] = "-";
       else {
-	l[black_king] = toString(index);
-	string tmp = " ---";
-	if (ir.refl & 1) tmp[1] = 'v';
-	if (ir.refl & 2) tmp[2] = 'h';
-	if (ir.refl & 4) tmp[3] = 'd';
-	l[black_king] += tmp;
+        l[black_king] = toString(index);
+        string tmp = " ---";
+        if (ir.refl & 1) tmp[1] = 'v';
+        if (ir.refl & 2) tmp[2] = 'h';
+        if (ir.refl & 4) tmp[3] = 'd';
+        l[black_king] += tmp;
       }
     }
     print_latex_string_map64(os, l, 7);
@@ -308,12 +308,12 @@ void latex_print_king_fs_indeces(ostream &os) {
       int index = ir.index;
       if (index == -1) l[white_king] = "-";
       else {
-	l[white_king] = toString(index);
-	string tmp = " ---";
-	if (ir.refl & 1) tmp[1] = 'v';
-	if (ir.refl & 2) tmp[2] = 'h';
-	if (ir.refl & 4) tmp[3] = 'd';
-	l[white_king] += tmp;
+        l[white_king] = toString(index);
+        string tmp = " ---";
+        if (ir.refl & 1) tmp[1] = 'v';
+        if (ir.refl & 2) tmp[2] = 'h';
+        if (ir.refl & 4) tmp[3] = 'd';
+        l[white_king] += tmp;
       }
     }
     print_latex_string_map64(os, l, 7);
@@ -356,21 +356,21 @@ void init_king_pawn_symmetry() {
 #endif
 
       if (kings_too_near(white_king, black_king)) {
-	// discarded
-	king_pawn_symmetry(white_king, black_king) = IndexRefl(-1, 0);
+        // discarded
+        king_pawn_symmetry(white_king, black_king) = IndexRefl(-1, 0);
       } else {
 
-	int refl = COLUMN[bound_king]>3 ? 1 : 0;
-	pair<int, int> index(reflect(white_king, refl), reflect(black_king, refl));
+        int refl = COLUMN[bound_king]>3 ? 1 : 0;
+        pair<int, int> index(reflect(white_king, refl), reflect(black_king, refl));
 
-	if (tmp.count(index)==0) {
-	  if (print_pairs)
-	    cerr << '(' << POS_NAME[index.first] << ", " << POS_NAME[index.second] << "), ";
-	  KING_PS_POS[number] = index;
-	  tmp[index] = ++number;
-	}
-	
-	king_pawn_symmetry(white_king, black_king) = IndexRefl(tmp[index]-1, refl);
+        if (tmp.count(index)==0) {
+          if (print_pairs)
+            cerr << '(' << POS_NAME[index.first] << ", " << POS_NAME[index.second] << "), ";
+          KING_PS_POS[number] = index;
+          tmp[index] = ++number;
+        }
+
+        king_pawn_symmetry(white_king, black_king) = IndexRefl(tmp[index]-1, refl);
       }
     }
 
@@ -381,11 +381,11 @@ void init_king_pawn_symmetry() {
     for (int black_king=0; black_king<64; black_king++) {
       IndexRefl ir = king_pawn_symmetry(white_king, black_king);
       if (ir.is_valid()) {
-	assert(ir.refl==0  ||  ir.refl==1);
-	bdd_king_pawn_symmetry(white_king, black_king) =
-	  BDDIndexRefl(KING_PS_POS[ir.index], ir.refl);
+        assert(ir.refl==0  ||  ir.refl==1);
+        bdd_king_pawn_symmetry(white_king, black_king) =
+            BDDIndexRefl(KING_PS_POS[ir.index], ir.refl);
 
-	/*
+        /*
 	cerr << "ir.refl = " << ir.refl << "\n";
 	cerr << (int)KING_PS_POS[ir.index].first << " = KING_PS_POS[" << ir.index << "].first =?= "
 	     << "bdd_king_pawn_symmetry(" << white_king << ", " << black_king << ").white_king() = "
@@ -393,21 +393,21 @@ void init_king_pawn_symmetry() {
 	cerr << (int)KING_PS_POS[ir.index].second << " = KING_PS_POS[" << ir.index << "].second =?= "
 	     << "bdd_king_pawn_symmetry(" << white_king << ", " << black_king << ").black_king() = "
 	     << (int)bdd_king_pawn_symmetry(white_king, black_king).black_king() << "\n";
-	*/
-	assert(KING_PS_POS[ir.index].first ==
-	       bdd_king_pawn_symmetry(white_king, black_king).white_king());
-	assert(KING_PS_POS[ir.index].second ==
-	       bdd_king_pawn_symmetry(white_king, black_king).black_king());
+         */
+        assert(KING_PS_POS[ir.index].first ==
+            bdd_king_pawn_symmetry(white_king, black_king).white_king());
+        assert(KING_PS_POS[ir.index].second ==
+            bdd_king_pawn_symmetry(white_king, black_king).black_king());
 
-	assert(KING_PS_POS[ir.index].first == reflect(white_king, ir.refl));
-	assert(KING_PS_POS[ir.index].second == reflect(black_king, ir.refl));
+        assert(KING_PS_POS[ir.index].first == reflect(white_king, ir.refl));
+        assert(KING_PS_POS[ir.index].second == reflect(black_king, ir.refl));
 
-	assert(bdd_king_pawn_symmetry(white_king, black_king).white_king() ==
-	       reflect(white_king, ir.refl));
-	assert(bdd_king_pawn_symmetry(white_king, black_king).black_king() ==
-	       reflect(black_king, ir.refl));
+        assert(bdd_king_pawn_symmetry(white_king, black_king).white_king() ==
+            reflect(white_king, ir.refl));
+        assert(bdd_king_pawn_symmetry(white_king, black_king).black_king() ==
+            reflect(black_king, ir.refl));
       } else {
-	bdd_king_pawn_symmetry(white_king, black_king).valid = false;
+        bdd_king_pawn_symmetry(white_king, black_king).valid = false;
       }
     }
   }
@@ -417,33 +417,33 @@ void verify_king_pawn_symmetry() {
   for (int white_king=0; white_king<64; white_king++) {
     for (int black_king=0; black_king<64; black_king++) {
       if (!kings_too_near(white_king, black_king)) {
-	IndexRefl ir = KING_PAWN_SYMMETRY[(white_king << 6) | black_king];
-	pair<Position, Position> wblack_king = KING_PS_POS[ir.index];
-	
-	int _white_king = reflect(white_king, ir.refl);
-	int _black_king = reflect(black_king, ir.refl);
-	
-	if (wblack_king.first != _white_king  ||  wblack_king.second != _black_king) {
-	  cerr << "Error: wblack_king = (" << POS_NAME[wblack_king.first] << ','
-	       << POS_NAME[wblack_king.second] << "), (white_king,black_king) = ("
-	       << POS_NAME[white_king] << ',' << POS_NAME[black_king]
-	       << "), (_white_king,_black_king) = (" << POS_NAME[_white_king]
-	       << ',' << POS_NAME[_black_king]
-	       << "), index = " << ir.index << ", refl = " << ir.refl << "\n";
-	}
-	
-	
-	BDDIndexRefl bir = bdd_king_pawn_symmetry(white_king, black_king);
-	if (!bir.is_valid()  ||
-	    reflect(white_king, bir.refl) != bir.white_king()  ||
-	    reflect(black_king, bir.refl) != bir.black_king()) {
-	  cerr << "verify_king_pawn_symmetry error:\n"
-	       << "white_king = " << white_king << ", black_king = "
-	       << black_king << ", bir.refl = " << (int)bir.refl
-	       << ", bir.white_king = " << (int)bir.white_king()
-	       << ", bir.black_king = " << (int)bir.black_king() << "\n";
-	  assert(0);
-	}
+        IndexRefl ir = KING_PAWN_SYMMETRY[(white_king << 6) | black_king];
+        pair<Position, Position> wblack_king = KING_PS_POS[ir.index];
+
+        int _white_king = reflect(white_king, ir.refl);
+        int _black_king = reflect(black_king, ir.refl);
+
+        if (wblack_king.first != _white_king  ||  wblack_king.second != _black_king) {
+          cerr << "Error: wblack_king = (" << POS_NAME[wblack_king.first] << ','
+              << POS_NAME[wblack_king.second] << "), (white_king,black_king) = ("
+              << POS_NAME[white_king] << ',' << POS_NAME[black_king]
+                                                         << "), (_white_king,_black_king) = (" << POS_NAME[_white_king]
+                                                                                                           << ',' << POS_NAME[_black_king]
+                                                                                                                              << "), index = " << ir.index << ", refl = " << ir.refl << "\n";
+        }
+
+
+        BDDIndexRefl bir = bdd_king_pawn_symmetry(white_king, black_king);
+        if (!bir.is_valid()  ||
+            reflect(white_king, bir.refl) != bir.white_king()  ||
+            reflect(black_king, bir.refl) != bir.black_king()) {
+          cerr << "verify_king_pawn_symmetry error:\n"
+              << "white_king = " << white_king << ", black_king = "
+              << black_king << ", bir.refl = " << (int)bir.refl
+              << ", bir.white_king = " << (int)bir.white_king()
+              << ", bir.black_king = " << (int)bir.black_king() << "\n";
+          assert(0);
+        }
       }
     }
   }
@@ -475,13 +475,13 @@ void verify_xxx_compress() {
   for (int i3=2; i3<64; i3++)
     for (int i2=1; i2<i3; i2++)
       for (int i1=0; i1<i2; i1++) {
-	int i = xxx_compress(i1, i2, i3);
-	triple<Position, Position, Position> t = XXX_DECOMPRESS[i];
-	if (i1 != t.first || i2 != t.second || i3 != t.third) {
-	  cerr << "Error: verify_xxx_compress()\n";
-	  assert(0);
-	  exit(1);
-	}
+        int i = xxx_compress(i1, i2, i3);
+        triple<Position, Position, Position> t = XXX_DECOMPRESS[i];
+        if (i1 != t.first || i2 != t.second || i3 != t.third) {
+          cerr << "Error: verify_xxx_compress()\n";
+          assert(0);
+          exit(1);
+        }
       }
 }
 
@@ -491,13 +491,13 @@ void verify_ppp_compress() {
   for (int i3=10; i3<56; i3++)
     for (int i2=9; i2<i3; i2++)
       for (int i1=8; i1<i2; i1++) {
-	int i = ppp_compress(i1, i2, i3);
-	triple<Position, Position, Position> t = PPP_DECOMPRESS[i];
-	if (i1 != t.first || i2 != t.second || i3 != t.third) {
-	  cerr << "Error: verify_ppp_compress()\n";
-	  assert(0);
-	  exit(1);
-	}
+        int i = ppp_compress(i1, i2, i3);
+        triple<Position, Position, Position> t = PPP_DECOMPRESS[i];
+        if (i1 != t.first || i2 != t.second || i3 != t.third) {
+          cerr << "Error: verify_ppp_compress()\n";
+          assert(0);
+          exit(1);
+        }
       }
 }
 #endif

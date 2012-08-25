@@ -4,7 +4,7 @@
 
 // MAX_MEN must be 4 or 5
 // The files generated will be the same no matter if MAX_MEN is 4 or 5.
-#define MAX_MEN 4
+#define MAX_MEN 5
 #if MAX_MEN >= 5
 #define ALLOW_5_MEN_ENDGAME
 #endif

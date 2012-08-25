@@ -9,7 +9,8 @@ MODS = board.o endgame_table_bdd.o mapping_of_wildcards.o \
 endgame_run_length_encoding.o run_length_encoding/bit_stream.o \
 endgame_clustering_functions.o board_2.o endgame_castling.o \
 endgame_piece_enumerations.o endgame_square_permutations.o \
-binary_decision_diagram.o endgame_database.o endgame_indexing.o endgame_en_passant.o \
+binary_decision_diagram.o endgame_database.o endgame_indexing.o \
+endgame_en_passant.o typedefs.o \
  \
 chess.o \
  \

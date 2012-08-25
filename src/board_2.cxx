@@ -55,7 +55,7 @@ After ..., num_checks = 1
 AFTER SETUP GAME:
 
 
-*/
+ */
 
 
 bool Board2::loadFEN(string FEN) {
@@ -177,8 +177,8 @@ Move Board2::moves() const {
   board_iterate(pos) {
     if (PIECE_COLOR[board[pos]] == player) {
       return check_if_moved(pos) ?
-	Move(pos, pos, 1 | PROTECTS_KING) :
-	Move(pos, pos, 1);
+          Move(pos, pos, 1 | PROTECTS_KING) :
+          Move(pos, pos, 1);
     }
   }
   print_board(cerr);
@@ -189,20 +189,20 @@ Move Board2::moves() const {
 Move Board2::moves_from_pos(Position pos) const {
   if (PIECE_COLOR[board[pos]] == player) {
     return check_if_moved(pos) ?
-      Move(pos, pos, 2 | PROTECTS_KING) :
-      Move(pos, pos, 2);
+        Move(pos, pos, 2 | PROTECTS_KING) :
+        Move(pos, pos, 2);
   } else return EMPTY_MOVE_ITERATOR;
 }
 
 Move Board2::moves_to_dest(Position dest) const {
   board_iterate(pos) {
     if (PIECE_COLOR[board[pos]] == player  &&
-	PIECE_NEXT(board[pos], pos, dest) != IMPOSSIBLE_MOVE) {
+        PIECE_NEXT(board[pos], pos, dest) != IMPOSSIBLE_MOVE) {
       // This piece *might* be able to reach dest
       // The code below can be optimized (if dest not on forced direction)
       return check_if_moved(pos) ?
-	Move(pos, dest | 0x80, 3 | PROTECTS_KING) :
-	Move(pos, dest | 0x80, 3);
+          Move(pos, dest | 0x80, 3 | PROTECTS_KING) :
+          Move(pos, dest | 0x80, 3);
     }
   }
   return EMPTY_MOVE_ITERATOR;
@@ -210,14 +210,14 @@ Move Board2::moves_to_dest(Position dest) const {
 
 Move Board2::moves_from_to(Position pos, Position dest) const {
   if (PIECE_COLOR[board[pos]] == player) {
-  
+
     // Unnescessary check. Might speed up or slow down. Whatever.
     if (PIECE_NEXT(board[pos], pos, dest) == IMPOSSIBLE_MOVE)
       return EMPTY_MOVE_ITERATOR;
 
     return check_if_moved(pos) ?
-      Move(pos, dest | 0x80, 4 | PROTECTS_KING) :
-      Move(pos, dest | 0x80, 4);
+        Move(pos, dest | 0x80, 4 | PROTECTS_KING) :
+        Move(pos, dest | 0x80, 4);
   } else return EMPTY_MOVE_ITERATOR;
 }
 
@@ -232,13 +232,13 @@ bool Board2::is_illegal_castling_move(Move move) const {
 
   if (CASTLING[move.from] && CASTLING[move.to]) {
     //cerr << "...is a castling move...\n";
-    
+
     // Cannot castle if checked
     if (num_checks) return true;
 
     // gah
     if (board[move.to]) return true;
-    
+
     // Have player lost castling option?
     if (!(castling & CASTLING[move.to])) return true;
 
@@ -253,7 +253,7 @@ bool Board2::is_illegal_castling_move(Move move) const {
 
     // Will the king have to pass any checking positions?
     // (legal_move will check that move.to is not threatened).
-    
+
     return (check_if_king_placed((move.from + move.to) >> 1));
 
   } else return false;
@@ -267,7 +267,7 @@ bool Board2::legal_move(Move& move) const {
   assert(legal_pos(move.from) && legal_pos(move.to) && board[move.from]);
 
   if (PIECE_COLOR[board[move.to]] == player) return false;
-  
+
   if (PIECE_KIND[board[move.from]] == KING) {
     if (is_illegal_castling_move(move)) return false;
     if (check_if_king_placed(move.to)) return false;
@@ -279,46 +279,46 @@ bool Board2::legal_move(Move& move) const {
 
     if (PIECE_KIND[board[move.from]] == PAWN) {
       if ((move.from ^ move.to) & 7) {
-	// A diagonal move.
-	// The pawn will have to capture something
-	if (!board[move.to]) {
-	  if (move.to != en_passant) return false;
-	  move.special_move = EN_PASSANT;
-	}
-    } else {
-	// Cannot capture
-	if (board[move.to]) return false;
+        // A diagonal move.
+        // The pawn will have to capture something
+        if (!board[move.to]) {
+          if (move.to != en_passant) return false;
+          move.special_move = EN_PASSANT;
+        }
+      } else {
+        // Cannot capture
+        if (board[move.to]) return false;
       }
 
       if (ROW[move.to]==0  ||  ROW[move.to]==7)
-	move.special_move = 6*player + QUEEN;
+        move.special_move = 6*player + QUEEN;
 
       if (num_checks  &&  move.to == en_passant) {
-	// If the king is checked af an en passant move, then the
-	// only possible checking piece is the en passant pawn.
-	// This capturing pawn move is legal if the attacking pawn
-	// doesn't protect the king. (the removal of the checking
-	// pawn can't result in a new check).
-	return !(move.blah & PROTECTS_KING);
+        // If the king is checked af an en passant move, then the
+        // only possible checking piece is the en passant pawn.
+        // This capturing pawn move is legal if the attacking pawn
+        // doesn't protect the king. (the removal of the checking
+        // pawn can't result in a new check).
+        return !(move.blah & PROTECTS_KING);
       }
     }
 
     if (num_checks) {
       if (num_checks == 2) return false;
       if (move.blah & PROTECTS_KING) {
-	// ARGHH!!!:
-	// Denne kode tager højde for tilfælde som fx loadfen K1r1Q1q1///////7k w - -
-	// check_if_moved will være true for Q, da der vil
-	// være en skakkende brik på denne linje.
-	// loadfen 4Q1q1/K1r5//////7k w - -
-	// DI... = DI... nødvendiggøres af fx loadfen K2Qq/2n//////k w - -
-	return threat_elim[move.to]  &&
-	  DIRECTION[move.from][king_pos[player]] == DIRECTION[move.from][move.to];
+        // ARGHH!!!:
+        // Denne kode tager højde for tilfælde som fx loadfen K1r1Q1q1///////7k w - -
+        // check_if_moved will være true for Q, da der vil
+        // være en skakkende brik på denne linje.
+        // loadfen 4Q1q1/K1r5//////7k w - -
+        // DI... = DI... nødvendiggøres af fx loadfen K2Qq/2n//////k w - -
+        return threat_elim[move.to]  &&
+            DIRECTION[move.from][king_pos[player]] == DIRECTION[move.from][move.to];
       }
       return threat_elim[move.to];
     } else {
       if (move.blah & PROTECTS_KING)
-	return DIRECTION[move.from][king_pos[player]] == DIRECTION[move.from][move.to];
+        return DIRECTION[move.from][king_pos[player]] == DIRECTION[move.from][move.to];
       return true;
     }
   }
@@ -331,7 +331,7 @@ bool Board2::obstacle_free_move(Move move) const {
     // obst. free if either  a) the move is not move 2 forward, or
     //                       b) the passed position is empty
     return (((move.from^move.to) & 0x18) != 0x10  ||
-	    board[(move.from + move.to)>>1] == 0);
+        board[(move.from + move.to)>>1] == 0);
   }
   // SDIRECTION must be a valid direction!
   // DIRECTIONS convert from direction number (in 0..7) to a step
@@ -361,26 +361,26 @@ bool Board2::next_move_fixed_destination(Move &move, Piece piece_kind) const {
     do {
       ++move.from;
     } while (PIECE_COLOR[board[move.from]] != player  ||
-	     // only addition caused by extra parameter:
-	     (piece_kind  &&  PIECE_KIND[board[move.from]] != piece_kind));
+        // only addition caused by extra parameter:
+        (piece_kind  &&  PIECE_KIND[board[move.from]] != piece_kind));
 
     if (!legal_pos(move.from)) return false;
-    
+
     if (check_if_moved(move.from)) move.blah |= PROTECTS_KING;
     else move.blah &= ~PROTECTS_KING;
 
-examine_if_move_is_legal:
+    examine_if_move_is_legal:
     // Ok, now examine the move <move.from, move.to>
     if (PIECE_NEXT(board[move.from], move.from, move.to) != IMPOSSIBLE_MOVE  &&
-	obstacle_free_move(move)  &&
-	legal_move(move)) {
+        obstacle_free_move(move)  &&
+        legal_move(move)) {
       // Move is legal
       return true;
     } else {
       // Move is illegal
       if ((move.blah & 0x7) == 4) {
-	// move.from is fixed. Nothing more to do.
-	return false;
+        // move.from is fixed. Nothing more to do.
+        return false;
       }
     }
   } while (true);
@@ -419,9 +419,9 @@ bool Board2::next_move(Move &move, Piece piece_kind) const {
       if (board[move.to]) move.to = PIECE_JUMP(board[move.from], move.from, move.to);
       else move.to = PIECE_NEXT(board[move.from], move.from, move.to);
     }
-    
+
     // No more legal move.to => iterate move.from
-    
+
     if ((move.blah & 0x7) == 2) {
       // Origin fixed
       move.from = ILLEGAL_POS;
@@ -431,13 +431,13 @@ bool Board2::next_move(Move &move, Piece piece_kind) const {
     do {
       ++move.from;
     } while (PIECE_COLOR[board[move.from]] != player  ||
-	     // only addition caused by extra parameter:
-	     (piece_kind  &&  PIECE_KIND[board[move.from]] != piece_kind));
+        // only addition caused by extra parameter:
+        (piece_kind  &&  PIECE_KIND[board[move.from]] != piece_kind));
 
     // cerr << "(" << (int)move.from << ") Next from: " << POS_NAME[move.from] << "\n";
 
     if (!legal_pos(move.from)) return false;
-    
+
     move.to = move.from;
 
     if (check_if_moved(move.from)) move.blah |= PROTECTS_KING;
@@ -453,7 +453,7 @@ bool Board2::next_move(Move &move, Piece piece_kind) const {
 
 Undo Board2::execute_move(Move move) {
   Undo result(en_passant, castling, moves_played_since_progress, player,
-	      num_checks, threat_pos, board[move.to]);
+      num_checks, threat_pos, board[move.to]);
 
   en_passant = ILLEGAL_POS;
   castling &= CASTLING_LOST[move.from] & CASTLING_LOST[move.to];
@@ -511,15 +511,15 @@ Undo Board2::execute_move(Move move) {
 
     if (PIECE_KIND[board[move.to]] == PAWN) {
       if (((move.from ^ move.to) & 0x18) == 0x10) {
-	// Moved 2 positions => Allow for en passant
-	Piece tmp = WPAWN+BPAWN-board[move.to];
-	if ((COLUMN[move.to] > 0  &&  board[move.to-1] == tmp)  ||
-	    (COLUMN[move.to] < 7  &&  board[move.to+1] == tmp)) {
-	  // There is an enemy pawn ready to take advantage of the
-	  // en passant. It is to bothersome to tjeck if this pawn
-	  // will be unable to use the en passant because of some check.
-	  en_passant = (move.from + move.to) >> 1;
-	}
+        // Moved 2 positions => Allow for en passant
+        Piece tmp = WPAWN+BPAWN-board[move.to];
+        if ((COLUMN[move.to] > 0  &&  board[move.to-1] == tmp)  ||
+            (COLUMN[move.to] < 7  &&  board[move.to+1] == tmp)) {
+          // There is an enemy pawn ready to take advantage of the
+          // en passant. It is to bothersome to tjeck if this pawn
+          // will be unable to use the en passant because of some check.
+          en_passant = (move.from + move.to) >> 1;
+        }
       }
     }
   }
@@ -630,7 +630,7 @@ void Board2::remove_piece(Position pos) {
 
   piece_count.as_pattern -= PIECE_COUNT_CONSTANTS[piece];
   endgame_hashing_insufficient_material.as_pattern -=
-    ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[piece][POS_COLOR[pos]];
+      ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[piece][POS_COLOR[pos]];
 }
 
 void Board2::insert_piece(Position pos, Piece piece) {
@@ -641,7 +641,7 @@ void Board2::insert_piece(Position pos, Piece piece) {
 
   piece_count.as_pattern += PIECE_COUNT_CONSTANTS[piece];
   endgame_hashing_insufficient_material.as_pattern +=
-    ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[piece][POS_COLOR[pos]];
+      ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[piece][POS_COLOR[pos]];
 
   if (IS_SHORT_DISTANCE_PIECE[piece]) {
     bit_board_insert(pos, piece, PIECE_COLOR[piece]);
@@ -654,7 +654,7 @@ void Board2::insert_piece(Position pos, Piece piece) {
     // capture piece
     piece_count.as_pattern -= PIECE_COUNT_CONSTANTS[board[pos]];
     endgame_hashing_insufficient_material.as_pattern -=
-      ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[board[pos]][POS_COLOR[pos]];
+        ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[board[pos]][POS_COLOR[pos]];
 
     if (IS_SHORT_DISTANCE_PIECE[board[pos]])
       bit_board_remove(pos, board[pos], PIECE_COLOR[board[pos]]);
@@ -674,7 +674,7 @@ void Board2::move_piece(Position from, Position to) {
   Piece piece = board[from];
 
   assert(ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[board[from]][POS_COLOR[from]] ==
-	 ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[board[from]][POS_COLOR[to]]);
+      ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[board[from]][POS_COLOR[to]]);
 
   if (IS_SHORT_DISTANCE_PIECE[piece]) {
     if (PIECE_KIND[piece] == KING)
@@ -688,11 +688,11 @@ void Board2::move_piece(Position from, Position to) {
     // a capture move.
     // In this case the order should be "first remove, then insert"
     // otherwice a possible check might be counted twice
-    
+
     // capture piece
     piece_count.as_pattern -= PIECE_COUNT_CONSTANTS[board[to]];
     endgame_hashing_insufficient_material.as_pattern -=
-      ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[board[to]][POS_COLOR[to]];
+        ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[board[to]][POS_COLOR[to]];
 
     if (IS_SHORT_DISTANCE_PIECE[board[to]])
       bit_board_remove(to, board[to], PIECE_COLOR[board[to]]);
@@ -711,7 +711,7 @@ void Board2::move_piece(Position from, Position to) {
 
     board[to] = board[from];
     king_line_insert_piece(to, board[from]);
-    
+
     king_line_remove_piece(from);
     board[from] = 0;
   }
@@ -732,53 +732,53 @@ bool Board2::clr_board2(Board *board, ostream& os, vector<string> &p) {
 
   if (dot_demand(p, 1, "help")) {
     os << "Board2, help:\n"
-       << "    print board  or  pb  or  dir\n"
-       << "      - print board\n"
-       << "    print move list  or  pml\n"
-       << "    print moves to cr  or  pmt cr\n"
-       << "    print moves from cr  or  pmf cr\n"
-       << "    print moves from to cr cr  or  pmft cr cr\n"
-       << "      - the 4 above commands can be extended with a character,\n"
-       << "      - specifying that only moves with such a piece will be\n"
-       << "      - returned. (eg. -print moves to e4 r, for rook moves (not R))\n"
-       << "    print bit boards  or  pbb\n"
-       << "    print king threats  or  pkt\n"
-       << "    print threat pos  or  ptp\n"
-       << "    retro moves [dest] or  rm [dest]\n"
-       << "      - Get the complete list of moves leading to this position.\n"
-       << "      - if dest is specified, then only consider moves for this piece.\n"
-       << "    retro move n  or  rm n\n"
-       << "      - undo retro move number n\n"
-       << "    test retro moves  or  trm\n"
-       << "      - test the validity of the retro moves.\n";
-      
+        << "    print board  or  pb  or  dir\n"
+        << "      - print board\n"
+        << "    print move list  or  pml\n"
+        << "    print moves to cr  or  pmt cr\n"
+        << "    print moves from cr  or  pmf cr\n"
+        << "    print moves from to cr cr  or  pmft cr cr\n"
+        << "      - the 4 above commands can be extended with a character,\n"
+        << "      - specifying that only moves with such a piece will be\n"
+        << "      - returned. (eg. -print moves to e4 r, for rook moves (not R))\n"
+        << "    print bit boards  or  pbb\n"
+        << "    print king threats  or  pkt\n"
+        << "    print threat pos  or  ptp\n"
+        << "    retro moves [dest] or  rm [dest]\n"
+        << "      - Get the complete list of moves leading to this position.\n"
+        << "      - if dest is specified, then only consider moves for this piece.\n"
+        << "    retro move n  or  rm n\n"
+        << "      - undo retro move number n\n"
+        << "    test retro moves  or  trm\n"
+        << "      - test the validity of the retro moves.\n";
+
   } else if (dot_demand(p, 1, "dir")  ||
-	     dot_demand(p, 2, "print", "board")) {
+      dot_demand(p, 2, "print", "board")) {
     b.print_board(os);
 
   } else if (dot_demand(p, 3, "print", "move", "list")) {
     b.print_moves(cerr);
-  } else if (dot_demand(p, 4, "print", "move", "list", 1)) {
+  } else if (dot_demand(p, 4, "print", "move", "list", (ptr_int)1)) {
     b.print_moves(cerr, ILLEGAL_POS, ILLEGAL_POS,
-		  PIECE_KIND[char_to_piece(parse_result[0][0])]);
+        PIECE_KIND[char_to_piece(parse_result[0][0])]);
 
-  } else if (dot_demand(p, 4, "print", "moves", "to", 2)) {
+  } else if (dot_demand(p, 4, "print", "moves", "to", (ptr_int)2)) {
     b.print_moves(cerr, ILLEGAL_POS, strToPos(parse_result[0]));
-  } else if (dot_demand(p, 5, "print", "moves", "to", 2, 1)) {
+  } else if (dot_demand(p, 5, "print", "moves", "to", (ptr_int)2, (ptr_int)1)) {
     b.print_moves(cerr, ILLEGAL_POS, strToPos(parse_result[1]),
-		  PIECE_KIND[char_to_piece(parse_result[1][0])]);
+        PIECE_KIND[char_to_piece(parse_result[1][0])]);
 
-  } else if (dot_demand(p, 4, "print", "moves", "from", 2)) {
+  } else if (dot_demand(p, 4, "print", "moves", "from", (ptr_int)2)) {
     b.print_moves(cerr, strToPos(parse_result[0]));
-  } else if (dot_demand(p, 5, "print", "moves", "from", 2, 1)) {
+  } else if (dot_demand(p, 5, "print", "moves", "from", (ptr_int)2, (ptr_int)1)) {
     b.print_moves(cerr, strToPos(parse_result[0]), ILLEGAL_POS,
-		  PIECE_KIND[char_to_piece(parse_result[1][0])]);
-    
-  } else if (dot_demand(p, 6, "print", "moves", "from", "to", 2, 2)) {
+        PIECE_KIND[char_to_piece(parse_result[1][0])]);
+
+  } else if (dot_demand(p, 6, "print", "moves", "from", "to", (ptr_int)2, (ptr_int)2)) {
     b.print_moves(cerr, strToPos(parse_result[0]), strToPos(parse_result[1]));
-  } else if (dot_demand(p, 7, "print", "moves", "from", "to", 2, 2, 1)) {
+  } else if (dot_demand(p, 7, "print", "moves", "from", "to", (ptr_int)2, (ptr_int)2, (ptr_int)1)) {
     b.print_moves(cerr, strToPos(parse_result[0]), strToPos(parse_result[1]),
-		  PIECE_KIND[char_to_piece(parse_result[2][0])]);
+        PIECE_KIND[char_to_piece(parse_result[2][0])]);
 
   } else if (dot_demand(p, 3, "print", "bit", "boards")) {
     b.print_bit_boards(cerr);
@@ -794,30 +794,30 @@ bool Board2::clr_board2(Board *board, ostream& os, vector<string> &p) {
     os << "Complete list of the " << rm.size() << " retro move(s) from current position:\n";
     for (uint i=0; i<rm.size(); i++)
       os << i << ":\t" << rm[i].first.toString2() << "\t"
-	 << rm[i].third << "\t" << rm[i].second.toString() << "\n";
+      << rm[i].third << "\t" << rm[i].second.toString() << "\n";
 
-  } else if (dot_demand(p, 3, "retro", "moves", 2)) {
+  } else if (dot_demand(p, 3, "retro", "moves", (ptr_int)2)) {
     vector<triple<Move,Undo,int> > rm = b.get_retro_moves(true, true, true, true);
     os << "List of retro move(s) from current position with destination " << parse_result[0] << "\n";
     for (uint i=0; i<rm.size(); i++) {
       if (POS_NAME[rm[i].first.to] == parse_result[0])
-	os << i << ":\t" << rm[i].first.toString2() << "\t"
-	   << rm[i].third << "\t" << rm[i].second.toString() << "\n";
+        os << i << ":\t" << rm[i].first.toString2() << "\t"
+        << rm[i].third << "\t" << rm[i].second.toString() << "\n";
     }
 
-  } else if (dot_demand(p, 3, "retro", "move", 0)) {
+  } else if (dot_demand(p, 3, "retro", "move", (ptr_int)0)) {
     vector<triple<Move,Undo,int> > rm = b.get_retro_moves(true, true, true, true);
     uint n = atoi(parse_result[0].c_str());
     if (0<=n  &&  n<rm.size()) {
       os << "Undoing retro move number " << n;
       if (rm[n].third) {
-	os << " (transf " << rm[n].third << " nescessary)\n";
-	if (!b.transform_board(rm[n].third)) {
-	  os << "Error: board could not be transformed!?\n";
-	  exit(1);
-	}
-	b.print_board(os);
-	os << "board has been transformed.\n";
+        os << " (transf " << rm[n].third << " nescessary)\n";
+        if (!b.transform_board(rm[n].third)) {
+          os << "Error: board could not be transformed!?\n";
+          exit(1);
+        }
+        b.print_board(os);
+        os << "board has been transformed.\n";
       } else os << "\n";
       b.undo_move(rm[n].first, rm[n].second);
       b.print_board(os);
@@ -831,23 +831,23 @@ bool Board2::clr_board2(Board *board, ostream& os, vector<string> &p) {
     bool ok = true;
     for (uint i=0; i<rm.size(); i++) {
       os << i << ":\t" << rm[i].first.toString2() << "\t"
-	 << rm[i].third << "\t" << rm[i].second.toString() << "...";
-      
+          << rm[i].third << "\t" << rm[i].second.toString() << "...";
+
       if (rm[i].third) b.transform_board(rm[i].third);
-      
+
       b.undo_move(rm[i].first, rm[i].second);
 
       bool found = false;
       Move move = b.moves();
       while (b.next_move(move)) {
-	found |= move == rm[i].first;
+        found |= move == rm[i].first;
 
-	Undo undo = b.execute_move(move);
-	b.undo_move(move, undo);
+        Undo undo = b.execute_move(move);
+        b.undo_move(move, undo);
       }
 
       b.execute_move(rm[i].first);
-      
+
       if (rm[i].third) b.inv_transform_board(rm[i].third);
 
       os << (found ? "ok\n" : "failed!\n");
@@ -855,7 +855,7 @@ bool Board2::clr_board2(Board *board, ostream& os, vector<string> &p) {
     }
     if (ok) {
       cerr << "All moves succesfully executed from each of the possible\n"
-	   << "positions preceding this one.\n";
+          << "positions preceding this one.\n";
     } else {
       cerr << "FAILED!!!\n";
     }
@@ -925,22 +925,22 @@ void Board2::init_CHECK_TABLE() {
       L[j] = (i>>(2*j))&3;
     uchar check = 0;
     bool threat;
-    
+
     // Check in one direction:
     threat = false;
     for (int j=0; j<8; j++) {
       if (threat  &&  L[j]==1)
-	++check;
+        ++check;
       if (L[j]) threat = L[j]==2;
     }
     // Check in other direction:
     threat = false;
     for (int j=7; j>=0; j--) {
       if (threat  &&  L[j]==1)
-	++check;
+        ++check;
       if (L[j]) threat = L[j]==2;
     }
-    
+
     CHECK_TABLE[i] = check;
     /*
     if ((rand()&0xFF) == 0) {
@@ -950,7 +950,7 @@ void Board2::init_CHECK_TABLE() {
       }
       cerr << " : " << check << "\n";
     }
-    */
+     */
   }
 }
 
@@ -962,32 +962,32 @@ void Board2::init_DIRECTION() { // unsigned direction
       Position from = CR_TO_POS[col1][r1];
       Position to = CR_TO_POS[col2][r2];
       if (col1==col2) {
-	if (r1==r2) {
-	  DIRECTION[from][to] = INVALID_DIRECTION;
-	  SDIRECTION[from][to] = INVALID_DIRECTION;
-	} else {
-	  DIRECTION[from][to] = 1;
-	  SDIRECTION[from][to] = r1<r2 ? 1 : 5;
-	}
+        if (r1==r2) {
+          DIRECTION[from][to] = INVALID_DIRECTION;
+          SDIRECTION[from][to] = INVALID_DIRECTION;
+        } else {
+          DIRECTION[from][to] = 1;
+          SDIRECTION[from][to] = r1<r2 ? 1 : 5;
+        }
       } else if (r1==r2) {
-	DIRECTION[from][to] = 0;
-	SDIRECTION[from][to] = col1<col2 ? 0 : 4;
+        DIRECTION[from][to] = 0;
+        SDIRECTION[from][to] = col1<col2 ? 0 : 4;
       } else {
-	int dc = col2-col1;
-	int dr = r2-r1;
-	if (dc == dr) {
-	  DIRECTION[from][to] = 2;
-	  SDIRECTION[from][to] = dc>0 ? 2 : 6;
-	} else if (dc == -dr) {
-	  DIRECTION[from][to] = 3;
-	  SDIRECTION[from][to] = dr>0 ? 3 : 7;
-	} else if (dc*dc+dr*dr == 5) {
-	  DIRECTION[from][to] = KNIGHT_DIRECTION;
-	  SDIRECTION[from][to] = KNIGHT_DIRECTION;
-	} else {
-	  DIRECTION[from][to] = INVALID_DIRECTION;
-	  SDIRECTION[from][to] = INVALID_DIRECTION;
-	}
+        int dc = col2-col1;
+        int dr = r2-r1;
+        if (dc == dr) {
+          DIRECTION[from][to] = 2;
+          SDIRECTION[from][to] = dc>0 ? 2 : 6;
+        } else if (dc == -dr) {
+          DIRECTION[from][to] = 3;
+          SDIRECTION[from][to] = dr>0 ? 3 : 7;
+        } else if (dc*dc+dr*dr == 5) {
+          DIRECTION[from][to] = KNIGHT_DIRECTION;
+          SDIRECTION[from][to] = KNIGHT_DIRECTION;
+        } else {
+          DIRECTION[from][to] = INVALID_DIRECTION;
+          SDIRECTION[from][to] = INVALID_DIRECTION;
+        }
       }
     }
 
@@ -1006,9 +1006,9 @@ void Board2::init_DIRECTION() { // unsigned direction
       int c = COLUMN[pos] + D[d].first;
       int r = ROW[pos] + D[d].second;
       if (0<=c && c<8  &&  0<=r && r<8) {
-	DIRECTION_MOVE_TABLE[d][pos] = CR_TO_POS[c][r];
+        DIRECTION_MOVE_TABLE[d][pos] = CR_TO_POS[c][r];
       } else {
-	DIRECTION_MOVE_TABLE[d][pos] = ILLEGAL_POS;
+        DIRECTION_MOVE_TABLE[d][pos] = ILLEGAL_POS;
       }
     }
   }
@@ -1041,46 +1041,46 @@ void Board2::init_bitboards() {
     for (int c=0; c<8; c++) {
       Position pos = CR_TO_POS[c][r];
       for (Piece piece=0; piece<13; piece++)
-	BIT_BOARDS[piece][pos] = 0;
+        BIT_BOARDS[piece][pos] = 0;
 
       if (r!=0 && r!=7) {
-	if (c!=0) {
-	  BIT_BOARDS[WPAWN][pos] |= pos+7;
-	  BIT_BOARDS[BPAWN][pos] |= pos-9;
-	}
-	if (c!=7) {
-	  BIT_BOARDS[WPAWN][pos] |= pos+9;
-	  BIT_BOARDS[BPAWN][pos] |= pos-7;
-	}
+        if (c!=0) {
+          BIT_BOARDS[WPAWN][pos] |= pos+7;
+          BIT_BOARDS[BPAWN][pos] |= pos-9;
+        }
+        if (c!=7) {
+          BIT_BOARDS[WPAWN][pos] |= pos+9;
+          BIT_BOARDS[BPAWN][pos] |= pos-7;
+        }
       }
 
       if (c!=0 && c!=7) {
-	if (r!=0) {
-	  BIT_BOARDS[13][pos] |= pos-7;
-	  BIT_BOARDS[14][pos] |= pos-9;
-	}
-	if (r!=7) {
-	  BIT_BOARDS[13][pos] |= pos+9;
-	  BIT_BOARDS[14][pos] |= pos+7;
-	}
+        if (r!=0) {
+          BIT_BOARDS[13][pos] |= pos-7;
+          BIT_BOARDS[14][pos] |= pos-9;
+        }
+        if (r!=7) {
+          BIT_BOARDS[13][pos] |= pos+9;
+          BIT_BOARDS[14][pos] |= pos+7;
+        }
       }
 
       for (int i=0; i<8; i++) {
-	int col2 = c+d[i].first;
-	int r2 = r+d[i].second;
-	if (0<=col2 && col2<8  &&  0<=r2 && r2<8) {
-	  BIT_BOARDS[WKNIGHT][pos] |= 8*r2 + col2;
-	  BIT_BOARDS[BKNIGHT][pos] |= 8*r2 + col2;
-	}
+        int col2 = c+d[i].first;
+        int r2 = r+d[i].second;
+        if (0<=col2 && col2<8  &&  0<=r2 && r2<8) {
+          BIT_BOARDS[WKNIGHT][pos] |= 8*r2 + col2;
+          BIT_BOARDS[BKNIGHT][pos] |= 8*r2 + col2;
+        }
       }
 
       for (int delta1=-1; delta1<=1; delta1++)
-	for (int delta2=-1; delta2<=1; delta2++)
-	  if (delta1 || delta2)
-	    if (0<=c+delta1 && c+delta1<8  &&  0<=r+delta2 && r+delta2<8) {
-	      BIT_BOARDS[WKING][pos] |= CR_TO_POS[c+delta1][r+delta2];
-	      BIT_BOARDS[BKING][pos] |= CR_TO_POS[c+delta1][r+delta2];
-	    }
+        for (int delta2=-1; delta2<=1; delta2++)
+          if (delta1 || delta2)
+            if (0<=c+delta1 && c+delta1<8  &&  0<=r+delta2 && r+delta2<8) {
+              BIT_BOARDS[WKING][pos] |= CR_TO_POS[c+delta1][r+delta2];
+              BIT_BOARDS[BKING][pos] |= CR_TO_POS[c+delta1][r+delta2];
+            }
     }
 }
 
@@ -1096,11 +1096,11 @@ void Board2::init_bitboard_lines() {
     } else {
       int direction = SDIRECTION[p1][p2];
       if (direction < 8) {
-	int step = DIRECTIONS[direction];
-	for (int pos = p1; pos != p2; pos += step)
-	  BB_LINES[p1][p2] |= pos;
+        int step = DIRECTIONS[direction];
+        for (int pos = p1; pos != p2; pos += step)
+          BB_LINES[p1][p2] |= pos;
       } else {
-	BB_LINES[p1][p2] |= p1;
+        BB_LINES[p1][p2] |= p1;
       }
     }
   }
@@ -1162,7 +1162,7 @@ string Board2::moveToSAN(Move move) {
       pp = "= ";
       pp[1] = PIECE_CHAR[PIECE_KIND[move.special_move]];
     }
-    
+
     if (move.special_move==EN_PASSANT || board[move.to]) {
       // Piece captured.
       return COLUMN_NAME[move.from] + "x" + POS_NAME[move.to] + pp + suffix;
@@ -1179,7 +1179,7 @@ string Board2::moveToSAN(Move move) {
   }
 
   // piece is KNIGHT, BISHOP, ROOK or QUEEN
-  
+
   bool ambiguity = false;
   bool same_row = false;
   bool same_colum = false;
@@ -1188,9 +1188,9 @@ string Board2::moveToSAN(Move move) {
     if (m.from != move.from) {
       ambiguity = true;
       if (COLUMN[m.from] == COLUMN[move.from])
-	same_colum = true;
+        same_colum = true;
       if (ROW[m.from] == ROW[move.from])
-	same_row = true;
+        same_row = true;
     }
   /*
     file==COLUMN, rank==ROW
@@ -1206,7 +1206,7 @@ immediately after the moving piece letter.
 Third (when both the first and the second steps fail), the two character square 
 coordinate of the originating square of the moving piece is inserted immediately after 
 the moving piece letter. 
-  */
+   */
 
   if (same_colum) {
     if (same_row)
@@ -1229,9 +1229,9 @@ Move Board2::sanToMove(string san) {
     if (san[last] == 'O') {
       // castling move
       if (last==2) {
-	return player ? Move(BLACK_SHORT_CASTLING) : Move(WHITE_SHORT_CASTLING);
+        return player ? Move(BLACK_SHORT_CASTLING) : Move(WHITE_SHORT_CASTLING);
       } else {
-	return player ? Move(BLACK_LONG_CASTLING) : Move(WHITE_LONG_CASTLING);
+        return player ? Move(BLACK_LONG_CASTLING) : Move(WHITE_LONG_CASTLING);
       }
     }
     if ('A'<=san[last] && san[last]<='Z') {
@@ -1264,15 +1264,15 @@ Move Board2::sanToMove(string san) {
     piece_kind = char_to_piece(san[0]);
     for (int i=1; i<last-1; i++) {
       if ('a'<=san[i] && san[i]<='h') {
-	colum_specified = true;
-	from_c = san[i]-'a';
+        colum_specified = true;
+        from_c = san[i]-'a';
       } else if ('1'<=san[i] && san[i]<='8') {
-	row_specified = true;
-	from_r = san[i]-'1';
+        row_specified = true;
+        from_r = san[i]-'1';
       }
     }
   }
-  
+
   // cerr << "piece kind = " << PIECE_NAME[piece_kind] << "\n";
 
   bool move_found = false;
@@ -1346,103 +1346,103 @@ bool Board2::find_legal_move(Move& move) {
 // prev_num_checks is the number of checks against black king after undoing the move.
 // If prev_num_checks != 0, then threat_pos determines the position of one of the threats.
 triple<int,uchar,Position> Board2::retro_move_count_checks(Position from, Position to,
-							   Piece original_piece, Piece piece_killed) {
+    Piece original_piece, Piece piece_killed) {
 
   int check_count = num_checks;
   {
 
 
     if (IS_SHORT_DISTANCE_PIECE[original_piece]  &&
-	BIT_BOARDS[original_piece][from][king_pos[player]]) {
+        BIT_BOARDS[original_piece][from][king_pos[player]]) {
       // This piece can't have moved from "from". It could have taken the king.
       return triple<int,uchar,Position>(42,0,0);
     }
 
     if (IS_SHORT_DISTANCE_PIECE[board[to]])
-	check_count -= BIT_BOARDS[board[to]][to][king_pos[player]];
-    
+      check_count -= BIT_BOARDS[board[to]][to][king_pos[player]];
+
     int d_to = DIRECTION[to][king_pos[player]];
     int d_from = DIRECTION[from][king_pos[player]];
-    
+
     if (d_to == d_from) {
 
       if (!(d_to & ~3)) {
-	if (SDIRECTION[from][to] != SDIRECTION[to][king_pos[player]]) {
-	  // move is away from the king, can only affect number of checks in
-	  // case of a pawn promotion.
-	  // The content of "to" doesn't matter as it is blocked by "from"
-	  if (original_piece != board[to]) {
-	    // Pawn promotion
-	    uint pattern = board_lines[d_to][DIAG_INDEX[to][d_to]];
-	    
-	    check_count -= checktable(pattern, player);
-	    
-	    // Not necessary to remove promoted piece, as it will be blocked by the pawn
-	    // Original piece must be a pawn. A pawn has patter 11b
-	    int line_index = d_from ? (from>>3) : (from&7);
-	    pattern |= DIAG_PATTERN[line_index][3];
-	    
-	    check_count += checktable(pattern, player);
+        if (SDIRECTION[from][to] != SDIRECTION[to][king_pos[player]]) {
+          // move is away from the king, can only affect number of checks in
+          // case of a pawn promotion.
+          // The content of "to" doesn't matter as it is blocked by "from"
+          if (original_piece != board[to]) {
+            // Pawn promotion
+            uint pattern = board_lines[d_to][DIAG_INDEX[to][d_to]];
 
-	  }
+            check_count -= checktable(pattern, player);
 
-	} else {
-	  // move is towards the king. Can affect the number of checks if
-	  // a piece was captured.
-	  // Also when undoing a rook move as part of a castling, the
-	  // rook "jumps over" the king.
-	  if (piece_killed) {
-	    uint pattern = board_lines[d_to][DIAG_INDEX[to][d_to]];
-	    
-	    check_count -= checktable(pattern, player);
-	    
-	    // Just or the 11 pattern of a blocking piece on top of board[to]
-	    int line_index = d_to ? (to>>3) : (to&7);
-	    pattern |= DIAG_PATTERN[line_index][ 3 ];
-	    
-	    check_count += checktable(pattern, player);
+            // Not necessary to remove promoted piece, as it will be blocked by the pawn
+            // Original piece must be a pawn. A pawn has patter 11b
+            int line_index = d_from ? (from>>3) : (from&7);
+            pattern |= DIAG_PATTERN[line_index][3];
 
-	  } else if (PIECE_KIND[original_piece] == ROOK) {
+            check_count += checktable(pattern, player);
 
-	    // Maybe a rook is being moved while undoing a castling
-	    
-	    //cerr << "from,to = " << POS_NAME[from] << "," << POS_NAME[to] << "\n";
-	    
-	    uint pattern = board_lines[d_to][DIAG_INDEX[to][d_to]];
-	    
-	    check_count -= checktable(pattern, player);
-	    
-	    pattern &= AND_DPP_PATTERN[d_to ? (to>>3) : (to&7)];
+          }
 
-	    int line_index = d_from ? (from>>3) : (from&7);
-	    pattern |= DIAG_PATTERN[line_index][ DIAG_PIECE_PATTERN[original_piece][d_from] ];
-	    
-	    check_count += checktable(pattern, player);
-	  }
-	}
+        } else {
+          // move is towards the king. Can affect the number of checks if
+          // a piece was captured.
+          // Also when undoing a rook move as part of a castling, the
+          // rook "jumps over" the king.
+          if (piece_killed) {
+            uint pattern = board_lines[d_to][DIAG_INDEX[to][d_to]];
+
+            check_count -= checktable(pattern, player);
+
+            // Just or the 11 pattern of a blocking piece on top of board[to]
+            int line_index = d_to ? (to>>3) : (to&7);
+            pattern |= DIAG_PATTERN[line_index][ 3 ];
+
+            check_count += checktable(pattern, player);
+
+          } else if (PIECE_KIND[original_piece] == ROOK) {
+
+            // Maybe a rook is being moved while undoing a castling
+
+            //cerr << "from,to = " << POS_NAME[from] << "," << POS_NAME[to] << "\n";
+
+            uint pattern = board_lines[d_to][DIAG_INDEX[to][d_to]];
+
+            check_count -= checktable(pattern, player);
+
+            pattern &= AND_DPP_PATTERN[d_to ? (to>>3) : (to&7)];
+
+            int line_index = d_from ? (from>>3) : (from&7);
+            pattern |= DIAG_PATTERN[line_index][ DIAG_PIECE_PATTERN[original_piece][d_from] ];
+
+            check_count += checktable(pattern, player);
+          }
+        }
       }
-      
+
     } else {
-      
+
       if (straight_direction(d_to)) {
-	uint pattern = board_lines[d_to][DIAG_INDEX[to][d_to]];
-	
-	check_count -= checktable(pattern, player);
-	
-	int line_index = d_to ? (to>>3) : (to&7);
-	pattern &= AND_DPP_PATTERN[line_index];
-	if (piece_killed) pattern |= DIAG_PATTERN[line_index][ DIAG_PIECE_PATTERN[piece_killed][d_to] ];
-	
-	check_count += checktable(pattern, player);
+        uint pattern = board_lines[d_to][DIAG_INDEX[to][d_to]];
+
+        check_count -= checktable(pattern, player);
+
+        int line_index = d_to ? (to>>3) : (to&7);
+        pattern &= AND_DPP_PATTERN[line_index];
+        if (piece_killed) pattern |= DIAG_PATTERN[line_index][ DIAG_PIECE_PATTERN[piece_killed][d_to] ];
+
+        check_count += checktable(pattern, player);
       }
-      
-      
+
+
       if (straight_direction(d_from)) {
-	uint pattern = board_lines[d_from][DIAG_INDEX[from][d_from]];
-	check_count -= checktable(pattern, player);
-	int line_index = d_from ? (from>>3) : (from&7);
-	pattern |= DIAG_PATTERN[line_index][ DIAG_PIECE_PATTERN[original_piece][d_from] ];
-	check_count += checktable(pattern, player);
+        uint pattern = board_lines[d_from][DIAG_INDEX[from][d_from]];
+        check_count -= checktable(pattern, player);
+        int line_index = d_from ? (from>>3) : (from&7);
+        pattern |= DIAG_PATTERN[line_index][ DIAG_PIECE_PATTERN[original_piece][d_from] ];
+        check_count += checktable(pattern, player);
       }
     }
   }
@@ -1464,95 +1464,95 @@ triple<int,uchar,Position> Board2::retro_move_count_checks(Position from, Positi
       // ################################################
 
       if (piece_killed  &&  IS_SHORT_DISTANCE_PIECE[piece_killed]  &&
-	  BIT_BOARDS[piece_killed][to][from]) {
-	++prev_num_checks;
-	threat_pos = to;
+          BIT_BOARDS[piece_killed][to][from]) {
+        ++prev_num_checks;
+        threat_pos = to;
       }
 
       for (int i=0; bit_boards[i][player][from]; i++) {
 
-	if (!prev_num_checks++) {
-	  // find a short range checking piece to blame
-	  bool found = false;
-	  if (!found) {
-	    // Try a knight
-	    int find_piece = player ? BKNIGHT : WKNIGHT;
-	    int dest = PIECE_NEXT(KNIGHT, from, from);
-	    while (dest != ILLEGAL_POS) {
-	      if (board[dest] == find_piece) {
-		threat_pos = dest;
-		found = true;
-		break;
-	      }
-	      dest = PIECE_NEXT(KNIGHT, from, dest);
-	    }
-	  }
-	  
-	  if (!found) {
-	    // Try a pawn
-	    int find_piece = player ? BPAWN : WPAWN;
-	    if (COLUMN[from] != 0) {
-	      int dest = from + (player ? +7 : -9);
-	      if (board[dest] == find_piece) {
-		threat_pos = dest;
-		found = true;
-	      }
-	    }
-	    if (COLUMN[from] != 7) {
-	      int dest = from + (player ? +9 : -7);
-	      if (board[dest] == find_piece) {
-		threat_pos = dest;
-		found = true;
-	      }
-	    }
-	  }
+        if (!prev_num_checks++) {
+          // find a short range checking piece to blame
+          bool found = false;
+          if (!found) {
+            // Try a knight
+            int find_piece = player ? BKNIGHT : WKNIGHT;
+            int dest = PIECE_NEXT(KNIGHT, from, from);
+            while (dest != ILLEGAL_POS) {
+              if (board[dest] == find_piece) {
+                threat_pos = dest;
+                found = true;
+                break;
+              }
+              dest = PIECE_NEXT(KNIGHT, from, dest);
+            }
+          }
 
-	  assert(found);
-	}
+          if (!found) {
+            // Try a pawn
+            int find_piece = player ? BPAWN : WPAWN;
+            if (COLUMN[from] != 0) {
+              int dest = from + (player ? +7 : -9);
+              if (board[dest] == find_piece) {
+                threat_pos = dest;
+                found = true;
+              }
+            }
+            if (COLUMN[from] != 7) {
+              int dest = from + (player ? +9 : -7);
+              if (board[dest] == find_piece) {
+                threat_pos = dest;
+                found = true;
+              }
+            }
+          }
+
+          assert(found);
+        }
       }
 
       {// Check long distance threats caused by piece_killed
-	if (PIECE_KIND[piece_killed] == QUEEN) {
-	  ++prev_num_checks;
-	  threat_pos = to;
-	} else {
-	  if (ROW[from]!=ROW[to]  &&  COLUMN[from]!=COLUMN[to]) {
-	    // Checked if captured bishop (or queen, but already considered)
-	    if (PIECE_KIND[piece_killed]==BISHOP) {
-	      ++prev_num_checks;
-	      threat_pos = to;
-	    }
-	  } else {
-	    // Checked if captured rook (or queen, but already considered)
-	    if (PIECE_KIND[piece_killed]==ROOK) {
-	      ++prev_num_checks;
-	      threat_pos = to;
-	    }
-	  }
-	}
+        if (PIECE_KIND[piece_killed] == QUEEN) {
+          ++prev_num_checks;
+          threat_pos = to;
+        } else {
+          if (ROW[from]!=ROW[to]  &&  COLUMN[from]!=COLUMN[to]) {
+            // Checked if captured bishop (or queen, but already considered)
+            if (PIECE_KIND[piece_killed]==BISHOP) {
+              ++prev_num_checks;
+              threat_pos = to;
+            }
+          } else {
+            // Checked if captured rook (or queen, but already considered)
+            if (PIECE_KIND[piece_killed]==ROOK) {
+              ++prev_num_checks;
+              threat_pos = to;
+            }
+          }
+        }
       }
-		
+
 
       { // Check other long distance threats
-	const uchar *tmp = DIAG_PIECE_PATTERN[player ? WKING : BKING];
+        const uchar *tmp = DIAG_PIECE_PATTERN[player ? WKING : BKING];
 
-	for (int d=0; d<4; d++) {
-	  uint pattern = board_lines[d][DIAG_INDEX[from][d]];
-	  //pattern &= AND_DPP_PATTERN[d ? (from>>3) : (from&7)];
-	  pattern |= DIAG_PATTERN[d ? (from>>3) : (from&7)][ tmp[d] ];
-	  if (checktable(pattern, player^1)) {
-	    if (!prev_num_checks) {
-	      prev_num_checks += checktable(pattern, player^1);
-	      pattern &= CLEARLOW_DPP_PATTERN[d ? (from>>3) : (from&7)];
-	      
-	      int step = DIRECTIONS[checktable(pattern, player^1) ? d : d+4];
-	      threat_pos = from;
-	      while (!board[threat_pos += step]) ;
-	    } else {
-	      prev_num_checks += checktable(pattern, player^1);
-	    }
-	  }
-	}
+        for (int d=0; d<4; d++) {
+          uint pattern = board_lines[d][DIAG_INDEX[from][d]];
+          //pattern &= AND_DPP_PATTERN[d ? (from>>3) : (from&7)];
+          pattern |= DIAG_PATTERN[d ? (from>>3) : (from&7)][ tmp[d] ];
+          if (checktable(pattern, player^1)) {
+            if (!prev_num_checks) {
+              prev_num_checks += checktable(pattern, player^1);
+              pattern &= CLEARLOW_DPP_PATTERN[d ? (from>>3) : (from&7)];
+
+              int step = DIRECTIONS[checktable(pattern, player^1) ? d : d+4];
+              threat_pos = from;
+              while (!board[threat_pos += step]) ;
+            } else {
+              prev_num_checks += checktable(pattern, player^1);
+            }
+          }
+        }
       }
 
     } else {
@@ -1565,67 +1565,67 @@ triple<int,uchar,Position> Board2::retro_move_count_checks(Position from, Positi
 
       if (piece_killed  &&  IS_SHORT_DISTANCE_PIECE[piece_killed]) {
 
-	if (BIT_BOARDS[piece_killed][to][kpos]) {
-	  ++prev_num_checks;
-	  threat_pos = to;
-	}
+        if (BIT_BOARDS[piece_killed][to][kpos]) {
+          ++prev_num_checks;
+          threat_pos = to;
+        }
 
       } else {
 
-	int d_to = DIRECTION[to][kpos];
-	int d_from = DIRECTION[from][kpos];
+        int d_to = DIRECTION[to][kpos];
+        int d_from = DIRECTION[from][kpos];
 
-	if (d_to == d_from) {
+        if (d_to == d_from) {
 
-	  // a threat might have been eliminated if the attacker moved towards the king
-	  if (piece_killed  &&  !(d_to & ~3)) {
-	    
-	    uint pattern = board_lines[d_to][DIAG_INDEX[to][d_to]];
-	    
-	    // add old position of attacker (just as a blocking piece)
-	    pattern |= DIAG_PATTERN[d_from ? (from>>3) : (from&7)][ 3 ];
-	    
-	    // Replace to with the killed piece
-	    int line_index = d_to ? (to>>3) : (to&7);
-	    pattern &= AND_DPP_PATTERN[line_index];
-	    pattern |= DIAG_PATTERN[line_index][ DIAG_PIECE_PATTERN[piece_killed][d_to] ];
-	    
-	    if (checktable(pattern, player^1)) {
-	      ++prev_num_checks;
-	      threat_pos = to;
+          // a threat might have been eliminated if the attacker moved towards the king
+          if (piece_killed  &&  !(d_to & ~3)) {
 
-	    }
-	  }
+            uint pattern = board_lines[d_to][DIAG_INDEX[to][d_to]];
 
-	} else {
+            // add old position of attacker (just as a blocking piece)
+            pattern |= DIAG_PATTERN[d_from ? (from>>3) : (from&7)][ 3 ];
 
-	  if (straight_direction(d_to)) {
-	    //cerr << "Direction towards king: " << UDIRECTION_NAME[d_to] << "\n";
-	    
-	    uint pattern = board_lines[d_to][DIAG_INDEX[to][d_to]];
-	    int line_index = d_to ? (to>>3) : (to&7);
-	    pattern &= AND_DPP_PATTERN[line_index];
-	    if (piece_killed) pattern |= DIAG_PATTERN[line_index][ DIAG_PIECE_PATTERN[piece_killed][d_to] ];
+            // Replace to with the killed piece
+            int line_index = d_to ? (to>>3) : (to&7);
+            pattern &= AND_DPP_PATTERN[line_index];
+            pattern |= DIAG_PATTERN[line_index][ DIAG_PIECE_PATTERN[piece_killed][d_to] ];
 
-	    if (checktable(pattern, player^1)) {
-	      // only single check
-	      ++prev_num_checks;
+            if (checktable(pattern, player^1)) {
+              ++prev_num_checks;
+              threat_pos = to;
 
-	      // Find threat pos
-	      threat_pos = to;
-	      if (!piece_killed) {
-		// piece_killed can't cause the check
-		// If the piece blocks the check at position to, then search
-		// for the threat in the kpos->to direction.
-		int step = DIRECTIONS[SDIRECTION[kpos][to]];
-		while (!board[threat_pos += step]) ;
-	      }
-	    }
-	  }
+            }
+          }
 
-	  // inserting the piece at d_from won't create more checks. Also
-	  // it wont prevent any, as the king was not checked before undoing the move.
-	}
+        } else {
+
+          if (straight_direction(d_to)) {
+            //cerr << "Direction towards king: " << UDIRECTION_NAME[d_to] << "\n";
+
+            uint pattern = board_lines[d_to][DIAG_INDEX[to][d_to]];
+            int line_index = d_to ? (to>>3) : (to&7);
+            pattern &= AND_DPP_PATTERN[line_index];
+            if (piece_killed) pattern |= DIAG_PATTERN[line_index][ DIAG_PIECE_PATTERN[piece_killed][d_to] ];
+
+            if (checktable(pattern, player^1)) {
+              // only single check
+              ++prev_num_checks;
+
+              // Find threat pos
+              threat_pos = to;
+              if (!piece_killed) {
+                // piece_killed can't cause the check
+                // If the piece blocks the check at position to, then search
+                // for the threat in the kpos->to direction.
+                int step = DIRECTIONS[SDIRECTION[kpos][to]];
+                while (!board[threat_pos += step]) ;
+              }
+            }
+          }
+
+          // inserting the piece at d_from won't create more checks. Also
+          // it wont prevent any, as the king was not checked before undoing the move.
+        }
       }
 
       // No check can be caused by from
@@ -1670,7 +1670,7 @@ struct EnPassantPP {
 
   bool accepted(Position from, Position to, Position &en_passant, Piece killed_piece) {
     assert(legal_pos(from)  &&  legal_pos(to));
-    
+
     if (illegal_from[from]  ||  illegal_to[to]) {
       return false;
     } else {
@@ -1731,8 +1731,9 @@ Position Board2::captured_en_passant_pawn(Position from, Position pawn_capture_p
 
 vector<triple<Move,Undo,int> >
 Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
-		        bool allow_captures,
-			bool allow_transformations_of_board, uint max_moves) {
+    bool allow_captures,
+    bool allow_transformations_of_board, uint max_moves)
+{
   if (!moves_played) {
     cerr << "moves_played is 0  =>  no undoing possible!\n";
     return vector<triple<Move,Undo,int> >();
@@ -1764,7 +1765,7 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
       LEGAL_FROM_TO[player ? en_passant+8 : en_passant-8] = LEGAL_TO;
     } else {
       memset(LEGAL_FROM_TO, LEGAL_FROM+LEGAL_TO, 64);
-      
+
       // Find out if some pawns could not have moved 2 forward in their last move
       // as this would give the side-to-move an en passant option.
 
@@ -1772,13 +1773,13 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
       int dr = player ? -8 : 8;
       int pawn = player ? WPAWN : BPAWN;
       for (int c=0; c<8; c++) {
-	if (board[offset+c]==pawn  &&
-	    board[offset+c+dr]==0  &&  board[offset+c+2*dr]==0  &&
-	    ((c != 0  &&  board[offset+c-1]+pawn==WPAWN+BPAWN)  ||
-	     (c != 7  &&  board[offset+c+1]+pawn==WPAWN+BPAWN))) {
-	  LEGAL_FROM_TO[offset+c] |= PAWN_2_FORWARD_NOT_ALLOWED;
-	  LEGAL_FROM_TO[offset+c+2*dr] |= PAWN_2_FORWARD_NOT_ALLOWED;
-	}
+        if (board[offset+c]==pawn  &&
+            board[offset+c+dr]==0  &&  board[offset+c+2*dr]==0  &&
+            ((c != 0  &&  board[offset+c-1]+pawn==WPAWN+BPAWN)  ||
+                (c != 7  &&  board[offset+c+1]+pawn==WPAWN+BPAWN))) {
+          LEGAL_FROM_TO[offset+c] |= PAWN_2_FORWARD_NOT_ALLOWED;
+          LEGAL_FROM_TO[offset+c+2*dr] |= PAWN_2_FORWARD_NOT_ALLOWED;
+        }
       }
     }
   } else { // No pawns
@@ -1789,7 +1790,7 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
 
   if (get_num_pawns()) {
     // Do some preprocessing regarding en passant
-    
+
     // Assume wtm. Find pawn constellations where, after black has undone a move,
     // white might previous had advanced a pawn 2 squares allowing for en passant capture.
     //
@@ -1806,111 +1807,111 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
     //   +-----------------+    |
     //     a b c d e f g h
     //
-    
+
     int offset = 8*(player ? 4 : 3);
     int dr = player ? 8 : -8;
     int pawn = player ? BPAWN : WPAWN;
-    
+
     for (int c=0; c<8; c++) {
       if (board[offset+c]==pawn  ||  (allow_captures  &&  PIECE_COLOR[board[offset+c]] == player^1)) {
-	int lpawn = c != 0  &&  board[offset+c-1]+pawn==WPAWN+BPAWN;
-	int rpawn = c != 7  &&  board[offset+c+1]+pawn==WPAWN+BPAWN;
-	if (lpawn | rpawn) {
+        int lpawn = c != 0  &&  board[offset+c-1]+pawn==WPAWN+BPAWN;
+        int rpawn = c != 7  &&  board[offset+c+1]+pawn==WPAWN+BPAWN;
+        if (lpawn | rpawn) {
 
-	  Position ep = offset+c+dr;
-	  Position pos2 = offset+c+2*dr;
+          Position ep = offset+c+dr;
+          Position pos2 = offset+c+2*dr;
 
-	  //cerr << "Pawn at " << POS_NAME[offset+c] << " was en passant pawn?\n";
+          //cerr << "Pawn at " << POS_NAME[offset+c] << " was en passant pawn?\n";
 
-	  // The pawn at position offset+c might have moved 2 forward 2 moves ago.
-	  
-	  // This option remains if the undone move does not affect
-	  // the 2 squares behind the ep pawn and the capturer pawn if it is unique.
-	  
-	  // Save as: (unaffect1, unaffect2, unaffect3) => ep-square
-	  
-	  if (board[offset+c]==pawn) {
-	  
-	    if (!(board[ep] | board[pos2])) {
-	      // Squares behind en passant pawn are empty
-	      if (lpawn && rpawn) {
-		// not both pawns can move, hence only the 2 squares behind ep pawn
-		// Needs to be untouched
-		ep_possibilities.push_back(EnPassantPP(pos2, ILLEGAL_POS, ep));
-	      } else {
-		ep_possibilities.push_back(EnPassantPP(pos2, lpawn ? offset+c-1 : offset+c+1, ep));
-	      }
-	      
-	    } else if (PIECE_COLOR[board[ep]] != player  &&  PIECE_COLOR[board[pos2]] != player  &&
-		       PIECE_COLOR[board[ep]] != PIECE_COLOR[board[pos2]]) {
-	      // Squares behind en passant pawn are not occupied by piece belonging to stm
-	      // and at most one of them belong to the player retracting a move
-	      // If this piece is moved, the en passant will be valid
-	      ep_possibilities.push_back(EnPassantPP(pos2, ep));
-	    }
+          // The pawn at position offset+c might have moved 2 forward 2 moves ago.
 
-	  } else {
+          // This option remains if the undone move does not affect
+          // the 2 squares behind the ep pawn and the capturer pawn if it is unique.
 
-	    // The piece at offset+c might have captured a pawn that could otherwise
-	    // be taken en passant
-	    if (!(board[ep] | board[pos2]))
-	      ep_possibilities.push_back(EnPassantPP(pos2, offset+c, ep, pawn));
-	  }
+          // Save as: (unaffect1, unaffect2, unaffect3) => ep-square
 
-	} else {
+          if (board[offset+c]==pawn) {
 
-	  Position ep = offset+c+dr;
+            if (!(board[ep] | board[pos2])) {
+              // Squares behind en passant pawn are empty
+              if (lpawn && rpawn) {
+                // not both pawns can move, hence only the 2 squares behind ep pawn
+                // Needs to be untouched
+                ep_possibilities.push_back(EnPassantPP(pos2, ILLEGAL_POS, ep));
+              } else {
+                ep_possibilities.push_back(EnPassantPP(pos2, lpawn ? offset+c-1 : offset+c+1, ep));
+              }
 
-	  // No pawn ready to capture the offset+c pawn en passant!
-	  // What if a pawn move is retracted to a position from where the offset+c
-	  // pawn can be captured en passant?
-	  if (board[offset+c]==pawn  &&  !(board[ep] | board[ep+dr])) {
-	    
-	    bool ok=false;
-	    EnPassantPP e;
-	    e.ep = ep;
-	    e.illegal_to.set();
-	    e.illegal_from.set();
+            } else if (PIECE_COLOR[board[ep]] != player  &&  PIECE_COLOR[board[pos2]] != player  &&
+                PIECE_COLOR[board[ep]] != PIECE_COLOR[board[pos2]]) {
+              // Squares behind en passant pawn are not occupied by piece belonging to stm
+              // and at most one of them belong to the player retracting a move
+              // If this piece is moved, the en passant will be valid
+              ep_possibilities.push_back(EnPassantPP(pos2, ep));
+            }
 
-	    if (c!=0) {
-	      if (board[ep-1]+pawn==WPAWN+BPAWN) {
-		e.illegal_to.reset(ep-1);
-		e.illegal_from.reset(ep-1);//Don't delete, there is a reason why it is here!
-		e.illegal_from.reset(offset+c-1);
-		ok = true;
-	      }
+          } else {
 
-	      if (c!=1) {
-		if (board[ep-2]+pawn==WPAWN+BPAWN) {
-		  e.illegal_to.reset(ep-2);
-		  e.illegal_from.reset(ep-2);
-		  e.illegal_from.reset(offset+c-1);
-		  ok = true;
-		}
-	      }
-	    }
+            // The piece at offset+c might have captured a pawn that could otherwise
+            // be taken en passant
+            if (!(board[ep] | board[pos2]))
+              ep_possibilities.push_back(EnPassantPP(pos2, offset+c, ep, pawn));
+          }
 
-	    if (c!=7) {
-	      if (board[ep+1]+pawn==WPAWN+BPAWN) {
-		e.illegal_to.reset(ep+1);
-		e.illegal_from.reset(ep+1);
-		e.illegal_from.reset(offset+c+1);
-		ok = true;
-	      }
+        } else {
 
-	      if (c!=6) {
-		if (board[ep+2]+pawn==WPAWN+BPAWN) {
-		  e.illegal_to.reset(ep+2);
-		  e.illegal_from.reset(ep+2);
-		  e.illegal_from.reset(offset+c+1);
-		  ok = true;
-		}
-	      }
-	    }
+          Position ep = offset+c+dr;
 
-	    if (ok) ep_possibilities.push_back(e);
-	  }
-	}
+          // No pawn ready to capture the offset+c pawn en passant!
+          // What if a pawn move is retracted to a position from where the offset+c
+          // pawn can be captured en passant?
+          if (board[offset+c]==pawn  &&  !(board[ep] | board[ep+dr])) {
+
+            bool ok=false;
+            EnPassantPP e;
+            e.ep = ep;
+            e.illegal_to.set();
+            e.illegal_from.set();
+
+            if (c!=0) {
+              if (board[ep-1]+pawn==WPAWN+BPAWN) {
+                e.illegal_to.reset(ep-1);
+                e.illegal_from.reset(ep-1);//Don't delete, there is a reason why it is here!
+                e.illegal_from.reset(offset+c-1);
+                ok = true;
+              }
+
+              if (c!=1) {
+                if (board[ep-2]+pawn==WPAWN+BPAWN) {
+                  e.illegal_to.reset(ep-2);
+                  e.illegal_from.reset(ep-2);
+                  e.illegal_from.reset(offset+c-1);
+                  ok = true;
+                }
+              }
+            }
+
+            if (c!=7) {
+              if (board[ep+1]+pawn==WPAWN+BPAWN) {
+                e.illegal_to.reset(ep+1);
+                e.illegal_from.reset(ep+1);
+                e.illegal_from.reset(offset+c+1);
+                ok = true;
+              }
+
+              if (c!=6) {
+                if (board[ep+2]+pawn==WPAWN+BPAWN) {
+                  e.illegal_to.reset(ep+2);
+                  e.illegal_from.reset(ep+2);
+                  e.illegal_from.reset(offset+c+1);
+                  ok = true;
+                }
+              }
+            }
+
+            if (ok) ep_possibilities.push_back(e);
+          }
+        }
       }
     }
   }
@@ -1949,55 +1950,55 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
       int rook = player ? WROOK : BROOK;
 
       if (board[a1]==rook) {
-	if (!board[e1])
-	  ADDED_CASTLING[e1] |= long_castling | KING_REFLECTIONS[player^1][e1];
-	if (!board[a5])
-	  ADDED_CASTLING[a5] |= long_castling | KING_REFLECTIONS[player^1][a5];
-	if (!board[d1])
-	  ADDED_CASTLING[d1] |= short_castling | KING_REFLECTIONS[player^1][d1];
-	if (!board[a4])
-	  ADDED_CASTLING[a4] |= short_castling | KING_REFLECTIONS[player^1][a4];
+        if (!board[e1])
+          ADDED_CASTLING[e1] |= long_castling | KING_REFLECTIONS[player^1][e1];
+        if (!board[a5])
+          ADDED_CASTLING[a5] |= long_castling | KING_REFLECTIONS[player^1][a5];
+        if (!board[d1])
+          ADDED_CASTLING[d1] |= short_castling | KING_REFLECTIONS[player^1][d1];
+        if (!board[a4])
+          ADDED_CASTLING[a4] |= short_castling | KING_REFLECTIONS[player^1][a4];
       }
       if (board[h1]==rook) {
-	if (!board[d1])
-	  ADDED_CASTLING[d1] |= long_castling | KING_REFLECTIONS[player^1][d1];
-	if (!board[h5])
-	  ADDED_CASTLING[h5] |= long_castling | KING_REFLECTIONS[player^1][h5];
-	if (!board[e1])
-	  ADDED_CASTLING[e1] |= short_castling | KING_REFLECTIONS[player^1][e1];
-	if (!board[h4])
-	  ADDED_CASTLING[h4] |= short_castling | KING_REFLECTIONS[player^1][h4];
+        if (!board[d1])
+          ADDED_CASTLING[d1] |= long_castling | KING_REFLECTIONS[player^1][d1];
+        if (!board[h5])
+          ADDED_CASTLING[h5] |= long_castling | KING_REFLECTIONS[player^1][h5];
+        if (!board[e1])
+          ADDED_CASTLING[e1] |= short_castling | KING_REFLECTIONS[player^1][e1];
+        if (!board[h4])
+          ADDED_CASTLING[h4] |= short_castling | KING_REFLECTIONS[player^1][h4];
       }
       if (board[a8]==rook) {
-	if (!board[e8])
-	  ADDED_CASTLING[e8] |= long_castling | KING_REFLECTIONS[player^1][e8];
-	if (!board[a4])
-	  ADDED_CASTLING[a4] |= long_castling | KING_REFLECTIONS[player^1][a4];
-	if (!board[d8])
-	  ADDED_CASTLING[d8] |= short_castling | KING_REFLECTIONS[player^1][d8];
-	if (!board[a5])
-	  ADDED_CASTLING[a5] |= short_castling | KING_REFLECTIONS[player^1][a5];
+        if (!board[e8])
+          ADDED_CASTLING[e8] |= long_castling | KING_REFLECTIONS[player^1][e8];
+        if (!board[a4])
+          ADDED_CASTLING[a4] |= long_castling | KING_REFLECTIONS[player^1][a4];
+        if (!board[d8])
+          ADDED_CASTLING[d8] |= short_castling | KING_REFLECTIONS[player^1][d8];
+        if (!board[a5])
+          ADDED_CASTLING[a5] |= short_castling | KING_REFLECTIONS[player^1][a5];
       }
       if (board[h8]==rook) {
-	if (!board[d8])
-	  ADDED_CASTLING[d8] |= long_castling | KING_REFLECTIONS[player^1][d8];
-	if (!board[h4])
-	  ADDED_CASTLING[h4] |= long_castling | KING_REFLECTIONS[player^1][h4];
-	if (!board[e8])
-	  ADDED_CASTLING[e8] |= short_castling | KING_REFLECTIONS[player^1][e8];
-	if (!board[h5])
-	  ADDED_CASTLING[h5] |= short_castling | KING_REFLECTIONS[player^1][h5];
+        if (!board[d8])
+          ADDED_CASTLING[d8] |= long_castling | KING_REFLECTIONS[player^1][d8];
+        if (!board[h4])
+          ADDED_CASTLING[h4] |= long_castling | KING_REFLECTIONS[player^1][h4];
+        if (!board[e8])
+          ADDED_CASTLING[e8] |= short_castling | KING_REFLECTIONS[player^1][e8];
+        if (!board[h5])
+          ADDED_CASTLING[h5] |= short_castling | KING_REFLECTIONS[player^1][h5];
       }
     }
 
     {
       int refl = KING_REFLECTIONS[player^1][king_pos[player^1]];
       if (refl != -1) {
-	int pos = DECODE_LONG_CASTLING_ROOK[king_pos[player^1]];
-	if (!board[pos]) ADDED_CASTLING[pos] |= long_castling | refl;
+        int pos = DECODE_LONG_CASTLING_ROOK[king_pos[player^1]];
+        if (!board[pos]) ADDED_CASTLING[pos] |= long_castling | refl;
 
-	pos = DECODE_SHORT_CASTLING_ROOK[king_pos[player^1]];
-	if (!board[pos]) ADDED_CASTLING[pos] |= short_castling | refl;
+        pos = DECODE_SHORT_CASTLING_ROOK[king_pos[player^1]];
+        if (!board[pos]) ADDED_CASTLING[pos] |= short_castling | refl;
       }
     }
   }
@@ -2013,45 +2014,45 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
 
     if (board[a1]) {
       const uchar C[2][8] = {{WHITE_LONG_CASTLING, WHITE_SHORT_CASTLING, 0, 0,
-			      WHITE_LONG_CASTLING, 0, WHITE_SHORT_CASTLING, 0},
-			     {0,0,BLACK_LONG_CASTLING,BLACK_SHORT_CASTLING,
-			      0,BLACK_LONG_CASTLING,0,BLACK_SHORT_CASTLING}};
+          WHITE_LONG_CASTLING, 0, WHITE_SHORT_CASTLING, 0},
+          {0,0,BLACK_LONG_CASTLING,BLACK_SHORT_CASTLING,
+              0,BLACK_LONG_CASTLING,0,BLACK_SHORT_CASTLING}};
       if (C[player][refl]) {
-	assert(!ADDED_CASTLING[a1]);
-	ADDED_CASTLING[a1] = C[player][refl] | refl;
+        assert(!ADDED_CASTLING[a1]);
+        ADDED_CASTLING[a1] = C[player][refl] | refl;
       }
     }
 
     if (board[h1]) {
       const uchar C[2][8] = {{WHITE_SHORT_CASTLING,WHITE_LONG_CASTLING,0,0,
-			      0,WHITE_LONG_CASTLING,0,WHITE_SHORT_CASTLING},
-			     {0,0,BLACK_SHORT_CASTLING,BLACK_LONG_CASTLING,
-			      BLACK_LONG_CASTLING,0,BLACK_SHORT_CASTLING,0}};
+          0,WHITE_LONG_CASTLING,0,WHITE_SHORT_CASTLING},
+          {0,0,BLACK_SHORT_CASTLING,BLACK_LONG_CASTLING,
+              BLACK_LONG_CASTLING,0,BLACK_SHORT_CASTLING,0}};
       if (C[player][refl]) {
-	assert(!ADDED_CASTLING[h1]);
-	ADDED_CASTLING[h1] = C[player][refl] | refl;
+        assert(!ADDED_CASTLING[h1]);
+        ADDED_CASTLING[h1] = C[player][refl] | refl;
       }
     }
 
     if (board[a8]) {
       const uchar C[2][8] = {{0,0,WHITE_LONG_CASTLING,WHITE_SHORT_CASTLING,
-			      WHITE_SHORT_CASTLING,0,WHITE_LONG_CASTLING,0},
-			     {BLACK_LONG_CASTLING,BLACK_SHORT_CASTLING,0,0,
-			      0,BLACK_SHORT_CASTLING,0,BLACK_LONG_CASTLING}};
+          WHITE_SHORT_CASTLING,0,WHITE_LONG_CASTLING,0},
+          {BLACK_LONG_CASTLING,BLACK_SHORT_CASTLING,0,0,
+              0,BLACK_SHORT_CASTLING,0,BLACK_LONG_CASTLING}};
       if (C[player][refl]) {
-	assert(!ADDED_CASTLING[a8]);
-	ADDED_CASTLING[a8] = C[player][refl] | refl;
+        assert(!ADDED_CASTLING[a8]);
+        ADDED_CASTLING[a8] = C[player][refl] | refl;
       }
     }
 
     if (board[h8]) {
       const uchar C[2][8] = {{0,0,WHITE_SHORT_CASTLING,WHITE_LONG_CASTLING,
-			      0,WHITE_SHORT_CASTLING,0,WHITE_LONG_CASTLING},
-			     {BLACK_SHORT_CASTLING,BLACK_LONG_CASTLING,0,0,
-			      BLACK_SHORT_CASTLING,0,BLACK_LONG_CASTLING,0}};
+          0,WHITE_SHORT_CASTLING,0,WHITE_LONG_CASTLING},
+          {BLACK_SHORT_CASTLING,BLACK_LONG_CASTLING,0,0,
+              BLACK_SHORT_CASTLING,0,BLACK_LONG_CASTLING,0}};
       if (C[player][refl]) {
-	assert(!ADDED_CASTLING[h8]);
-	ADDED_CASTLING[h8] = C[player][refl] | refl;
+        assert(!ADDED_CASTLING[h8]);
+        ADDED_CASTLING[h8] = C[player][refl] | refl;
       }
     }
   }
@@ -2065,336 +2066,340 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
 
   for (int to=0; to<64; to++) {
     if (PIECE_COLOR[board[to]] == (player^1)  &&
-	(LEGAL_FROM_TO[to] & LEGAL_TO)) {
-    
+        (LEGAL_FROM_TO[to] & LEGAL_TO)) {
+
       //cerr << "Examining moves for " << PIECE_NAME[board[to]] << " on " << POS_NAME[to] << "\n";
 
       {
-	// Iterate move.from (remember this is actually where we want the piece to
-	// move (back) to.
-	Move move(INV_PIECE_JUMP(board[to], to, to),to);
-	
-	while (legal_pos(move.from)) {
-	  
-	  if (!board[move.from]  &&  (LEGAL_FROM_TO[move.from] & LEGAL_FROM)  &&//1
-	      (!CASTLING[move.from]  ||  !CASTLING[to]  ||  PIECE_KIND[board[to]] != KING)  &&//2
-	      !(LEGAL_FROM_TO[move.from] & LEGAL_FROM_TO[to] & PAWN_2_FORWARD_NOT_ALLOWED)) {//3
-	    // Line 2 identifies the illegal moves like Kg1e1 (inverse castling stuff)
-	    // Line 3 identifies a pawn 2 forward move that is illegal as it would give en passant cap.
+        // Iterate move.from (remember this is actually where we want the piece to
+        // move (back) to.
+        Move move(INV_PIECE_JUMP(board[to], to, to),to);
 
-	    bool can_capture = allow_captures;
-	    bool can_non_capture = true;
-	    
-	    if (PIECE_KIND[board[to]] == PAWN) {
-	      if ((move.from ^ move.to) & 7) {
-		// A diagonal move.
-		// The pawn will have to capture something
-		// (can_non_capture will not be checked for an en passant move)
-		can_non_capture = false;
-		
-		// Last move en passant?
-		if (can_capture  && ((player && ROW[to]==5) || (!player && ROW[to]==2))) {
-		  // Correct row
-		  if (board[to+8]==0  &&  board[to-8]==0) {
-		    // The nescessary squares are empty
-		    //cerr << "Finder ep?\n";
+        while (legal_pos(move.from)) {
 
-		    triple<int,uchar,Position> t;
+          if (!board[move.from]  &&  (LEGAL_FROM_TO[move.from] & LEGAL_FROM)  &&//1
+              (!CASTLING[move.from]  ||  !CASTLING[to]  ||  PIECE_KIND[board[to]] != KING)  &&//2
+              !(LEGAL_FROM_TO[move.from] & LEGAL_FROM_TO[to] & PAWN_2_FORWARD_NOT_ALLOWED)) {//3
+            // Line 2 identifies the illegal moves like Kg1e1 (inverse castling stuff)
+            // Line 3 identifies a pawn 2 forward move that is illegal as it would give en passant cap.
 
-		    // Pawns present, only transf. 0 and 1 might be legal
-		    
-		    // insertion of captured en passant pawn might prevent a check
-		    int prevented_checks = 0;
-		    
-		    Position pos = player ? to-8 : to+8;
-		    int d = DIRECTION[pos][king_pos[player]];
-		    
-		    if (straight_direction(d)) {
-		      /*
+            bool can_capture = allow_captures;
+            bool can_non_capture = true;
+
+            if (PIECE_KIND[board[to]] == PAWN) {
+              if ((move.from ^ move.to) & 7) {
+                // A diagonal move.
+                // The pawn will have to capture something
+                // (can_non_capture will not be checked for an en passant move)
+                can_non_capture = false;
+
+                // Last move en passant?
+                if (can_capture  && ((player && ROW[to]==5) || (!player && ROW[to]==2))) {
+                  // Correct row
+                  if (board[to+8]==0  &&  board[to-8]==0) {
+                    // The necessary squares are empty
+                    //cerr << "Finder ep?\n";
+
+                    triple<int,uchar,Position> t;
+
+                    // Pawns present, only transf. 0 and 1 might be legal
+
+                    // insertion of captured en passant pawn might prevent a check
+                    int prevented_checks = 0;
+
+                    Position pos = player ? to-8 : to+8;
+                    int d = DIRECTION[pos][king_pos[player]];
+
+                    if (straight_direction(d)) {
+                      /*
 			cerr << "En passant captured pawn has straight line to its king.\n"
 			<< POS_NAME[pos] << " -> " << POS_NAME[king_pos[player]]
 			<< ", direction = " << d << "\n";
-		      */
-		      
-		      uint *pattern = &(board_lines[d][DIAG_INDEX[pos][d]]);
-		      
-		      prevented_checks += checktable(*pattern, player);
-		      //cerr << "prevented_checks = " << prevented_checks << "\n";
-		      
-		      int line_index = d ? (pos>>3) : (pos&7);
-		      // insert pawn of opposite color in king lines
-		      //cerr << "movement_piece = " << PIECE_NAME[8 - board[to]] << "\n";
-		      *pattern |= DIAG_PATTERN[line_index][ DIAG_PIECE_PATTERN[8 - board[to]][d] ];
-		      
-		      prevented_checks -= checktable(*pattern, player);
-		      //cerr << "prevented_checks = " << prevented_checks << "\n";
-		      
-		      t = retro_move_count_checks(move.from, to, board[to], 0);
-		      t.first -= prevented_checks;
-		      
-		      // Remove the captured en passant pawn from king lines again
-		      *pattern &= AND_DPP_PATTERN[line_index];
-		      
-		    } else {
-		      
-		      t = retro_move_count_checks(move.from, to, board[to], 0);
-		    }
-		    
-		    // Was the captured pawn checking the king?
-		    if (player) {
-		      if ((COLUMN[pos]!=0  &&  board[pos-9]==WKING)  ||
-			  (COLUMN[pos]!=7  &&  board[pos-7]==WKING))
-			++t.second;
-		    } else {
-		      if ((COLUMN[pos]!=0  &&  board[pos+7]==BKING)  ||
-			  (COLUMN[pos]!=7  &&  board[pos+9]==BKING))
-			++t.second;
-		    }
-		    
-		    
-		    if (t.first == 0) {
-		      
-		      // Only one possibility - en passant possible at exactly this position
-		      Undo undo(to, castling,
-				moves_played_since_progress ? moves_played_since_progress-1 : 0,
-				player^1, t.second, t.third, 0);
+                       */
 
-		      if (result.size() == result.capacity()) result.reserve(2*result.capacity());
-		      move.special_move = EN_PASSANT;
-		      result.push_back(triple<Move,Undo,int>(move, undo, 0));
-		      if (result.size() == max_moves) return result;
-		      move.special_move = 0;
-		      
-		    } else {
-		      //cerr << "Move " << move.toString() << " has num_checks = " << t.first << "\n";
-		    }
-		  }
-		}
-	      } else {
-		// Cannot capture
-		can_capture = false;
-	      }
-	    }
-	    
-	    // KILLED[0..7]:   Used for white to move --- i.e. black captured white piece:
-	    //                 A->H, H->A invalid for file a and h.  WP,BP invalid for rank 1 and 8
-	    // KILLED[8..15]:  Used for black to move --- i.e. white captured white piece:
-	    //                 H->A, A->H invalid for file a and h.  BP,WP invalid for rank 1 and 8
-	    //
-	    // KILLED[16..23]: Used for white to move --- i.e. black captured white piece:
-	    //                 WP,BP invalid for rank 1 and 8.   A->H, H->A invalid for file a and h.
-	    // KILLED[24..31]: Used for black to move --- i.e. white captured white piece:
-	    //                 BP,WP invalid for rank 1 and 8.   H->A, A->H invalid for file a and h.
-	    const Piece KILLED[36] =
-	      {FILE_H_TO_A_PAWN, FILE_A_TO_H_PAWN, BPAWN, WPAWN, WKNIGHT, WBISHOP, WROOK, WQUEEN, 0,
-	       FILE_A_TO_H_PAWN, FILE_H_TO_A_PAWN, WPAWN, BPAWN, BKNIGHT, BBISHOP, BROOK, BQUEEN, 0,
-	       BPAWN, WPAWN, FILE_H_TO_A_PAWN, FILE_A_TO_H_PAWN, WKNIGHT, WBISHOP, WROOK, WQUEEN, 0,
-	       WPAWN, BPAWN, FILE_A_TO_H_PAWN, FILE_H_TO_A_PAWN, BKNIGHT, BBISHOP, BROOK, BQUEEN, 0};
-	    
-	    const Piece REAL_PIECE[38] =
-	      {WPAWN, WPAWN, WPAWN, WPAWN, WKNIGHT, WBISHOP, WROOK, WQUEEN, 0,
-	       BPAWN, BPAWN, BPAWN, BPAWN, BKNIGHT, BBISHOP, BROOK, BQUEEN, 0,
-	       WPAWN, WPAWN, WPAWN, WPAWN, WKNIGHT, WBISHOP, WROOK, WQUEEN, 0,
-	       BPAWN, BPAWN, BPAWN, BPAWN, BKNIGHT, BBISHOP, BROOK, BQUEEN, 0};
+                      uint *pattern = &(board_lines[d][DIAG_INDEX[pos][d]]);
 
-	    const uchar TRANSF[36] =
-	      {5, 4, 2, 0, 0, 0, 0, 0, 0,
-	       5, 4, 2, 0, 0, 0, 0, 0, 0,
-	       2, 0, 5, 4, 0, 0, 0, 0, 0,
-	       2, 0, 5, 4, 0, 0, 0, 0, 0};
+                      prevented_checks += checktable(*pattern, player);
+                      //cerr << "prevented_checks = " << prevented_checks << "\n";
 
-	    // ALLOWED_T used when added castling puts demands on transformation
-	    const uchar ALLOWED_T[36] =
-	      {0xA0, 0x50, 0x0C, 0x03, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	       0xA0, 0x50, 0x0C, 0x03, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	       0x0C, 0x03, 0xA0, 0x50, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	       0x0C, 0x03, 0xA0, 0x50, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+                      int line_index = d ? (pos>>3) : (pos&7);
+                      // insert pawn of opposite color in king lines
+                      //cerr << "movement_piece = " << PIECE_NAME[8 - board[to]] << "\n";
+                      *pattern |= DIAG_PATTERN[line_index][ DIAG_PIECE_PATTERN[8 - board[to]][d] ];
 
-	    
-	    int ki; // ki : killed index, index used in KILLED and TRANSF
-	    if (can_capture) { // calculate an index in KILLED.
-	      if (allowed_transformations & ~3) {
-		
-		if (ROW[to]==0 || ROW[to]==7) {
-		  if (COLUMN[to]==0  ||  COLUMN[to]==7) {
-		    // to is a corner square. It could not have been a pawn
-		    ki = 3+9*player;
-		  } else {
-		    // transformation 0 and 2 can not be used for pawns
-		    ki = 18+1+9*player;
-		  }
-		} else {
-		  if (COLUMN[to]==0  ||  COLUMN[to]==7) {
-		    // transformation 4 and 5 can not be used for pawns
-		    ki = 0+1+9*player;
-		  } else {
-		    // to is an internal square, all transformations may be used
-		    ki = -1+9*player;
-		  }
-		}
+                      prevented_checks -= checktable(*pattern, player);
+                      //cerr << "prevented_checks = " << prevented_checks << "\n";
 
-	      } else {
-		ki = (ROW[to]==0 || ROW[to]==7) ? (3+9*player) : (2+9*player);
-	      }
+                      t = retro_move_count_checks(move.from, to, board[to], 0);
+                      t.first -= prevented_checks;
 
-	    } else {
-	      ki = 7;
-	    }
+                      // Remove the captured en passant pawn from king lines again
+                      *pattern &= AND_DPP_PATTERN[line_index];
 
-	    do {
-	      ++ki;
-	      
-	      triple<int,uchar,Position> t = retro_move_count_checks(move.from, to, board[to], KILLED[ki]);
-	      
-	      if (t.first == 0) {
-		// Undoing this move gives a position for which no move can capture the king.
-		
-		// An eventual extra en passant will not impose any restrictions
-		// on symmetry as one other pawn is needed.
-		Undo undo(ILLEGAL_POS, castling, moves_played_since_progress ? moves_played_since_progress-1 : 0,
-			  player^1, t.second, t.third, REAL_PIECE[ki]);
-		
-		// "own" and "opponent" are relative to the player undoing a move
+                    } else {
 
-		// can't be moved out of do...while loop as it is dependent on ki
-		uchar adding_own_castling = ADDED_CASTLING[move.from]  &&
-		  ((1 << (ADDED_CASTLING[move.from] & 0x0F)) & allowed_transformations & ALLOWED_T[ki])  &&
-		  ((KING_CASTLING_POSITIONS[move.from]  &&  PIECE_KIND[board[to]]==KING)  ||
-		   (!KING_CASTLING_POSITIONS[move.from]  &&  PIECE_KIND[board[to]]==ROOK));
-		uchar own_castling_transf = 0;
-		if (adding_own_castling) {
-		  adding_own_castling = ADDED_CASTLING[move.from] & 0xF0;
-		  //cerr << "adding_own_castling = " << adding_own_castling << "\n";
-		  own_castling_transf = ADDED_CASTLING[move.from] & 0x0F;
-		}
+                      t = retro_move_count_checks(move.from, to, board[to], 0);
+                    }
 
-		uchar adding_opponent_castling = ADDED_CASTLING[move.to]  &&
-		  PIECE_KIND[KILLED[ki]]==ROOK  &&
-		  ((1 << (ADDED_CASTLING[move.to] & 0x0F)) & allowed_transformations & ALLOWED_T[ki]);
-		uchar opponent_castling_transf = 0;
-		if (adding_opponent_castling) {
-		  adding_opponent_castling = ADDED_CASTLING[move.to] & 0xF0;
-		  opponent_castling_transf = ADDED_CASTLING[move.to] & 0x0F;
-		}
+                    // Was the captured pawn checking the king?
+                    if (player) {
+                      if ((COLUMN[pos]!=0  &&  board[pos-9]==WKING)  ||
+                          (COLUMN[pos]!=7  &&  board[pos-7]==WKING))
+                        ++t.second;
+                    } else {
+                      if ((COLUMN[pos]!=0  &&  board[pos+7]==BKING)  ||
+                          (COLUMN[pos]!=7  &&  board[pos+9]==BKING))
+                        ++t.second;
+                    }
 
 
-		if ((KILLED[ki] && can_capture) || (!KILLED[ki] && can_non_capture)) {
+                    if (t.first == 0) {
 
-		  // An extra iteration with i==-1 takes care of the case that the
-		  // pawn captured could have been an en passant pawn.
-		  
-		  for (uint i=0; i<ep_possibilities.size(); i++) {
-		    
-		    if (ep_possibilities[i].accepted(move.from, to, undo.en_passant, KILLED[ki])) {
-		      
-		      if (TRANSF[ki]) {
-			// We need transformed versions of move and undo
-			Move transf_move(move);
-			Undo transf_undo(undo);
+                      // Only one possibility - en passant possible at exactly this position
+                      Undo undo(to, castling,
+                          moves_played_since_progress ? moves_played_since_progress-1 : 0,
+                              player^1, t.second, t.third, 0);
 
-			transf_move.from = reflect(transf_move.from, TRANSF[ki]);
-			transf_move.to = reflect(transf_move.to, TRANSF[ki]);
-			if (legal_pos(transf_undo.threat_pos))
-			  transf_undo.threat_pos = reflect(transf_undo.threat_pos, TRANSF[ki]);
-			if (legal_pos(transf_undo.en_passant))
-			  transf_undo.en_passant = reflect(transf_undo.en_passant, TRANSF[ki]);
+                      if (result.size() == result.capacity()) result.reserve(2*result.capacity());
+                      move.special_move = EN_PASSANT;
+                      result.push_back(triple<Move,Undo,int>(move, undo, 0));
+                      if (result.size() == max_moves) return result;
+                      move.special_move = 0;
 
-			if (result.size() == result.capacity()) result.reserve(2*result.capacity());
-			result.push_back(triple<Move,Undo,int>(transf_move, transf_undo, TRANSF[ki]));
-			if (result.size() == max_moves) return result;
+                    } else {
+                      //cerr << "Move " << move.toString() << " has num_checks = " << t.first << "\n";
+                    }
+                  }
+                }
+              } else {
+                // Cannot capture
+                can_capture = false;
+              }
+            }
 
-		      } else {
+            // KILLED[0..7]:   Used for white to move --- i.e. black captured white piece:
+            //                 A->H, H->A invalid for file a and h.  WP,BP invalid for rank 1 and 8
+            // KILLED[8..15]:  Used for black to move --- i.e. white captured white piece:
+            //                 H->A, A->H invalid for file a and h.  BP,WP invalid for rank 1 and 8
+            //
+            // KILLED[16..23]: Used for white to move --- i.e. black captured white piece:
+            //                 WP,BP invalid for rank 1 and 8.   A->H, H->A invalid for file a and h.
+            // KILLED[24..31]: Used for black to move --- i.e. white captured white piece:
+            //                 BP,WP invalid for rank 1 and 8.   H->A, A->H invalid for file a and h.
+            const Piece KILLED[36] =
+            {   FILE_H_TO_A_PAWN, FILE_A_TO_H_PAWN, BPAWN, WPAWN, WKNIGHT, WBISHOP, WROOK, WQUEEN, 0,
+                FILE_A_TO_H_PAWN, FILE_H_TO_A_PAWN, WPAWN, BPAWN, BKNIGHT, BBISHOP, BROOK, BQUEEN, 0,
+                BPAWN, WPAWN, FILE_H_TO_A_PAWN, FILE_A_TO_H_PAWN, WKNIGHT, WBISHOP, WROOK, WQUEEN, 0,
+                WPAWN, BPAWN, FILE_A_TO_H_PAWN, FILE_H_TO_A_PAWN, BKNIGHT, BBISHOP, BROOK, BQUEEN, 0
+            };
 
-			if (result.size() == result.capacity()) result.reserve(2*result.capacity());
-			result.push_back(triple<Move,Undo,int>(move, undo, TRANSF[ki]));
-			if (result.size() == max_moves) return result;
-		      }
-		      
-		      if (adding_opponent_castling) {
-			// Adding with castling capability for the captured rook
+            const Piece REAL_PIECE[38] =
+            {   WPAWN, WPAWN, WPAWN, WPAWN, WKNIGHT, WBISHOP, WROOK, WQUEEN, 0,
+                BPAWN, BPAWN, BPAWN, BPAWN, BKNIGHT, BBISHOP, BROOK, BQUEEN, 0,
+                WPAWN, WPAWN, WPAWN, WPAWN, WKNIGHT, WBISHOP, WROOK, WQUEEN, 0,
+                BPAWN, BPAWN, BPAWN, BPAWN, BKNIGHT, BBISHOP, BROOK, BQUEEN, 0
+            };
 
-			// Creating new move and undo that are updated with respect to castling
-			// and transformed accordingly.
-			Move transf_move(move);
-			Undo transf_undo(undo);
-			if (opponent_castling_transf) {
-			  transf_move.from = reflect(transf_move.from, opponent_castling_transf);
-			  transf_move.to = reflect(transf_move.to, opponent_castling_transf);
-			  if (legal_pos(transf_undo.threat_pos))
-			    transf_undo.threat_pos = reflect(transf_undo.threat_pos, opponent_castling_transf);
-			  if (legal_pos(transf_undo.en_passant))
-			    transf_undo.en_passant = reflect(transf_undo.en_passant, opponent_castling_transf);
-			}
-			assert(!(undo.castling & adding_opponent_castling));
-			transf_undo.castling |= adding_opponent_castling;
+            const uchar TRANSF[36] =
+            {   5, 4, 2, 0, 0, 0, 0, 0, 0,
+                5, 4, 2, 0, 0, 0, 0, 0, 0,
+                2, 0, 5, 4, 0, 0, 0, 0, 0,
+                2, 0, 5, 4, 0, 0, 0, 0, 0
+            };
 
-			if (result.size() == result.capacity()) result.reserve(2*result.capacity());
-			result.push_back(triple<Move,Undo,int>(transf_move, transf_undo, opponent_castling_transf));
-			if (result.size() == max_moves) return result;
-
-			if (adding_own_castling  && own_castling_transf==opponent_castling_transf) {
-			  // Adding with castling capabilities for both rooks
-			  assert(PIECE_KIND[board[to]] == ROOK  &&  board[to]+KILLED[ki] == WROOK+BROOK);
-
-			  assert(!(undo.castling & adding_own_castling));
-			  transf_undo.castling |= adding_own_castling;
-
-			  if (result.size() == result.capacity()) result.reserve(2*result.capacity());
-			  result.push_back(triple<Move,Undo,int>(transf_move, transf_undo, own_castling_transf));
-			  if (result.size() == max_moves) return result;
-			}
-		      }
+            // ALLOWED_T used when added castling puts demands on transformation
+            const uchar ALLOWED_T[36] =
+            {   0xA0, 0x50, 0x0C, 0x03, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+                0xA0, 0x50, 0x0C, 0x03, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+                0x0C, 0x03, 0xA0, 0x50, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+                0x0C, 0x03, 0xA0, 0x50, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
+            };
 
 
-		      if (adding_own_castling) {
-			
-			// Creating new move and undo that are updated with respect to castling
-			// and transformed accordingly.
-			Move transf_move(move);
-			Undo transf_undo(undo);
-			if (own_castling_transf) {
-			  transf_move.from = reflect(transf_move.from, own_castling_transf);
-			  transf_move.to = reflect(transf_move.to, own_castling_transf);
-			  if (legal_pos(transf_undo.threat_pos))
-			    transf_undo.threat_pos = reflect(transf_undo.threat_pos, own_castling_transf);
-			  if (legal_pos(transf_undo.en_passant))
-			    transf_undo.en_passant = reflect(transf_undo.en_passant, own_castling_transf);
-			}
-			assert(!(undo.castling & adding_own_castling));
-			transf_undo.castling |= adding_own_castling;
+            int ki; // ki : killed index, index used in KILLED and TRANSF
+            if (can_capture) { // calculate an index in KILLED.
+              if (allowed_transformations & ~3) {
 
-			if (result.size() == result.capacity()) result.reserve(2*result.capacity());
-			result.push_back(triple<Move,Undo,int>(transf_move, transf_undo, own_castling_transf));
-			if (result.size() == max_moves) return result;
-			
-			if (bit_count[adding_own_castling] == 2) {
-			  // 2 more cases
-			  transf_undo.castling = castling |
-			    (adding_own_castling & (adding_own_castling>>1));
-			  if (result.size() == result.capacity()) result.reserve(2*result.capacity());
-			  result.push_back(triple<Move,Undo,int>(transf_move, transf_undo, own_castling_transf));
-			  if (result.size() == max_moves) return result;
-			  
-			  transf_undo.castling = castling |
-			    (adding_own_castling & (adding_own_castling<<1));
-			  if (result.size() == result.capacity()) result.reserve(2*result.capacity());
-			  result.push_back(triple<Move,Undo,int>(transf_move, transf_undo, own_castling_transf));
-			  if (result.size() == max_moves) return result;
-			}
-		      }
-		    }
-		  }
-		}
-		
-	      } else {
-		//cerr << "Move " << move.toString() << " has num_checks = " << t.first << "\n";
-	      }
-	    } while (KILLED[ki]);
-	  }
-	  
-	  if (board[move.from]) move.from = INV_PIECE_JUMP(board[to], move.to, move.from);
-	  else move.from = INV_PIECE_NEXT(board[to], move.to, move.from);
-	}
+                if (ROW[to]==0 || ROW[to]==7) {
+                  if (COLUMN[to]==0  ||  COLUMN[to]==7) {
+                    // to is a corner square. It could not have been a pawn
+                    ki = 3+9*player;
+                  } else {
+                    // transformation 0 and 2 can not be used for pawns
+                    ki = 18+1+9*player;
+                  }
+                } else {
+                  if (COLUMN[to]==0  ||  COLUMN[to]==7) {
+                    // transformation 4 and 5 can not be used for pawns
+                    ki = 0+1+9*player;
+                  } else {
+                    // to is an internal square, all transformations may be used
+                    ki = -1+9*player;
+                  }
+                }
+
+              } else {
+                ki = (ROW[to]==0 || ROW[to]==7) ? (3+9*player) : (2+9*player);
+              }
+
+            } else {
+              ki = 7;
+            }
+
+            do {
+              ++ki;
+
+              triple<int,uchar,Position> t = retro_move_count_checks(move.from, to, board[to], KILLED[ki]);
+
+              if (t.first == 0) {
+                // Undoing this move gives a position for which no move can capture the king.
+
+                // An eventual extra en passant will not impose any restrictions
+                // on symmetry as one other pawn is needed.
+                Undo undo(ILLEGAL_POS, castling, moves_played_since_progress ? moves_played_since_progress-1 : 0,
+                    player^1, t.second, t.third, REAL_PIECE[ki]);
+
+                // "own" and "opponent" are relative to the player undoing a move
+
+                // can't be moved out of do...while loop as it is dependent on ki
+                uchar adding_own_castling = ADDED_CASTLING[move.from]  &&
+                    ((1 << (ADDED_CASTLING[move.from] & 0x0F)) & allowed_transformations & ALLOWED_T[ki])  &&
+                    ((KING_CASTLING_POSITIONS[move.from]  &&  PIECE_KIND[board[to]]==KING)  ||
+                        (!KING_CASTLING_POSITIONS[move.from]  &&  PIECE_KIND[board[to]]==ROOK));
+                uchar own_castling_transf = 0;
+                if (adding_own_castling) {
+                  adding_own_castling = ADDED_CASTLING[move.from] & 0xF0;
+                  //cerr << "adding_own_castling = " << adding_own_castling << "\n";
+                  own_castling_transf = ADDED_CASTLING[move.from] & 0x0F;
+                }
+
+                uchar adding_opponent_castling = ADDED_CASTLING[move.to]  &&
+                    PIECE_KIND[KILLED[ki]]==ROOK  &&
+                    ((1 << (ADDED_CASTLING[move.to] & 0x0F)) & allowed_transformations & ALLOWED_T[ki]);
+                uchar opponent_castling_transf = 0;
+                if (adding_opponent_castling) {
+                  adding_opponent_castling = ADDED_CASTLING[move.to] & 0xF0;
+                  opponent_castling_transf = ADDED_CASTLING[move.to] & 0x0F;
+                }
+
+
+                if ((KILLED[ki] && can_capture) || (!KILLED[ki] && can_non_capture)) {
+
+                  // An extra iteration with i==-1 takes care of the case that the
+                  // pawn captured could have been an en passant pawn.
+
+                  for (uint i=0; i<ep_possibilities.size(); i++) {
+
+                    if (ep_possibilities[i].accepted(move.from, to, undo.en_passant, KILLED[ki])) {
+
+                      if (TRANSF[ki]) {
+                        // We need transformed versions of move and undo
+                        Move transf_move(move);
+                        Undo transf_undo(undo);
+
+                        transf_move.from = reflect(transf_move.from, TRANSF[ki]);
+                        transf_move.to = reflect(transf_move.to, TRANSF[ki]);
+                        if (legal_pos(transf_undo.threat_pos))
+                          transf_undo.threat_pos = reflect(transf_undo.threat_pos, TRANSF[ki]);
+                        if (legal_pos(transf_undo.en_passant))
+                          transf_undo.en_passant = reflect(transf_undo.en_passant, TRANSF[ki]);
+
+                        if (result.size() == result.capacity()) result.reserve(2*result.capacity());
+                        result.push_back(triple<Move,Undo,int>(transf_move, transf_undo, TRANSF[ki]));
+                        if (result.size() == max_moves) return result;
+
+                      } else {
+
+                        if (result.size() == result.capacity()) result.reserve(2*result.capacity());
+                        result.push_back(triple<Move,Undo,int>(move, undo, TRANSF[ki]));
+                        if (result.size() == max_moves) return result;
+                      }
+
+                      if (adding_opponent_castling) {
+                        // Adding with castling capability for the captured rook
+
+                        // Creating new move and undo that are updated with respect to castling
+                        // and transformed accordingly.
+                        Move transf_move(move);
+                        Undo transf_undo(undo);
+                        if (opponent_castling_transf) {
+                          transf_move.from = reflect(transf_move.from, opponent_castling_transf);
+                          transf_move.to = reflect(transf_move.to, opponent_castling_transf);
+                          if (legal_pos(transf_undo.threat_pos))
+                            transf_undo.threat_pos = reflect(transf_undo.threat_pos, opponent_castling_transf);
+                          if (legal_pos(transf_undo.en_passant))
+                            transf_undo.en_passant = reflect(transf_undo.en_passant, opponent_castling_transf);
+                        }
+                        assert(!(undo.castling & adding_opponent_castling));
+                        transf_undo.castling |= adding_opponent_castling;
+
+                        if (result.size() == result.capacity()) result.reserve(2*result.capacity());
+                        result.push_back(triple<Move,Undo,int>(transf_move, transf_undo, opponent_castling_transf));
+                        if (result.size() == max_moves) return result;
+
+                        if (adding_own_castling  && own_castling_transf==opponent_castling_transf) {
+                          // Adding with castling capabilities for both rooks
+                          assert(PIECE_KIND[board[to]] == ROOK  &&  board[to]+KILLED[ki] == WROOK+BROOK);
+
+                          assert(!(undo.castling & adding_own_castling));
+                          transf_undo.castling |= adding_own_castling;
+
+                          if (result.size() == result.capacity()) result.reserve(2*result.capacity());
+                          result.push_back(triple<Move,Undo,int>(transf_move, transf_undo, own_castling_transf));
+                          if (result.size() == max_moves) return result;
+                        }
+                      }
+
+
+                      if (adding_own_castling) {
+
+                        // Creating new move and undo that are updated with respect to castling
+                        // and transformed accordingly.
+                        Move transf_move(move);
+                        Undo transf_undo(undo);
+                        if (own_castling_transf) {
+                          transf_move.from = reflect(transf_move.from, own_castling_transf);
+                          transf_move.to = reflect(transf_move.to, own_castling_transf);
+                          if (legal_pos(transf_undo.threat_pos))
+                            transf_undo.threat_pos = reflect(transf_undo.threat_pos, own_castling_transf);
+                          if (legal_pos(transf_undo.en_passant))
+                            transf_undo.en_passant = reflect(transf_undo.en_passant, own_castling_transf);
+                        }
+                        assert(!(undo.castling & adding_own_castling));
+                        transf_undo.castling |= adding_own_castling;
+
+                        if (result.size() == result.capacity()) result.reserve(2*result.capacity());
+                        result.push_back(triple<Move,Undo,int>(transf_move, transf_undo, own_castling_transf));
+                        if (result.size() == max_moves) return result;
+
+                        if (bit_count[adding_own_castling] == 2) {
+                          // 2 more cases
+                          transf_undo.castling = castling |
+                              (adding_own_castling & (adding_own_castling>>1));
+                          if (result.size() == result.capacity()) result.reserve(2*result.capacity());
+                          result.push_back(triple<Move,Undo,int>(transf_move, transf_undo, own_castling_transf));
+                          if (result.size() == max_moves) return result;
+
+                          transf_undo.castling = castling |
+                              (adding_own_castling & (adding_own_castling<<1));
+                          if (result.size() == result.capacity()) result.reserve(2*result.capacity());
+                          result.push_back(triple<Move,Undo,int>(transf_move, transf_undo, own_castling_transf));
+                          if (result.size() == max_moves) return result;
+                        }
+                      }
+                    }
+                  }
+                }
+
+              } else {
+                //cerr << "Move " << move.toString() << " has num_checks = " << t.first << "\n";
+              }
+            } while (KILLED[ki]);
+          }
+
+          if (board[move.from]) move.from = INV_PIECE_JUMP(board[to], move.to, move.from);
+          else move.from = INV_PIECE_NEXT(board[to], move.to, move.from);
+        }
       }
 
 
@@ -2403,235 +2408,238 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
       // #############################################################
       //cerr << "Examining pawn promotion moves (allowed t. = " << allowed_transformations << ")\n";
       if (allow_pawn_promotion  &&  !BORDER_DISTANCE[to]  &&
-	  PIECE_KIND[board[to]] != PAWN  &&  PIECE_KIND[board[to]] != KING) {
-	// 8/2 = 4 kinds of ways the board can have been transformed
-	// (the 2 symmetries with pawns extended to 8)
-	const int TRANSF[4] = {0,2,4,5};
-	// How to view TRANSF relative to white pawn
-	//   a-- 0 --b
-	// b           b
-	// |           |
-	// 5           4
-	// |           |
-	// a           a
-	//   a-- 2 --b
-	for (int r=0; r<4; r++) {
-	  int t = TRANSF[r];
-	  if (((1<<t) & allowed_transformations)  &&
-	      ROW[reflect(to, t)] == (player ? 7 : 0)  &&
-	      (LEGAL_FROM_TO[to] & LEGAL_TO)) {
-	    //cerr << "Considering transformation " << t << "\n";
-	    // t transforms the board such that the piece board[to]
-	    // could just have been created by a pawn promotion.
-	    
-	    
-	    Move move;
-	    {
-	      int pos = reflect(to, t);
-	      move = Move(INV_PIECE_JUMP(player ? WPAWN : BPAWN, pos, pos), pos);
-	      move.special_move = board[to];//pawn promotion move
-	    }
-	    
-
-	    while (legal_pos(move.from)) {
-
-	      bool diagonal_move = ((ROW[move.from] != ROW[move.to])  &&
-				    (COLUMN[move.from] != COLUMN[move.to]));
-	      if (allow_captures || !diagonal_move) {
-		// now move gives a move in the transformed board
-		Position from = inv_reflect(move.from, t);
-		// now from,to gives the squares in the untransformed board
-		
-		//cerr << "(" << POS_NAME[from] << "," << POS_NAME[to] << ") -> ("
-		//<< POS_NAME[move.from] << "," << POS_NAME[move.to] << ")\n";
-		
-		if (!board[from]  &&  (LEGAL_FROM_TO[from] & LEGAL_FROM)) {
-		  // Property diagonal_move invariant to transformations
-		  int kill = diagonal_move ? (player ? 7 : 1) : QUEEN;
-		  
-		  do {
-		    if (PIECE_KIND[kill] == QUEEN) kill = 0;
-		    else ++kill;
-		    
-		    //cerr << "move = " << move.toString() << ", diag. = " << diagonal_move
-		    //     << ", kill = " << kill << "\n";
-		    
-		    if ((kill!=0)  ==  diagonal_move) {
-		      
-		      // Beware!, do not use move, but insted to,from
-		      uchar adding_opponent_castling = ADDED_CASTLING[to]  &&
-			PIECE_KIND[kill]==ROOK  &&  (ADDED_CASTLING[to] & 0x0F) == t;
-		      if (adding_opponent_castling)
-			adding_opponent_castling = ADDED_CASTLING[to] & 0xF0;
+          PIECE_KIND[board[to]] != PAWN  &&  PIECE_KIND[board[to]] != KING) {
+        // 8/2 = 4 kinds of ways the board can have been transformed
+        // (the 2 symmetries with pawns extended to 8)
+        const int TRANSF[4] = {0,2,4,5};
+        // How to view TRANSF relative to white pawn
+        //   a-- 0 --b
+        // b           b
+        // |           |
+        // 5           4
+        // |           |
+        // a           a
+        //   a-- 2 --b
+        for (int r=0; r<4; r++) {
+          int t = TRANSF[r];
+          if (((1<<t) & allowed_transformations)  &&
+              ROW[reflect(to, t)] == (player ? 7 : 0)  &&
+              (LEGAL_FROM_TO[to] & LEGAL_TO)) {
+            //cerr << "Considering transformation " << t << "\n";
+            // t transforms the board such that the piece board[to]
+            // could just have been created by a pawn promotion.
 
 
-		      Piece pawns[2][4] = {{BPAWN, WPAWN, FILE_H_TO_A_PAWN, FILE_A_TO_H_PAWN},
-					   {WPAWN, BPAWN, FILE_A_TO_H_PAWN, FILE_H_TO_A_PAWN}};
-		      triple<int,uchar,Position> tr = retro_move_count_checks(from, to, pawns[player][r], kill);
-		      if (t  &&  tr.third!=ILLEGAL_POS)
-			tr.third = reflect(tr.third, t);
-		      
-		      // Luckily no possibility for added castling capabilities
-		      
-		      if (tr.first == 0) {
-			Undo undo(0, castling,
-				  moves_played_since_progress ? moves_played_since_progress-1 : 0,
-				  player^1, tr.second, tr.third, kill);
-			
-			for (uint i=0; i<ep_possibilities.size(); i++) {
-			  if (ep_possibilities[i].accepted(move.from, to, undo.en_passant, kill)) {
-			    // Do not modify en passant. if it is defined then t==0
-			    // The same holds for castling
+            Move move;
+            {
+              int pos = reflect(to, t);
+              move = Move(INV_PIECE_JUMP(player ? WPAWN : BPAWN, pos, pos), pos);
+              move.special_move = board[to];//pawn promotion move
+            }
 
-			    if (result.size() == result.capacity()) result.reserve(2*result.capacity());
-			    result.push_back(triple<Move,Undo,int>(move, undo, t));
-			    if (result.size() == max_moves) return result;
 
-			    if (adding_opponent_castling) {
-			      if (result.size() == result.capacity()) result.reserve(2*result.capacity());
-			      undo.castling |= adding_opponent_castling;
-			      result.push_back(triple<Move,Undo,int>(move, undo, t));
-			      undo.castling &= ~adding_opponent_castling;
-			      if (result.size() == max_moves) return result;
-			    }
-			  }
-			}
-			
-		      } else {
-			//cerr << "Move " << move.toString() << " has num_checks = " << tr.first << "\n";
-		      }
-		    }
-		  } while (kill);
-		}
-	      }
-	      
-	      // INV_PIECE_NEXT or INV_PIECE_JUMP is the same
-	      move.from = INV_PIECE_NEXT(player ? WPAWN : BPAWN, move.to, move.from);
-	    }
-	  }
-	}
+            while (legal_pos(move.from)) {
+
+              bool diagonal_move = ((ROW[move.from] != ROW[move.to])  &&
+                  (COLUMN[move.from] != COLUMN[move.to]));
+              if (allow_captures || !diagonal_move) {
+                // now move gives a move in the transformed board
+                Position from = inv_reflect(move.from, t);
+                // now from,to gives the squares in the untransformed board
+
+                //cerr << "(" << POS_NAME[from] << "," << POS_NAME[to] << ") -> ("
+                //<< POS_NAME[move.from] << "," << POS_NAME[move.to] << ")\n";
+
+                if (!board[from]  &&  (LEGAL_FROM_TO[from] & LEGAL_FROM)) {
+                  // Property diagonal_move invariant to transformations
+                  int kill = diagonal_move ? (player ? 7 : 1) : QUEEN;
+
+                  do {
+                    if (PIECE_KIND[kill] == QUEEN) kill = 0;
+                    else ++kill;
+
+                    //cerr << "move = " << move.toString() << ", diag. = " << diagonal_move
+                    //     << ", kill = " << kill << "\n";
+
+                    if ((kill!=0)  ==  diagonal_move) {
+
+                      // Beware!, do not use move, but instead to,from
+                      uchar adding_opponent_castling = ADDED_CASTLING[to]  &&
+                          PIECE_KIND[kill]==ROOK  &&  (ADDED_CASTLING[to] & 0x0F) == t;
+                      if (adding_opponent_castling)
+                        adding_opponent_castling = ADDED_CASTLING[to] & 0xF0;
+
+
+                      Piece pawns[2][4] = {{BPAWN, WPAWN, FILE_H_TO_A_PAWN, FILE_A_TO_H_PAWN},
+                          {WPAWN, BPAWN, FILE_A_TO_H_PAWN, FILE_H_TO_A_PAWN}};
+                      triple<int,uchar,Position> tr = retro_move_count_checks(from, to, pawns[player][r], kill);
+                      if (t  &&  tr.third!=ILLEGAL_POS)
+                        tr.third = reflect(tr.third, t);
+
+                      // Luckily no possibility for added castling capabilities
+
+                      if (tr.first == 0) {
+                        Undo undo(0, castling,
+                            moves_played_since_progress ? moves_played_since_progress-1 : 0,
+                                player^1, tr.second, tr.third, kill);
+
+                        for (uint i=0; i<ep_possibilities.size(); i++) {
+                          if (ep_possibilities[i].accepted(move.from, to, undo.en_passant, kill)) {
+                            // Do not modify en passant. if it is defined then t==0
+                            // The same holds for castling
+
+                            if (result.size() == result.capacity()) result.reserve(2*result.capacity());
+                            result.push_back(triple<Move,Undo,int>(move, undo, t));
+                            if (result.size() == max_moves) return result;
+
+                            if (adding_opponent_castling) {
+                              if (result.size() == result.capacity()) result.reserve(2*result.capacity());
+                              undo.castling |= adding_opponent_castling;
+                              result.push_back(triple<Move,Undo,int>(move, undo, t));
+                              undo.castling &= ~adding_opponent_castling;
+                              if (result.size() == max_moves) return result;
+                            }
+                          }
+                        }
+
+                      } else {
+                        //cerr << "Move " << move.toString() << " has num_checks = " << tr.first << "\n";
+                      }
+                    }
+                  } while (kill);
+                }
+              }
+
+              // INV_PIECE_NEXT or INV_PIECE_JUMP is the same
+              move.from = INV_PIECE_NEXT(player ? WPAWN : BPAWN, move.to, move.from);
+            }
+          }
+        }
       }
-      
+
 
       // #############################################################
       // ################        CASTLING        #####################
       // #############################################################
       if (allow_castling  &&  PIECE_KIND[board[to]] == KING) {
 
-	// CRS[0][x] <=> LONG CASTLING, CRS[1][x] <=> SHORT CASTLING
-	const Position CASTLE_ROOK_SQUARE[2][64] =
-	  {{0,0,3,0,0,4,0,0,
-	    0,0,0,0,0,0,0,0,
-	    24,0,0,0,0,0,0,31,
-	    0,0,0,0,0,0,0,0,
-	    0,0,0,0,0,0,0,0,
-	    32,0,0,0,0,0,0,39,
-	    0,0,0,0,0,0,0,0,
-	    0,0,59,0,0,60,0,0},
-	   {0,2,0,0,0,0,5,0,
-	    16,0,0,0,0,0,0,23,
-	    0,0,0,0,0,0,0,0,
-	    0,0,0,0,0,0,0,0,
-	    0,0,0,0,0,0,0,0,
-	    0,0,0,0,0,0,0,0,
-	    40,0,0,0,0,0,0,47,
-	    0,58,0,0,0,0,61,0}};
+        // CRS[0][x] <=> LONG CASTLING, CRS[1][x] <=> SHORT CASTLING
+        const Position CASTLE_ROOK_SQUARE[2][64] =
+        {{  0,0,3,0,0,4,0,0,
+            0,0,0,0,0,0,0,0,
+            24,0,0,0,0,0,0,31,
+            0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,
+            32,0,0,0,0,0,0,39,
+            0,0,0,0,0,0,0,0,
+            0,0,59,0,0,60,0,0
+        },
+        {   0,2,0,0,0,0,5,0,
+            16,0,0,0,0,0,0,23,
+            0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,
+            40,0,0,0,0,0,0,47,
+            0,58,0,0,0,0,61,0
+        }};
 
-	const uchar UNDONE_CASTLING[64] =
-	  {0,BLACK_SHORT_CASTLING,BLACK_LONG_CASTLING,0,0,BLACK_LONG_CASTLING,BLACK_SHORT_CASTLING,0,
-	   BLACK_SHORT_CASTLING,0,0,0,0,0,0,BLACK_SHORT_CASTLING,
-	   BLACK_LONG_CASTLING,0,0,0,0,0,0,BLACK_LONG_CASTLING,
-	   0,0,0,0,0,0,0,0,
-	   0,0,0,0,0,0,0,0,
-	   BLACK_LONG_CASTLING,0,0,0,0,0,0,BLACK_LONG_CASTLING,
-	   BLACK_SHORT_CASTLING,0,0,0,0,0,0,BLACK_SHORT_CASTLING,
-	   0,BLACK_SHORT_CASTLING,BLACK_LONG_CASTLING,0,0,BLACK_LONG_CASTLING,BLACK_SHORT_CASTLING,0};
+        const uchar UNDONE_CASTLING[64] =
+        {   0,BLACK_SHORT_CASTLING,BLACK_LONG_CASTLING,0,0,BLACK_LONG_CASTLING,BLACK_SHORT_CASTLING,0,
+            BLACK_SHORT_CASTLING,0,0,0,0,0,0,BLACK_SHORT_CASTLING,
+            BLACK_LONG_CASTLING,0,0,0,0,0,0,BLACK_LONG_CASTLING,
+            0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,
+            BLACK_LONG_CASTLING,0,0,0,0,0,0,BLACK_LONG_CASTLING,
+            BLACK_SHORT_CASTLING,0,0,0,0,0,0,BLACK_SHORT_CASTLING,
+            0,BLACK_SHORT_CASTLING,BLACK_LONG_CASTLING,0,0,BLACK_LONG_CASTLING,BLACK_SHORT_CASTLING,0
+        };
 
 
-	for (int c=0; c<2; c++) {
+        for (int c=0; c<2; c++) {
 
-	  //cerr << "Checking " << (c?"short":"castling") << " castling.\n";
+          //cerr << "Checking " << (c?"short":"castling") << " castling.\n";
 
-	  if (CASTLE_ROOK_SQUARE[c][to]  &&
-	      board[CASTLE_ROOK_SQUARE[c][to]]+2 == board[to]) {
-	    // king and rook placed correctly!
-	  
-	    Move king_move(2*CASTLE_ROOK_SQUARE[c][to] - to, to);
-	    Move rook_move((3-c)*to - (2-c)*CASTLE_ROOK_SQUARE[c][to], CASTLE_ROOK_SQUARE[c][to]);
+          if (CASTLE_ROOK_SQUARE[c][to]  &&
+              board[CASTLE_ROOK_SQUARE[c][to]]+2 == board[to]) {
+            // king and rook placed correctly!
 
-	    if (!board[king_move.from]  &&  !board[rook_move.from]  &&
-		(c || !board[2*to - CASTLE_ROOK_SQUARE[c][to]])  &&
-		((1 << KING_REFLECTIONS[player^1][king_move.from]) & allowed_transformations)) {
-	      /*
+            Move king_move(2*CASTLE_ROOK_SQUARE[c][to] - to, to);
+            Move rook_move((3-c)*to - (2-c)*CASTLE_ROOK_SQUARE[c][to], CASTLE_ROOK_SQUARE[c][to]);
+
+            if (!board[king_move.from]  &&  !board[rook_move.from]  &&
+                (c || !board[2*to - CASTLE_ROOK_SQUARE[c][to]])  &&
+                ((1 << KING_REFLECTIONS[player^1][king_move.from]) & allowed_transformations)) {
+              /*
 	      cerr << "The 2 or 3 required squares are empty.\n"
 		   << "Also, the transformation " << KING_REFLECTIONS[player^1][king_move.from]
 		   << " is allowed.\n";
-	      */
+               */
 
-	      // The lines below also asserts that the king involved in the castling
-	      // could not capture the other king before the castling move.
-	      player ^= 1;
-	      bool king_checked = (check_if_king_placed(rook_move.to) ||
-				   check_if_king_placed(king_move.from));
-	      player ^= 1;
+              // The lines below also asserts that the king involved in the castling
+              // could not capture the other king before the castling move.
+              player ^= 1;
+              bool king_checked = (check_if_king_placed(rook_move.to) ||
+                  check_if_king_placed(king_move.from));
+              player ^= 1;
 
-	      if (!king_checked) {
-		// Move rook
-		triple<int,uchar,Position> t = retro_move_count_checks(rook_move.from, rook_move.to,
-								       board[rook_move.to], 0);
-		
-		if (t.first == 0) {
-		  //cerr << "Undoing this move gives a position for which no move can capture the king.\n";
-		  
-		  Undo undo(0, castling | (UNDONE_CASTLING[king_move.to] >> (2*player)),
-			    moves_played_since_progress ? moves_played_since_progress-1 : 0,
-			    player^1, t.second, t.third, 0);
-		  
-		  int transf = KING_REFLECTIONS[player^1][king_move.from];
+              if (!king_checked) {
+                // Move rook
+                triple<int,uchar,Position> t = retro_move_count_checks(rook_move.from, rook_move.to,
+                    board[rook_move.to], 0);
 
-		  uchar adding_own_castling = ADDED_CASTLING[king_move.from] & 0xF0;
+                if (t.first == 0) {
+                  //cerr << "Undoing this move gives a position for which no move can capture the king.\n";
 
-		  for (uint i=0; i<ep_possibilities.size(); i++) {
-		    if (ep_possibilities[i].accepted(rook_move.from, rook_move.to, undo.en_passant, 0)) {
-		      
-		      if (undo.en_passant != ILLEGAL_POS)
-			undo.en_passant = reflect(undo.en_passant, transf);
+                  Undo undo(0, castling | (UNDONE_CASTLING[king_move.to] >> (2*player)),
+                      moves_played_since_progress ? moves_played_since_progress-1 : 0,
+                          player^1, t.second, t.third, 0);
 
-		      if (result.size() == result.capacity()) result.reserve(2*result.capacity());
-		      //cerr << "Create new move struct - in case transf != 0, then from, to is wrong.\n";
-		      result.push_back(triple<Move,Undo,int>(Move(UNDONE_CASTLING[king_move.to] >> (2*player)),
-							     undo, transf));
-		      if (result.size() == max_moves) return result;
+                  int transf = KING_REFLECTIONS[player^1][king_move.from];
 
-		      if (adding_own_castling) {
-			// At most one further castling capability added!
-			assert(!(undo.castling & adding_own_castling));
-			assert(!(adding_own_castling & (adding_own_castling<<1)));
+                  uchar adding_own_castling = ADDED_CASTLING[king_move.from] & 0xF0;
 
-			undo.castling |= adding_own_castling;
+                  for (uint i=0; i<ep_possibilities.size(); i++) {
+                    if (ep_possibilities[i].accepted(rook_move.from, rook_move.to, undo.en_passant, 0)) {
 
-			if (result.size() == result.capacity()) result.reserve(2*result.capacity());
-			// Create new move struct - in case transf != 0, then from, to is wrong.
-			result.push_back(triple<Move,Undo,int>(Move(UNDONE_CASTLING[king_move.to] >> (2*player)),
-							       undo, transf));
-			if (result.size() == max_moves) return result;
+                      if (undo.en_passant != ILLEGAL_POS)
+                        undo.en_passant = reflect(undo.en_passant, transf);
 
-			undo.castling &= ~adding_own_castling;
-		      }
-		    }
-		  }
-		  
-		} else {
-		  //cerr << "Move " << king_move.toString() << " has num_checks = " << t.first << "\n";
-		}
-	      }
-	    }
-	  }
-	}
+                      if (result.size() == result.capacity()) result.reserve(2*result.capacity());
+                      //cerr << "Create new move struct - in case transf != 0, then from, to is wrong.\n";
+                      result.push_back(triple<Move,Undo,int>(Move(UNDONE_CASTLING[king_move.to] >> (2*player)),
+                          undo, transf));
+                      if (result.size() == max_moves) return result;
+
+                      if (adding_own_castling) {
+                        // At most one further castling capability added!
+                        assert(!(undo.castling & adding_own_castling));
+                        assert(!(adding_own_castling & (adding_own_castling<<1)));
+
+                        undo.castling |= adding_own_castling;
+
+                        if (result.size() == result.capacity()) result.reserve(2*result.capacity());
+                        // Create new move struct - in case transf != 0, then from, to is wrong.
+                        result.push_back(triple<Move,Undo,int>(Move(UNDONE_CASTLING[king_move.to] >> (2*player)),
+                            undo, transf));
+                        if (result.size() == max_moves) return result;
+
+                        undo.castling &= ~adding_own_castling;
+                      }
+                    }
+                  }
+
+                } else {
+                  //cerr << "Move " << king_move.toString() << " has num_checks = " << t.first << "\n";
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
-  
+
   return result;
 }
 
@@ -2644,8 +2652,8 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
 int Board2::unreachable_position(int test_depth) {
 
   vector<triple<Move,Undo,int> > rm = get_retro_moves(true, true, true, true, 1);
-  
-  if (rm.size()==0) return 1;  // Unsuccessfull
+
+  if (rm.size()==0) return 1;  // Unsuccessful
   if (test_depth==1) return 0; // Required depth can be reached :-)
 
   if (rm[0].third) transform_board(rm[0].third);
@@ -2665,16 +2673,16 @@ int Board2::unreachable_position(int test_depth) {
 
       if (rm[i].third) transform_board(rm[i].third);
       undo_move(rm[i].first, rm[i].second);
-      
+
       int tmp = unreachable_position(test_depth-1);
       if (tmp > result) result = tmp;
-      
+
       execute_move(rm[i].first);
       if (rm[i].third) inv_transform_board(rm[i].third);
 
       if (tmp==0) {
-	// Successfull!
-	return 0;
+        // Successful!
+        return 0;
       }
     }
     return result+1;

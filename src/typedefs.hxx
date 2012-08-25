@@ -8,6 +8,19 @@ typedef unsigned short ushort;
 typedef unsigned int uint;
 typedef unsigned long ulong;
 
+/**
+ * A few places in the implementation the ugly assumption has been made
+ * that the machine is little-endian.
+ * This function will trigger an assertion if the machine has wrong endianness.
+ * TODO: This should preferable be a compile time check.
+ */
+void run_endian_test();
+
+/**
+ * This program only work on a ...-endian machine.
+ * Produce an error if that is not the case.
+ */
+
 // http://sourceforge.net/apps/mediawiki/predef/index.php?title=Architectures
 #ifdef __x86_64__
 typedef unsigned long ptr_int;
