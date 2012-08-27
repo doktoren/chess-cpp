@@ -4,9 +4,7 @@
 using namespace std;
 
 typedef unsigned char uchar;
-typedef unsigned short ushort;
 typedef unsigned int uint;
-typedef unsigned long ulong;
 
 /**
  * A few places in the implementation the ugly assumption has been made
@@ -20,15 +18,6 @@ void run_endian_test();
  * This program only work on a ...-endian machine.
  * Produce an error if that is not the case.
  */
-
-// http://sourceforge.net/apps/mediawiki/predef/index.php?title=Architectures
-#ifdef __x86_64__
-typedef unsigned long ptr_int;
-#else
-#ifdef __i386__
-typedef unsigned int ptr_int;
-#endif
-#endif
 
 template<class TYPE1, class TYPE2=TYPE1, class TYPE3=TYPE2>
 class triple {

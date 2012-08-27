@@ -235,8 +235,8 @@ bool EndgameFunctionality::load_table(bool restrict_to_stm, bool build_if_nesces
         int fd = open(filename.c_str(), O_RDONLY, 0);
         if (fd != -1) {
           //load_define_value(fd, BOUND_KING, "BOUND_KING");
-          table[WHITE] = new char[table_size];
-          read(fd, table[WHITE], sizeof(char)*table_size);
+          table[WHITE] = new int8_t[table_size];
+          read(fd, table[WHITE], sizeof(int8_t)*table_size);
           close(fd);
         }
       }
@@ -246,8 +246,8 @@ bool EndgameFunctionality::load_table(bool restrict_to_stm, bool build_if_nesces
         int fd = open(filename.c_str(), O_RDONLY, 0);
         if (fd != -1) {
           //load_define_value(fd, BOUND_KING, "BOUND_KING");
-          table[BLACK] = new char[table_size];
-          read(fd, table[BLACK], sizeof(char)*table_size);
+          table[BLACK] = new int8_t[table_size];
+          read(fd, table[BLACK], sizeof(int8_t)*table_size);
           close(fd);
         }
       }
@@ -275,7 +275,7 @@ bool EndgameFunctionality::load_table(bool restrict_to_stm, bool build_if_nesces
       int fd = creat(filename.c_str(), 0666);
       if (fd != -1) {
         //save_define_value(fd, BOUND_KING);
-        write(fd, table[0], sizeof(char)*table_size);
+        write(fd, table[0], sizeof(int8_t)*table_size);
         close(fd);
       } else {
         cerr << "Error opening file " << filename << "\n";
@@ -289,7 +289,7 @@ bool EndgameFunctionality::load_table(bool restrict_to_stm, bool build_if_nesces
       int fd = creat(filename.c_str(), 0666);
       if (fd != -1) {
         //save_define_value(fd, BOUND_KING);
-        write(fd, table[1], sizeof(char)*table_size);
+        write(fd, table[1], sizeof(int8_t)*table_size);
         close(fd);
       } else {
         cerr << "Error opening file " << filename << "\n";
@@ -403,9 +403,9 @@ bool EndgameFunctionality::load_bdd(bool restrict_to_stm,
 
 
 void EndgameFunctionality::init_bdd(BDD &bdd, int player, bool delete_table) {
-  vector<char> convert_table;
+  vector<int8_t> convert_table;
 
-  uchar *bdd_table;
+  uint8_t *bdd_table;
 
   if (*(endgame_settings->bdd_mate_depth_round_up_to_multiples_of_n) < 0  ||
       64 < *(endgame_settings->bdd_mate_depth_round_up_to_multiples_of_n)) {
@@ -475,13 +475,13 @@ void EndgameFunctionality::init_bdd(BDD &bdd, int player, bool delete_table) {
   }
 
   cerr << "permute square enumeration\n";
-  uchar inv_bit_perm[5][64];
+  uint8_t inv_bit_perm[5][64];
   memset(inv_bit_perm, 0, 4*64);
   { // permute square enumeration
     vector<vector<int> > permutations(num_pieces);
     for (int p=0; p<num_pieces; p++) {
       permutations[p] = vector<int>(64);
-      uchar *m = 0;
+      uint8_t *m = 0;
       switch (pieces[p]) {
       case WHITE_PAWN:
         m = mappings[*(endgame_settings->square_enum_white_pawn)];
@@ -541,7 +541,7 @@ void EndgameFunctionality::init_bdd(BDD &bdd, int player, bool delete_table) {
     int fd = creat(filename.c_str(), 0666);
     if (fd != -1) {
       //save_define_value(fd, BOUND_KING);
-      write(fd, bdd_table, sizeof(uchar) << calc_log_bdd_size());
+      write(fd, bdd_table, sizeof(uint8_t) << calc_log_bdd_size());
       close(fd);
     } else {
       cerr << "Error opening file " << filename << "\n";
@@ -567,7 +567,7 @@ void EndgameFunctionality::init_bdd(BDD &bdd, int player, bool delete_table) {
     int fd = creat(filename.c_str(), 0666);
     if (fd != -1) {
       //save_define_value(fd, BOUND_KING);
-      write(fd, bdd_table, sizeof(uchar) << calc_log_bdd_size());
+      write(fd, bdd_table, sizeof(uint8_t) << calc_log_bdd_size());
       close(fd);
     } else {
       cerr << "Error opening file " << filename << "\n";
@@ -660,8 +660,8 @@ void EndgameFunctionality::compare_bdd_with_table(int player) {
     return;
   }
 
-  char _map_values[256];
-  char *map_values = &(_map_values[128]);
+  int8_t _map_values[256];
+  int8_t *map_values = &(_map_values[128]);
   {
     int mult = *(endgame_settings->bdd_mate_depth_round_up_to_multiples_of_n);
     if (mult < 0  ||  64 < mult) {
@@ -694,8 +694,8 @@ void EndgameFunctionality::compare_bdd_with_table(int player) {
     if (table[player][i] != ENDGAME_TABLE_ILLEGAL) {
       int bdd_index = table_index_to_bdd_index(i);
 
-      char table_value = map_values[table[player][i]];
-      char bdd_value = (*(bdd[player]))[bdd_index];
+      int8_t table_value = map_values[table[player][i]];
+      int8_t bdd_value = (*(bdd[player]))[bdd_index];
 
       if (table_value != bdd_value) {
         if (legal_position(player, i) == 1) {
@@ -820,7 +820,7 @@ bool EndgameFunctionality::construct_from_table_index(Board2 &board, uint index,
   return legal_position;
 }
 
-char EndgameFunctionality::index_function(const Board2 &board) {
+int8_t EndgameFunctionality::index_function(const Board2 &board) {
   vector<PiecePos> pp(num_pieces);
   board.get_encoded_piece_list(pp);
   sort_piece_pos(pp);
@@ -836,7 +836,7 @@ char EndgameFunctionality::index_function(const Board2 &board) {
   // If it is a symmetric endgame with btm then swapped will be true
 
   { // First try to index table
-    char *tmp = table[board.get_player() ^ swapped];
+    int8_t *tmp = table[board.get_player() ^ swapped];
     if (tmp) {
       int index = compress_table_index(pp);
       return tmp[index];
@@ -1148,7 +1148,7 @@ bool EndgameFunctionality::reduce_information() {
 
             pair<uint, int> tmp = get_table_index_and_stm(board);
 
-            char v = add_ply_to_endgame_value(table[tmp.second][tmp.first]);
+            int8_t v = add_ply_to_endgame_value(table[tmp.second][tmp.first]);
 
             if (endgame_cmp(v, max_value) >= 0) {
               max_value = v;
@@ -1169,8 +1169,8 @@ bool EndgameFunctionality::reduce_information() {
   if (table[1]) cerr << "black: " << bl[1].count_on() << "\n";
 
   for (int player=0; player<(symmetric_endgame ? 1 : 2); player++) {
-    char worst_win = 1;
-    char worst_loss = 0;
+    int8_t worst_win = 1;
+    int8_t worst_loss = 0;
 
     for (uint i=0; i<table_size; i++) {
       if (!is_special_value(table[player][i])) {
@@ -1198,7 +1198,7 @@ bool EndgameFunctionality::bdd_contains_only_win_draw_loss_info(int stm) {
   assert(stm==0  ||  stm==1);
   if (!bdd[stm]) return false;
   int size = 1 << calc_log_bdd_size();
-  uchar ok[256];
+  uint8_t ok[256];
   memset(ok, 0, 256);
   ok[ENDGAME_TABLE_WIN] = ok[ENDGAME_TABLE_DRAW] = ok[ENDGAME_TABLE_LOSS] = 1;
   for (int i=0; i<size; i++)
@@ -1209,7 +1209,7 @@ bool EndgameFunctionality::bdd_contains_only_win_draw_loss_info(int stm) {
 bool EndgameFunctionality::table_contains_only_win_draw_loss_info(int stm) {
   assert(stm==0  ||  stm==1);
   if (!table[stm]) return false;
-  uchar ok[256];
+  uint8_t ok[256];
   memset(ok, 0, 256);
   ok[ENDGAME_TABLE_WIN] = ok[ENDGAME_TABLE_DRAW] = ok[ENDGAME_TABLE_LOSS] = 1;
   for (uint i=0; i<table_size; i++)

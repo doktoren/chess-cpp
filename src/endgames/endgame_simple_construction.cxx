@@ -1,6 +1,6 @@
 #include "endgame_simple_construction.hxx"
 
-void build_endgame_simple(EndgameFunctionality* endgame, char **table) {
+void build_endgame_simple(EndgameFunctionality* endgame, int8_t **table) {
 
 #ifdef ALLOW_5_MEN_ENDGAME
   if (endgame->get_num_pieces() == 5) {
@@ -37,7 +37,7 @@ void build_endgame_simple(EndgameFunctionality* endgame, char **table) {
   for (int player=0; player<(endgame->is_symmetric_endgame() ? 1 : 2); player++) {
 
     if (!table[player])
-      table[player] = new char[endgame->get_table_size()];
+      table[player] = new int8_t[endgame->get_table_size()];
 
     for (uint i=0; i<endgame->get_table_size(); i++) {
       endgame->decompress_table_index(i, piece_list);

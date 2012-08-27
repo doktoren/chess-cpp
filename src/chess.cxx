@@ -309,7 +309,7 @@ void receive_messages() {
             if (pgn_loader.next_game()) {
 
               int max_moves = 999999;
-              if (dot_demand(p, 3, "load", (ptr_int)0, (ptr_int)0))
+              if (dot_demand(p, 3, "load", (uintptr_t)0, (uintptr_t)0))
                 sscanf(parse_result[1].c_str(), "%d", &max_moves);
 
               pgn_loader.print_tags(cerr);
@@ -407,7 +407,7 @@ void receive_messages() {
       } else if (strcmp(prefix, "otim") == 0) {
         cerr << " - otim ignored\n";
 
-      } else if (dot_demand(p, 4, "level", (ptr_int)0, (ptr_int)0, (ptr_int)0)) {
+      } else if (dot_demand(p, 4, "level", (uintptr_t)0, (uintptr_t)0, (uintptr_t)0)) {
         comm->use_fixed_depth = false;
         comm->fixed_time_per_move = false;
         comm->setting_level_used = true;
@@ -431,7 +431,7 @@ void receive_messages() {
         cerr << "Time control: level " << comm->mps << " mps, " << comm->base << " s, "
             << comm->inc << " inc.\n";
 
-      } else if (dot_demand(p, 2, "st", (ptr_int)0)) {
+      } else if (dot_demand(p, 2, "st", (uintptr_t)0)) {
         comm->use_fixed_depth = false;
         comm->fixed_time_per_move = true;
         comm->setting_level_used = false;
@@ -452,8 +452,8 @@ void receive_messages() {
 #else
       } else if (strcmp(prefix, "time") == 0  ||
           strcmp(prefix, "otim") == 0  ||
-          dot_demand(p, 4, "level", (ptr_int)0, (ptr_int)0, (ptr_int)0)  ||
-          dot_demand(p, 2, "st", (ptr_int)0)  ||
+          dot_demand(p, 4, "level", (uintptr_t)0, (uintptr_t)0, (uintptr_t)0)  ||
+          dot_demand(p, 2, "st", (uintptr_t)0)  ||
           strcmp(prefix, "sd") == 0  ||
           dot_demand(p, 1, "computer")) {
         cerr << "Program not compiled with XBOARD defined. Command ignored!\n";
@@ -515,7 +515,7 @@ void receive_messages() {
         cpu_move();
         cpu->print_board(cerr, -2);
 
-      } else if (dot_demand(p, 2, "undo", (ptr_int)0)) {
+      } else if (dot_demand(p, 2, "undo", (uintptr_t)0)) {
         comm->cpu_color = NEITHER_COLOR;
         int i = atoi(parse_result[0].c_str());
         while (--i >= 0  &&  cpu->undo_move());
@@ -660,7 +660,7 @@ bool debug_message(string message) {
     cerr << "Calling srand(" << seed << ")\n";
     srand(seed);
 
-  } else if (dot_demand(p, 2, "randseed", (ptr_int)0)) {
+  } else if (dot_demand(p, 2, "randseed", (uintptr_t)0)) {
     int seed = atoi(parse_result[0].c_str());
     cerr << "Calling srand(" << seed << ")\n";
     srand(seed);
@@ -668,7 +668,7 @@ bool debug_message(string message) {
   } else if (dot_demand(p, 1, "dir")) {
     cpu->print_board(cerr, -2);
 
-  } else if (dot_demand(p, 2, "dir", (ptr_int)0)) {
+  } else if (dot_demand(p, 2, "dir", (uintptr_t)0)) {
     int from_move = atoi(parse_result[0].c_str());
     cpu->print_board(cerr, from_move);
 
@@ -679,7 +679,7 @@ bool debug_message(string message) {
       cerr << "Could not redo move\n";
     }
 
-  } else if (dot_demand(p, 2, "redo", (ptr_int)0)) {
+  } else if (dot_demand(p, 2, "redo", (uintptr_t)0)) {
     int i = atoi(parse_result[0].c_str());
     while (--i >= 0  &&  cpu->try_redo_move()) ;
     cpu->print_board(cerr, -2);
@@ -687,7 +687,7 @@ bool debug_message(string message) {
   } else if (dot_demand(p, 1, "pml")) {
     cpu->print_moves(cerr);
 
-  } else if (dot_demand(p, 3, "search", "version", (ptr_int)1)) {
+  } else if (dot_demand(p, 3, "search", "version", (uintptr_t)1)) {
     int s = parse_result[0][0] - '0';
     if (1<=s  &&  s<=NUM_SEARCH_VERSIONS) {
       search_version = s;
@@ -698,11 +698,11 @@ bool debug_message(string message) {
       cpu = load_cpu(cpu, search_version, evaluation_version, comm);
     }
 
-  } else if (dot_demand(p, 3, "tree", "size", (ptr_int)0)) {
+  } else if (dot_demand(p, 3, "tree", "size", (uintptr_t)0)) {
     int n = atoi(parse_result[0].c_str());
     show_minimal_alpha_beta_tree_sizes(cerr, n, 12);
 
-  } else if (dot_demand(p, 3, "evaluation", "version", (ptr_int)1)) {
+  } else if (dot_demand(p, 3, "evaluation", "version", (uintptr_t)1)) {
     int e = parse_result[0][0] - '0';
     if (1<=e  &&  e<=NUM_EVAL_VERSIONS) {
       evaluation_version = e;
@@ -723,7 +723,7 @@ bool debug_message(string message) {
   } else if (dot_demand(p, 2, "print", "settings")) {
     comm->settings.print(cerr);
 
-  } else if (dot_demand(p, 3, "set", (ptr_int)0, (ptr_int)0)) {
+  } else if (dot_demand(p, 3, "set", (uintptr_t)0, (uintptr_t)0)) {
     comm->settings.define(parse_result[0], parse_result[1]);
 
   } else if (dot_demand(p, 3, "test", "opening", "library")) {

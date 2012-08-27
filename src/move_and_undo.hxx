@@ -115,52 +115,14 @@ inline bool operator!=(const Move& m1, const Move& m2) {
   return m1.from != m2.from  ||  m1.to != m2.to  ||  m1.special_move != m2.special_move;
 }
 inline bool pos_equal(Move m1, Move m2) {
-  // todo: test
-  return *((ushort *)(&m1)) == *((ushort *)(&m2));
+  return m1.from == m2.from  &&  m1.to == m2.to;
 }
 // operator<< outputs newlines
 ostream& operator<<(ostream& os, const Move& move);
 
 
-/*
-Old Undo:
-struct Undo {
-  Undo() : killed_piece_or_en_passant(0), castling(0),
-	   num_checks_and_threat_pos(0), moves_played_since_progress(0) {}
 
-  Undo(Piece killed_piece_or_en_passant, uchar castling,
-       Position num_checks_and_threat_pos, uchar moves_played_since_progress) :
-    killed_piece_or_en_passant(killed_piece_or_en_passant), castling(castling),
-    num_checks_and_threat_pos(num_checks_and_threat_pos),
-    moves_played_since_progress(moves_played_since_progress) {}
-
-  string toString() const;
-
-  bool piece_killed() const { return killed_piece_or_en_passant & 0xF; }
-
-
-  // high 4 bits used for en passant, low 4 for killed piece
-  // b7b6b5b4 gives the column of the en passant from which the exact position
-  // can be reconstructed.
-  // Warning! killed_piece_or_en_passant is not set to WPAWN or BPAWN
-  // by an en passant capture!
-  // Remember that both en passant and killed piece may be set at the same time.
-  Piece killed_piece_or_en_passant;
-
-  uchar castling;
-
-  // num_checks occupies the 2 high bits.
-  // threat_pos occupies the 6 low bits.
-  Position num_checks_and_threat_pos;
-
-  uchar moves_played_since_progress;
-};
-// operator<< outputs newlines
-ostream& operator<<(ostream& os, const Undo& undo);
-*/
-
-
-// The idea is that when 8 bytes is used, no compression is nescessary
+// The idea is that when 8 bytes is used, no compression is necessary
 // and hopefully the variables will be copied in blocks (of more than 1
 // byte each) in execute-/undo-move, making the program faster.
 struct Undo {

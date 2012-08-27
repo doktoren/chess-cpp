@@ -1,6 +1,6 @@
 #include "endgame_retrograde_construction.hxx"
 
-void build_endgame_retrograde(EndgameFunctionality* endgame, char **table) {
+void build_endgame_retrograde(EndgameFunctionality* endgame, int8_t **table) {
   int num_pieces = endgame->get_num_pieces();
   Board2 board;
   vector<PiecePos> piece_list(num_pieces);
@@ -40,7 +40,7 @@ void build_endgame_retrograde(EndgameFunctionality* endgame, char **table) {
   for (int player=0; player<(endgame->is_symmetric_endgame() ? 1 : 2); player++) {
 
     if (!table[player])
-      table[player] = new char[endgame->get_table_size()];
+      table[player] = new int8_t[endgame->get_table_size()];
 
     map<int, EFState> old_states = endgame->load_dependency(player);
 
@@ -255,7 +255,7 @@ void build_endgame_retrograde(EndgameFunctionality* endgame, char **table) {
                     SAME_DIAGONAL[board.get_king_position(1)]);
 
             pair<uint, int> back = endgame->get_table_index_and_stm(board);
-            char *ref = &(table[back.second][back.first]);
+            int8_t *ref = &(table[back.second][back.first]);
 
 #ifndef NDEBUG
             if (!reduced_symmetry  &&  reduced_symmetry_before) {
@@ -270,7 +270,7 @@ void build_endgame_retrograde(EndgameFunctionality* endgame, char **table) {
             }
 #endif
 
-            char *ref2 = 0;
+            int8_t *ref2 = 0;
             if (!reduced_symmetry  &&  reduced_symmetry_before) {
               // Make the same changes to the symmetric version
               my_assert(board.transform_board(4));

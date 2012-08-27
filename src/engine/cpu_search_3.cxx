@@ -190,7 +190,7 @@ void Search_3::outdate_tt_entries(int age_by) {
     cerr << "Time stamps in transposition table needs correction.\n";
     for (int i=0; i<transposition_table.size; i++) {
       if (transposition_table.table[i].content.is_valid()) {
-        ushort &time_stamp = transposition_table.table[i].content.time_stamp;
+        uint16_t &time_stamp = transposition_table.table[i].content.time_stamp;
         if (time_stamp < 0x8000) time_stamp = 0;
         else time_stamp -= 0x8000;
       }
@@ -513,7 +513,7 @@ bool Search_3::clr_search(Board *board, ostream& os, vector<string> &p) {
   } else if (dot_demand(p, 2, "print", "settings")) {
     b.settings.print(os);
 
-  } else if (dot_demand(p, 3, "set", (ptr_int)0, (ptr_int)0)) {
+  } else if (dot_demand(p, 3, "set", (uintptr_t)0, (uintptr_t)0)) {
     b.settings.define(parse_result[0], parse_result[1]);
 
   } else if (dot_demand(p, 2, "save", "settings")) {

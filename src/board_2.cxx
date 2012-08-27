@@ -737,25 +737,25 @@ bool Board2::clr_board2(Board *board, ostream& os, vector<string> &p) {
 
   } else if (dot_demand(p, 3, "print", "move", "list")) {
     b.print_moves(cerr);
-  } else if (dot_demand(p, 4, "print", "move", "list", (ptr_int)1)) {
+  } else if (dot_demand(p, 4, "print", "move", "list", (uintptr_t)1)) {
     b.print_moves(cerr, ILLEGAL_POS, ILLEGAL_POS,
         PIECE_KIND[char_to_piece(parse_result[0][0])]);
 
-  } else if (dot_demand(p, 4, "print", "moves", "to", (ptr_int)2)) {
+  } else if (dot_demand(p, 4, "print", "moves", "to", (uintptr_t)2)) {
     b.print_moves(cerr, ILLEGAL_POS, strToPos(parse_result[0]));
-  } else if (dot_demand(p, 5, "print", "moves", "to", (ptr_int)2, (ptr_int)1)) {
+  } else if (dot_demand(p, 5, "print", "moves", "to", (uintptr_t)2, (uintptr_t)1)) {
     b.print_moves(cerr, ILLEGAL_POS, strToPos(parse_result[1]),
         PIECE_KIND[char_to_piece(parse_result[1][0])]);
 
-  } else if (dot_demand(p, 4, "print", "moves", "from", (ptr_int)2)) {
+  } else if (dot_demand(p, 4, "print", "moves", "from", (uintptr_t)2)) {
     b.print_moves(cerr, strToPos(parse_result[0]));
-  } else if (dot_demand(p, 5, "print", "moves", "from", (ptr_int)2, (ptr_int)1)) {
+  } else if (dot_demand(p, 5, "print", "moves", "from", (uintptr_t)2, (uintptr_t)1)) {
     b.print_moves(cerr, strToPos(parse_result[0]), ILLEGAL_POS,
         PIECE_KIND[char_to_piece(parse_result[1][0])]);
 
-  } else if (dot_demand(p, 6, "print", "moves", "from", "to", (ptr_int)2, (ptr_int)2)) {
+  } else if (dot_demand(p, 6, "print", "moves", "from", "to", (uintptr_t)2, (uintptr_t)2)) {
     b.print_moves(cerr, strToPos(parse_result[0]), strToPos(parse_result[1]));
-  } else if (dot_demand(p, 7, "print", "moves", "from", "to", (ptr_int)2, (ptr_int)2, (ptr_int)1)) {
+  } else if (dot_demand(p, 7, "print", "moves", "from", "to", (uintptr_t)2, (uintptr_t)2, (uintptr_t)1)) {
     b.print_moves(cerr, strToPos(parse_result[0]), strToPos(parse_result[1]),
         PIECE_KIND[char_to_piece(parse_result[2][0])]);
 
@@ -775,7 +775,7 @@ bool Board2::clr_board2(Board *board, ostream& os, vector<string> &p) {
       os << i << ":\t" << rm[i].first.toString2() << "\t"
       << rm[i].third << "\t" << rm[i].second.toString() << "\n";
 
-  } else if (dot_demand(p, 3, "retro", "moves", (ptr_int)2)) {
+  } else if (dot_demand(p, 3, "retro", "moves", (uintptr_t)2)) {
     vector<triple<Move,Undo,int> > rm = b.get_retro_moves(true, true, true, true);
     os << "List of retro move(s) from current position with destination " << parse_result[0] << "\n";
     for (uint i=0; i<rm.size(); i++) {
@@ -784,7 +784,7 @@ bool Board2::clr_board2(Board *board, ostream& os, vector<string> &p) {
         << rm[i].third << "\t" << rm[i].second.toString() << "\n";
     }
 
-  } else if (dot_demand(p, 3, "retro", "move", (ptr_int)0)) {
+  } else if (dot_demand(p, 3, "retro", "move", (uintptr_t)0)) {
     vector<triple<Move,Undo,int> > rm = b.get_retro_moves(true, true, true, true);
     uint n = atoi(parse_result[0].c_str());
     if (0<=n  &&  n<rm.size()) {

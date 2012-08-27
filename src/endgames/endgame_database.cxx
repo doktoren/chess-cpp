@@ -595,13 +595,13 @@ bool clr_endgame_database(Board *board, ostream& os, vector<string> &p) {
 				<< "      - huffman run length encode, archieves better performance.\n";
 
 
-	} else if (dot_demand(p, 3, "hej", "hej", (ptr_int)0)) {
+	} else if (dot_demand(p, 3, "hej", "hej", (uintptr_t)0)) {
 		vector<int> m = endgames.get_name_matches(parse_result[0]);
 		for (uint i=0; i<m.size(); i++)
 			endgames[m[i]].reduce_information();
 
 #ifdef ALLOW_5_MEN_ENDGAME
-	} else if (dot_demand(p, 5, "a", "b", "c", (ptr_int)1, (ptr_int)0)) {
+	} else if (dot_demand(p, 5, "a", "b", "c", (uintptr_t)1, (uintptr_t)0)) {
 		cerr << "Doing secret stuff with KRRRK...\n";
 		EndgameFunctionality &ef = endgames["KRRRK"];
 		ef.load_bdd();
@@ -619,7 +619,7 @@ bool clr_endgame_database(Board *board, ostream& os, vector<string> &p) {
 		}
 		cerr << "done\n";
 
-	} else if (dot_demand(p, 5, "a", "a", "a", (ptr_int)1, (ptr_int)0)) {
+	} else if (dot_demand(p, 5, "a", "a", "a", (uintptr_t)1, (uintptr_t)0)) {
 		cerr << "Doing secret stuff with KNNNK...\n";
 		EndgameFunctionality &ef = endgames["KNNNK"];
 		ef.load_bdd();
@@ -637,7 +637,7 @@ bool clr_endgame_database(Board *board, ostream& os, vector<string> &p) {
 		}
 		cerr << "done\n";
 
-	} else if (dot_demand(p, 5, "c", "b", "a", 1, (ptr_int)0)) {
+	} else if (dot_demand(p, 5, "c", "b", "a", 1, (uintptr_t)0)) {
 		cerr << "Doing secret stuff with KQKR...\n";
 		EndgameFunctionality &ef = endgames["KQKR"];
 		ef.load_bdd();
@@ -655,7 +655,7 @@ bool clr_endgame_database(Board *board, ostream& os, vector<string> &p) {
 		cerr << "done\n";
 #endif
 
-	} else if (dot_demand(p, 3, "print", "matches", (ptr_int)0)) {
+	} else if (dot_demand(p, 3, "print", "matches", (uintptr_t)0)) {
 		vector<int> m = endgames.get_name_matches(parse_result[0]);
 		if (m.size()) {
 			cerr << "Pattern " << parse_result[0] << " matches the following endgames:\n";
@@ -670,7 +670,7 @@ bool clr_endgame_database(Board *board, ostream& os, vector<string> &p) {
 		for (int i=0; i<10; i++)
 			print_latex_signed_map64(cerr, mappings[i], 2);
 
-	} else if (dot_demand(p, 4, "rle", (ptr_int)0, (ptr_int)1, (ptr_int)1)) {
+	} else if (dot_demand(p, 4, "rle", (uintptr_t)0, (uintptr_t)1, (uintptr_t)1)) {
 		vector<int> m = endgames.get_name_matches(parse_result[0]);
 		if (m.size()) {
 			cerr << "Only win/draw/loss information in the run length encoded version.\n";
@@ -680,7 +680,7 @@ bool clr_endgame_database(Board *board, ostream& os, vector<string> &p) {
 				endgames[m[i]].run_length_encode(stm, 1, map_dont_cares);
 		}
 
-	} else if (dot_demand(p, 4, "hrle", (ptr_int)0, (ptr_int)1, (ptr_int)1)) {
+	} else if (dot_demand(p, 4, "hrle", (uintptr_t)0, (uintptr_t)1, (uintptr_t)1)) {
 		vector<int> m = endgames.get_name_matches(parse_result[0]);
 		if (m.size()) {
 			cerr << "Only win/draw/loss information in the huffman run length encoded version.\n";
@@ -690,9 +690,9 @@ bool clr_endgame_database(Board *board, ostream& os, vector<string> &p) {
 				endgames[m[i]].run_length_encode(stm, 2, map_dont_cares);
 		}
 
-	} else if (dot_demand(p, 6, "examine", "unreachable", "positions", (ptr_int)0, (ptr_int)1, (ptr_int)0)  ||
-			dot_demand(p, 6, "examine", "unreachable", "Positions", (ptr_int)0, (ptr_int)1, (ptr_int)0)) {
-		int write_pos = dot_demand(p, 6, "examine", "unreachable", "Positions", (ptr_int)0, (ptr_int)1, (ptr_int)0) ? 1 : 0;
+	} else if (dot_demand(p, 6, "examine", "unreachable", "positions", (uintptr_t)0, (uintptr_t)1, (uintptr_t)0)  ||
+			dot_demand(p, 6, "examine", "unreachable", "Positions", (uintptr_t)0, (uintptr_t)1, (uintptr_t)0)) {
+		int write_pos = dot_demand(p, 6, "examine", "unreachable", "Positions", (uintptr_t)0, (uintptr_t)1, (uintptr_t)0) ? 1 : 0;
 		if (endgames.supported(parse_result[0])) {
 			int stm = atoi(parse_result[1].c_str());
 			int test_depth = atoi(parse_result[2].c_str());
@@ -706,44 +706,44 @@ bool clr_endgame_database(Board *board, ostream& os, vector<string> &p) {
 			os << "Unknown endgame table " << parse_result[0] << "\n";
 		}
 
-	} else if (dot_demand(p, 3, "build", "table", (ptr_int)0)) {
+	} else if (dot_demand(p, 3, "build", "table", (uintptr_t)0)) {
 		os << "Building endgame tables.\n";
 		endgames.build_tables(parse_result[0]);
 
 		// BEGIN load table
-	} else if (dot_demand(p, 3, "load", "table", (ptr_int)0)) {
+	} else if (dot_demand(p, 3, "load", "table", (uintptr_t)0)) {
 		os << "Loading endgame tables.\n";
 		endgames.load_tables(parse_result[0], false, false);
-	} else if (dot_demand(p, 4, "load", "table", (ptr_int)0, (ptr_int)1)) {
+	} else if (dot_demand(p, 4, "load", "table", (uintptr_t)0, (uintptr_t)1)) {
 		os << "Loading endgame tables.\n";
 		bool buid_if_nescessary = parse_result[1][0] == 't';
 		endgames.load_tables(parse_result[0], false, buid_if_nescessary);
-	} else if (dot_demand(p, 5, "load", "table", (ptr_int)0, (ptr_int)1, (ptr_int)1)) {
+	} else if (dot_demand(p, 5, "load", "table", (uintptr_t)0, (uintptr_t)1, (uintptr_t)1)) {
 		os << "Loading endgame tables.\n";
 		bool buid_if_nescessary = parse_result[1][0] == 't';
 		bool restrict_to_wtm = parse_result[2][0] == 't';
 		endgames.load_tables(parse_result[0], restrict_to_wtm, buid_if_nescessary);
 		// END load tables
 
-	} else if (dot_demand(p, 3, "build", "bdd", (ptr_int)0)) {
+	} else if (dot_demand(p, 3, "build", "bdd", (uintptr_t)0)) {
 		os << "Building endgame bdds.\n";
 		endgames.build_bdds(parse_result[0]);
 
 		// BEGIN load bdd
-	} else if (dot_demand(p, 3, "load", "bdd", (ptr_int)0)) {
+	} else if (dot_demand(p, 3, "load", "bdd", (uintptr_t)0)) {
 		os << "Loading endgame bdds.\n";
 		endgames.load_bdds(parse_result[0], false, false, false);
-	} else if (dot_demand(p, 4, "load", "bdd", (ptr_int)0, (ptr_int)1)) {
+	} else if (dot_demand(p, 4, "load", "bdd", (uintptr_t)0, (uintptr_t)1)) {
 		os << "Loading endgame bdds.\n";
 		bool buid_from_tables_if_nescessary = parse_result[1][0] == 't';
 		endgames.load_bdds(parse_result[0], false, buid_from_tables_if_nescessary, false);
-	} else if (dot_demand(p, 5, "load", "bdd", (ptr_int)0, (ptr_int)1, (ptr_int)1)) {
+	} else if (dot_demand(p, 5, "load", "bdd", (uintptr_t)0, (uintptr_t)1, (uintptr_t)1)) {
 		os << "Loading endgame bdds.\n";
 		bool buid_from_tables_if_nescessary = parse_result[1][0] == 't';
 		bool buid_tables_if_nescessary = parse_result[2][0] == 't';
 		endgames.load_bdds(parse_result[0], false,
 				buid_from_tables_if_nescessary, buid_tables_if_nescessary);
-	} else if (dot_demand(p, 6, "load", "bdd", (ptr_int)0, (ptr_int)1, (ptr_int)1, (ptr_int)1)) {
+	} else if (dot_demand(p, 6, "load", "bdd", (uintptr_t)0, (uintptr_t)1, (uintptr_t)1, (uintptr_t)1)) {
 		os << "Loading endgame bdds.\n";
 		bool buid_from_tables_if_nescessary = parse_result[1][0] == 't';
 		bool buid_tables_if_nescessary = parse_result[2][0] == 't';
@@ -753,14 +753,14 @@ bool clr_endgame_database(Board *board, ostream& os, vector<string> &p) {
 		// END load bdd
 
 		// BEGIN verify stuff
-	} else if (dot_demand(p, 3, "verify", "table", (ptr_int)0)) {
+	} else if (dot_demand(p, 3, "verify", "table", (uintptr_t)0)) {
 		vector<int> m = endgames.get_name_matches(parse_result[0]);
 		for (uint i=0; i<m.size(); i++) {
 			endgames[m[i]].load_table();
 			endgames[m[i]].print_table_verifier(os);
 		}
 
-	} else if (dot_demand(p, 3, "verify", "bdd", (ptr_int)0)) {
+	} else if (dot_demand(p, 3, "verify", "bdd", (uintptr_t)0)) {
 		vector<int> m = endgames.get_name_matches(parse_result[0]);
 		for (uint i=0; i<m.size(); i++) {
 			endgames[m[i]].load_table();
@@ -772,7 +772,7 @@ bool clr_endgame_database(Board *board, ostream& os, vector<string> &p) {
 		// END verify stuff
 
 
-	} else if (dot_demand(p, 3, "print", "bdd", (ptr_int)0)) {
+	} else if (dot_demand(p, 3, "print", "bdd", (uintptr_t)0)) {
 		vector<int> m = endgames.get_name_matches(parse_result[0]);
 		for (uint i=0; i<m.size(); i++)
 			if (endgames[m[i]].load_bdd())
@@ -785,27 +785,27 @@ bool clr_endgame_database(Board *board, ostream& os, vector<string> &p) {
 		endgames.destroy_bdd();
 		os << "done\n";
 
-	} else if (dot_demand(p, 2, "inspect", (ptr_int)0)) {
+	} else if (dot_demand(p, 2, "inspect", (uintptr_t)0)) {
 		endgames.inspect(os, parse_result[0]);
 
-	} else if (dot_demand(p, 3, "inspect", (ptr_int)3, (ptr_int)3)) {
+	} else if (dot_demand(p, 3, "inspect", (uintptr_t)3, (uintptr_t)3)) {
 		string s = parse_result[0]+"_"+parse_result[1];
 		endgames.inspect(os, s);
 
-	} else if (dot_demand(p, 4, "inspect", (ptr_int)3, (ptr_int)3, (ptr_int)3)) {
+	} else if (dot_demand(p, 4, "inspect", (uintptr_t)3, (uintptr_t)3, (uintptr_t)3)) {
 		string s = parse_result[0]+"_"+parse_result[1]+"_"+parse_result[2];
 		endgames.inspect(os, s);
 
-	} else if (dot_demand(p, 5, "inspect", (ptr_int)3, (ptr_int)3, (ptr_int)3, (ptr_int)3)) {
+	} else if (dot_demand(p, 5, "inspect", (uintptr_t)3, (uintptr_t)3, (uintptr_t)3, (uintptr_t)3)) {
 		string s = parse_result[0]+"_"+parse_result[1]+"_"+parse_result[2]+"_"+parse_result[3];
 		endgames.inspect(os, s);
 
-	} else if (dot_demand(p, 6, "inspect", (ptr_int)3, (ptr_int)3, (ptr_int)3, (ptr_int)3, (ptr_int)3)) {
+	} else if (dot_demand(p, 6, "inspect", (uintptr_t)3, (uintptr_t)3, (uintptr_t)3, (uintptr_t)3, (uintptr_t)3)) {
 		string s = parse_result[0]+"_"+parse_result[1]+"_"+parse_result[2]+"_"+
 				parse_result[3]+"_"+parse_result[4];
 		endgames.inspect(os, s);
 
-	} else if (dot_demand(p, 3, "set", (ptr_int)0, (ptr_int)0)) {
+	} else if (dot_demand(p, 3, "set", (uintptr_t)0, (uintptr_t)0)) {
 		// Todo: what if illegal name?
 		endgame_settings->define(parse_result[0], parse_result[1]);
 		os << "setting " << parse_result[0] << " set to " << parse_result[1] << "\n";
@@ -816,7 +816,7 @@ bool clr_endgame_database(Board *board, ostream& os, vector<string> &p) {
 	} else if (dot_demand(p, 1, "print")) {
 		endgames.print(os);
 
-	} else if (dot_demand(p, 2, "print", (ptr_int)0)) {
+	} else if (dot_demand(p, 2, "print", (uintptr_t)0)) {
 		vector<int> m = endgames.get_name_matches(parse_result[0]);
 		for (uint i=0; i<m.size(); i++)
 			endgames[m[i]].print(os);
@@ -872,7 +872,7 @@ bool clr_endgame_database(Board *board, ostream& os, vector<string> &p) {
 				cerr << "\t(Mod. bdd index, cluster) = (" << p.first << "," << p.second << ")\n";
 		}
 
-	} else if (dot_demand(p, 7, "construct", "from", "table", "index", (ptr_int)0, (ptr_int)0, (ptr_int)1)) {
+	} else if (dot_demand(p, 7, "construct", "from", "table", "index", (uintptr_t)0, (uintptr_t)0, (uintptr_t)1)) {
 		string endgame_name = parse_result[0];
 		uint table_index = atoi(parse_result[1].c_str());
 		char stm = parse_result[2][0] | 32;

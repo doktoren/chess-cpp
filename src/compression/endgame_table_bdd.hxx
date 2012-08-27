@@ -20,8 +20,8 @@ public:
   bool load(string filename);
   void save(string filename);
 
-  void set_convert_table(const vector<char> &_convert_table) {
-    convert_table = vector<char>(_convert_table);
+  void set_convert_table(const vector<int8_t> &_convert_table) {
+    convert_table = vector<int8_t>(_convert_table);
   }
 
   // permute_square_enumeration changes bdd_table accordingly
@@ -241,13 +241,13 @@ protected:
 
   // convert_table converts from the values in [0..ct_size[ contained
   // by the bdd's to the actual distance to mate etc. values
-  vector<char> convert_table;
+  vector<int8_t> convert_table;
 
 
   int clustering_kind;//0:none, 1:ordinary, 2:function
   union {
-    ushort *base_subsets;// Usage: base_subsets[(piece_num << 6) | pos]
-    int cf_index;
+    uint16_t *base_subsets;// Usage: base_subsets[(piece_num << 6) | pos]
+    int32_t cf_index;
     //ClusterFunction cluster_function;
   } clustering;
 
@@ -265,8 +265,8 @@ protected:
   //       010100001010010010000000000000
   //       001000000100001001000000010001
   //       000000110000000000111000100000
-  uint pattern[5];// Do NOT replace 5 with MAX_MEN
-  uint bit_perm_and_permute_pos[64];
+  uint32_t pattern[5];// Do NOT replace 5 with MAX_MEN
+  uint32_t bit_perm_and_permute_pos[64];
 
   vector<BinaryDecisionDiagram *> sub_bdds;
 };

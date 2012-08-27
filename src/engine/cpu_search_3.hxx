@@ -218,7 +218,7 @@ struct AlphaBetaInfo {
   // 2-4 pushing passed pawns
   // 5-7 recaptures
   // 8-10 checking moves
-  ushort search_extensions_counter;
+  uint16_t search_extensions_counter;
 };
 template <class S>
 S& operator<<(S& os, const AlphaBetaInfo& info) {
@@ -281,7 +281,7 @@ protected:
   HashTable_Simple<HashValue, DEBUG_EntryWithMove> transposition_table;
 #endif
 
-  ushort current_time_stamp;
+  uint16_t current_time_stamp;
 
   SearchStuff search;
 

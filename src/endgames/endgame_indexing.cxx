@@ -46,15 +46,15 @@
 // construct_bdd_table creates the table from which the bdd
 // will be initialized. All entries are mapped to [0..convert_table.size()[
 // where 0 represents a wildcard (ENDGAME_TABLE_ILLEGAL)
-uchar *construct_bdd_table(const char *table, TableIndexToBDDIndex table_index_to_bdd_index,
+uint8_t *construct_bdd_table(const int8_t *table, TableIndexToBDDIndex table_index_to_bdd_index,
     int table_size, int log_bdd_size, int round_to_mult_of_n,
-    vector<char> &convert_table,
-    const BitList &unreachable) {
+    vector<int8_t> &convert_table, const BitList &unreachable)
+{
   // Init bdd_table, convert_table and ct_size
   // At the same time initialize bdd_table from table according to this mapping.
   // All "paddings" in bdd_table is given value ENDGAME_TABLE_ILLEGAL
   int bdd_size = 1<<log_bdd_size;
-  uchar *bdd_table = new uchar[bdd_size];
+  uint8_t *bdd_table = new uint8_t[bdd_size];
   memset(bdd_table, 0, bdd_size);
 
   // Convert values to range 0..n
@@ -115,7 +115,7 @@ uchar *construct_bdd_table(const char *table, TableIndexToBDDIndex table_index_t
 
 
   // Construct convert_table.
-  convert_table = vector<char>(last_index+1);
+  convert_table = vector<int8_t>(last_index+1);
   for (int i=0; i<256; i++)
     if (conv[i] != -1) {
       assert(0<=conv[i]  &&  conv[i]<(int)convert_table.size());

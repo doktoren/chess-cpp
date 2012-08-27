@@ -36,7 +36,7 @@ string short_version(string s) {
 }
 
 // Very ugly code, but whatever.
-// Additional arguments must be of type char* or a pointer sized integer.
+// Additional arguments must be of type char* or uintptr_t.
 bool dot_demand(vector<string> parsed, unsigned int length, ...) {
   if (parsed.size() > length) return false;
 
@@ -44,7 +44,7 @@ bool dot_demand(vector<string> parsed, unsigned int length, ...) {
   if (parsed.size() != length) goto try_shortened_version;
   va_start(ap, length);
   for (uint i=0; i<length; i++) {
-    ptr_int arg = va_arg(ap, ptr_int);
+    uintptr_t arg = va_arg(ap, uintptr_t);
     if (arg < 0x100) {
       if (arg  &&  parsed[i].length() != arg) goto try_shortened_version;
     } else {
@@ -56,7 +56,7 @@ bool dot_demand(vector<string> parsed, unsigned int length, ...) {
   parse_result = vector<string>();
   va_start(ap, length);
   for (unsigned int i=0; i<length; i++) {
-    ptr_int arg = va_arg(ap, ptr_int);
+    uintptr_t arg = va_arg(ap, uintptr_t);
     if (arg < 0x100) {
       // Interpret arg as a demand on length of blah
       parse_result.push_back(parsed[i]);
@@ -70,7 +70,7 @@ bool dot_demand(vector<string> parsed, unsigned int length, ...) {
   va_start(ap, length);
   unsigned int num = 0;
   for (unsigned int i=0; i<length; i++) {
-    ptr_int arg = va_arg(ap, ptr_int);
+    uintptr_t arg = va_arg(ap, uintptr_t);
     if (arg < 0x100) break;
     ++num;
   }
@@ -79,12 +79,12 @@ bool dot_demand(vector<string> parsed, unsigned int length, ...) {
 
   va_start(ap, length);
   for (unsigned int i=0; i<num; i++) {
-    ptr_int arg = va_arg(ap, ptr_int);
+    uintptr_t arg = va_arg(ap, uintptr_t);
     char* s = (char *)arg;
     if (parsed[0][i] != s[0]) { return false; }
   }
   for (unsigned int i=num; i<length; i++) {
-    ptr_int arg = va_arg(ap, ptr_int);
+    uintptr_t arg = va_arg(ap, uintptr_t);
     if (arg >= 0x100) { return false; }
     if (arg) {
       // Interpret arg as a demand on length of blah
@@ -98,7 +98,7 @@ bool dot_demand(vector<string> parsed, unsigned int length, ...) {
   parse_result = vector<string>();
   va_start(ap, length);
   for (unsigned int i=0; i<length; i++) {
-    ptr_int arg = va_arg(ap, ptr_int);
+    uintptr_t arg = va_arg(ap, uintptr_t);
     if (arg < 0x100) {
       // Interpret arg as a demand on length of blah
       parse_result.push_back(parsed[i-num+1]);

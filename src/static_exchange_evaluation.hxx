@@ -8,15 +8,15 @@
 extern const uint BOARD_CONTROL_CONSTANTS[13];
 extern const int PIECE_CONTROL_MEASURES[7];
 
-extern uchar COMPRESS_CAPTURE_LIST[1<<16];
+extern uint8_t COMPRESS_CAPTURE_LIST[1<<16];
 #define CCLL (197+1) // compressed capture list length
-extern ushort DECOMPRESS_CAPTURE_LIST[CCLL];
+extern uint16_t DECOMPRESS_CAPTURE_LIST[CCLL];
 
-extern uchar NUM_PIECES_DEFENDING[CCLL];
+extern uint8_t NUM_PIECES_DEFENDING[CCLL];
 
 extern int CONTROL_MEASURE[CCLL];
 
-extern char SEE_LIST[5*CCLL*CCLL];
+extern int8_t SEE_LIST[5*CCLL*CCLL];
 
 class Board2plus;
 
@@ -40,7 +40,7 @@ public:
   }
   void print(ostream &os);
 
-  string capture_list_to_string(ushort cl);
+  string capture_list_to_string(uint16_t cl);
 
   // Update functions
   void insert_piece(Position pos, Piece piece) { reevaluate_position(pos, piece); }
@@ -58,7 +58,7 @@ public:
     return bc(player, pos);
   }
   // number of player's pieces that can attack pos
-  uchar num_pieces_defending(int player, int pos) {
+  uint8_t num_pieces_defending(int player, int pos) {
     return NUM_PIECES_DEFENDING[COMPRESS_CAPTURE_LIST[bc(player, pos)]];
   }
   // Same as above, but smaller pieces have more weight
@@ -76,8 +76,7 @@ public:
   // see(piece, pos), piece is on pos
   int see(int pos, int piece);
 
-  char calc_see(int piece, ushort aggressor, ushort defender);
-
+  int8_t calc_see(int piece, uint16_t aggressor, uint16_t defender);
 
   // size() returns the number of squares with a piece that with gain
   // can be captured by the opponent (according to the s.e.e.)
@@ -96,11 +95,11 @@ public:
     return targets[attacking_side][index].second;
   }
 
-  char& index_see(int piece_kind, int aggressor, int defender) {
+  int8_t& index_see(int piece_kind, int aggressor, int defender) {
     assert(PAWN<=piece_kind  &&  piece_kind<=QUEEN  &&
 	   1<=aggressor  &&  aggressor<CCLL  &&
 	   1<=defender  &&  defender<CCLL);
-    char &result = SEE_LIST[CCLL*CCLL*(piece_kind-1) + CCLL*aggressor + defender];
+    int8_t &result = SEE_LIST[CCLL*CCLL*(piece_kind-1) + CCLL*aggressor + defender];
     //cerr << "index_see(" << piece_kind << ", " << aggressor << ", " << defender << ") = " << (int)result << '\n';
     return result;
   }
@@ -112,13 +111,6 @@ public:
 
   int move_result(Move move);
 
-  // example: protect_count[WPAWN][BQUEEN] = 1, if a white pawn threatens a black queen
-  // protect_count doesn't work. Consider if eg. a white pawn threatens a black queen.
-  // If the queen moves, then protect_count will not be opdated - ARGH!
-  //int protect_count[16][16];
-protected:
-
-
 private:
   void reevaluate_position(Position pos, Piece piece);
 
@@ -126,7 +118,7 @@ private:
   void init_num_pieces_defending();
   void init_control_measure();
   void init_see_list();
-  ushort bc(int player, int pos) {
+  uint16_t bc(int player, int pos) {
     return board_control[pos] >> (player << 4);
     //return player ? (board_control[pos]>>16) : board_control[pos];
     //return ((ushort *)&(board_control[pos]))[player];
@@ -134,7 +126,7 @@ private:
 
   Board2plus &board;
 
-  uint board_control[64];
+  uint32_t board_control[64];
 
   // targets[attacking side][...]
   pair<int, int> targets[2][16];//<Position, value>

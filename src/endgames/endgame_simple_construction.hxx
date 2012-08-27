@@ -3,6 +3,6 @@
 
 #include "endgame_database.hxx"
 
-void build_endgame_simple(EndgameFunctionality* endgame, char **table);
+void build_endgame_simple(EndgameFunctionality* endgame, int8_t **table);
 
 #endif

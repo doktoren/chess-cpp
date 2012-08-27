@@ -4,30 +4,30 @@
 #include "piece_values.hxx"
 
 const int BCC_POS[13] =
-  {0,
+{0,
     0, 2, 5, 8,11,15,
-   16,18,21,24,27,31};
+    16,18,21,24,27,31};
 const int BCC_AND[13] =
-  {0,
-   3,7,7,7,15,1,
-   3,7,7,7,15,1};
+{0,
+    3,7,7,7,15,1,
+    3,7,7,7,15,1};
 
-const uint BOARD_CONTROL_CONSTANTS[13] =
-  {0,
-   1<<0, 1<<2, 1<<5, 1<<8, 1<<11, 1<<15,
-   1<<16, 1<<18, 1<<21, 1<<24, 1<<27, 1<<31};
+const uint32_t BOARD_CONTROL_CONSTANTS[13] =
+{0,
+    1<<0, 1<<2, 1<<5, 1<<8, 1<<11, 1<<15,
+    1<<16, 1<<18, 1<<21, 1<<24, 1<<27, 1<<31};
 
 const int PIECE_CONTROL_MEASURES[7] =
-  {0, 4, 3, 3, 2, 2, 2};
+{0, 4, 3, 3, 2, 2, 2};
 
-uchar COMPRESS_CAPTURE_LIST[1<<16];
-ushort DECOMPRESS_CAPTURE_LIST[CCLL];
+uint8_t COMPRESS_CAPTURE_LIST[1<<16];
+uint16_t DECOMPRESS_CAPTURE_LIST[CCLL];
 
 void SEE::init_compress_capture_list() {
   static bool initialized = false;
   if (initialized) return;
   initialized = true;
-  
+
   int index = 0;
 
   for (int i=0; i<(1<<16); i++) {
@@ -39,8 +39,8 @@ void SEE::init_compress_capture_list() {
     int kings = i>>15;
 
     if (pawns<=2  &&  knights<=2  &&  bishops<=1  &&  rooks<=2  &&  queens<=2  &&  kings<=1  &&
-	// 3*3*2*3*3*2 = 18*18 = 324
-	pawns+knights+bishops+rooks+queens+kings <= 5) {
+        // 3*3*2*3*3*2 = 18*18 = 324
+        pawns+knights+bishops+rooks+queens+kings <= 5) {
       //cerr << "(p" << pawns << ",n" << knights << ",b" << bishops << ",r" << rooks << ",q" << queens << ",k" << kings << ")\n";
       COMPRESS_CAPTURE_LIST[i] = ++index;
       DECOMPRESS_CAPTURE_LIST[index] = i;
@@ -57,7 +57,7 @@ void SEE::init_compress_capture_list() {
     assert(COMPRESS_CAPTURE_LIST[DECOMPRESS_CAPTURE_LIST[i]] == i);
 }
 
-uchar NUM_PIECES_DEFENDING[CCLL];
+uint8_t NUM_PIECES_DEFENDING[CCLL];
 
 void SEE::init_num_pieces_defending() {
   static bool initialized = false;
@@ -67,7 +67,7 @@ void SEE::init_num_pieces_defending() {
 
   NUM_PIECES_DEFENDING[0] = 0;
   for (int i=1; i<CCLL; i++) {
-    ushort p = DECOMPRESS_CAPTURE_LIST[i];
+    uint16_t p = DECOMPRESS_CAPTURE_LIST[i];
     //1<<0, 1<<2, 1<<5, 1<<8, 1<<11, 1<<15,
     NUM_PIECES_DEFENDING[i] = (p&3)+((p>>2)&7)+((p>>5)&7)+((p>>8)&7)+((p>>11)&15)+(p>>15);
   }
@@ -83,7 +83,7 @@ void SEE::init_control_measure() {
 
   DECOMPRESS_CAPTURE_LIST[0] = 0;
   for (int i=1; i<CCLL; i++) {
-    ushort p = DECOMPRESS_CAPTURE_LIST[i];
+    uint16_t p = DECOMPRESS_CAPTURE_LIST[i];
 
     CONTROL_MEASURE[i] = 0;
     int pawns = p&3;
@@ -102,14 +102,14 @@ void SEE::init_control_measure() {
 }
 
 
-char SEE_LIST[5*CCLL*CCLL];
+int8_t SEE_LIST[5*CCLL*CCLL];
 
 void SEE::init_see_list() {
   static bool initialized = false;
   if (initialized) return;
   initialized = true;
   memset(SEE_LIST, 0, sizeof(char)*5*CCLL*CCLL);
-  
+
   for (int p=PAWN; p<=QUEEN; p++)
     for (int i=1; i<CCLL; i++) for (int j=1; j<CCLL; j++) {
       assert(COMPRESS_CAPTURE_LIST[DECOMPRESS_CAPTURE_LIST[i]] == i);
@@ -124,8 +124,8 @@ void SEE::test_see_list() {
     for (int i=1; i<CCLL; i++) for (int j=1; j<CCLL; j++) {
       int tmp = calc_see(p, DECOMPRESS_CAPTURE_LIST[i], DECOMPRESS_CAPTURE_LIST[j]);
       if (tmp != index_see(p, i, j)) {
-	cerr << PIECE_NAME[p] << ", " << i << ", " << j << ", new = "
-	     << index_see(p, i, j) << ", old = " << tmp << "\n";
+        cerr << PIECE_NAME[p] << ", " << i << ", " << j << ", new = "
+            << index_see(p, i, j) << ", old = " << tmp << "\n";
       }
     }
   cerr << "Testing see list done.\n";
@@ -175,7 +175,7 @@ void SEE::print(ostream &os) {
     count += NUM_PIECES_DEFENDING[COMPRESS_CAPTURE_LIST[board_control[i] >> 16]];
   }
   os << count << "\n";
-  */
+   */
 }
 
 void SEE::print_targets(ostream &os) {
@@ -183,8 +183,8 @@ void SEE::print_targets(ostream &os) {
     os << "SEE: The " << num_targets[p] << " targets attacked by " << (p?"black\n":"white\n");
     for (int i=0; i<num_targets[p]; i++)
       os << "Target " << PIECE_SCHAR[board[target_position(p, i)]] << " on pos "
-	 << POS_NAME[target_position(p, i)] << " has value "
-	 << (int)target_value(p, i) << "\n";
+      << POS_NAME[target_position(p, i)] << " has value "
+      << (int)target_value(p, i) << "\n";
   }
 }
 
@@ -193,12 +193,12 @@ void SEE::print_compression_list(ostream &os) {
     cerr << i << " ->";
     for (int j=1; j<=6; j++)
       cerr << " " << PIECE_SCHAR[j]
-	   << ((DECOMPRESS_CAPTURE_LIST[i] >> BCC_POS[j]) & BCC_AND[j]);
+                                 << ((DECOMPRESS_CAPTURE_LIST[i] >> BCC_POS[j]) & BCC_AND[j]);
     cerr << "\n";
   }
 }
 
-string SEE::capture_list_to_string(ushort cl) {
+string SEE::capture_list_to_string(uint16_t cl) {
   string s;
   bool gah = false;
   for (int p=1; p<7; p++) {
@@ -215,14 +215,12 @@ string SEE::capture_list_to_string(ushort cl) {
 
 //############################################
 
-char SEE::calc_see(int piece, ushort aggressor, ushort defender) {
+int8_t SEE::calc_see(int32_t piece, uint16_t aggressor, uint16_t defender) {
   assert(PAWN<=piece  &&  piece<=QUEEN);
-  // Start bagfra
-  //int p = piece; ushort a = aggressor; ushort d = defender;
 
   // ASSUMPTION! num_a + num_b + 1 <= 20
   int gah[20];
-  
+
   // gah[even] = value relative to aggressor
   // gah[uneven] = value relative to defender
   gah[0] = 0;
@@ -236,27 +234,27 @@ char SEE::calc_see(int piece, ushort aggressor, ushort defender) {
     while (pa < 7) {
       int tmp = (aggressor >> BCC_POS[pa]) & BCC_AND[pa];
       if (tmp) {
-	aggressor -= (1 << BCC_POS[pa]);
-	piece = pa;
-	break;
+        aggressor -= (1 << BCC_POS[pa]);
+        piece = pa;
+        break;
       } else {
-	++pa;
+        ++pa;
       }
     }
 
     if (defender) {
       ++i;
       gah[i] = -gah[i-1] - SEE_PIECE_UNITS[piece];
-      
+
       while (pd < 7) {
-	int tmp = (defender >> BCC_POS[pd]) & BCC_AND[pd];
-	if (tmp) {
-	  defender -= (1<< BCC_POS[pd]);
-	  piece = pd;
-	  break;
-	} else {
-	  ++pd;
-	}
+        int tmp = (defender >> BCC_POS[pd]) & BCC_AND[pd];
+        if (tmp) {
+          defender -= (1<< BCC_POS[pd]);
+          piece = pd;
+          break;
+        } else {
+          ++pd;
+        }
       }
     } else {
       break;
@@ -272,12 +270,9 @@ char SEE::calc_see(int piece, ushort aggressor, ushort defender) {
 
   big_output << "calc_see(" << PIECE_CHAR[p] << ", (" << capture_list_to_string(a)
 	     << "), (" << capture_list_to_string(d) << ")) = " << (int)(gah[0]) << "\n";
-  */
+   */
   return gah[0];
 }
-
-// loadfen 8/8/5n2/b1k1p3/1R1r1PPN/P1K5/6P1/6B1 w - -
-
 
 void SEE::reevaluate_position(Position pos, Piece piece) {
   int new_see = see(pos, piece);
@@ -287,27 +282,27 @@ void SEE::reevaluate_position(Position pos, Piece piece) {
     if (WHITE_PIECE[piece]) {
       // Black is the attacker
       if (!is_target(pos)) {
-	// new target!
-	targets[BLACK][num_targets[BLACK]] = pair<int, int>(pos, new_see);
-	set_target_ref(pos, BLACK, num_targets[BLACK]++);
-	//cerr << "num_targets[white attacker] increased to " << num_targets[BLACK] << " by "
-	//     << PPIECE_NAME[piece] << " on " << POS_NAME[pos] << ":\n";
+        // new target!
+        targets[BLACK][num_targets[BLACK]] = pair<int, int>(pos, new_see);
+        set_target_ref(pos, BLACK, num_targets[BLACK]++);
+        //cerr << "num_targets[white attacker] increased to " << num_targets[BLACK] << " by "
+        //     << PPIECE_NAME[piece] << " on " << POS_NAME[pos] << ":\n";
       } else {
-	// target already exists - update value
-	get_target(pos).second = new_see;
+        // target already exists - update value
+        get_target(pos).second = new_see;
       }
 
     } else { // White is the attacker
 
       if (!target_ref[pos]) {
-	// new target!
-	targets[WHITE][num_targets[WHITE]] = pair<int, int>(pos, new_see);
-	set_target_ref(pos, WHITE, num_targets[WHITE]++);
-	//cerr << "num_targets[black attacker] increased to " << num_targets[WHITE] << " by "
-	//     << PPIECE_NAME[piece] << " on " << POS_NAME[pos] << ":\n";
+        // new target!
+        targets[WHITE][num_targets[WHITE]] = pair<int, int>(pos, new_see);
+        set_target_ref(pos, WHITE, num_targets[WHITE]++);
+        //cerr << "num_targets[black attacker] increased to " << num_targets[WHITE] << " by "
+        //     << PPIECE_NAME[piece] << " on " << POS_NAME[pos] << ":\n";
       } else {
-	// target already exists - update value
-	get_target(pos).second = new_see;
+        // target already exists - update value
+        get_target(pos).second = new_see;
       }
     }
 
@@ -317,21 +312,21 @@ void SEE::reevaluate_position(Position pos, Piece piece) {
       // target must be removed!
       // Fill the gap with the last target in the list
       if (target_color(pos)) {
-	get_target(pos) = targets[BLACK][--num_targets[BLACK]];
-	//cerr << "num_targets[white attacker] decreased to " << num_targets[BLACK] << " by "
-	//     << PPIECE_NAME[piece] << " on " << POS_NAME[pos] << ":\n";
-	
-	target_ref[targets[BLACK][num_targets[BLACK]].first] = target_ref[pos];
-	target_ref[pos] = 0;
+        get_target(pos) = targets[BLACK][--num_targets[BLACK]];
+        //cerr << "num_targets[white attacker] decreased to " << num_targets[BLACK] << " by "
+        //     << PPIECE_NAME[piece] << " on " << POS_NAME[pos] << ":\n";
+
+        target_ref[targets[BLACK][num_targets[BLACK]].first] = target_ref[pos];
+        target_ref[pos] = 0;
 
       } else {
 
-	get_target(pos) = targets[WHITE][--num_targets[WHITE]];
-	//cerr << "num_targets[white attacker] decreased to " << num_targets[WHITE] << " by "
-	//     << PPIECE_NAME[piece] << " on " << POS_NAME[pos] << ":\n";
-	
-	target_ref[targets[WHITE][num_targets[WHITE]].first] = target_ref[pos];
-	target_ref[pos] = 0;
+        get_target(pos) = targets[WHITE][--num_targets[WHITE]];
+        //cerr << "num_targets[white attacker] decreased to " << num_targets[WHITE] << " by "
+        //     << PPIECE_NAME[piece] << " on " << POS_NAME[pos] << ":\n";
+
+        target_ref[targets[WHITE][num_targets[WHITE]].first] = target_ref[pos];
+        target_ref[pos] = 0;
       }
     }
   }
@@ -357,7 +352,7 @@ void SEE::decrease_control(Move move, Piece piece) {
   //big_output << "#### decrease_control[" << POS_NAME[move.to] << "] " << toString(board_control[move.to], 8, 16) << " -> ";
   board_control[move.to] -= BOARD_CONTROL_CONSTANTS[piece];
   //big_output << toString(board_control[move.to], 8, 16) << ", caused by " << move.toString() << "\n";
-  
+
   // Exact same code as in increase_control
   if (board[move.to]) reevaluate_position(move.to, board[move.to]);
 }
@@ -375,7 +370,7 @@ int SEE::see(int pos, int piece) {
     /*
     const int UNTABULATED_VALUES[13] = {0, 0,0,0,0,0, SEE_WKING_VALUE, 0,0,0,0,0, SEE_WKING_VALUE};
     return UNTABULATED_VALUES[piece];
-    */
+     */
   }
   assert(WPAWN <= piece  &&  piece <= BKING);
   assert(0<=pos  &&  pos<64);
@@ -392,7 +387,7 @@ int SEE::see(int pos, int piece) {
       print(cerr);
       cerr << "bc(" << toString(board_control[pos], 8, 16) << "), w_cl=" << white_cl << ", b_cl=" << black_cl << "\n";
       assert(0);
-      */
+       */
     }
     if (WHITE_PIECE[piece]) {
       // black aggressor
@@ -484,7 +479,7 @@ int SEE::see_result(int player) {
     }
   }
 }
-*/
+ */
 
 int SEE::move_result(Move move) {
   assert(board.move_to_index.defined(move));
@@ -502,13 +497,13 @@ int SEE::move_result(Move move) {
       // cerr << "Piece captured\n";
       result += ABS_PIECE_VALUES[board[move.to]];
     }
-    
+
     // Penalty for being new target:
     board_control[move.to] -= BOARD_CONTROL_CONSTANTS[piece];
     // cerr << "see = " << see(move.to, piece) << "\n";
     result -= see(move.to, piece);
     board_control[move.to] += BOARD_CONTROL_CONSTANTS[piece];
-    
+
     return result;
 
   } else {
@@ -523,7 +518,7 @@ int SEE::move_result(Move move) {
 
     // Penalty for being new target:
     result -= see(move.to, piece);
-  
+
     return result;
   }
 }

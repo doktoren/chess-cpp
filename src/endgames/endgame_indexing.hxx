@@ -48,9 +48,9 @@ typedef int (*TableIndexToBDDIndex)(int index);
 // construct_bdd_table creates the table from which the bdd
 // will be initialized. All entries are mapped to [0..convert_table.size()[
 // where 0 represents a wildcard (ENDGAME_TABLE_ILLEGAL)
-uchar *construct_bdd_table(const char *table, TableIndexToBDDIndex table_index_to_bdd_index,
+uint8_t *construct_bdd_table(const int8_t *table, TableIndexToBDDIndex table_index_to_bdd_index,
 			   int table_size, int log_bdd_size, int round_to_mult_of_n,
-			   vector<char> &convert_table,
+			   vector<int8_t> &convert_table,
 			   const BitList &unreachable);
 
 #define TABLES(endgame) \

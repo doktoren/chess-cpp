@@ -28,15 +28,15 @@ struct Info {
   bool is_valid() const { return eval_type; }
   void clear() { eval_type = 0; }
 
-  int value;
-  char depth;
-  uchar eval_type;
+  int32_t value;
+  int8_t depth;
+  uint8_t eval_type;
 };
 ostream& operator<<(ostream& os, const Info& info);
 
 struct EntryWithMove {
   EntryWithMove() : value(0), ply(0), eval_type(0), time_stamp(0), move() {}
-  EntryWithMove(int value, uchar ply, uchar eval_type, ushort time_stamp, Move move) :
+  EntryWithMove(int32_t value, uint8_t ply, uint8_t eval_type, uint16_t time_stamp, Move move) :
     value(value), ply(ply), eval_type(eval_type), time_stamp(time_stamp),
     move(move) {}
 
@@ -47,17 +47,17 @@ struct EntryWithMove {
     time_stamp = 0;
   }
 
-  int value;
-  char ply;
-  uchar eval_type;
-  ushort time_stamp;
+  int32_t value;
+  int8_t ply;
+  uint8_t eval_type;
+  uint16_t time_stamp;
   Move move;
 };
 
 #ifndef NDEBUG
 struct DEBUG_EntryWithMove {
   DEBUG_EntryWithMove() : value(0), ply(0), eval_type(0), time_stamp(0), move(), hboard() {}
-  DEBUG_EntryWithMove(int value, uchar ply, uchar eval_type, ushort time_stamp,
+  DEBUG_EntryWithMove(int32_t value, uint8_t ply, uint8_t eval_type, uint16_t time_stamp,
 		      Move move, HashBoard hboard) :
     value(value), ply(ply), eval_type(eval_type), time_stamp(time_stamp),
     move(move), hboard(hboard) {}
@@ -69,10 +69,10 @@ struct DEBUG_EntryWithMove {
     time_stamp = 0;
   }
 
-  int value;
-  char ply;
-  uchar eval_type;
-  ushort time_stamp;
+  int32_t value;
+  int8_t ply;
+  uint8_t eval_type;
+  uint16_t time_stamp;
   Move move;
 
   HashBoard hboard;

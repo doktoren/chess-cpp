@@ -13,7 +13,7 @@ struct EFState {
     table_loaded[0] = table_loaded[1] = 0;
     bdd_loaded[0] = bdd_loaded[1] = 0;
   }
-  EFState(char **table, BDD **bdd) {
+  EFState(int8_t **table, BDD **bdd) {
     table_loaded[0] = table[0];
     table_loaded[1] = table[1];
     bdd_loaded[0] = bdd[0];
@@ -45,7 +45,7 @@ public:
 
   ~EndgameFunctionality() { destroy(); }
 
-  char operator[](Board2 &b) { return index_function(b); }
+  int8_t operator[](Board2 &b) { return index_function(b); }
   void destroy();
   void destroy(int stm);
   void destroy_table();
@@ -71,7 +71,7 @@ public:
       bool build_tables_if_nescessary = true,
       int restricted_stm = WHITE);// Only used if restrict_to_stm == true
 
-  char index_function(const Board2 &board);
+  int8_t index_function(const Board2 &board);
 
   // inspect(cerr, {64, e2, f7, f6}) prints map
   void inspect(ostream &os, vector<Position> positions);
@@ -142,7 +142,7 @@ public:
   void compare_bdd_with_table(int player);
 
   // Debug
-  char direct_bdd_index(int player, BDD_Index index) {
+  int8_t direct_bdd_index(int player, BDD_Index index) {
     assert(player==0  ||  player==1);
     if (bdd[player]) return (*(bdd[player]))[index];
     return ENDGAME_TABLE_UNKNOWN;
@@ -182,8 +182,8 @@ private:
   BDD_Index (*preprocess_bdd_index)(const vector<PiecePos>& piece_list);
   int (*table_index_to_bdd_index)(int index);
 
-  char *table[2];
-  uint table_size;
+  int8_t *table[2];
+  uint32_t table_size;
   BDD *bdd[2];
 
   string name;

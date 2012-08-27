@@ -71,24 +71,24 @@ void BDD::load(int fd) {
   clear();
 
   { // Load convert_table
-    uint size;
-    read(fd, &size, sizeof(uint));
-    convert_table = vector<char>(size);
-    read(fd, &(convert_table[0]), sizeof(char)*convert_table.size());
+    uint32_t size;
+    read(fd, &size, sizeof(uint32_t));
+    convert_table = vector<int8_t>(size);
+    read(fd, &(convert_table[0]), sizeof(int8_t)*convert_table.size());
   }
 
   { // Load clustering information
-    read(fd, &clustering_kind, sizeof(int));
+    read(fd, &clustering_kind, sizeof(int32_t));
 
     switch(clustering_kind) {
     case 0:
       break;
     case 1:
-      clustering.base_subsets = (ushort*)malloc(sizeof(ushort)*5*64);
-      read(fd, clustering.base_subsets, sizeof(ushort)*5*64);
+      clustering.base_subsets = (uint16_t*)malloc(sizeof(uint16_t)*5*64);
+      read(fd, clustering.base_subsets, sizeof(uint16_t)*5*64);
       break;
     case 2:
-      read(fd, &(clustering.cf_index), sizeof(int));
+      read(fd, &(clustering.cf_index), sizeof(int32_t));
       break;
     default:
       assert(0);
@@ -98,12 +98,12 @@ void BDD::load(int fd) {
     else map_subset_to_cluster.init(1,0);
   }
 
-  read(fd, pattern, sizeof(uint)*5);
+  read(fd, pattern, sizeof(uint32_t)*5);
 
-  read(fd, bit_perm_and_permute_pos, sizeof(uint)*64);
+  read(fd, bit_perm_and_permute_pos, sizeof(uint32_t)*64);
 
   { // Load sub_bdds
-    uint size;
+    uint32_t size;
     read(fd, &size, sizeof(size));
     sub_bdds = vector<BinaryDecisionDiagram *>(size);
     for (uint i=0; i<sub_bdds.size(); i++) {
@@ -114,22 +114,22 @@ void BDD::load(int fd) {
 }
 void BDD::save(int fd) {
   { // Save convert_table
-    uint size = convert_table.size();
-    write(fd, &size, sizeof(uint));
-    write(fd, &(convert_table[0]), sizeof(char)*convert_table.size());
+    uint32_t size = convert_table.size();
+    write(fd, &size, sizeof(uint32_t));
+    write(fd, &(convert_table[0]), sizeof(int8_t)*convert_table.size());
   }
 
   { // Save clustering information
-    write(fd, &clustering_kind, sizeof(int));
+    write(fd, &clustering_kind, sizeof(int32_t));
 
     switch(clustering_kind) {
     case 0:
       break;
     case 1:
-      write(fd, clustering.base_subsets, sizeof(ushort)*5*64);
+      write(fd, clustering.base_subsets, sizeof(uint16_t)*5*64);
       break;
     case 2:
-      write(fd, &(clustering.cf_index), sizeof(int));
+      write(fd, &(clustering.cf_index), sizeof(int32_t));
       break;
     default:
       assert(0);
@@ -138,13 +138,13 @@ void BDD::save(int fd) {
     if (clustering_kind) map_subset_to_cluster.save(fd);
   }
 
-  write(fd, pattern, sizeof(uint)*5);
+  write(fd, pattern, sizeof(uint32_t)*5);
 
-  write(fd, bit_perm_and_permute_pos, sizeof(uint)*64);
+  write(fd, bit_perm_and_permute_pos, sizeof(uint32_t)*64);
 
   { // Save sub_bdds
-    uint size = sub_bdds.size();
-    write(fd, &size, sizeof(uint));
+    uint32_t size = sub_bdds.size();
+    write(fd, &size, sizeof(uint32_t));
     for (uint i=0; i<sub_bdds.size(); i++)
       sub_bdds[i]->save(fd);
   }
@@ -180,33 +180,10 @@ int BDD::memory_consumption() {
   return result;
 }
 
-/*
-// a private method
-void BDD::init_bit_perm_and_permute_pos(uchar *bit_perm, vector<uchar *> permute_pos) {
-  // Init patterns
-  for (int i=0; i<MAX_MEN; i++) {
-    pattern[i] = 0;
-    for (int j=0; j<6; j++) pattern[i] |= 1 << bit_perm[6*i+j];
-  }
-
-  for (int p=0; p<64; p++) {
-    bit_perm_and_permute_pos[p] = 0;
-
-    for (int i=0; i<MAX_MEN; i++) {
-      int ppos = permute_pos[i][p];
-      for (int bp=0; bp<6; bp++) {
-	bit_perm_and_permute_pos[p] |= ((ppos >> bp) & 1) << bit_perm[(6*i) + bp];
-      }
-    }
-  }
-}
- */
-
-
 // permute_square_enumeration changes bdd_table accordingly
 // permutations.back()[i] is replaced by permutations.back()[INV_REMAP_BOUND_KING[i]]
 // The permutations are stored in bit_perm_and_permute_pos
-void BDD::permute_square_enumeration(uchar *bdd_table, int log_bdd_size,
+void BDD::permute_square_enumeration(uint8_t *bdd_table, int log_bdd_size,
     vector<vector<int> > permutations) {
 #ifndef NDEBUG
   {
@@ -219,14 +196,6 @@ void BDD::permute_square_enumeration(uchar *bdd_table, int log_bdd_size,
 
   int bdd_size = 1 << log_bdd_size;
   int num_pieces = permutations.size();
-
-  /*
-    for (int p=0; p<num_pieces; p++) {
-    int tmp[64];
-    for (int i=0; i<64; i++) tmp[i]=permutations[p][i];
-    print_signed_map64(cerr, tmp, 2, 10);
-    }
-   */
 
   {
     // Update permutations.back() to take into account that the bound king
@@ -270,7 +239,7 @@ void BDD::permute_square_enumeration(uchar *bdd_table, int log_bdd_size,
         // ii = xxxx xxxxxx 000000 xxxxxx
         int ii = ((i<<6) & -(1<<(bit_pos+6))) | (i & ((1<<bit_pos)-1));
 
-        uchar tmp[64]; // 64>=perm_size
+        uint8_t tmp[64]; // 64>=perm_size
         for (int j=0; j<perm_size; j++)
           tmp[j] = bdd_table[ii | (j<<bit_pos)];
         for (int j=0; j<perm_size; j++)
@@ -281,8 +250,8 @@ void BDD::permute_square_enumeration(uchar *bdd_table, int log_bdd_size,
 }
 
 
-void BDD::apply_previously_found_bit_perm(uchar *bit_perm,
-    uchar *bdd_table, int log_bdd_size)
+void BDD::apply_previously_found_bit_perm(uint8_t *bit_perm,
+    uint8_t *bdd_table, int log_bdd_size)
 {
   { // Is bit_perm the identity mapping?
     bool identity_mapping = true;
@@ -293,13 +262,6 @@ void BDD::apply_previously_found_bit_perm(uchar *bit_perm,
       }
     if (identity_mapping) return;
   }
-
-  /*
-  cerr << "apply_previously_found_bit_perm:\nbit_perm =\n";
-  for (int i=0; i<32; i++)
-    cerr << i << "->" << (int)bit_perm[i] << ", ";
-  cerr << "\n";
-   */
 
   // Define pattern
   for (uint i=0; i<5; i++) {
@@ -312,7 +274,7 @@ void BDD::apply_previously_found_bit_perm(uchar *bit_perm,
   // Update bit_perm_and_permute_pos (Might previously have been
   // set by permute_square_enumeration).
   for (int p=0; p<64; p++) {
-    uint old = bit_perm_and_permute_pos[p];
+    uint32_t old = bit_perm_and_permute_pos[p];
     bit_perm_and_permute_pos[p] = 0;
     for (int i=0; i<30; i++) {
       // Move bit i to position bit_perm[i]
@@ -320,7 +282,7 @@ void BDD::apply_previously_found_bit_perm(uchar *bit_perm,
     }
   }
 
-  // todo: do nothing if bit_perm is identity
+  // TODO: do nothing if bit_perm is identity
 
   if (bdd_table) {
     // Relocate bdd_table entries
@@ -329,7 +291,7 @@ void BDD::apply_previously_found_bit_perm(uchar *bit_perm,
     // Optimize this process a bit by creating a table
     // such that the new location of an entry can be decided by a
     // few table lookups
-    uint byte_perm[4][256];
+    uint32_t byte_perm[4][256];
     for (int i=0; i<4; i++) {
       for (int j=0; j<256; j++) {
         byte_perm[i][j] = 0;
@@ -353,7 +315,7 @@ void BDD::apply_previously_found_bit_perm(uchar *bit_perm,
       if (!relocated[i]) {
         // Remap entry i -> entry permute(i)
         int j = i;
-        uchar replaced_value = bdd_table[i];
+        uint8_t replaced_value = bdd_table[i];
         do {
           relocated.set(j);
           j = byte_perm[0][j&0xFF] | byte_perm[1][(j>>8)&0xFF] |
@@ -368,17 +330,16 @@ void BDD::apply_previously_found_bit_perm(uchar *bit_perm,
 
 void BDD::create_clustering_kind_1() {
   clustering_kind = 1;
-  clustering.base_subsets = (ushort*)malloc(sizeof(ushort)*5*64);
+  clustering.base_subsets = (uint16_t*)malloc(sizeof(uint16_t)*5*64);
 
   for (int i=0; i<5*64; i++)
     clustering.base_subsets[i] = 0;
 }
 
-void BDD::init_no_clustering(uchar *bdd_table, int log_bdd_size,
+void BDD::init_no_clustering(uint8_t *bdd_table, int log_bdd_size,
     bool do_preprocessing, bool calc_sifting,
-    bool do_mapping_after_sifting) {
-  //test_binary_decision_diagram(); exit(0);
-
+    bool do_mapping_after_sifting)
+{
   do_mapping_after_sifting &= do_preprocessing & calc_sifting;
 
   cbo << "BDD::init_no_clustering(" << log_bdd_size << ","
@@ -394,7 +355,7 @@ void BDD::init_no_clustering(uchar *bdd_table, int log_bdd_size,
     map_wildcards(bdd_table, log_bdd_size);
   }
 
-  uchar bit_perm[32];
+  uint8_t bit_perm[32];
   for (int i=0; i<32; i++) bit_perm[i] = i;
   sub_bdds[0]->init(bdd_table, log_bdd_size, convert_table.size()-1,
       !do_mapping_after_sifting, calc_sifting, bit_perm);
@@ -412,7 +373,7 @@ void BDD::init_no_clustering(uchar *bdd_table, int log_bdd_size,
 }
 
 
-void BDD::use_king_pos_as_subsets(uchar *bdd_table, int log_bdd_size) {
+void BDD::use_king_pos_as_subsets(uint8_t *bdd_table, int log_bdd_size) {
   assert(!clustering_kind);
   create_clustering_kind_1();
 
@@ -429,7 +390,7 @@ void BDD::use_king_pos_as_subsets(uchar *bdd_table, int log_bdd_size) {
 }
 
 void BDD::determine_cluster_subsets_based_on_clustering(vector<int> base_subset_sizes,
-    uchar *bdd_table, int log_bdd_size) {
+    uint8_t *bdd_table, int log_bdd_size) {
   assert(!clustering_kind);
   int num_pieces = base_subset_sizes.size();
   int bdd_size = 1 << log_bdd_size;
@@ -513,7 +474,7 @@ struct SplitHelp {
 };
 
 
-void BDD::init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][64],
+void BDD::init(uint8_t *bdd_table, int log_bdd_size, const uint8_t inv_bit_perm[5][64],
     bool do_preprocessing, bool calc_sifting, bool do_mapping_after_sifting) {
   assert(clustering_kind);
   do_mapping_after_sifting &= do_preprocessing & calc_sifting;
@@ -544,7 +505,7 @@ void BDD::init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][6
   stack<SplitHelp> processed;
 
   // Make a copy of bdd_table to perform the mappings of wildcards on.
-  uchar *test_table = new uchar[bdd_size];
+  uint8_t *test_table = new uint8_t[bdd_size];
   memcpy(test_table, bdd_table, bdd_size);
 
   { // Calculate the size of the table if it is compressed as a single
@@ -554,7 +515,7 @@ void BDD::init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][6
     if (do_preprocessing  &&  !do_mapping_after_sifting) {
       map_wildcards(test_table, log_bdd_size);
     }
-    uchar bit_perm[32];
+    uint8_t bit_perm[32];
     for (int i=0; i<32; i++) bit_perm[i] = i;
     bdd.init(test_table, log_bdd_size, convert_table.size()-1,
         false, calc_sifting, bit_perm);
