@@ -18,37 +18,37 @@ struct IndexRefl {
 struct BDDIndexRefl {
   BDDIndexRefl() : valid(false) {}
 #if BOUND_KING==0
-  BDDIndexRefl(Position white_king, Position black_king, uchar refl) :
+  BDDIndexRefl(Position white_king, Position black_king, uint8_t refl) :
     remapped_bound_k(REMAP_BOUND_KING[white_king]),
     free_k(black_king), refl(refl), valid(true) {}
-  BDDIndexRefl(pair<Position,Position> wb_king, uchar refl) :
+  BDDIndexRefl(pair<Position,Position> wb_king, uint8_t refl) :
     remapped_bound_k(REMAP_BOUND_KING[wb_king.first]),
     free_k(wb_king.second), refl(refl), valid(true) {}
 
-  uchar white_king() { 
+  uint8_t white_king() {
     assert(remapped_bound_k < 32);
     return INV_REMAP_BOUND_KING[remapped_bound_k];
   }
-  uchar black_king() { return free_k; }
+  uint8_t black_king() { return free_k; }
 #else
-  BDDIndexRefl(Position white_king, Position black_king, uchar refl) :
+  BDDIndexRefl(Position white_king, Position black_king, uint8_t refl) :
     remapped_bound_k(REMAP_BOUND_KING[black_king]),
     free_k(white_king), refl(refl), valid(true) {}
-  BDDIndexRefl(pair<Position,Position> wb_king, uchar refl) :
+  BDDIndexRefl(pair<Position,Position> wb_king, uint8_t refl) :
     remapped_bound_k(REMAP_BOUND_KING[wb_king.second]),
     free_k(wb_king.first), refl(refl), valid(true) {}
 
-  uchar white_king() { return free_k; }
-  uchar black_king() {
+  uint8_t white_king() { return free_k; }
+  uint8_t black_king() {
     assert(remapped_bound_k < 32);
     return INV_REMAP_BOUND_KING[remapped_bound_k];
   }
 #endif
 
-  uchar bound_kind() { return INV_REMAP_BOUND_KING[remapped_bound_k]; }
-  uchar free_king() { return free_k; }
+  uint8_t bound_kind() { return INV_REMAP_BOUND_KING[remapped_bound_k]; }
+  uint8_t free_king() { return free_k; }
 
-  uchar remapped_bound_king() { return remapped_bound_k; }
+  uint8_t remapped_bound_king() { return remapped_bound_k; }
 
   bool is_valid() { return valid; }
 
@@ -58,7 +58,7 @@ struct BDDIndexRefl {
   }
 
   Position remapped_bound_k, free_k;
-  uchar refl;
+  uint8_t refl;
   bool valid;
 };
 
@@ -69,7 +69,7 @@ struct BDDIndexRefl {
 //                           KING_FULL_SYMMETRY
 //                                   --->
 // (pos(white king),pos(black king))      (index, reflection) : IndexRefl
-//     | : pair<uchar,uchar>         <---     (index==-1  <=>  invalid)
+//     | : pair<uint8_t,uint8_t>         <---     (index==-1  <=>  invalid)
 //     |                         KING_FS_POS
 //     |
 //     | BDD_KING_FULL_SYMMETRY = KING_FS_POS o KING_FULL_SYMMETRY
@@ -80,10 +80,10 @@ struct BDDIndexRefl {
 extern IndexRefl KING_FULL_SYMMETRY[64*64];
 extern pair<Position, Position> KING_FS_POS[462];
 extern BDDIndexRefl BDD_KING_FULL_SYMMETRY[64*64];
-inline IndexRefl &king_full_symmetry(uchar white_king, uchar black_king) {
+inline IndexRefl &king_full_symmetry(uint8_t white_king, uint8_t black_king) {
   return KING_FULL_SYMMETRY[(white_king << 6) | black_king];
 }
-inline BDDIndexRefl &bdd_king_full_symmetry(uchar white_king, uchar black_king) {
+inline BDDIndexRefl &bdd_king_full_symmetry(uint8_t white_king, uint8_t black_king) {
   return BDD_KING_FULL_SYMMETRY[(white_king << 6) | black_king];
 }
 
@@ -95,7 +95,7 @@ inline BDDIndexRefl &bdd_king_full_symmetry(uchar white_king, uchar black_king) 
 //                           KING_PAWN_SYMMETRY
 //                                   --->
 // (pos(white king),pos(black king))      (index, reflection) : IndexRefl
-//     | : pair<uchar,uchar>         <---     (index==-1  <=>  invalid)
+//     | : pair<uint8_t,uint8_t>         <---     (index==-1  <=>  invalid)
 //     |                         KING_FS_POS
 //     |
 //     | BDD_KING_PAWN_SYMMETRY = KING_PS_POS o KING_PAWN_SYMMETRY
@@ -106,10 +106,10 @@ inline BDDIndexRefl &bdd_king_full_symmetry(uchar white_king, uchar black_king) 
 extern IndexRefl KING_PAWN_SYMMETRY[64*64];//64*(white king) + black_king
 extern pair<Position, Position> KING_PS_POS[1806];
 extern BDDIndexRefl BDD_KING_PAWN_SYMMETRY[64*64];//64*(white king) + black_king
-inline IndexRefl &king_pawn_symmetry(uchar white_king, uchar black_king) {
+inline IndexRefl &king_pawn_symmetry(uint8_t white_king, uint8_t black_king) {
   return KING_PAWN_SYMMETRY[(white_king << 6) | black_king];
 }
-inline BDDIndexRefl &bdd_king_pawn_symmetry(uchar white_king, uchar black_king) {
+inline BDDIndexRefl &bdd_king_pawn_symmetry(uint8_t white_king, uint8_t black_king) {
   return BDD_KING_PAWN_SYMMETRY[(white_king << 6) | black_king];
 }
 

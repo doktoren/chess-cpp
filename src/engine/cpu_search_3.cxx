@@ -149,7 +149,7 @@ Statistics stat;
 
 
 
-uchar SEARCH_EXTENSION_TABLE[2048];// allow search extension table
+uint8_t SEARCH_EXTENSION_TABLE[2048];// allow search extension table
 //allow <=> ASE_TABLE[search_extensions_performed] & new_search_extension
 
 void init_SEARCH_EXTENSION_TABLE() {
@@ -163,15 +163,15 @@ void init_SEARCH_EXTENSION_TABLE() {
     SEARCH_EXTENSION_TABLE[i] += num_single_moves;
 
     int num_passed_pawn_moves = (i >> 2) & 7;
-    const uchar NPPM[8] = {0, 1, 2, 2, 3, 3, 4, 4};
+    const uint8_t NPPM[8] = {0, 1, 2, 2, 3, 3, 4, 4};
     SEARCH_EXTENSION_TABLE[i] += NPPM[num_passed_pawn_moves];
 
     int num_recaptures = (i >> 5) & 7;
-    const uchar NR[8] = {0, 1, 1, 2, 2, 3, 3, 4};
+    const uint8_t NR[8] = {0, 1, 1, 2, 2, 3, 3, 4};
     SEARCH_EXTENSION_TABLE[i] += NR[num_recaptures];
 
     int num_checks = i >> 8;
-    const uchar NC[8] = {0, 1, 1, 1, 1, 1, 1, 1};
+    const uint8_t NC[8] = {0, 1, 1, 1, 1, 1, 1, 1};
     SEARCH_EXTENSION_TABLE[i] += NC[num_checks];
   }
 

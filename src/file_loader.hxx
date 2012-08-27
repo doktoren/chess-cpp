@@ -40,8 +40,8 @@ public:
 
   bool getToken(string &s);
   void reset_delimiters();//to {' ','\t','\n'}
-  void add_delimiter(uchar ch);
-  void remove_delimiter(uchar ch);
+  void add_delimiter(uint8_t ch);
+  void remove_delimiter(uint8_t ch);
 private:
   FILE *fp;
   string name;

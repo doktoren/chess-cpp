@@ -29,7 +29,7 @@ struct Move {
   }
 
   // promote_pawn_to must be color-named
-  explicit Move(Position from, Position to, uchar blah) :
+  explicit Move(Position from, Position to, uint8_t blah) :
     from(from), to(to), special_move(0), blah(blah) {}
 
   Move(const Move& move) : from(move.from), to(move.to), 
@@ -82,7 +82,7 @@ struct Move {
   //128 = BLACK_LONG_CASTLING:  black long castling
   //
   // 48 = EN_PASSANT: en passant
-  uchar special_move;
+  uint8_t special_move;
 
   // blah contains information used by Board2 or Board2plus move generator.
   // blah is ignored by execute_move.
@@ -106,7 +106,7 @@ struct Move {
   // see #defines in top of this file
   // 
   // b7: is null move?
-  uchar blah;
+  uint8_t blah;
 };
 inline bool operator==(const Move& m1, const Move& m2) {
   return m1.from == m2.from  &&  m1.to == m2.to  &&  m1.special_move == m2.special_move;
@@ -130,8 +130,8 @@ struct Undo {
 	    player(0), num_checks(0), threat_pos(0), captured_piece(0), padding(0) {}
 
 
-  Undo(Position en_passant, uchar castling, uchar moves_played_since_progress,
-	bool player, uchar num_checks, Position threat_pos, Piece captured_piece) :
+  Undo(Position en_passant, uint8_t castling, uint8_t moves_played_since_progress,
+	bool player, uint8_t num_checks, Position threat_pos, Piece captured_piece) :
     en_passant(en_passant), castling(castling),
     moves_played_since_progress(moves_played_since_progress),
     player(player), num_checks(num_checks), threat_pos(threat_pos),
@@ -148,20 +148,20 @@ struct Undo {
 
   // #######   BEGIN board.hxx 4 byte block ##########
   Position en_passant;
-  uchar castling;
-  uchar moves_played_since_progress;
+  uint8_t castling;
+  uint8_t moves_played_since_progress;
   bool player;
   // #######    END board.hxx 4 byte block  ##########
 
   // #######  BEGIN board_2.hxx 2 byte block  ########
-  uchar num_checks;
+  uint8_t num_checks;
   Position threat_pos; // only defined if num_checks != 0
   // #######   END board_2.hxx 2 byte block   ########
 
   Piece captured_piece;
   
   // padding must be 0 for operator== to work
-  uchar padding;
+  uint8_t padding;
 };
 // operator<< outputs newlines
 ostream& operator<<(ostream& os, const Undo& undo);

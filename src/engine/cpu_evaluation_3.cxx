@@ -283,15 +283,15 @@ const int DOUBLE_PAWN_BONUS[5][8] =
     {-960, 0, 0, 0, 0, 0, 0, 0}};
 int Eval_3::double_pawns_value() {
   int value = 0;
-  uchar row;
+  uint8_t row;
 
-  uchar wrow = 0;
+  uint8_t wrow = 0;
   for (int r=1; r<7; r++) wrow |= pawn_bitboards[WHITE].u.lines[r];
 
   row = pawn_bitboards[WHITE].u.lines[1];
   for (int r=2; r<7; r++) {
-    uchar next = pawn_bitboards[WHITE].u.lines[r];
-    uchar tmp = row & next;
+    uint8_t next = pawn_bitboards[WHITE].u.lines[r];
+    uint8_t tmp = row & next;
     if (tmp) { 
       //if (FALSE(show_evaluation_info))cerr << "(" << bit_count[tmp] << " " << bit_count[wrow & ((tmp << 1)|(tmp >> 1))] << "\n";
       value += DOUBLE_PAWN_BONUS[ bit_count[tmp] ][ bit_count[wrow & ((tmp << 1)|(tmp >> 1))] ];
@@ -300,13 +300,13 @@ int Eval_3::double_pawns_value() {
   }
 
 
-  uchar brow = 0;
+  uint8_t brow = 0;
   for (int r=1; r<7; r++) brow |= pawn_bitboards[BLACK].u.lines[r];
 
   row = pawn_bitboards[BLACK].u.lines[1];
   for (int r=2; r<7; r++) {
-    uchar next = pawn_bitboards[BLACK].u.lines[r];
-    uchar tmp = row & next;
+    uint8_t next = pawn_bitboards[BLACK].u.lines[r];
+    uint8_t tmp = row & next;
     if (tmp) { 
       //if (FALSE(show_evaluation_info)) cerr << "(" << bit_count[tmp] << " " << bit_count[brow & ((tmp << 1)|(tmp >> 1))] << "\n";
       value -= DOUBLE_PAWN_BONUS[ bit_count[tmp] ][ bit_count[brow & ((tmp << 1)|(tmp >> 1))] ];

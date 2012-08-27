@@ -32,7 +32,7 @@
 // Example:
 //   board_lines[NORTH][ DIAG_INDEX[e2][NORTH] ]
 // gives the vertical line through e2.
-static const uchar DIAG_INDEX[64][4] =
+static const uint8_t DIAG_INDEX[64][4] =
 {{0, 0, 7, 0},
  {0, 1, 6, 1},
  {0, 2, 5, 2},
@@ -124,7 +124,7 @@ static const uchar DIAG_INDEX[64][4] =
 // By modifying DIAG_PIECE_PATTERN to give +4 for black pieces and by
 // using another table, DIAG_PATTERN, to do the shifting, the work
 // for white and black can be done simultaneously.
-static const uchar DIAG_PIECE_PATTERN[13+2][4] = // [piece][direction]
+static const uint8_t DIAG_PIECE_PATTERN[13+2][4] = // [piece][direction]
 {{0,0,0,0},
  {3,3,3,3}, // WPAWN = OBSTACLE for both players
  {3,3,3,3}, // WKNIGHT = OBSTACLE for both players
@@ -174,7 +174,7 @@ inline bool straight_direction(int d) { return !(d&~3); }
 inline void Board2::king_line_insert_piece(Position pos, Piece piece) {
   assert(legal_pos(pos)  &&  piece  &&  legal_pos(king_pos[player^1]));
 
-  const uchar *tmp = DIAG_PIECE_PATTERN[piece];
+  const uint8_t *tmp = DIAG_PIECE_PATTERN[piece];
 
   uint *pattern = &(board_lines[0][DIAG_INDEX[pos][0]]);
   *pattern |= DIAG_PATTERN[pos&7][tmp[0]];
@@ -412,7 +412,7 @@ void Board2::set_check_invariants() {
 
   // Check long distance threats
   Piece piece = board[pos];
-  const uchar *tmp = DIAG_PIECE_PATTERN[piece];
+  const uint8_t *tmp = DIAG_PIECE_PATTERN[piece];
 
   uint pattern = board_lines[0][DIAG_INDEX[pos][0]];
   pattern &= AND_DPP_PATTERN[pos&7];
@@ -525,7 +525,7 @@ bool Board2::check_if_king_placed(Position pos) const {
 
   // Check long distance threats
   Piece piece = KING + 6*player;
-  const uchar *tmp = DIAG_PIECE_PATTERN[piece];
+  const uint8_t *tmp = DIAG_PIECE_PATTERN[piece];
 
   uint pattern = board_lines[0][DIAG_INDEX[pos][0]];
   pattern &= AND_DPP_PATTERN[pos&7];

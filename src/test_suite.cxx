@@ -452,12 +452,12 @@ public:
     try {
       gah[b.get_moves_played()] = move;
 
-      uchar before = b.allowed_symmetries();
+      uint8_t before = b.allowed_symmetries();
       Undo undo = b.execute_move(move);
-      uchar after = b.allowed_symmetries();
+      uint8_t after = b.allowed_symmetries();
 
 
-      uchar transform[8];
+      uint8_t transform[8];
       int num_transforms = 0;
 
       if (before==3  &&  after==0xFF) {

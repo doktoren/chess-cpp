@@ -98,7 +98,7 @@ public:
       (~(CASTLING_LOST[move.from] & CASTLING_LOST[move.to]) & castling);
   }
 
-  uchar get_num_checks() { return num_checks; }
+  uint8_t get_num_checks() { return num_checks; }
 
   // position_is_unreachable is set by set_check_invariants().
   // Hence it will abso be set by loadFEN and set_board.
@@ -131,7 +131,7 @@ protected:
 
   // #######  BEGIN board_2.hxx 2 byte block  ########
   // Do not change the order, it is the same as in Undo => optimized copying
-  uchar num_checks;
+  uint8_t num_checks;
   // king threats
   Position threat_pos; // only defined if num_checks != 0
   // #######   END board_2.hxx 2 byte block   ########
@@ -169,7 +169,7 @@ protected:
 
 private:
   Position captured_en_passant_pawn(Position from, Position pawn_capture_pos);
-  triple<int,uchar,Position> retro_move_count_checks(Position from, Position to,
+  triple<int,uint8_t,Position> retro_move_count_checks(Position from, Position to,
 						     Piece original_piece, Piece piece_killed);
 
   // static tables (how to assure only one copy ?)
@@ -198,9 +198,9 @@ private:
 };
 ostream& operator<<(ostream& os, const ull& bit_board);
 
-extern uchar CHECK_TABLE[0x10000];//0,1 or 2
-extern uchar DIRECTION[64][64];// "unsigned" direction: [0..3] or ...
-extern uchar SDIRECTION[64][64];// "signed" direction: [0..7] or ...
+extern uint8_t CHECK_TABLE[0x10000];//0,1 or 2
+extern uint8_t DIRECTION[64][64];// "unsigned" direction: [0..3] or ...
+extern uint8_t SDIRECTION[64][64];// "signed" direction: [0..7] or ...
 extern Position DIRECTION_MOVE_TABLE[8][64];
 extern ull BIT_BOARDS[13+2][64];
 extern ull BB_LINES[64][64];

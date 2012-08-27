@@ -10,7 +10,7 @@ enum
     O32_PDP_ENDIAN = 0x01000302ul
 };
 
-static const union { uchar bytes[4]; uint32_t value; } o32_host_order = { { 0, 1, 2, 3 } };
+static const union { uint8_t bytes[4]; uint32_t value; } o32_host_order = { { 0, 1, 2, 3 } };
 
 void run_endian_test() {
   assert(o32_host_order.value == O32_LITTLE_ENDIAN);

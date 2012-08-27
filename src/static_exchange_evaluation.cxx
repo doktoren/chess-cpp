@@ -135,7 +135,7 @@ void SEE::test_see_list() {
 
 void SEE::print(ostream &os) {
   os << "Static Exchange Evaluation:\n";
-  uchar npd[64];
+  uint8_t npd[64];
   os << "SEE: Num white pieces defending:\n";
   for (int i=0; i<64; i++)
     npd[i] = num_pieces_defending(WHITE, i);

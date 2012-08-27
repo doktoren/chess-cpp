@@ -77,7 +77,7 @@ public:
   void get_encoded_piece_list(vector<PiecePos> &l) const;
 
   // returns b7b6b5b4b3b2b1b0. bi is 1 iff transformation i is legal
-  uchar allowed_symmetries() {
+  uint8_t allowed_symmetries() {
     if (castling) return 1;
     if (get_num_pawns()) return 1+2;
     return 0xFF;
@@ -87,7 +87,7 @@ public:
   bool transform_board(int transformation);
   bool inv_transform_board(int transformation) {
     assert(0<=transformation && transformation<8);
-    const uchar INV[8] = {0,1,2,3,4,6,5,7};
+    const uint8_t INV[8] = {0,1,2,3,4,6,5,7};
     return transform_board(INV[transformation]);
   }
 
@@ -108,19 +108,19 @@ public:
   inline Position en_passant_square() const { return en_passant; }
 
   inline bool not_all_castling_capabilities_lost() { return castling; }
-  inline uchar get_castling_capabilities() { return castling; }
+  inline uint8_t get_castling_capabilities() { return castling; }
 
-  inline uchar get_num_pieces() const {
+  inline uint8_t get_num_pieces() const {
     return piece_count.individual.num_pieces;
   }
-  inline uchar get_num_pieces(int player) const {
+  inline uint8_t get_num_pieces(int player) const {
     return piece_count.individual.num_colored_pieces[player];
   }
   // Counts only knights, bishops, rooks and queens
-  inline uchar get_num_non_zugzwang_pieces(int player) const {
+  inline uint8_t get_num_non_zugzwang_pieces(int player) const {
     return (piece_count.individual.num_non_zugzwang_pieces >> (4*player)) & 0xF;
   }
-  inline uchar get_num_pawns() const {
+  inline uint8_t get_num_pawns() const {
     return get_num_pieces() - 2 -
         (piece_count.individual.num_non_zugzwang_pieces & 0xF) -
         (piece_count.individual.num_non_zugzwang_pieces >> 4);
@@ -175,10 +175,10 @@ protected:
   // WHITE_SHORT_CASTLING (2<<4)
   // BLACK_LONG_CASTLING (4<<4)
   // BLACK_SHORT_CASTLING (8<<4)
-  uchar castling;
+  uint8_t castling;
 
   // If an uninvertible move was made last turn, moves_played_since_progress is 0
-  uchar moves_played_since_progress;
+  uint8_t moves_played_since_progress;
 
   // player <=> blacks turn
   // player is not used as a part of the Undo struct. It is simply here
@@ -253,11 +253,11 @@ struct HashBoard {
     b.print_board(os);
   }
 
-  uchar board[32];
+  uint8_t board[32];
 
   Position en_passant;
-  uchar castling;
-  uchar moves_played_since_progress;
+  uint8_t castling;
+  uint8_t moves_played_since_progress;
   bool player;
 
   int moves_played;

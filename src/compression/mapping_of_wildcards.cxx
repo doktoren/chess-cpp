@@ -33,7 +33,7 @@ ostream &operator<<(ostream &os, const LHD &lhd) {
 
 struct RecParam {
   RecParam(const LHD &a, const LHD &b, const int &depth) 
-    : a(a), b(b), depth(depth)
+  : a(a), b(b), depth(depth)
   {
     assert(a.low != b.low  ||  a.high == b.high);// Consistency check
   }
@@ -55,7 +55,7 @@ bool operator<(const RecParam &p1, const RecParam &p2) {
     int diff_cost = p1.cost() - p2.cost();
     if (diff_cost) return diff_cost > 0; // Process best matches first
   }
-    
+
   // if (p1.depth != p2.depth)
   return p1.depth < p2.depth; // Process high depth before low
 
@@ -77,7 +77,7 @@ public:
     if (size & (size-1)) {
       // Remove all bits except for the most significant one.
       do {
-	size &= size-1;
+        size &= size-1;
       } while (size & (size-1));
       size <<= 1;
     }
@@ -96,7 +96,7 @@ public:
     assert(initialized());
     return _active[index | size];
   }
-  
+
   // Returns true iff a bit is _active in [begin_index..end_index[
   bool exists_active(int begin_index, int end_index) {
     assert(initialized());
@@ -112,16 +112,16 @@ public:
 
       end_index += size;
       do {
-	if (begin_index & 1) {
-	  if (_active[begin_index]) return true;
-	  ++begin_index;
-	}
-	begin_index >>= 1;
-	
-	if (end_index & 1) {
-	  --end_index;
-	  if (_active[end_index-1]) return true;
-	}
+        if (begin_index & 1) {
+          if (_active[begin_index]) return true;
+          ++begin_index;
+        }
+        begin_index >>= 1;
+
+        if (end_index & 1) {
+          --end_index;
+          if (_active[end_index-1]) return true;
+        }
       } while(begin_index < end_index);
 
       end_index >>= 1;
@@ -147,7 +147,7 @@ ActiveSet active_set;
 
 #define td(x, d) (table[blocks[x]+(d)])
 
-uchar *table = 0;
+uint8_t *table = 0;
 int block_size = 0;
 vector<int> blocks;
 int last_low_value = 0;
@@ -173,7 +173,7 @@ struct Match {
 };
 ostream &operator<<(ostream &os, const Match &m) {
   return os << "Match(" << m.right << ":" << m.left_diff
-	    << "," << m.right << ":" << m.right_diff << ")";
+      << "," << m.right << ":" << m.right_diff << ")";
 }
 
 bool operator<(const Match &m1, const Match &m2) {
@@ -230,7 +230,7 @@ void rec(RecParam r) {
 
     // We have increased r.a.low - push back on pq. and return;
     rec_calls.push(RecParam(LHD(r.a.low, r.a.high, r.a.diff),
-			    LHD(r.b.low, r.b.high, r.b.diff), r.depth));
+        LHD(r.b.low, r.b.high, r.b.diff), r.depth));
     return;
   }
 
@@ -239,16 +239,16 @@ void rec(RecParam r) {
 
     do {
       if (t(r.a.low)!=t(r.b.low)) {
-	if (!t(r.a.low)) {
-	  ++r.a.diff;
-	  if (cost(r.a.diff, r.b.diff) > max_allowed_cost) return;
-	} else if (!t(r.b.low)) {
-	  ++r.b.diff;
-	  if (cost(r.a.diff, r.b.diff) > max_allowed_cost) return;
-	} else {
-	  // t(r.a.low)  &&  t(r.b.low)  => Not uniteable!
-	  return;
-	}
+        if (!t(r.a.low)) {
+          ++r.a.diff;
+          if (cost(r.a.diff, r.b.diff) > max_allowed_cost) return;
+        } else if (!t(r.b.low)) {
+          ++r.b.diff;
+          if (cost(r.a.diff, r.b.diff) > max_allowed_cost) return;
+        } else {
+          // t(r.a.low)  &&  t(r.b.low)  => Not uniteable!
+          return;
+        }
       }
       ++r.depth;
     } while (r.depth < block_size);
@@ -275,14 +275,14 @@ void rec(RecParam r) {
     // Check if this entry is not uniteable or uniteable at some cost
     if (t(r.a.low)!=t(r.b.low)) {
       if (!t(r.a.low)) {
-	++r.a.diff;
-	if (cost(r.a.diff, r.b.diff) > max_allowed_cost) return;
+        ++r.a.diff;
+        if (cost(r.a.diff, r.b.diff) > max_allowed_cost) return;
       } else if (!t(r.b.low)) {
-	++r.b.diff;
-	if (cost(r.a.diff, r.b.diff) > max_allowed_cost) return;
+        ++r.b.diff;
+        if (cost(r.a.diff, r.b.diff) > max_allowed_cost) return;
       } else {
-	// t(r.a.low)  &&  t(r.b.low)  => Not uniteable!
-	return;
+        // t(r.a.low)  &&  t(r.b.low)  => Not uniteable!
+        return;
       }
     }
 
@@ -298,30 +298,30 @@ void rec(RecParam r) {
 #endif
     // No identity matching
     if (r.a.low == r.b.low) ++r.b.low;
-    
+
     // Find mathes between r.a.low  and  [r.b.low .. r.b.high]
     for (int b=r.b.low; b<=r.b.high; b++) {
       if (active_set.active(b)) {
-	if (t(r.a.low)!=t(b)) {
-	  if (!t(r.a.low)) {
-	    add_match(Match(r.a.low, b, r.a.diff+1, r.b.diff));
-	  } else if (!t(b)) {
-	    add_match(Match(r.a.low, b, r.a.diff, r.b.diff+1));
-	  } else {
-	    // t(a)  &&  t(b)  => Not uniteable!
-	  }
-	} else if (r.a.diff || r.b.diff) {
-	  add_match(Match(r.a.low, b, r.a.diff, r.b.diff));
-	}
+        if (t(r.a.low)!=t(b)) {
+          if (!t(r.a.low)) {
+            add_match(Match(r.a.low, b, r.a.diff+1, r.b.diff));
+          } else if (!t(b)) {
+            add_match(Match(r.a.low, b, r.a.diff, r.b.diff+1));
+          } else {
+            // t(a)  &&  t(b)  => Not uniteable!
+          }
+        } else if (r.a.diff || r.b.diff) {
+          add_match(Match(r.a.low, b, r.a.diff, r.b.diff));
+        }
       }
     }
 
     // Mathes between [r.a.low+1 .. r.a.high] and  [r.b.low .. r.b.high] are delayed
     if (r.a.low != r.a.high  &&
-	active_set.exists_active(++r.a.low, r.a.high+1)) {
+        active_set.exists_active(++r.a.low, r.a.high+1)) {
       // r.a.low <= r.b.low holds
       rec_calls.push(RecParam(LHD(r.a.low, r.a.high, r.a.diff),
-			      LHD(r.b.low, r.b.high, r.b.diff), r.depth));
+          LHD(r.b.low, r.b.high, r.b.diff), r.depth));
     }
 
     return;
@@ -332,20 +332,20 @@ void rec(RecParam r) {
   if (t(r.a.low) == 0) {
     int a_low = r.a.low, a_high = r.a.low;
     while (a_high<r.a.high  &&  !t(a_high+1)) ++a_high;
-      
+
     int b_low = r.b.low, b_high = r.b.low;
     do {
       while (b_high<r.b.high  &&  t(b_high) == t(b_high+1)) ++b_high;
-      
+
       if (t(b_low)) {
-	// a_low == r.a.low, and r.a.low is active
-	// Check also that the right interval contains an active element
-	if (active_set.exists_active(b_low, b_high+1)  &&
-	    cost(r.a.diff+1, r.b.diff) <= max_allowed_cost)
-	  rec_calls.push(RecParam(LHD(a_low, a_high, r.a.diff+1),
-				  LHD(b_low, b_high, r.b.diff), r.depth+1));
+        // a_low == r.a.low, and r.a.low is active
+        // Check also that the right interval contains an active element
+        if (active_set.exists_active(b_low, b_high+1)  &&
+            cost(r.a.diff+1, r.b.diff) <= max_allowed_cost)
+          rec_calls.push(RecParam(LHD(a_low, a_high, r.a.diff+1),
+              LHD(b_low, b_high, r.b.diff), r.depth+1));
       }
-      
+
       b_low = ++b_high;
     } while (b_low <= r.b.high);
   }
@@ -359,18 +359,18 @@ void rec(RecParam r) {
     int a_low = r.a.low, a_high = r.a.low;
     do {
       while (a_high<r.a.high  &&  t(a_high) == t(a_high+1)) ++a_high;
-	
-      if (t(a_low)) {
-	assert(a_low < b_low);
 
-	// Check that both intervals contains active elements
-	if (active_set.exists_active(a_low, a_high+1)  &&
-	    active_set.exists_active(b_low, b_high+1)  &&
-	    cost(r.a.diff, r.b.diff+1) <= max_allowed_cost)
-	  rec_calls.push(RecParam(LHD(a_low, a_high, r.a.diff),
-				  LHD(b_low, b_high, r.b.diff+1), r.depth+1));
+      if (t(a_low)) {
+        assert(a_low < b_low);
+
+        // Check that both intervals contains active elements
+        if (active_set.exists_active(a_low, a_high+1)  &&
+            active_set.exists_active(b_low, b_high+1)  &&
+            cost(r.a.diff, r.b.diff+1) <= max_allowed_cost)
+          rec_calls.push(RecParam(LHD(a_low, a_high, r.a.diff),
+              LHD(b_low, b_high, r.b.diff+1), r.depth+1));
       }
-      
+
       a_low = ++a_high;
     } while (a_low <= r.a.high);
   }
@@ -387,9 +387,9 @@ void rec(RecParam r) {
     if (next_a  &&  next_b) { // A match
       // Check that both intervals contains active elements
       if (active_set.exists_active(a_low, a_high+1)  &&
-	  active_set.exists_active(b_low, b_high+1))
-	rec_calls.push(RecParam(LHD(a_low, a_high, r.a.diff),
-				LHD(b_low, b_high, r.b.diff), r.depth+1));
+          active_set.exists_active(b_low, b_high+1))
+        rec_calls.push(RecParam(LHD(a_low, a_high, r.a.diff),
+            LHD(b_low, b_high, r.b.diff), r.depth+1));
     }
 
     if (next_a) {
@@ -423,8 +423,8 @@ int least_prime_larger_than(int n) {
     bool prime = true;
     for (int i=3; i*i<=n; i+=2)
       if (n%i == 0) {
-	prime = false;
-	break;
+        prime = false;
+        break;
       }
     if (prime) return n;
     n+=2;
@@ -437,7 +437,7 @@ public:
   _hash_table() : mem(0) {}
   ~_hash_table() { if(mem) { free(mem); free(ref); } }
 
-  void init(uchar *_table, int capacity, int _log_block_size) {
+  void init(uint8_t *_table, int capacity, int _log_block_size) {
     assert(_table);
     assert(_log_block_size == 1  ||  _log_block_size == 2);
 
@@ -455,7 +455,7 @@ public:
     }
 
     used_entries.init(size+1024);
-    mem = (uchar *)malloc((size+1024) << log_block_size);
+    mem = (uint8_t *)malloc((size+1024) << log_block_size);
     ref = (int *)malloc(4*(size+1024));
   }
 
@@ -472,11 +472,11 @@ public:
       //cerr << "get_ref: " << pattern << ", " << toString(e, 8, 16) << ", " << toString(p, 8, 16) << "\n";
     }
     int i = p % size;
-    
+
     while (used_entries[i]) {
       if (p == (pattern & *((uint *)(&(mem[i << log_block_size]))))) {
-	//cerr << "get_ref(" << index << ") found! (" << toString(p, 8, 16) << ")\n";
-	return ref[i];
+        //cerr << "get_ref(" << index << ") found! (" << toString(p, 8, 16) << ")\n";
+        return ref[i];
       }
       assert(i < size+1024);
       ++i;
@@ -492,19 +492,19 @@ public:
     // WARNING: big/little endian dependend code
     uint p = pattern & *((uint *)(&(table[index << log_block_size])));
     int i = p % size;
-    
+
     while (used_entries[i]) {
       if (p == (pattern & *((uint *)(&(mem[i << log_block_size]))))) {
-	ref[i] = new_ref;
-	assert(get_ref(index) == new_ref);
-	return;
+        ref[i] = new_ref;
+        assert(get_ref(index) == new_ref);
+        return;
       }
       assert(i < size+1024);
       ++i;
     }
 
     used_entries.set(i);
-    
+
     uint &m = *((uint *)(&(mem[i << log_block_size])));
     //cerr << "m(" << toString(m, 8, 16) << " -> ";
     m &= ~pattern;
@@ -522,10 +522,10 @@ private:
   uint pattern;
 
   BitList used_entries;
-  uchar *mem;
+  uint8_t *mem;
   int *ref;
 
-  uchar *table;
+  uint8_t *table;
 };
 
 
@@ -551,14 +551,14 @@ vector<int> mergesort(int begin, int end) {
     int insert_pos = 1;
     for (int i=1; i<num_blocks; i++)
       if (my_cmp(&(blocks[i-1]), &(blocks[i])))
-	blocks[insert_pos++] = blocks[i];
+        blocks[insert_pos++] = blocks[i];
     blocks.resize(insert_pos);
 #ifndef NDEBUG
     for (int i=1; i<insert_pos; i++)
       assert(my_cmp(&(blocks[i-1]), &(blocks[i])) < 0);
 #endif
     return blocks;
-  
+
   } else {
 
     vector<int> left = mergesort(begin, (begin+end)/2);
@@ -569,15 +569,15 @@ vector<int> mergesort(int begin, int end) {
       uint left_index = 0;
       uint right_index = 0;
       while (left_index<left.size()  &&  right_index<right.size()) {
-	++num_different_blocks;
-	int cmp = my_cmp(&(left[left_index]), &(right[right_index]));
-	left_index += cmp <= 0;
-	right_index += cmp >= 0;
+        ++num_different_blocks;
+        int cmp = my_cmp(&(left[left_index]), &(right[right_index]));
+        left_index += cmp <= 0;
+        right_index += cmp >= 0;
       }
       if (left_index < left.size())
-	num_different_blocks += (left.size()-left_index);
+        num_different_blocks += (left.size()-left_index);
       if (right_index < right.size())
-	num_different_blocks += (right.size()-right_index);
+        num_different_blocks += (right.size()-right_index);
     }
 
     int left_index = left.size()-1;
@@ -592,33 +592,33 @@ vector<int> mergesort(int begin, int end) {
     bool error = false;
     while (left_index != insert_index) {
       if (left_index < 0) {
-	// Copy prefix of right vector to left vector
-	memcpy(&(left[0]), &(right[0]), sizeof(int)*(right_index+1));
-	break;
+        // Copy prefix of right vector to left vector
+        memcpy(&(left[0]), &(right[0]), sizeof(int)*(right_index+1));
+        break;
       }
 
       int cmp = my_cmp(&(left[left_index]), &(right[right_index]));
 
       // if cmp==0 it doesn't matter which value left[insert_pos] gets.
       if (cmp <= 0) {
-	// right contains a biggest element;
-	left[insert_index] = right[right_index--];
-	if (!(insert_index+1 == (int)left.size()  ||
-	      my_cmp(&(left[insert_index]), &(left[insert_index+1])) <= 0)) {
-	  cerr << "Error: " << insert_index << ": " << left_index << ", " << right_index+1 << "\n";
-	  error = true;
-	  break;
-	}
+        // right contains a biggest element;
+        left[insert_index] = right[right_index--];
+        if (!(insert_index+1 == (int)left.size()  ||
+            my_cmp(&(left[insert_index]), &(left[insert_index+1])) <= 0)) {
+          cerr << "Error: " << insert_index << ": " << left_index << ", " << right_index+1 << "\n";
+          error = true;
+          break;
+        }
       }
       if (cmp >= 0) {
-	// left contains a biggest element;
-	left[insert_index] = left[left_index--];
-	if (!(insert_index+1 == (int)left.size()  ||
-	      my_cmp(&(left[insert_index]), &(left[insert_index+1])) <= 0)) {
-	  cerr << "Error: " << insert_index << ": " << left_index+1 << ", " << right_index << "\n";
-	  error = true;
-	  break;
-	}
+        // left contains a biggest element;
+        left[insert_index] = left[left_index--];
+        if (!(insert_index+1 == (int)left.size()  ||
+            my_cmp(&(left[insert_index]), &(left[insert_index+1])) <= 0)) {
+          cerr << "Error: " << insert_index << ": " << left_index+1 << ", " << right_index << "\n";
+          error = true;
+          break;
+        }
       }
       --insert_index;
     }
@@ -627,43 +627,43 @@ vector<int> mergesort(int begin, int end) {
     for (uint i=1; i<left.size(); i++) {
       if (error  ||  my_cmp(&(left[i-1]), &(left[i])) >= 0) {
 
-	vector<int> _left = mergesort(begin, (begin+end)/2);
-	vector<int> _right = mergesort((begin+end)/2, end);
-    
-	cerr << "LEFT (size " << _left.size() << "):\n";
-	for (uint i=0; i<_left.size(); i++) {
-	  if (i) cerr << ",";
-	  cerr << "(";
-	  for (int j=0; j<block_size; j++) {
-	    if (j) cerr << ",";
-	    cerr << (int)table[_left[i] + j];
-	  }
-	  cerr << ")";
-	}
-	cerr << "\n";
-	cerr << "LEFT (size " << _right.size() << "):\n";
-	for (uint i=0; i<_right.size(); i++) {
-	  if (i) cerr << ",";
-	  cerr << "(";
-	  for (int j=0; j<block_size; j++) {
-	    if (j) cerr << ",";
-	    cerr << (int)table[_right[i] + j];
-	  }
-	  cerr << ")";
-	}
-	cerr << "\n";
-	cerr << "MERGED (size " << left.size() << "):\n";
-	for (uint i=0; i<left.size(); i++) {
-	  if (i) cerr << ",";
-	  cerr << "(";
-	  for (int j=0; j<block_size; j++) {
-	    if (j) cerr << ",";
-	    cerr << (int)table[left[i] + j];
-	  }
-	  cerr << ")";
-	}
-	cerr << "\n";
-	assert(0);
+        vector<int> _left = mergesort(begin, (begin+end)/2);
+        vector<int> _right = mergesort((begin+end)/2, end);
+
+        cerr << "LEFT (size " << _left.size() << "):\n";
+        for (uint i=0; i<_left.size(); i++) {
+          if (i) cerr << ",";
+          cerr << "(";
+          for (int j=0; j<block_size; j++) {
+            if (j) cerr << ",";
+            cerr << (int)table[_left[i] + j];
+          }
+          cerr << ")";
+        }
+        cerr << "\n";
+        cerr << "LEFT (size " << _right.size() << "):\n";
+        for (uint i=0; i<_right.size(); i++) {
+          if (i) cerr << ",";
+          cerr << "(";
+          for (int j=0; j<block_size; j++) {
+            if (j) cerr << ",";
+            cerr << (int)table[_right[i] + j];
+          }
+          cerr << ")";
+        }
+        cerr << "\n";
+        cerr << "MERGED (size " << left.size() << "):\n";
+        for (uint i=0; i<left.size(); i++) {
+          if (i) cerr << ",";
+          cerr << "(";
+          for (int j=0; j<block_size; j++) {
+            if (j) cerr << ",";
+            cerr << (int)table[left[i] + j];
+          }
+          cerr << ")";
+        }
+        cerr << "\n";
+        assert(0);
       }
     }
 #endif
@@ -674,14 +674,14 @@ vector<int> mergesort(int begin, int end) {
 
 
 
-void map_wildcards(uchar *bdd_table, int log_size) {
+void map_wildcards(uint8_t *bdd_table, int log_size) {
   cbo << "map_wildcards2(" << log_size << ") called.\n";
   int size = 1 << log_size;
 
   table = bdd_table;
 
   int num_diff_values = 0;
-  uchar non_zero_value = 0;
+  uint8_t non_zero_value = 0;
   {
     int values_used[256];
     memset(values_used, 0, sizeof(int)*256);
@@ -689,8 +689,8 @@ void map_wildcards(uchar *bdd_table, int log_size) {
       values_used[table[i]] = 1;
     for (int i=0; i<256; i++) {
       if (values_used[i]) {
-	++num_diff_values;
-	non_zero_value = i;
+        ++num_diff_values;
+        non_zero_value = i;
       }
     }
   }
@@ -712,14 +712,14 @@ void map_wildcards(uchar *bdd_table, int log_size) {
 
       switch (rep) {
       case 0:
-	max_allowed_cost = 0;
-	break;
+        max_allowed_cost = 0;
+        break;
       case 1:
-	max_allowed_cost = block_size;//(int)(sqrt((double)block_size)+0.5);
-	break;
+        max_allowed_cost = block_size;//(int)(sqrt((double)block_size)+0.5);
+        break;
       case 2:
-	max_allowed_cost = (int)(block_size*(sqrt((double)block_size)+0.5));//0x7FFFFFFF;
-	break;
+        max_allowed_cost = (int)(block_size*(sqrt((double)block_size)+0.5));//0x7FFFFFFF;
+        break;
       }
 
       cbo << "Allowed unification cost = " << max_allowed_cost << "\n";
@@ -730,48 +730,48 @@ void map_wildcards(uchar *bdd_table, int log_size) {
 
       // ######################################################
       if (block_size > K) { // ################################
-      // ######################################################
-	
-	blocks = vector<int>(num_blocks);
-	for (int i=0; i<num_blocks; i++) blocks[i] = i*block_size;
-	qsort(&(blocks[0]), num_blocks, sizeof(int), my_cmp);
-	
-	vector<int> index_ref;
-	// If index_ref[bn] != bn then the block number index_ref[bn] should be
-	// copied to block number bn after all wildcards have been mapped.
-	index_ref.resize(num_blocks);
-	for (int i=0; i<num_blocks; i++)
-	  index_ref[i] = i;
-	
-	// blocks[0..num_different_blocks[ contains only the different blocks
-	int num_different_blocks = 0;
-	{
-	  int block = blocks[0];
-	  for (int i=1; i<num_blocks; i++) {
-	    int tmp = my_cmp(&(blocks[i-1]), &(blocks[i]));
-	    if (tmp) {
-	      // blocks[i-1] and blocks[i] differ.
-	      blocks[num_different_blocks++] = block;
-	      block = blocks[i];
-	    } else {
-	      index_ref[blocks[i] >> log_block_size] = index_ref[block >> log_block_size];
-	    }
-	  }
-	  blocks[num_different_blocks++] = block;
-	  blocks.resize(num_different_blocks);
-	}
-	
-	if (num_different_blocks == 1) {
-	  cerr << "num_different_blocks = 1  => Nothing to do!\n";
-	  // Some assertions would fail.
-	  continue;
-	}
-	
-	active_set.init(num_different_blocks);
-	
-	cbo << "Number of different blocks is " << num_different_blocks << "\n";
-	
-	/*
+        // ######################################################
+
+        blocks = vector<int>(num_blocks);
+        for (int i=0; i<num_blocks; i++) blocks[i] = i*block_size;
+        qsort(&(blocks[0]), num_blocks, sizeof(int), my_cmp);
+
+        vector<int> index_ref;
+        // If index_ref[bn] != bn then the block number index_ref[bn] should be
+        // copied to block number bn after all wildcards have been mapped.
+        index_ref.resize(num_blocks);
+        for (int i=0; i<num_blocks; i++)
+          index_ref[i] = i;
+
+        // blocks[0..num_different_blocks[ contains only the different blocks
+        int num_different_blocks = 0;
+        {
+          int block = blocks[0];
+          for (int i=1; i<num_blocks; i++) {
+            int tmp = my_cmp(&(blocks[i-1]), &(blocks[i]));
+            if (tmp) {
+              // blocks[i-1] and blocks[i] differ.
+              blocks[num_different_blocks++] = block;
+              block = blocks[i];
+            } else {
+              index_ref[blocks[i] >> log_block_size] = index_ref[block >> log_block_size];
+            }
+          }
+          blocks[num_different_blocks++] = block;
+          blocks.resize(num_different_blocks);
+        }
+
+        if (num_different_blocks == 1) {
+          cerr << "num_different_blocks = 1  => Nothing to do!\n";
+          // Some assertions would fail.
+          continue;
+        }
+
+        active_set.init(num_different_blocks);
+
+        cbo << "Number of different blocks is " << num_different_blocks << "\n";
+
+        /*
 	  cerr << "index_ref[";
 	  for (int i=0; i<num_blocks; i++) {
 	  if (i) cerr << ",";
@@ -783,296 +783,296 @@ void map_wildcards(uchar *bdd_table, int log_size) {
 	  cerr << (blocks[i] >> log_block_size);
 	  }
 	  cerr << "]\n";
-	*/
-	
-	rec_calls.push(RecParam(LHD(0, num_different_blocks-1, 0),
-				LHD(0, num_different_blocks-1, 0), 0));
-	
-	last_low_value = 0;
-	while (!rec_calls.empty()) {
-	  RecParam r = rec_calls.top();
-	  rec_calls.pop();
-	  
-	  if (r.a.low > last_low_value) {
-	    
-	    while (matches.size()) {
+         */
+
+        rec_calls.push(RecParam(LHD(0, num_different_blocks-1, 0),
+            LHD(0, num_different_blocks-1, 0), 0));
+
+        last_low_value = 0;
+        while (!rec_calls.empty()) {
+          RecParam r = rec_calls.top();
+          rec_calls.pop();
+
+          if (r.a.low > last_low_value) {
+
+            while (matches.size()) {
 #ifndef NDEBUG
-	      for (uint i=0; i<matches.size(); i++) {
-		assert(matches[i].left >= last_low_value);
-		assert(active_set.active(matches[i].right));
-		for (uint j=0; j<matches.size(); j++)
-		  if (i!=j)
-		    assert(matches[i].right != matches[j].right);
-	      }
+              for (uint i=0; i<matches.size(); i++) {
+                assert(matches[i].left >= last_low_value);
+                assert(active_set.active(matches[i].right));
+                for (uint j=0; j<matches.size(); j++)
+                  if (i!=j)
+                    assert(matches[i].right != matches[j].right);
+              }
 #endif
-	      // The best match is matches[0].
-	      
-	      // Remember which wildcards were used in the left block
-	      vector<int> mapped_wildcards(matches[0].left_diff);
-	      
-	      // Unify block matches[0].left with matches[0].right.
-	      --num_different_blocks;
-	      // Remember which wildcards from matches[0].left were used.
-	      //big_output << "Unifying B" << matches[0].left << " with B" << matches[0].right
-	      //	     << " at cost " << matches[0].left_diff << "*" << matches[0].right_diff << "\n";
-	      int index = 0;
-	      for (int i=0; i<block_size; i++) {
-		if (td(matches[0].left, i) != td(matches[0].right, i)) {
-		  if (td(matches[0].left, i)) {
-		    assert(td(matches[0].right,i)==0);
-		    // No need to perform the copying - it will be done in the end.
-		    // td(matches[0].right, i) = td(matches[0].left, i);
-		  } else {
-		    assert(td(matches[0].left,i)==0);
-		    td(matches[0].left, i) = td(matches[0].right, i);
-		    assert(index < matches[0].left_diff);
-		    mapped_wildcards[index++] = i;
-		  }
-		}
-	      }
-	      
-	      assert(index == matches[0].left_diff);
-	      
-	      // Make a reference from the right block to the left block.
-	      //cerr << "IndexRef(" << (blocks[matches[0].right] >> log_block_size)
-	      //     << " -> " << (blocks[matches[0].left] >> log_block_size) << ")\n";
-	      index_ref[blocks[matches[0].right] >> log_block_size] =
-		index_ref[blocks[matches[0].left] >> log_block_size];
-	      
-	      // Make the right block inactive
-	      active_set.deactivate(matches[0].right);
-	      
-	      // Update the list of matches
-	      int insert_pos = 0;
-	      for (uint i=1; i<matches.size(); i++) {
-		int left_adjustment = 0, right_adjustment = 0;
-		for (uint j=0; j<mapped_wildcards.size(); j++) {
-		  int index = mapped_wildcards[j];
-		  assert(td(matches[i].left, index));
-		  if (!td(matches[i].right, index)) {
-		    // New mapping of wildcard needed in right block
-		    ++right_adjustment;
-		  } else if (td(matches[i].left, index) == td(matches[i].right, index)) {
-		    // The wildcard in the left block is already mapped appropriately
-		    --left_adjustment;
-		  } else {
-		    // No longer unitable!
-		    right_adjustment = -1;
-		    break;
-		  }
-		}
-		
-		if (right_adjustment != -1) {
-		  matches[i].adjust(left_adjustment, right_adjustment);
-		  
-		  // Assure that matches[0] contains best match
-		  if (insert_pos==0  ||  matches[0].cost <= matches[i].cost) {
-		    matches[insert_pos++] = matches[i];
-		  } else {
-		    assert((uint)insert_pos < i);
-		    matches[insert_pos++] = matches[0];
-		    matches[0] = matches[i];
-		  }
-		}
-	      }
-	      
-	      matches.resize(insert_pos);
-	    }
-	    
-	    //big_output << r << " - " << rec_calls.size() << " remaining!\n";
-	    last_low_value = r.a.low;
-	  }
-	  
-	  rec(r);
-	}
-	
-	{ // Copy the changes back to the other blocks
-	  
-	  // Make all index_ref direct
-	  bool progress = true;
-	  while (progress) {
-	    progress = false;
-	    for (int i=0; i<num_blocks; i++) {
-	      int &ir = index_ref[i];
-	      if (ir != index_ref[ir]) {
-		ir = index_ref[ir];
-		progress= true;
-	      }
-	    }
-	  }
-	  
-	  // Do the copying
-	  for (int i=0; i<num_blocks; i++) {
-	    if (i != index_ref[i]) {
-	      uchar *copy_to = &(table[i << log_block_size]);
-	      uchar *copy_from = &(table[index_ref[i] << log_block_size]);
-	      for (int j=0; j<block_size; j++) {
-		assert(!(*copy_to  &&  *copy_to != *copy_from));
-		*copy_to++ = *copy_from++;
-	      }
-	    }
-	  }
-	}
+              // The best match is matches[0].
 
-	cbo << "Number of different blocks is " << num_different_blocks << "\n";
+              // Remember which wildcards were used in the left block
+              vector<int> mapped_wildcards(matches[0].left_diff);
 
-      // ######################################################
+              // Unify block matches[0].left with matches[0].right.
+              --num_different_blocks;
+              // Remember which wildcards from matches[0].left were used.
+              //big_output << "Unifying B" << matches[0].left << " with B" << matches[0].right
+              //	     << " at cost " << matches[0].left_diff << "*" << matches[0].right_diff << "\n";
+              int index = 0;
+              for (int i=0; i<block_size; i++) {
+                if (td(matches[0].left, i) != td(matches[0].right, i)) {
+                  if (td(matches[0].left, i)) {
+                    assert(td(matches[0].right,i)==0);
+                    // No need to perform the copying - it will be done in the end.
+                    // td(matches[0].right, i) = td(matches[0].left, i);
+                  } else {
+                    assert(td(matches[0].left,i)==0);
+                    td(matches[0].left, i) = td(matches[0].right, i);
+                    assert(index < matches[0].left_diff);
+                    mapped_wildcards[index++] = i;
+                  }
+                }
+              }
+
+              assert(index == matches[0].left_diff);
+
+              // Make a reference from the right block to the left block.
+              //cerr << "IndexRef(" << (blocks[matches[0].right] >> log_block_size)
+              //     << " -> " << (blocks[matches[0].left] >> log_block_size) << ")\n";
+              index_ref[blocks[matches[0].right] >> log_block_size] =
+                  index_ref[blocks[matches[0].left] >> log_block_size];
+
+              // Make the right block inactive
+              active_set.deactivate(matches[0].right);
+
+              // Update the list of matches
+              int insert_pos = 0;
+              for (uint i=1; i<matches.size(); i++) {
+                int left_adjustment = 0, right_adjustment = 0;
+                for (uint j=0; j<mapped_wildcards.size(); j++) {
+                  int index = mapped_wildcards[j];
+                  assert(td(matches[i].left, index));
+                  if (!td(matches[i].right, index)) {
+                    // New mapping of wildcard needed in right block
+                    ++right_adjustment;
+                  } else if (td(matches[i].left, index) == td(matches[i].right, index)) {
+                    // The wildcard in the left block is already mapped appropriately
+                    --left_adjustment;
+                  } else {
+                    // No longer unitable!
+                    right_adjustment = -1;
+                    break;
+                  }
+                }
+
+                if (right_adjustment != -1) {
+                  matches[i].adjust(left_adjustment, right_adjustment);
+
+                  // Assure that matches[0] contains best match
+                  if (insert_pos==0  ||  matches[0].cost <= matches[i].cost) {
+                    matches[insert_pos++] = matches[i];
+                  } else {
+                    assert((uint)insert_pos < i);
+                    matches[insert_pos++] = matches[0];
+                    matches[0] = matches[i];
+                  }
+                }
+              }
+
+              matches.resize(insert_pos);
+            }
+
+            //big_output << r << " - " << rec_calls.size() << " remaining!\n";
+            last_low_value = r.a.low;
+          }
+
+          rec(r);
+        }
+
+        { // Copy the changes back to the other blocks
+
+          // Make all index_ref direct
+          bool progress = true;
+          while (progress) {
+            progress = false;
+            for (int i=0; i<num_blocks; i++) {
+              int &ir = index_ref[i];
+              if (ir != index_ref[ir]) {
+                ir = index_ref[ir];
+                progress= true;
+              }
+            }
+          }
+
+          // Do the copying
+          for (int i=0; i<num_blocks; i++) {
+            if (i != index_ref[i]) {
+              uint8_t *copy_to = &(table[i << log_block_size]);
+              uint8_t *copy_from = &(table[index_ref[i] << log_block_size]);
+              for (int j=0; j<block_size; j++) {
+                assert(!(*copy_to  &&  *copy_to != *copy_from));
+                *copy_to++ = *copy_from++;
+              }
+            }
+          }
+        }
+
+        cbo << "Number of different blocks is " << num_different_blocks << "\n";
+
+        // ######################################################
       } else { // block_size <= K  ############################
-      // ######################################################
+        // ######################################################
 
 
-	blocks = mergesort(0,num_blocks);
-	int num_different_blocks = blocks.size();
+        blocks = mergesort(0,num_blocks);
+        int num_different_blocks = blocks.size();
 
-	_hash_table ht;
-	ht.init(table, num_blocks, log_block_size);
-	for (int i=0; i<num_different_blocks; i++)
-	  ht.set_ref(blocks[i] >> log_block_size, blocks[i] >> log_block_size);
-	
-	if (num_different_blocks == 1) {
-	  cerr << "num_different_blocks = 1  => Nothing to do!\n";
-	  // Some assertions would fail.
-	  continue;
-	}
-	
-	active_set.init(num_different_blocks);
-	
-	cbo << "Number of different blocks is " << num_different_blocks << "\n";
-	
-	
-	rec_calls.push(RecParam(LHD(0, num_different_blocks-1, 0),
-				LHD(0, num_different_blocks-1, 0), 0));
-	
-	last_low_value = 0;
-	while (!rec_calls.empty()) {
-	  RecParam r = rec_calls.top();
-	  rec_calls.pop();
-	  
-	  if (r.a.low > last_low_value) {
-	    
-	    while (matches.size()) {
+        _hash_table ht;
+        ht.init(table, num_blocks, log_block_size);
+        for (int i=0; i<num_different_blocks; i++)
+          ht.set_ref(blocks[i] >> log_block_size, blocks[i] >> log_block_size);
+
+        if (num_different_blocks == 1) {
+          cerr << "num_different_blocks = 1  => Nothing to do!\n";
+          // Some assertions would fail.
+          continue;
+        }
+
+        active_set.init(num_different_blocks);
+
+        cbo << "Number of different blocks is " << num_different_blocks << "\n";
+
+
+        rec_calls.push(RecParam(LHD(0, num_different_blocks-1, 0),
+            LHD(0, num_different_blocks-1, 0), 0));
+
+        last_low_value = 0;
+        while (!rec_calls.empty()) {
+          RecParam r = rec_calls.top();
+          rec_calls.pop();
+
+          if (r.a.low > last_low_value) {
+
+            while (matches.size()) {
 #ifndef NDEBUG
-	      for (uint i=0; i<matches.size(); i++) {
-		assert(matches[i].left >= last_low_value);
-		assert(active_set.active(matches[i].right));
-		for (uint j=0; j<matches.size(); j++)
-		  if (i!=j)
-		    assert(matches[i].right != matches[j].right);
-	      }
+              for (uint i=0; i<matches.size(); i++) {
+                assert(matches[i].left >= last_low_value);
+                assert(active_set.active(matches[i].right));
+                for (uint j=0; j<matches.size(); j++)
+                  if (i!=j)
+                    assert(matches[i].right != matches[j].right);
+              }
 #endif
-	      // The best match is matches[0].
-	      
-	      // Remember which wildcards were used in the left block
-	      vector<int> mapped_wildcards(matches[0].left_diff);
-	      
-	      // Unify block matches[0].left with matches[0].right.
-	      --num_different_blocks;
-	      // Remember which wildcards from matches[0].left were used.
-	      //big_output << "Unifying B" << matches[0].left << " with B" << matches[0].right
-	      //	     << " at cost " << matches[0].left_diff << "*" << matches[0].right_diff << "\n";
-	      int index = 0;
-	      for (int i=0; i<block_size; i++) {
-		if (td(matches[0].left, i) != td(matches[0].right, i)) {
-		  if (td(matches[0].left, i)) {
-		    assert(td(matches[0].right,i)==0);
-		    // No need to perform the copying - it will be done in the end.
-		    // td(matches[0].right, i) = td(matches[0].left, i);
-		  } else {
-		    assert(td(matches[0].left,i)==0);
-		    td(matches[0].left, i) = td(matches[0].right, i);
-		    assert(index < matches[0].left_diff);
-		    mapped_wildcards[index++] = i;
-		  }
-		}
-	      }
-	      
-	      assert(index == matches[0].left_diff);
-	      
-	      // Make a reference from the right block to the left block.
-	      //cerr << "IndexRef(" << (blocks[matches[0].right] >> log_block_size)
-	      //     << " -> " << (blocks[matches[0].left] >> log_block_size) << ")\n";
-	      ht.set_ref(blocks[matches[0].right] >> log_block_size,
-			 blocks[matches[0].left] >> log_block_size);
-	      
-	      // Make the right block inactive
-	      active_set.deactivate(matches[0].right);
-	      
-	      // Update the list of matches
-	      int insert_pos = 0;
-	      for (uint i=1; i<matches.size(); i++) {
-		int left_adjustment = 0, right_adjustment = 0;
-		for (uint j=0; j<mapped_wildcards.size(); j++) {
-		  int index = mapped_wildcards[j];
-		  assert(td(matches[i].left, index));
-		  if (!td(matches[i].right, index)) {
-		    // New mapping of wildcard needed in right block
-		    ++right_adjustment;
-		  } else if (td(matches[i].left, index) == td(matches[i].right, index)) {
-		    // The wildcard in the left block is already mapped appropriately
-		    --left_adjustment;
-		  } else {
-		    // No longer unitable!
-		    right_adjustment = -1;
-		    break;
-		  }
-		}
-		
-		if (right_adjustment != -1) {
-		  matches[i].adjust(left_adjustment, right_adjustment);
-		  
-		  // Assure that matches[0] contains best match
-		  if (insert_pos==0  ||  matches[0].cost <= matches[i].cost) {
-		    matches[insert_pos++] = matches[i];
-		  } else {
-		    assert((uint)insert_pos < i);
-		    matches[insert_pos++] = matches[0];
-		    matches[0] = matches[i];
-		  }
-		}
-	      }
-	      
-	      matches.resize(insert_pos);
-	    }
-	    
-	    //big_output << r << " - " << rec_calls.size() << " remaining!\n";
-	    last_low_value = r.a.low;
-	  }
-	  
-	  rec(r);
-	}
-	
-	{ // Copy the changes back to the other blocks
-	  
-	  // Make all index_ref direct
-	  bool progress = true;
-	  while (progress) {
-	    progress = false;
-	    for (int i=0; i<num_blocks; i++) {
-	      int i1 = ht.get_ref(i);
-	      int i2 = ht.get_ref(i1);
-	      if (i1 != i2) {
-		ht.set_ref(i, i2);
-		progress= true;
-	      }
-	    }
-	  }
-	  
-	  // Do the copying
-	  for (int i=0; i<num_blocks; i++) {
-	    int index = ht.get_ref(i);
-	    if (i != index) {
-	      uchar *copy_to = &(table[i << log_block_size]);
-	      uchar *copy_from = &(table[index << log_block_size]);
-	      for (int j=0; j<block_size; j++) {
-		assert(!(*copy_to  &&  *copy_to != *copy_from));
-		*copy_to++ = *copy_from++;
-	      }
-	    }
-	  }
-	}
+              // The best match is matches[0].
+
+              // Remember which wildcards were used in the left block
+              vector<int> mapped_wildcards(matches[0].left_diff);
+
+              // Unify block matches[0].left with matches[0].right.
+              --num_different_blocks;
+              // Remember which wildcards from matches[0].left were used.
+              //big_output << "Unifying B" << matches[0].left << " with B" << matches[0].right
+              //	     << " at cost " << matches[0].left_diff << "*" << matches[0].right_diff << "\n";
+              int index = 0;
+              for (int i=0; i<block_size; i++) {
+                if (td(matches[0].left, i) != td(matches[0].right, i)) {
+                  if (td(matches[0].left, i)) {
+                    assert(td(matches[0].right,i)==0);
+                    // No need to perform the copying - it will be done in the end.
+                    // td(matches[0].right, i) = td(matches[0].left, i);
+                  } else {
+                    assert(td(matches[0].left,i)==0);
+                    td(matches[0].left, i) = td(matches[0].right, i);
+                    assert(index < matches[0].left_diff);
+                    mapped_wildcards[index++] = i;
+                  }
+                }
+              }
+
+              assert(index == matches[0].left_diff);
+
+              // Make a reference from the right block to the left block.
+              //cerr << "IndexRef(" << (blocks[matches[0].right] >> log_block_size)
+              //     << " -> " << (blocks[matches[0].left] >> log_block_size) << ")\n";
+              ht.set_ref(blocks[matches[0].right] >> log_block_size,
+                  blocks[matches[0].left] >> log_block_size);
+
+              // Make the right block inactive
+              active_set.deactivate(matches[0].right);
+
+              // Update the list of matches
+              int insert_pos = 0;
+              for (uint i=1; i<matches.size(); i++) {
+                int left_adjustment = 0, right_adjustment = 0;
+                for (uint j=0; j<mapped_wildcards.size(); j++) {
+                  int index = mapped_wildcards[j];
+                  assert(td(matches[i].left, index));
+                  if (!td(matches[i].right, index)) {
+                    // New mapping of wildcard needed in right block
+                    ++right_adjustment;
+                  } else if (td(matches[i].left, index) == td(matches[i].right, index)) {
+                    // The wildcard in the left block is already mapped appropriately
+                    --left_adjustment;
+                  } else {
+                    // No longer unitable!
+                    right_adjustment = -1;
+                    break;
+                  }
+                }
+
+                if (right_adjustment != -1) {
+                  matches[i].adjust(left_adjustment, right_adjustment);
+
+                  // Assure that matches[0] contains best match
+                  if (insert_pos==0  ||  matches[0].cost <= matches[i].cost) {
+                    matches[insert_pos++] = matches[i];
+                  } else {
+                    assert((uint)insert_pos < i);
+                    matches[insert_pos++] = matches[0];
+                    matches[0] = matches[i];
+                  }
+                }
+              }
+
+              matches.resize(insert_pos);
+            }
+
+            //big_output << r << " - " << rec_calls.size() << " remaining!\n";
+            last_low_value = r.a.low;
+          }
+
+          rec(r);
+        }
+
+        { // Copy the changes back to the other blocks
+
+          // Make all index_ref direct
+          bool progress = true;
+          while (progress) {
+            progress = false;
+            for (int i=0; i<num_blocks; i++) {
+              int i1 = ht.get_ref(i);
+              int i2 = ht.get_ref(i1);
+              if (i1 != i2) {
+                ht.set_ref(i, i2);
+                progress= true;
+              }
+            }
+          }
+
+          // Do the copying
+          for (int i=0; i<num_blocks; i++) {
+            int index = ht.get_ref(i);
+            if (i != index) {
+              uint8_t *copy_to = &(table[i << log_block_size]);
+              uint8_t *copy_from = &(table[index << log_block_size]);
+              for (int j=0; j<block_size; j++) {
+                assert(!(*copy_to  &&  *copy_to != *copy_from));
+                *copy_to++ = *copy_from++;
+              }
+            }
+          }
+        }
 
 
-	cbo << "Number of different blocks is " << num_different_blocks << "\n";
+        cbo << "Number of different blocks is " << num_different_blocks << "\n";
 
       }
     }
@@ -1097,42 +1097,43 @@ void map_wildcards(uchar *bdd_table, int log_size) {
 void test_wildcard_mapping2() {
   // Se report_stuff/test_preprocessing.txt
   { // test _hash_table
-    uchar table[128]=
-      { 0, 1, 0, 2, // 0
-	0, 3, 0, 4, // 1
-	0, 5, 0, 6, // 2
-	0, 7, 0, 8, // 3
-	1, 0, 2, 0, // 4
-	3, 0, 4, 0, // 5
-	5, 0, 6, 0, // 6
-	7, 0, 8, 0, // 7
-	1, 1, 2, 2, // 8
-	3, 3, 4, 4, // 9
-	1, 1, 1, 1, // 10
-	1, 1, 1, 1, // 11
-	1, 1, 1, 1, // 12
-	1, 1, 1, 1, // 13
-	1, 1, 2, 2, // 14
-	3, 3, 4, 4, // 15
-	3, 2, 0, 0, // 16
-	3, 2, 0, 0, // 17
-	0, 0, 2, 3, // 18
-	0, 0, 2, 3, // 19
-	3, 2, 1, 1, // 20
-	1, 1, 1, 1, // 21
-	1, 1, 1, 1, // 22
-	1, 1, 2, 3, // 23
-	3, 2, 0, 0, // 24
-	0, 0, 2, 3, // 25
-	3, 2, 0, 0, // 26
-	0, 0, 2, 3, // 27
-	1, 1, 1, 1, // 28
-	1, 1, 2, 3, // 29
-	3, 2, 1, 1, // 30
-	1, 1, 1, 1};// 31
+    uint8_t table[128]=
+    {   0, 1, 0, 2, // 0
+        0, 3, 0, 4, // 1
+        0, 5, 0, 6, // 2
+        0, 7, 0, 8, // 3
+        1, 0, 2, 0, // 4
+        3, 0, 4, 0, // 5
+        5, 0, 6, 0, // 6
+        7, 0, 8, 0, // 7
+        1, 1, 2, 2, // 8
+        3, 3, 4, 4, // 9
+        1, 1, 1, 1, // 10
+        1, 1, 1, 1, // 11
+        1, 1, 1, 1, // 12
+        1, 1, 1, 1, // 13
+        1, 1, 2, 2, // 14
+        3, 3, 4, 4, // 15
+        3, 2, 0, 0, // 16
+        3, 2, 0, 0, // 17
+        0, 0, 2, 3, // 18
+        0, 0, 2, 3, // 19
+        3, 2, 1, 1, // 20
+        1, 1, 1, 1, // 21
+        1, 1, 1, 1, // 22
+        1, 1, 2, 3, // 23
+        3, 2, 0, 0, // 24
+        0, 0, 2, 3, // 25
+        3, 2, 0, 0, // 26
+        0, 0, 2, 3, // 27
+        1, 1, 1, 1, // 28
+        1, 1, 2, 3, // 29
+        3, 2, 1, 1, // 30
+        1, 1, 1, 1  // 31
+    };
     _hash_table ht;
     ht.init(table, 32, 2); // 128 = 32*2^2, 32 blocks of size 2^2
-    
+
     cerr << "ht.get_ref(4) = " << ht.get_ref(4) << "\n";
     ht.set_ref(4, 0);
     cerr << "ht.set_ref(4, 0);\n";
@@ -1141,21 +1142,22 @@ void test_wildcard_mapping2() {
     ht.set_ref(26, 26);
     cerr << "ht.set_ref(26, 26);\n";
     cerr << "ht.get_ref(24) = " << ht.get_ref(24) << "\n";
-    
+
   }
 
   return;
 
   {
-    uchar table[128]=
-      { 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8,
-	1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0,
-	1, 1, 2, 2, 3, 3, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 3, 4, 4,
-	3, 2, 0, 0, 3, 2, 0, 0, 0, 0, 2, 3, 0, 0, 2, 3,
-	3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3,
-	3, 2, 0, 0, 0, 0, 2, 3, 3, 2, 0, 0, 0, 0, 2, 3,
-	1, 1, 1, 1, 1, 1, 2, 3, 3, 2, 1, 1, 1, 1, 1, 1};
+    uint8_t table[128]=
+    {   0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8,
+        1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0,
+        1, 1, 2, 2, 3, 3, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 3, 4, 4,
+        3, 2, 0, 0, 3, 2, 0, 0, 0, 0, 2, 3, 0, 0, 2, 3,
+        3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3,
+        3, 2, 0, 0, 0, 0, 2, 3, 3, 2, 0, 0, 0, 0, 2, 3,
+        1, 1, 1, 1, 1, 1, 2, 3, 3, 2, 1, 1, 1, 1, 1, 1
+    };
 
     map_wildcards(table, 7);
     for (int i=0; i<128; i++) {
@@ -1165,24 +1167,25 @@ void test_wildcard_mapping2() {
   }
 
   {
-    uchar table[256]=
-      { 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8,
-	1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0,
-	1, 1, 2, 2, 3, 3, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 3, 4, 4,
-	3, 2, 0, 0, 3, 2, 0, 0, 0, 0, 2, 3, 0, 0, 2, 3,
-	3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3,
-	3, 2, 0, 0, 0, 0, 2, 3, 3, 2, 0, 0, 0, 0, 2, 3,
-	1, 1, 1, 1, 1, 1, 2, 3, 3, 2, 1, 1, 1, 1, 1, 1,
-	
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 2, 3, 0, 0, 2, 3, 3, 2, 0, 0, 4, 3, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 2, 3, 3, 2, 0, 0, 0, 0, 2, 3, 4, 3, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    uint8_t table[256]=
+    {   0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8,
+        1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0,
+        1, 1, 2, 2, 3, 3, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 3, 4, 4,
+        3, 2, 0, 0, 3, 2, 0, 0, 0, 0, 2, 3, 0, 0, 2, 3,
+        3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3,
+        3, 2, 0, 0, 0, 0, 2, 3, 3, 2, 0, 0, 0, 0, 2, 3,
+        1, 1, 1, 1, 1, 1, 2, 3, 3, 2, 1, 1, 1, 1, 1, 1,
+
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 2, 3, 0, 0, 2, 3, 3, 2, 0, 0, 4, 3, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 2, 3, 3, 2, 0, 0, 0, 0, 2, 3, 4, 3, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    };
 
 
     map_wildcards(table, 8);

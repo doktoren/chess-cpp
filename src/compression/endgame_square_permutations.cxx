@@ -50,7 +50,7 @@ string mapping_name(int mapping) {
 // with 4 resp. 5 bits (no pawns or pawns).
 // Hence only the following mappings may be applied to the bound king:
 //     3 (Hilber curve), 4 (Z curve), 8 (Modified Z curve)
-uchar mappings[NUM_STD_MAPPINGS][64] = {
+uint8_t mappings[NUM_STD_MAPPINGS][64] = {
   {// 0: Identity mapping
     0, 1, 2, 3, 4, 5, 6, 7,
     8, 9,10,11,12,13,14,15,

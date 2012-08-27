@@ -2,30 +2,7 @@
 
 #include "bit_stream.hxx"
 
-const uchar ONE_PATTERN[9] =
-{0, 0x1, 0x3, 0x7, 0xF, 0x1F, 0x3F, 0x7F, 0xFF};
-
-
-/*
-Table in ../help_functions.hxx used instead
-const int uchar_log[256] = {
-  0 ,0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3,
-  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-  5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-  5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-  6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-  6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-  6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-  6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-  7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-  7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-  7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-  7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-  7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-  7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-  7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-  7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7};
-*/
+const uint8_t ONE_PATTERN[9] = {0, 0x1, 0x3, 0x7, 0xF, 0x1F, 0x3F, 0x7F, 0xFF};
 
 string toString(n_bit nb) {
   string result;
@@ -47,8 +24,8 @@ bool file_ibstream::getBit() {
   return result;
 }
 
-uchar file_ibstream::getByte() {
-  uchar prev_char = ch;
+uint8_t file_ibstream::getByte() {
+  uint8_t prev_char = ch;
   file.get((char &)ch);
   return (prev_char << (8-bitsleft)) | (ch >> bitsleft);
 }
@@ -60,7 +37,7 @@ uint file_ibstream::getNBit(int n) {
     do {
       n -= bitsleft;
       result |= (ch & ONE_PATTERN[bitsleft]) << n;
-      
+
       file.get((char &)ch);
       bitsleft = 8;
     } while (n >= bitsleft);
@@ -85,8 +62,8 @@ bool array_ibstream::getBit() {
   return result;
 }
 
-uchar array_ibstream::getByte() {
-  uchar prev_char = *data;
+uint8_t array_ibstream::getByte() {
+  uint8_t prev_char = *data;
   ++data;
   return (prev_char << (8-bitsleft)) | (*data >> bitsleft);
 }
@@ -98,7 +75,7 @@ uint array_ibstream::getNBit(int n) {
     do {
       n -= bitsleft;
       result |= (*data & ONE_PATTERN[bitsleft]) << n;
-      
+
       ++data;
       bitsleft = 8;
     } while (n >= bitsleft);
@@ -129,7 +106,7 @@ void file_obstream::writeBit(bool bit) {
   }
 }
 
-void file_obstream::writeByte(uchar byte) {
+void file_obstream::writeByte(uint8_t byte) {
   bits_written_since_mark += 8;
 
   ch = (ch << bitsleft) | (byte >> (8-bitsleft));
@@ -168,7 +145,7 @@ void array_obstream::writeBit(bool bit) {
   }
 }
 
-void array_obstream::writeByte(uchar byte) {
+void array_obstream::writeByte(uint8_t byte) {
   bits_written_since_mark += 8;
 
   *data = (*data << bitsleft) | (byte >> (8-bitsleft));
@@ -200,7 +177,7 @@ void array_obstream::writeNBit(int n, uint value) {
 void test_bit_streams(string tmp_file_name) {
   cerr << "Testing array_obstream and array_ibstream...\n";
   {
-    uchar data[9999];
+    uint8_t data[9999];
     array_obstream out(data);
 
     bool r[999];
@@ -209,7 +186,7 @@ void test_bit_streams(string tmp_file_name) {
       out.writeBit(r[i]);
     }
 
-    uchar b[999];
+    uint8_t b[999];
     for (int i=0; i<999; i++) {
       b[i] = rand()&0xFF;
       out.writeByte(b[i]);
@@ -218,25 +195,25 @@ void test_bit_streams(string tmp_file_name) {
     n_bit nb[32][32];
     for (int i=0; i<32; i++)
       for (int j=0; j<32; j++) {
-	nb[i][j] = n_bit(i, rand() & ((1<<i)-1));
-	out.writeNBit(nb[i][j]);
+        nb[i][j] = n_bit(i, rand() & ((1<<i)-1));
+        out.writeNBit(nb[i][j]);
       }
 
     out.close();
 
     array_ibstream in(data);
-    
+
     for (int i=0; i<999; i++) {
       cmp(r[i], in.getBit(), "bit " << i);
     }
-      
+
     for (int i=0; i<999; i++) {
       cmp(b[i], in.getByte(), "byte " << i);
     }
 
     for (int i=0; i<32; i++)
       for (int j=0; j<32; j++) {
-	cmp(nb[i][j].value, in.getNBit(i), "nbit " << i << " " << j);
+        cmp(nb[i][j].value, in.getNBit(i), "nbit " << i << " " << j);
       }
   }
 
@@ -250,7 +227,7 @@ void test_bit_streams(string tmp_file_name) {
       out.writeBit(r[i]);
     }
 
-    uchar b[999];
+    uint8_t b[999];
     for (int i=0; i<999; i++) {
       b[i] = rand()&0xFF;
       out.writeByte(b[i]);
@@ -259,14 +236,14 @@ void test_bit_streams(string tmp_file_name) {
     n_bit nb[32][32];
     for (int i=0; i<32; i++)
       for (int j=0; j<32; j++) {
-	nb[i][j] = n_bit(i, rand() & ((1<<i)-1));
-	out.writeNBit(nb[i][j]);
+        nb[i][j] = n_bit(i, rand() & ((1<<i)-1));
+        out.writeNBit(nb[i][j]);
       }
 
     out.close();
 
     file_ibstream in(tmp_file_name);
-    
+
     for (int i=0; i<999; i++) {
       cmp(r[i], in.getBit(), "bit " << i);
     }
@@ -277,13 +254,13 @@ void test_bit_streams(string tmp_file_name) {
 
     for (int i=0; i<32; i++)
       for (int j=0; j<32; j++) {
-	cmp(nb[i][j].value, in.getNBit(i), "nbit " << i << " " << j);
+        cmp(nb[i][j].value, in.getNBit(i), "nbit " << i << " " << j);
       }
   }
 
   cerr << "Testing obstream<OUTPUT_MODEL> and ibstream<INPUT_MODEL>...\n";
   {
-    uchar data[99999];
+    uint8_t data[99999];
     obstream<array_obstream> out(data);
 
     uint elias[999];
@@ -296,8 +273,8 @@ void test_bit_streams(string tmp_file_name) {
     uint fi[10][99];
     for (int i=0; i<10; i++)
       for (int j=0; j<99; j++) {
-	fi[i][j] = rand()%I[i];
-	out.writeFixedIntervalNumber(I[i], fi[i][j]);
+        fi[i][j] = rand()%I[i];
+        out.writeFixedIntervalNumber(I[i], fi[i][j]);
       }
 
     uint exp1[999], exp2[999];
@@ -319,8 +296,8 @@ void test_bit_streams(string tmp_file_name) {
     uint arb_max[10][99];
     for (int i=0; i<10; i++)
       for (int j=0; j<99; j++) {
-	arb_max[i][j] = rand()%I[i];
-	out.writeArbitraryNumberMax(I[i]-1, arb_max[i][j]);
+        arb_max[i][j] = rand()%I[i];
+        out.writeArbitraryNumberMax(I[i]-1, arb_max[i][j]);
       }
 
     out.close();
@@ -333,7 +310,7 @@ void test_bit_streams(string tmp_file_name) {
 
     for (int i=0; i<10; i++)
       for (int j=0; j<99; j++) {
-	cmp(fi[i][j], in.getFixedIntervalNumber(I[i]), "fixed interval number " << i);
+        cmp(fi[i][j], in.getFixedIntervalNumber(I[i]), "fixed interval number " << i);
       }
 
     for (int i=0; i<999; i++) {
@@ -346,7 +323,7 @@ void test_bit_streams(string tmp_file_name) {
 
     for (int i=0; i<10; i++)
       for (int j=0; j<99; j++) {
-	cmp(arb_max[i][j], in.getArbitraryNumberMax(I[i]-1), "arb. number max " << i);
+        cmp(arb_max[i][j], in.getArbitraryNumberMax(I[i]-1), "arb. number max " << i);
       }
   }
 

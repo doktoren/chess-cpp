@@ -22,7 +22,7 @@ inline int swap_eval_type(int et) {
 
 struct Info {
   Info() : value(0), depth(0), eval_type(0) {}
-  Info(int value, uchar depth, uchar eval_type) :
+  Info(int value, uint8_t depth, uint8_t eval_type) :
     value(value), depth(depth), eval_type(eval_type) {}
 
   bool is_valid() const { return eval_type; }

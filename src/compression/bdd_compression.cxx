@@ -7,8 +7,6 @@
 #include <stack>
 #include <iostream>
 
-typedef unsigned char uchar;
-
 struct NodePair {
   NodePair() : id(0), left_in(-1), right_out(-1),
 	       left_out(0), right_in(0), left_color(false), right_color(false) {}
@@ -42,7 +40,7 @@ struct NodePair {
   // the left node can have at most one outgoing edge and right_in at most one incoming edge.
   // if left_out_defined() then this edge is left_edges[get_left_out()].
   // Similar for right_in
-  uchar left_out, right_in;
+  uint8_t left_out, right_in;
   
   bool left_color, right_color;
 };
@@ -58,7 +56,7 @@ struct Edge {
   int index;
   bool sign;
 
-  uchar locator;
+  uint8_t locator;
 };
 
 struct StackItem {
@@ -71,7 +69,7 @@ struct StackItem {
   int edge_num;
 
   int undo_id;
-  uchar undo_left_out, undo_right_in;
+  uint8_t undo_left_out, undo_right_in;
 };
 
 template <class TYPE>

@@ -7,7 +7,6 @@
 
 using namespace std;
 
-typedef unsigned char uchar;
 typedef unsigned int uint;
 
 #include "../../util/help_functions.hxx"
@@ -33,8 +32,8 @@ static const int unary_length_specifier[7] =
 // file input bit stream
 class file_ibstream {
 public:
-  file_ibstream(uchar *data) {
-    cerr << "Can't initialize file_ibstream(uchar *data)\n"; exit(1);
+  file_ibstream(uint8_t *data) {
+    cerr << "Can't initialize file_ibstream(uint8_t *data)\n"; exit(1);
   }
   file_ibstream(string filename) : file(filename.c_str()), bitsleft(8) {
     assert(file);
@@ -43,17 +42,17 @@ public:
   void close() { file.close(); }
 
   bool getBit();
-  uchar getByte();
+  uint8_t getByte();
   uint getNBit(int n);
 
   // Remember to call align, if it was called during output.
   void align() { if (bitsleft != 8) { file.get((char &)ch); bitsleft = 8; } }
-  void aligned_getByte(uchar& byte) { file.get((char &)byte); }
-  void aligned_getNBytes(uchar* mem, int count) { for (int i=0; i<count; i++) file.get((char &)(mem[i])); }
+  void aligned_getByte(uint8_t& byte) { file.get((char &)byte); }
+  void aligned_getNBytes(uint8_t* mem, int count) { for (int i=0; i<count; i++) file.get((char &)(mem[i])); }
 private:
   ifstream file;
   int bitsleft;
-  uchar ch;
+  uint8_t ch;
 };
 
 // array input bit stream
@@ -62,18 +61,18 @@ public:
   array_ibstream(string filename) {
     assert(0); cout << "Can't initialize array_ibstream(string filename)\n"; exit(1);
   }
-  array_ibstream(uchar *data) : data(data), bitsleft(8) {}
+  array_ibstream(uint8_t *data) : data(data), bitsleft(8) {}
 
   bool getBit();
-  uchar getByte();
+  uint8_t getByte();
   uint getNBit(int n);
 
   // Remember to call align, if it was called during output.
   void align() { if (bitsleft != 8) { data++; bitsleft = 8; } }
-  void aligned_getByte(uchar& byte) { byte = *data++; }
-  void aligned_getNBytes(uchar* mem, int count) { memcpy(mem, data, count); data += count; }
+  void aligned_getByte(uint8_t& byte) { byte = *data++; }
+  void aligned_getNBytes(uint8_t* mem, int count) { memcpy(mem, data, count); data += count; }
 private:
-  uchar *data;
+  uint8_t *data;
   int bitsleft;
 };
 
@@ -81,15 +80,15 @@ private:
 template<class INPUT_MODEL>
 class ibstream : public INPUT_MODEL {
 public:
-  ibstream(uchar *data) : INPUT_MODEL(data) {}
+  ibstream(uint8_t *data) : INPUT_MODEL(data) {}
   ibstream(string filename) : INPUT_MODEL(filename) {}
 
   bool getBit() { return INPUT_MODEL::getBit(); }
-  uchar getByte() { return INPUT_MODEL::getByte(); }
+  uint8_t getByte() { return INPUT_MODEL::getByte(); }
   uint getNBit(int n) { return INPUT_MODEL::getNBit(n); }
 
   void getBit(bool &bit) { bit = getBit(); }
-  void getByte(uchar &byte) { byte = getByte(); }
+  void getByte(uint8_t &byte) { byte = getByte(); }
   void getNBit(n_bit &nb) { nb.value = getNBit(nb.num_bits); }
 
   uint getEliasNumber();
@@ -100,7 +99,7 @@ public:
   uint getArbitraryNumberMax(uint max);
 
   ibstream& operator>>(bool& bit) { bit = getBit(); }
-  ibstream& operator>>(uchar& byte) { byte = getByte(); }
+  ibstream& operator>>(uint8_t& byte) { byte = getByte(); }
   ibstream& operator>>(uint& n) { n = getEliasNumber(); }
   ibstream& operator>>(n_bit& nb) { getNBit(nb); }
 };
@@ -110,8 +109,8 @@ public:
 // file output bit stream
 class file_obstream {
 public:
-  file_obstream(uchar *data) {
-    assert(0); cerr << "Can't initialize file_obstream(uchar *data)\n"; exit(1);
+  file_obstream(uint8_t *data) {
+    assert(0); cerr << "Can't initialize file_obstream(uint8_t *data)\n"; exit(1);
   }
   file_obstream(string filename) : file(filename.c_str()), bitsleft(8), ch(0) {
     assert(file);
@@ -131,7 +130,7 @@ public:
   }
 
   void writeBit(bool bit);
-  void writeByte(uchar byte);
+  void writeByte(uint8_t byte);
   // the lower n bits of n is written, the others don't have to be cleared.
   void writeNBit(int n, uint value);
   void writeNBit(n_bit value) { writeNBit(value.num_bits, value.value); }
@@ -148,11 +147,11 @@ public:
       ch = 0;
     }
   }
-  void aligned_writeByte(uchar byte) {
+  void aligned_writeByte(uint8_t byte) {
     bits_written_since_mark += 8;
     file.put((char &)byte);
   }
-  void aligned_writeNBytes(uchar* mem, int count) {
+  void aligned_writeNBytes(uint8_t* mem, int count) {
     bits_written_since_mark += 8*count;
     for (int i=0; i<count; i++) file.put(mem[i]);
   }
@@ -162,7 +161,7 @@ public:
 private:
   ofstream file;
   int bitsleft;
-  uchar ch;
+  uint8_t ch;
 
   uint bits_written_since_mark;
 };
@@ -173,7 +172,7 @@ public:
   array_obstream(string filename) {
     cout << "Can't initialize array_obstream(string filename)\n"; exit(1);
   }
-  array_obstream(uchar *data) : data(data), bitsleft(8) {}
+  array_obstream(uint8_t *data) : data(data), bitsleft(8) {}
 
   // always_flush ignored
   void close(bool always_flush = false) {
@@ -184,7 +183,7 @@ public:
   }
 
   void writeBit(bool bit);
-  void writeByte(uchar byte);
+  void writeByte(uint8_t byte);
   // the lower n bits of n is written, the others don't have to be cleared.
   void writeNBit(int n, uint value);
   void writeNBit(n_bit value) { writeNBit(value.num_bits, value.value); }
@@ -201,12 +200,12 @@ public:
       *data = 0;
     }
   }
-  void aligned_writeByte(uchar byte) {
+  void aligned_writeByte(uint8_t byte) {
     bits_written_since_mark += 8;
     *data = byte;
     ++data;
   }
-  void aligned_writeNBytes(uchar* mem, int count) {
+  void aligned_writeNBytes(uint8_t* mem, int count) {
     bits_written_since_mark += 8*count;
     memcpy(data, mem, count);
     data += count;
@@ -215,7 +214,7 @@ public:
   void mark(uint new_count = 0) { bits_written_since_mark = new_count; }
   uint num_bits_since_mark() { return bits_written_since_mark; }
 private:
-  uchar *data;
+  uint8_t *data;
   int bitsleft;
 
   uint bits_written_since_mark;
@@ -226,7 +225,7 @@ template<class OUTPUT_MODEL>
 class obstream : public OUTPUT_MODEL {
 public:
   // file output bit stream constructor
-  obstream(uchar *data) : OUTPUT_MODEL(data) {}
+  obstream(uint8_t *data) : OUTPUT_MODEL(data) {}
   obstream(string filename) : OUTPUT_MODEL(filename) {}
 
   void writeEliasNumber(uint n);
@@ -236,13 +235,13 @@ public:
   void writeArbitraryNumberMax(uint max, uint n); // ie. n<=max
 
   obstream& operator<<(bool& bit) { OUTPUT_MODEL::writeBit(bit); }
-  obstream& operator<<(uchar& byte) { OUTPUT_MODEL::writeByte(byte); }
+  obstream& operator<<(uint8_t& byte) { OUTPUT_MODEL::writeByte(byte); }
   obstream& operator<<(uint& n) { OUTPUT_MODEL::writeEliasNumber(n); }
   obstream& operator<<(n_bit& nb) { OUTPUT_MODEL::writeNBit(nb); }
 private:
   ofstream file;
   int bitsleft;
-  uchar ch;
+  uint8_t ch;
 
   int bits_written_since_mark;
 };
@@ -260,14 +259,14 @@ class DefaultElementStreamer {
 public:
   template<class INPUT_MODEL>
   void readElement(ibstream<INPUT_MODEL>& in, TYPE& e) {
-    uchar *p = reinterpret_cast<uchar *>(&e);
+    uint8_t *p = reinterpret_cast<uint8_t *>(&e);
     for (int i=0; i<sizeof(TYPE); i++)
       in.getByte(p[i]);
   }
 
   template <class OUTPUT_MODEL>
   void writeElement(obstream<OUTPUT_MODEL>& out, TYPE& e) {
-    const uchar *p = reinterpret_cast<const uchar *>(&e);
+    const uint8_t *p = reinterpret_cast<const uint8_t *>(&e);
     for (int i=0; i<sizeof(TYPE); i++) {
       out.writeByte(p[i]);
     }
@@ -275,7 +274,7 @@ public:
   }
 
   string toString(TYPE &element) {
-    const uchar *p = reinterpret_cast<const uchar *>(&element);
+    const uint8_t *p = reinterpret_cast<const uint8_t *>(&element);
     char tmp[2*sizeof(TYPE) + 2];
     tmp[0] = '0';
     tmp[1] = 'x';
@@ -293,8 +292,8 @@ public:
 
   // En tilfældig ordensrelation mellem elementerne
   bool operator()(const TYPE &e1, const TYPE &e2) {
-    const uchar *p1 = reinterpret_cast<const uchar *>(&e1);
-    const uchar *p2 = reinterpret_cast<const uchar *>(&e2);
+    const uint8_t *p1 = reinterpret_cast<const uint8_t *>(&e1);
+    const uint8_t *p2 = reinterpret_cast<const uint8_t *>(&e2);
     for (int i=0; i<sizeof(TYPE); i++) {
       if (p1[i] != p2[i]) return p1[i]<p2[i];
     }
@@ -320,7 +319,7 @@ public:
     ++n; // Be able to represent 0.
     if (n>3) {
       int f_log = floor_log(n);
-      return 1 + 2*uchar_log[f_log] + f_log;
+      return 1 + 2*uint8_log[f_log] + f_log;
     } else {
       return 1 + 1 + (n >> 1);
     }

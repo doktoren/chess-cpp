@@ -241,7 +241,7 @@ void Board2plus::add_move(Move move) {
   if (PS) cerr << "Board2plus::add_move(" << move.toString() << ")\n";
   see.increase_control(move, board[move.from]);
   // update move_to_index, piece_moves, square_move_list and move_list
-  uchar move_index = move_list.add_move(PIECE_COLOR[board[move.from]], move);
+  uint8_t move_index = move_list.add_move(PIECE_COLOR[board[move.from]], move);
   // cerr << "TEST: " << (int)move_index << "\n";
   move_to_index[move] = IndexStruct(piece_moves.add_to_list(piece_number[move.from], move_index),
 				    square_move_list.insert_move(move.to, move_index),
@@ -515,7 +515,7 @@ void Board2plus::remap_piece_numbers() {
   for (int i=0; i<64; i++) if (board[i])
     pos[board[i]][pos_count[board[i]]++] = i;
 
-  uchar mapping[32];
+  uint8_t mapping[32];
   
   // Kings
   mapping[piece_number[pos[WKING][0]]] = W_KING_ID;

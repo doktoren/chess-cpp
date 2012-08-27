@@ -130,7 +130,7 @@ void init_PPP_tables() {
 //                           KING_FULL_SYMMETRY
 //                                   --->
 // (pos(white king),pos(black king))      (index, reflection) : IndexRefl
-//     | : pair<uchar,uchar>         <---     (index==-1  <=>  invalid)
+//     | : pair<uint8_t,uint8_t>     <---     (index==-1  <=>  invalid)
 //     |                         KING_FS_POS
 //     |
 //     | BDD_KING_FULL_SYMMETRY = KING_FS_POS o KING_FULL_SYMMETRY

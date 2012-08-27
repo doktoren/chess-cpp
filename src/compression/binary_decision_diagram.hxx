@@ -43,7 +43,7 @@ class BitList {
   void print(OSTREAM &os);
 
   int count_on() const {
-    const uchar bit_count[16] = {0,1,1,2,1,2,2,3,1,2,2,3,2,3,3,4};
+    const uint8_t bit_count[16] = {0,1,1,2,1,2,2,3,1,2,2,3,2,3,3,4};
     int max = (_size+31)>>5;
     int result = 0;
     for (int i=0; i<max; i++) {
@@ -88,7 +88,7 @@ public:
   uint operator[](int index) {
     index *= bits_per_value;
     return ONE_BITS[bits_per_value] &
-      (*((uint *)(&(((uchar *)mem)[index >> 3]))) >> (index & 7));
+      (*((uint *)(&(((uint8_t *)mem)[index >> 3]))) >> (index & 7));
   }
   void update(int index, uint value) {
 #ifndef NDEBUG
@@ -97,7 +97,7 @@ public:
     assert(0<=value  &&  (int)value<(1<<bits_per_value));
 #endif
     index *= bits_per_value;
-    uint &tmp = *((uint *)(&(((uchar *)mem)[index >> 3])));
+    uint &tmp = *((uint *)(&(((uint8_t *)mem)[index >> 3])));
     
     tmp &= ~(ONE_BITS[bits_per_value] << (index & 7));
     tmp |= value << (index & 7);
@@ -127,13 +127,13 @@ public:
   void test_preprocessing();
 
   // If calc_sifting = true, then the resulting bit permutation is stored in bit_perm
-  // (must be a pointer to uchar[32]).
+  // (must be a pointer to uint8_t[32]).
   // If calc_sifting = false and bit_perm != 0 (and not identity mapping),
   // then table is stored as if bit_perm had been applied to it.
   // compress_the_representation is ignored if compiled without #define BDD_USE_COMPRESSED_ENCODING 1
   template<class TYPE> void init(const TYPE *table, int _log_size, uint max_value,
 				 bool compress_the_representation,
-				 bool calc_sifting = false, uchar *bit_perm = 0);
+				 bool calc_sifting = false, uint8_t *bit_perm = 0);
   void clear();
 
   void save(int fd);

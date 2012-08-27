@@ -12,6 +12,6 @@ extern int INV_REMAP_BOUND_KING[64];
 string mapping_name(int mapping);
 
 #define NUM_STD_MAPPINGS 10
-extern uchar mappings[NUM_STD_MAPPINGS][64];
+extern uint8_t mappings[NUM_STD_MAPPINGS][64];
 
 #endif

@@ -14,12 +14,12 @@
 
 //##########################################
 
-uchar CHECK_TABLE[0x10000];//is 0,1 or 2
-uchar DIRECTION[64][64];// "unsigned" direction: [0..3] or INVALID_DIRECTION or KNIGHT_DIRECTION
+uint8_t CHECK_TABLE[0x10000];//is 0,1 or 2
+uint8_t DIRECTION[64][64];// "unsigned" direction: [0..3] or INVALID_DIRECTION or KNIGHT_DIRECTION
 
 // "signed" direction: [0..7] or INVALID_DIRECTION or KNIGHT_DIRECTION
 // SDIRECTION[x][y] is the direction from x to y
-uchar SDIRECTION[64][64];
+uint8_t SDIRECTION[64][64];
 
 Position DIRECTION_MOVE_TABLE[8][64];
 
@@ -902,7 +902,7 @@ void Board2::init_CHECK_TABLE() {
   for (int i=0; i<0x10000; i++) {
     for (int j=0; j<8; j++)
       L[j] = (i>>(2*j))&3;
-    uchar check = 0;
+    uint8_t check = 0;
     bool threat;
 
     // Check in one direction:
@@ -1322,7 +1322,7 @@ bool Board2::find_legal_move(Move& move) {
 // - hence the position would be illegal.
 // prev_num_checks is the number of checks against black king after undoing the move.
 // If prev_num_checks != 0, then threat_pos determines the position of one of the threats.
-triple<int,uchar,Position> Board2::retro_move_count_checks(Position from, Position to,
+triple<int,uint8_t,Position> Board2::retro_move_count_checks(Position from, Position to,
     Piece original_piece, Piece piece_killed) {
 
   int check_count = num_checks;
@@ -1332,7 +1332,7 @@ triple<int,uchar,Position> Board2::retro_move_count_checks(Position from, Positi
     if (IS_SHORT_DISTANCE_PIECE[original_piece]  &&
         BIT_BOARDS[original_piece][from][king_pos[player]]) {
       // This piece can't have moved from "from". It could have taken the king.
-      return triple<int,uchar,Position>(42,0,0);
+      return triple<int,uint8_t,Position>(42,0,0);
     }
 
     if (IS_SHORT_DISTANCE_PIECE[board[to]])
@@ -1426,13 +1426,13 @@ triple<int,uchar,Position> Board2::retro_move_count_checks(Position from, Positi
 
   if (check_count) {
     // No reason to proceed
-    return triple<int,uchar,Position>(check_count, 0, 0);
+    return triple<int,uint8_t,Position>(check_count, 0, 0);
   }
 
   //###############################################################################
   //###############################################################################
 
-  uchar prev_num_checks = 0;
+  uint8_t prev_num_checks = 0;
   Position threat_pos = ILLEGAL_POS;
   {
     if (PIECE_KIND[board[to]]==KING) {
@@ -1511,7 +1511,7 @@ triple<int,uchar,Position> Board2::retro_move_count_checks(Position from, Positi
 
 
       { // Check other long distance threats
-        const uchar *tmp = DIAG_PIECE_PATTERN[player ? WKING : BKING];
+        const uint8_t *tmp = DIAG_PIECE_PATTERN[player ? WKING : BKING];
 
         for (int d=0; d<4; d++) {
           uint pattern = board_lines[d][DIAG_INDEX[from][d]];
@@ -1609,7 +1609,7 @@ triple<int,uchar,Position> Board2::retro_move_count_checks(Position from, Positi
     }
   }
 
-  return triple<int,uchar,Position>(check_count, prev_num_checks, threat_pos);
+  return triple<int,uint8_t,Position>(check_count, prev_num_checks, threat_pos);
 }
 
 struct EnPassantPP {
@@ -1729,10 +1729,10 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
   // Add one entry representing no en passant possible
   ep_possibilities.push_back(EnPassantPP(ILLEGAL_POS, ILLEGAL_POS, ILLEGAL_POS));
 
-  const uchar LEGAL_FROM = 1;
-  const uchar LEGAL_TO = 2;
-  const uchar PAWN_2_FORWARD_NOT_ALLOWED = 4;
-  uchar LEGAL_FROM_TO[64];
+  const uint8_t LEGAL_FROM = 1;
+  const uint8_t LEGAL_TO = 2;
+  const uint8_t PAWN_2_FORWARD_NOT_ALLOWED = 4;
+  uint8_t LEGAL_FROM_TO[64];
 
   if (get_num_pawns()) {
     // if en passant is possible, then unique last move is that pawn 2 forward
@@ -1914,7 +1914,7 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
   // rook/king move to p can gain castling capability.
   // ADDED_CASTLING[p] is nonzero for a nonempty square, if a rook-capturing move
   // is retracted, and the rook may have had castling capability before.
-  uchar ADDED_CASTLING[64];
+  uint8_t ADDED_CASTLING[64];
   memset(ADDED_CASTLING, 0, 64);
 
   { // Find out if extra castling capabilities will be adding by undoing certain
@@ -1990,7 +1990,7 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
     int refl = KING_REFLECTIONS[player][king_pos[player]];
 
     if (board[a1]) {
-      const uchar C[2][8] = {{WHITE_LONG_CASTLING, WHITE_SHORT_CASTLING, 0, 0,
+      const uint8_t C[2][8] = {{WHITE_LONG_CASTLING, WHITE_SHORT_CASTLING, 0, 0,
           WHITE_LONG_CASTLING, 0, WHITE_SHORT_CASTLING, 0},
           {0,0,BLACK_LONG_CASTLING,BLACK_SHORT_CASTLING,
               0,BLACK_LONG_CASTLING,0,BLACK_SHORT_CASTLING}};
@@ -2001,7 +2001,7 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
     }
 
     if (board[h1]) {
-      const uchar C[2][8] = {{WHITE_SHORT_CASTLING,WHITE_LONG_CASTLING,0,0,
+      const uint8_t C[2][8] = {{WHITE_SHORT_CASTLING,WHITE_LONG_CASTLING,0,0,
           0,WHITE_LONG_CASTLING,0,WHITE_SHORT_CASTLING},
           {0,0,BLACK_SHORT_CASTLING,BLACK_LONG_CASTLING,
               BLACK_LONG_CASTLING,0,BLACK_SHORT_CASTLING,0}};
@@ -2012,7 +2012,7 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
     }
 
     if (board[a8]) {
-      const uchar C[2][8] = {{0,0,WHITE_LONG_CASTLING,WHITE_SHORT_CASTLING,
+      const uint8_t C[2][8] = {{0,0,WHITE_LONG_CASTLING,WHITE_SHORT_CASTLING,
           WHITE_SHORT_CASTLING,0,WHITE_LONG_CASTLING,0},
           {BLACK_LONG_CASTLING,BLACK_SHORT_CASTLING,0,0,
               0,BLACK_SHORT_CASTLING,0,BLACK_LONG_CASTLING}};
@@ -2023,7 +2023,7 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
     }
 
     if (board[h8]) {
-      const uchar C[2][8] = {{0,0,WHITE_SHORT_CASTLING,WHITE_LONG_CASTLING,
+      const uint8_t C[2][8] = {{0,0,WHITE_SHORT_CASTLING,WHITE_LONG_CASTLING,
           0,WHITE_SHORT_CASTLING,0,WHITE_LONG_CASTLING},
           {BLACK_SHORT_CASTLING,BLACK_LONG_CASTLING,0,0,
               BLACK_SHORT_CASTLING,0,BLACK_LONG_CASTLING,0}};
@@ -2077,7 +2077,7 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
                     // The necessary squares are empty
                     //cerr << "Finder ep?\n";
 
-                    triple<int,uchar,Position> t;
+                    triple<int,uint8_t,Position> t;
 
                     // Pawns present, only transf. 0 and 1 might be legal
 
@@ -2177,7 +2177,7 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
                 BPAWN, BPAWN, BPAWN, BPAWN, BKNIGHT, BBISHOP, BROOK, BQUEEN, 0
             };
 
-            const uchar TRANSF[36] =
+            const uint8_t TRANSF[36] =
             {   5, 4, 2, 0, 0, 0, 0, 0, 0,
                 5, 4, 2, 0, 0, 0, 0, 0, 0,
                 2, 0, 5, 4, 0, 0, 0, 0, 0,
@@ -2185,7 +2185,7 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
             };
 
             // ALLOWED_T used when added castling puts demands on transformation
-            const uchar ALLOWED_T[36] =
+            const uint8_t ALLOWED_T[36] =
             {   0xA0, 0x50, 0x0C, 0x03, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
                 0xA0, 0x50, 0x0C, 0x03, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
                 0x0C, 0x03, 0xA0, 0x50, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
@@ -2226,7 +2226,7 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
             do {
               ++ki;
 
-              triple<int,uchar,Position> t = retro_move_count_checks(move.from, to, board[to], KILLED[ki]);
+              triple<int,uint8_t,Position> t = retro_move_count_checks(move.from, to, board[to], KILLED[ki]);
 
               if (t.first == 0) {
                 // Undoing this move gives a position for which no move can capture the king.
@@ -2239,21 +2239,21 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
                 // "own" and "opponent" are relative to the player undoing a move
 
                 // can't be moved out of do...while loop as it is dependent on ki
-                uchar adding_own_castling = ADDED_CASTLING[move.from]  &&
+                uint8_t adding_own_castling = ADDED_CASTLING[move.from]  &&
                     ((1 << (ADDED_CASTLING[move.from] & 0x0F)) & allowed_transformations & ALLOWED_T[ki])  &&
                     ((KING_CASTLING_POSITIONS[move.from]  &&  PIECE_KIND[board[to]]==KING)  ||
                         (!KING_CASTLING_POSITIONS[move.from]  &&  PIECE_KIND[board[to]]==ROOK));
-                uchar own_castling_transf = 0;
+                uint8_t own_castling_transf = 0;
                 if (adding_own_castling) {
                   adding_own_castling = ADDED_CASTLING[move.from] & 0xF0;
                   //cerr << "adding_own_castling = " << adding_own_castling << "\n";
                   own_castling_transf = ADDED_CASTLING[move.from] & 0x0F;
                 }
 
-                uchar adding_opponent_castling = ADDED_CASTLING[move.to]  &&
+                uint8_t adding_opponent_castling = ADDED_CASTLING[move.to]  &&
                     PIECE_KIND[KILLED[ki]]==ROOK  &&
                     ((1 << (ADDED_CASTLING[move.to] & 0x0F)) & allowed_transformations & ALLOWED_T[ki]);
-                uchar opponent_castling_transf = 0;
+                uint8_t opponent_castling_transf = 0;
                 if (adding_opponent_castling) {
                   adding_opponent_castling = ADDED_CASTLING[move.to] & 0xF0;
                   opponent_castling_transf = ADDED_CASTLING[move.to] & 0x0F;
@@ -2441,7 +2441,7 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
                     if ((kill!=0)  ==  diagonal_move) {
 
                       // Beware!, do not use move, but instead to,from
-                      uchar adding_opponent_castling = ADDED_CASTLING[to]  &&
+                      uint8_t adding_opponent_castling = ADDED_CASTLING[to]  &&
                           PIECE_KIND[kill]==ROOK  &&  (ADDED_CASTLING[to] & 0x0F) == t;
                       if (adding_opponent_castling)
                         adding_opponent_castling = ADDED_CASTLING[to] & 0xF0;
@@ -2449,7 +2449,7 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
 
                       Piece pawns[2][4] = {{BPAWN, WPAWN, FILE_H_TO_A_PAWN, FILE_A_TO_H_PAWN},
                           {WPAWN, BPAWN, FILE_A_TO_H_PAWN, FILE_H_TO_A_PAWN}};
-                      triple<int,uchar,Position> tr = retro_move_count_checks(from, to, pawns[player][r], kill);
+                      triple<int,uint8_t,Position> tr = retro_move_count_checks(from, to, pawns[player][r], kill);
                       if (t  &&  tr.third!=ILLEGAL_POS)
                         tr.third = reflect(tr.third, t);
 
@@ -2521,7 +2521,7 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
             0,58,0,0,0,0,61,0
         }};
 
-        const uchar UNDONE_CASTLING[64] =
+        const uint8_t UNDONE_CASTLING[64] =
         {   0,BLACK_SHORT_CASTLING,BLACK_LONG_CASTLING,0,0,BLACK_LONG_CASTLING,BLACK_SHORT_CASTLING,0,
             BLACK_SHORT_CASTLING,0,0,0,0,0,0,BLACK_SHORT_CASTLING,
             BLACK_LONG_CASTLING,0,0,0,0,0,0,BLACK_LONG_CASTLING,
@@ -2562,7 +2562,7 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
 
               if (!king_checked) {
                 // Move rook
-                triple<int,uchar,Position> t = retro_move_count_checks(rook_move.from, rook_move.to,
+                triple<int,uint8_t,Position> t = retro_move_count_checks(rook_move.from, rook_move.to,
                     board[rook_move.to], 0);
 
                 if (t.first == 0) {
@@ -2574,7 +2574,7 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
 
                   int transf = KING_REFLECTIONS[player^1][king_move.from];
 
-                  uchar adding_own_castling = ADDED_CASTLING[king_move.from] & 0xF0;
+                  uint8_t adding_own_castling = ADDED_CASTLING[king_move.from] & 0xF0;
 
                   for (uint i=0; i<ep_possibilities.size(); i++) {
                     if (ep_possibilities[i].accepted(rook_move.from, rook_move.to, undo.en_passant, 0)) {

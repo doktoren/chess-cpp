@@ -315,7 +315,7 @@ void ClassName::verify_hash_value(ostream &os) {
 }
 HashValue ClassName::hash_value_after_move(Move move) {
   HashValue result = partial_hash_value;
-  uchar _en_passant = ILLEGAL_POS;
+  uint8_t _en_passant = ILLEGAL_POS;
 
   // This is largely code copy-pasted from (old version of) execute move.
   if (board[move.to]) remove_piece(move.to);

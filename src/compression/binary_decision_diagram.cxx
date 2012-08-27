@@ -325,8 +325,8 @@ int shift_bit_pos(vector<vector<uint> > &nodes, vector<uint> &node_index, int up
 
 // Currently not used!
 int shift_to_bit_perm(vector<vector<uint> > &nodes, vector<uint> node_index,
-    uchar *bit_perm, uchar *inv_bit_perm,
-    uchar *new_bit_perm, int log_size) {
+    uint8_t *bit_perm, uint8_t *inv_bit_perm,
+    uint8_t *new_bit_perm, int log_size) {
   int value_change = 0;
 
   for (int ii=0; ii<log_size; ii++)
@@ -373,13 +373,13 @@ int shift_to_bit_perm(vector<vector<uint> > &nodes, vector<uint> node_index,
 template<class TYPE>
 void BinaryDecisionDiagram::init(const TYPE *table, int _log_size, uint max_value,
     bool compress_the_representation,
-    bool calc_sifting, uchar *bit_perm) {
+    bool calc_sifting, uint8_t *bit_perm) {
   clear();
 
   log_size = _log_size;
   int size = 1<<log_size;
 
-  uchar inv_bit_perm[32];
+  uint8_t inv_bit_perm[32];
   if (!calc_sifting  &&  bit_perm) {
     // Ignore bit_perm if it is merely the identity mapping
     bool identity_mapping = true;
@@ -427,7 +427,7 @@ void BinaryDecisionDiagram::init(const TYPE *table, int _log_size, uint max_valu
     // Fill the first layer (the leaves) in the tree
     for (int i=0; i<size; i+=2) {
 
-      pair<uchar, uchar> tmp((uchar)table[i], (uchar)table[i+1]);
+      pair<uint8_t, uint8_t> tmp((uint8_t)table[i], (uint8_t)table[i+1]);
       if (!calc_sifting  &&  bit_perm) {
         // Example: The entry number 27 = 2^4 + 2^3 + 2^1 + 2^0 should be mapped to the
         // entry number 2^bit_perm[4] + 2^bit_perm[3] + 2^bit_perm[1] + 2^bit_perm[0]
@@ -441,8 +441,8 @@ void BinaryDecisionDiagram::init(const TYPE *table, int _log_size, uint max_valu
           new_index |= ((i >> log_i) & 1) << inv_bit_perm[log_i];
         }
 
-        tmp = pair<uchar, uchar>((uchar)table[new_index],
-            (uchar)table[new_index + (1 << inv_bit_perm[0])]);
+        tmp = pair<uint8_t, uint8_t>((uint8_t)table[new_index],
+            (uint8_t)table[new_index + (1 << inv_bit_perm[0])]);
       }
 
       int &index = mapping[(((int)tmp.first) << 8) | tmp.second];
@@ -809,7 +809,7 @@ void BinaryDecisionDiagram::init(const TYPE *table, int _log_size, uint max_valu
 #endif
 }
 
-template void BinaryDecisionDiagram::init(const uchar *, int, uint, bool, bool, uchar*);
+template void BinaryDecisionDiagram::init(const uint8_t *, int, uint, bool, bool, uint8_t*);
 
 
 void test_binary_decision_diagram() {

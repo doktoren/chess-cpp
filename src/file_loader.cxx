@@ -63,11 +63,11 @@ void FileLoader::reset_delimiters() {
   delimiters[(int)'\n'] = true;
   delimiters[13] = true;
 }
-void FileLoader::add_delimiter(uchar ch) {
-  delimiters[(uchar)ch] = true;
+void FileLoader::add_delimiter(uint8_t ch) {
+  delimiters[(uint8_t)ch] = true;
 }
-void FileLoader::remove_delimiter(uchar ch) {
-  delimiters[(uchar)ch] = false;
+void FileLoader::remove_delimiter(uint8_t ch) {
+  delimiters[(uint8_t)ch] = false;
 }
 
 //#############################################

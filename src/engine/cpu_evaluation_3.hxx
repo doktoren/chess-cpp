@@ -18,23 +18,23 @@ struct PawnTableHV {
   }
 
   int get_index(unsigned int max_index) const {
-    assert(max_index==1023);//omskriv kode hvis tabelstoerrelse aendres
+    assert(max_index==1023);
 
     int result = 0;
 
-    result ^= uchar_hash[wps.u.lines[1]];
-    result ^= uchar_hash[wps.u.lines[2]] << 1;
-    result ^= uchar_hash[wps.u.lines[3]] << 2;
-    result ^= uchar_hash[wps.u.lines[4]];
-    result ^= uchar_hash[wps.u.lines[5]] << 1;
-    result ^= uchar_hash[wps.u.lines[6]] << 2;
+    result ^= uint8_hash[wps.u.lines[1]];
+    result ^= uint8_hash[wps.u.lines[2]] << 1;
+    result ^= uint8_hash[wps.u.lines[3]] << 2;
+    result ^= uint8_hash[wps.u.lines[4]];
+    result ^= uint8_hash[wps.u.lines[5]] << 1;
+    result ^= uint8_hash[wps.u.lines[6]] << 2;
 
-    result ^= uchar_hash[bps.u.lines[1]];
-    result ^= uchar_hash[bps.u.lines[2]] << 1;
-    result ^= uchar_hash[bps.u.lines[3]] << 2;
-    result ^= uchar_hash[bps.u.lines[4]];
-    result ^= uchar_hash[bps.u.lines[5]] << 1;
-    result ^= uchar_hash[bps.u.lines[6]] << 2;
+    result ^= uint8_hash[bps.u.lines[1]];
+    result ^= uint8_hash[bps.u.lines[2]] << 1;
+    result ^= uint8_hash[bps.u.lines[3]] << 2;
+    result ^= uint8_hash[bps.u.lines[4]];
+    result ^= uint8_hash[bps.u.lines[5]] << 1;
+    result ^= uint8_hash[bps.u.lines[6]] << 2;
 
     return result;
   }

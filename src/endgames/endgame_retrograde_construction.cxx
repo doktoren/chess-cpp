@@ -12,7 +12,7 @@ void build_endgame_retrograde(EndgameFunctionality* endgame, int8_t **table) {
 
   // Perform forward scan to identify all leaf nodes, count the remaining
   // untried edges of each node, and use examine all edges to reduced positions.
-  uchar *move_count[2];
+  uint8_t *move_count[2];
 
   // Remember the maximal mate depth in the table - do not stop
   // until this is reached
@@ -20,7 +20,7 @@ void build_endgame_retrograde(EndgameFunctionality* endgame, int8_t **table) {
 
   // SAME_DIAGONAL[p1]==SAME_DIAGONAL[p2] && p1!=p2   iff
   // p1 and p2 are positions on the same diagonal.
-  const uchar SAME_DIAGONAL[64] =
+  const uint8_t SAME_DIAGONAL[64] =
   {   0, 1, 2, 3, 4, 5, 6, 7,
       8, 0,10,11,12,13, 7,15,
       16,17, 0,19,20, 7,22,23,
@@ -146,8 +146,7 @@ void build_endgame_retrograde(EndgameFunctionality* endgame, int8_t **table) {
 
   for (int player=0; player<(endgame->is_symmetric_endgame() ? 1 : 2); player++) {
 
-    move_count[player] = new uchar[endgame->get_table_size()];
-    //original_move_count[player] = new uchar[table_size];//debug
+    move_count[player] = new uint8_t[endgame->get_table_size()];
 
     for (uint i=0; i<endgame->get_table_size(); i++) {
       //if ((i&0x3FFF)==0) { cerr << i << " "; cerr.flush(); }

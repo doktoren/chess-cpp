@@ -33,23 +33,23 @@ public:
   // the a1-d1-d4 triangle MUST be mapped to [0..16[
   // All permutations must have size 64 (even though not all entries are used for
   // the bound king)
-  void permute_square_enumeration(uchar *bdd_table, int log_bdd_size,
+  void permute_square_enumeration(uint8_t *bdd_table, int log_bdd_size,
 				  vector<vector<int> > permutations);
 
   // IMPORTANT: Call AFTER permute_square_enumeration
   //
   // Can only be applied once. If applied, sifting algorithm may not be used.
   // final index = bit_perm(permutations(original index))
-  // bit_perm must be a pointer to 32-sized array of uchar
+  // bit_perm must be a pointer to 32-sized array of uint8_t
   // 
   // pattern and bit_perm_and_permute_pos are updated.
   // If also bdd_table and log_bdd_table are specified then the entries are
   // remapped according to the bit permutation.
-  void apply_previously_found_bit_perm(uchar *bit_perm,
-				       uchar *bdd_table=0, int log_bdd_size=0);
+  void apply_previously_found_bit_perm(uint8_t *bit_perm,
+				       uint8_t *bdd_table=0, int log_bdd_size=0);
 
   // do_mapping_after_sifting only used if do_preprocessing and calc_sifting are true.
-  void init_no_clustering(uchar *bdd_table, int log_bdd_size,
+  void init_no_clustering(uint8_t *bdd_table, int log_bdd_size,
 			  bool do_preprocessing = true, bool calc_sifting = true,
 			  bool do_mapping_after_sifting = false);
 
@@ -65,7 +65,7 @@ public:
   // calc_sifting : Should the sifting algorithm be applied?
   //                If true, then the bit permutation will be decided once and for
   //                all by running the sifting algorithm on the unsplitted data.
-  void init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][64],
+  void init(uint8_t *bdd_table, int log_bdd_size, const uint8_t inv_bit_perm[5][64],
 	    bool do_preprocessing = true, bool calc_sifting = true, bool do_mapping_after_sifting=false);
 
   char operator[](BDD_Index bdd_index) {
@@ -142,8 +142,8 @@ public:
   // sizes are, the "better" subsets will be made (more detailed). But the cost
   // is that the table giving the mapping from subset to cluster will increase in size.
   void determine_cluster_subsets_based_on_clustering(vector<int> base_subset_sizes,
-						     uchar *bdd_table, int log_bdd_size);
-  void use_king_pos_as_subsets(uchar *bdd_table, int log_bdd_size);
+						     uint8_t *bdd_table, int log_bdd_size);
+  void use_king_pos_as_subsets(uint8_t *bdd_table, int log_bdd_size);
 
   bool try_using_specialized_cluster_function(int endgame_hash_value) {
     assert(!clustering_kind);

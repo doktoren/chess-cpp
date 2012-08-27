@@ -72,7 +72,7 @@ void obstream<OUTPUT_MODEL>::writeEliasNumber(uint n) {
   if (n>3) {
     int f_log = floor_log(n);
 
-    for (int i=uchar_log[f_log]-1; i; i--) {
+    for (int i=uint8_log[f_log]-1; i; i--) {
       bool tmp = f_log & (1<<i);
       OUTPUT_MODEL::writeBit(tmp);
       OUTPUT_MODEL::writeBit(tmp);

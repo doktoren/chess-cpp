@@ -18,7 +18,7 @@
 #endif
 
 
-uchar CORNER_DIST[64] = {
+uint8_t CORNER_DIST[64] = {
   0,1,2,3,3,2,1,0,
   1,1,2,3,3,2,1,1,
   2,2,2,3,3,2,2,2,
@@ -28,7 +28,7 @@ uchar CORNER_DIST[64] = {
   1,1,2,3,3,2,1,1,
   0,1,2,3,3,2,1,0};
 
-uchar EDGE_DIST[64] = {
+uint8_t EDGE_DIST[64] = {
   0,0,0,0,0,0,0,0,
   0,1,1,1,1,1,1,0,
   0,1,2,2,2,2,1,0,
@@ -38,7 +38,7 @@ uchar EDGE_DIST[64] = {
   0,1,1,1,1,1,1,0,
   0,0,0,0,0,0,0,0};
 
-inline uchar dist(Position p1, Position p2) {
+inline uint8_t dist(Position p1, Position p2) {
   return max(abs(ROW[p1]-ROW[p2]), abs(COLUMN[p1]-COLUMN[p2]));
 }
 
