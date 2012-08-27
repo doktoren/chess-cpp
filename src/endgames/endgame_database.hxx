@@ -60,11 +60,12 @@ public:
 
   EndgameFunctionality &operator[](const Board2 &board) {
     assert(supported(board));
-    return *(hash_list[board.get_endgame_hashing()]);
+    return *(hash_list[board.get_endgame_material().individual.endgame_hashing]);
   }
+
   bool supported(const Board2 &board) {
     if (board.get_num_pieces() <= MAX_MEN) {
-      return hash_list[board.get_endgame_hashing()];
+      return hash_list[board.get_endgame_material().individual.endgame_hashing];
     } else return false;
   }
 
@@ -105,12 +106,12 @@ inline bool endgame_table_index(Board2 &board, int &value) {
   if (board.get_num_pieces() > MAX_MEN)
     return false;
 
-  if (!endgames.supported(board.get_endgame_hashing())) {
+  if (!endgames.supported(board.get_endgame_material().individual.endgame_hashing)) {
     assert(0);
     return false;
   }
 
-  value = endgames[board.get_endgame_hashing()][board];
+  value = endgames[board.get_endgame_material().individual.endgame_hashing][board];
 
   if (is_special_value(value)) {
     switch (value) {

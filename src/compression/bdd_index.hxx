@@ -23,7 +23,6 @@ struct BDD_Index {
       ;
   }
 
-
   BDD_Index &operator==(const BDD_Index &bddi) {
     u.raw[0] = bddi.u.raw[0];
 #if MAX_MEN >= 5

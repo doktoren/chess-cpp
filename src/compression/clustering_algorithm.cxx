@@ -28,17 +28,17 @@ double calc_fit(const vector<TYPE> &element, const vector<double> &center) {
 // ie. the result tells to which group each vector<uint> belong to.
 //
 // Initial cluster centers are chosen randomly from elements.
-// An elements is chosen as a center with probality proportional with its weight.
+// An elements is chosen as a center with probability proportional with its weight.
 template <class TYPE>
 vector<int> find_clusters(const vector<vector<TYPE> > &elements,
-			  const vector<double> &weights,
-			  int num_clusters, int NUM_GENERATIONS, int MAX_ITERATIONS) {
+    const vector<double> &weights,
+    int num_clusters, int NUM_GENERATIONS, int MAX_ITERATIONS) {
   int N = elements[0].size();
 
   if ((int)elements.size() <= num_clusters) {
     // Trivial solution
     vector<int> result(elements.size());
-    for (uint i=0; i<elements.size(); i++)
+    for (uint_fast32_t i=0; i<elements.size(); i++)
       result[i] = i;
     return result;
   }
@@ -46,7 +46,7 @@ vector<int> find_clusters(const vector<vector<TYPE> > &elements,
 #ifndef NDEBUG
   assert((int)elements.size() >= num_clusters);
   assert(num_clusters > 0);
-  for (uint i=0; i<elements.size(); i++)
+  for (uint_fast32_t i=0; i<elements.size(); i++)
     assert((int)elements[i].size() == N);
   assert(NUM_GENERATIONS > 0);
   assert(MAX_ITERATIONS > 0);
@@ -62,7 +62,7 @@ vector<int> find_clusters(const vector<vector<TYPE> > &elements,
   vector<int> best_result(elements.size());
   double best_generation_fit = 999999999.0;
   best_generation_fit *= best_generation_fit; // should be "infinite" now
-  
+
 #ifdef PRINT
   vector<vector<double> > best_centers(num_clusters);
   for (int i=0; i<num_clusters; i++)
@@ -70,71 +70,56 @@ vector<int> find_clusters(const vector<vector<TYPE> > &elements,
 #endif
 
   double weight_sum = 0.0;
-  for (uint i=0; i<weights.size(); i++)
+  for (vector<double>::size_type i=0; i<weights.size(); i++)
     weight_sum += weights[i];
-  
+
   for (int generation=0; generation < NUM_GENERATIONS; ++generation) {
 
     vector<vector<double> > centers(num_clusters);
     for (int i=0; i<num_clusters; i++)
       centers[i] = vector<double>(N);
-    
+
     { // Initialize centers
       vector<bool> chosen(elements.size());
       for (int i=0; i<num_clusters; i++) {
-	// Pick an element as center with probability proportional with
-	// its weight.
-	int num_tries = 0;
-	int picked;
-	do {
-	  double cut_w = weight_sum*(1.0/((RAND_MAX+1)-1))*(rand()+1);
-	  // 0 < cut_w < weight_sum, but the <'s are close to <=
-	  double prefix_sum = 0.0;
-	  picked = -1;
-	  for (uint i=0; i<weights.size(); i++) {
-	    prefix_sum += weights[i];
-	    if (prefix_sum >= cut_w) {
-	      picked = i;
-	      break;
-	    }
-	  }
-	  assert(picked != -1);
-	} while (chosen[picked]  &&  ++num_tries <= 10);
+        // Pick an element as center with probability proportional with
+        // its weight.
+        int num_tries = 0;
+        int picked;
+        do {
+          double cut_w = weight_sum*(1.0/((RAND_MAX+1)-1))*(rand()+1);
+          // 0 < cut_w < weight_sum, but the <'s are close to <=
+          double prefix_sum = 0.0;
+          picked = -1;
+          for (uint i=0; i<weights.size(); i++) {
+            prefix_sum += weights[i];
+            if (prefix_sum >= cut_w) {
+              picked = i;
+              break;
+            }
+          }
+          assert(picked != -1);
+        } while (chosen[picked]  &&  ++num_tries <= 10);
 
-	if (chosen[picked]) {
-	  // Failed to pick a new element as center with the probability stuff.
-	  // Just pick the element with highest weight
-	  double max_weight = -1;
-	  for (uint i=0; i<weights.size(); i++) {
-	    if (!chosen[i]  &&  weights[i] > max_weight) {
-	      max_weight = weights[i];
-	      picked = i;
-	    }
-	  }
-	  assert(!chosen[picked]);
-	}
+        if (chosen[picked]) {
+          // Failed to pick a new element as center with the probability stuff.
+          // Just pick the element with highest weight
+          double max_weight = -1;
+          for (uint i=0; i<weights.size(); i++) {
+            if (!chosen[i]  &&  weights[i] > max_weight) {
+              max_weight = weights[i];
+              picked = i;
+            }
+          }
+          assert(!chosen[picked]);
+        }
 
-	chosen[picked] = true;
+        chosen[picked] = true;
 
-	for (int j=0; j<N; j++)
-	  centers[i][j] = elements[picked][j];
+        for (int j=0; j<N; j++)
+          centers[i][j] = elements[picked][j];
       }
     }
-    /*
-    { // Initialize centers - gives very poor split
-      vector<uint> max_values(N);
-      for (int i=0; i<N; i++) {
-	max_values[i] = 0;
-	for (uint j=0; j<elements.size(); j++)
-	  if (elements[j][i] > max_values[i])
-	    max_values[i] = elements[j][i];
-      }
-      for (int i=0; i<num_clusters; i++)
-	for (int j=0; j<N; j++)
-	  centers[i][j] = rand()%(max_values[j]+1);
-    }
-    */
-    
     vector<int> result(elements.size());
     double total_fit = 0.0;
 
@@ -143,81 +128,81 @@ vector<int> find_clusters(const vector<vector<TYPE> > &elements,
     while (progress  &&  iteration<MAX_ITERATIONS) {
       ++iteration;
       progress = false;
-      
+
       total_fit = 0.0;
 
       {// Init result. Ie. assign each vector to a center
-	for (uint i=0; i<elements.size(); i++) {
-	  double best_fit = 999999999.0;
-	  best_fit *= best_fit; // should be "infinite" now
-	  int center_index = -1;
-	  
-	  for (int j=0; j<num_clusters; j++) {
-	    double fit = calc_fit(elements[i], centers[j]);
-	    if (fit < best_fit) {
-	      best_fit = fit;
-	      center_index = j;
-	    }
-	  }
-	  
-	  total_fit += weights[i] * best_fit;
-	  
-	  if (center_index != result[i]) {
-	    progress = true;
-	    result[i] = center_index;
-	  }
-	}
-      }
-      
-      {// Adjust centers
-	for (int i=0; i<num_clusters; i++)
-	  for (int j=0; j<N; j++)
-	    centers[i][j] = 0.0;
-	
-	vector<double> attached_weight(num_clusters);
-	for (uint i=0; i<elements.size(); i++) {
-	  attached_weight[result[i]] += weights[i];
-	  for (int j=0; j<N; j++)
-	    centers[result[i]][j] += weights[i] * elements[i][j];
-	}
-	
-	for (int i=0; i<num_clusters; i++) {
-	  if (attached_weight[i] > 0.00001) {
-	    //cerr << "Center " << i << ":";
-	    for (int j=0; j<N; j++) {
-	      centers[i][j] /= attached_weight[i];
-	      //cerr << ' ' << centers[i][j];
-	    }
-	    //cerr << '\n';
+        for (uint i=0; i<elements.size(); i++) {
+          double best_fit = 999999999.0;
+          best_fit *= best_fit; // should be "infinite" now
+          int center_index = -1;
 
-	  } else {
-	    cerr << "Unsuccesfull center!\n";
-	    // Unsuccesfull center!
-	    int picked = rand()%num_clusters;
-	    for (int j=0; j<N; j++)
-	      centers[i][j] = elements[picked][j];
-	  }
-	}
+          for (int j=0; j<num_clusters; j++) {
+            double fit = calc_fit(elements[i], centers[j]);
+            if (fit < best_fit) {
+              best_fit = fit;
+              center_index = j;
+            }
+          }
+
+          total_fit += weights[i] * best_fit;
+
+          if (center_index != result[i]) {
+            progress = true;
+            result[i] = center_index;
+          }
+        }
+      }
+
+      {// Adjust centers
+        for (int i=0; i<num_clusters; i++)
+          for (int j=0; j<N; j++)
+            centers[i][j] = 0.0;
+
+        vector<double> attached_weight(num_clusters);
+        for (uint i=0; i<elements.size(); i++) {
+          attached_weight[result[i]] += weights[i];
+          for (int j=0; j<N; j++)
+            centers[result[i]][j] += weights[i] * elements[i][j];
+        }
+
+        for (int i=0; i<num_clusters; i++) {
+          if (attached_weight[i] > 0.00001) {
+            //cerr << "Center " << i << ":";
+            for (int j=0; j<N; j++) {
+              centers[i][j] /= attached_weight[i];
+              //cerr << ' ' << centers[i][j];
+            }
+            //cerr << '\n';
+
+          } else {
+            cerr << "Unsuccesfull center!\n";
+            // Unsuccesfull center!
+            int picked = rand()%num_clusters;
+            for (int j=0; j<N; j++)
+              centers[i][j] = elements[picked][j];
+          }
+        }
       }
     }
-    
+
     if (total_fit < best_generation_fit) {
       //cerr << "Fit impr. from " << best_generation_fit << " to " << total_fit << '\n';
       best_generation_fit = total_fit;
       for (uint i=0; i<result.size(); i++)
-	best_result[i] = result[i];
+        best_result[i] = result[i];
 
 #ifdef PRINT
       for (int i=0; i<num_clusters; i++)
-	for (int j=0; j<N; j++)
-	  best_centers[i][j] = centers[i][j];
+        for (int j=0; j<N; j++)
+          best_centers[i][j] = centers[i][j];
 #endif
     }
   }
 
 #ifdef PRINT
   big_output << "\n\nfind_clusters(" << elements.size() << "," << weights.size() << ","
-	     << num_clusters << "," << NUM_GENERATIONS << "," << MAX_ITERATIONS << ")\n";
+      << num_clusters << "," << NUM_GENERATIONS << "," << MAX_ITERATIONS << ")\n";
   big_output << "best_centers:\n";
   for (int i=0; i<num_clusters; i++) {
     big_output << "Center " << i << " :";
@@ -238,14 +223,14 @@ vector<int> find_clusters(const vector<vector<TYPE> > &elements,
 }
 
 template vector<int> find_clusters(const vector<vector<uint> > &,
-				   const vector<double> &, int, int, int);
+    const vector<double> &, int, int, int);
 
 
 // A point is given a weight equal to the euclidean distance from origo, and then
 // each point is scaled to a point on the N-dimensional hypersphere with radius 1.
 // The find_clusters is called
 vector<int> find_clusters2(const vector<vector<uint> > &_elements, int num_clusters,
-			   int NUM_GENERATIONS, int MAX_ITERATIONS) {
+    int NUM_GENERATIONS, int MAX_ITERATIONS) {
 #ifndef NDEBUG
   assert((int)_elements.size() >= num_clusters);
   assert(num_clusters > 0);
@@ -270,24 +255,24 @@ vector<int> find_clusters2(const vector<vector<uint> > &_elements, int num_clust
   // 
   for (uint i=0; i<elements.size(); i++) {
     elements[i] = vector<double>(_elements[i].size());
-   
+
     double w = 0;
     for (uint j=0; j<_elements[i].size(); j++)
       w += _elements[i][j];
     //double(_elements[i][j])*double(_elements[i][j]);
-    
+
     if (w > 0.5) {
       weights[i] = w;// = sqrt(w); // Now w is euclidean distance from origo
       double f = 1.0/w;
       for (uint j=0; j<elements[i].size(); j++)
-	elements[i][j] = f*_elements[i][j];
+        elements[i][j] = f*_elements[i][j];
 
     } else {
 
       weights[i] = 0.0;
 
       for (uint j=0; j<elements[i].size(); j++)
-	elements[i][j] = 0.0;
+        elements[i][j] = 0.0;
     }
   }
 
@@ -312,9 +297,9 @@ void test_find_clusters() {
       test[i][j] = rand()%100;
   }
   vector<double> w(N1, 1.0);
-  
+
   vector<int> result = find_clusters(test, w, N3);
-  
+
   for (int i=0; i<N1; i++) {
     cerr << "Group " << result[i] << ":";
     for (int j=0; j<N2; j++)

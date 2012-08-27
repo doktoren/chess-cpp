@@ -60,7 +60,7 @@ void build_endgame_retrograde(EndgameFunctionality* endgame, char **table) {
             if (move.is_en_passant()  ||  move.is_pawn_promotion()  ||  board[move.to]) {
               // this edge go to a position not in this endgame
               Undo undo = board.execute_move(move);
-              int value = endgames[board.get_endgame_hashing()][board];
+              int value = endgames[board.get_endgame_material().individual.endgame_hashing][board];
               board.undo_move(move, undo);
 
               if (value == ENDGAME_TABLE_WIN  ||  value == ENDGAME_TABLE_LOSS) {

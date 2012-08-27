@@ -1,7 +1,7 @@
 #include "../util/unsigned_long_long.hxx"
 
 #include "help_functions.hxx"
-#include "../board.hxx"
+#include "../board_printers.hxx"
 
 ostream& operator<<(ostream& os, const ull& val) {
   return os << "ull(" << ::toString(val.u.ll.low, 8, 16) << ::toString(val.u.ll.high, 8, 16) << ')';

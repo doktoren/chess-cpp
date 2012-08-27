@@ -2,15 +2,16 @@
 
 #include <fcntl.h>
 
+#include "../board_printers.hxx"
 #include "../engine/engine_constants.hxx"
-#include "endgame_database.hxx"
-#include "endgame_retrograde_construction.hxx"
-#include "endgame_simple_construction.hxx"
 #include "../compression/endgame_table_bdd.hxx"
-#include "endgame_indexing.hxx"
 #include "../compression/endgame_square_permutations.hxx"
 #include "../compression/endgame_piece_enumerations.hxx"
 #include "../compression/endgame_run_length_encoding.hxx"
+#include "endgame_database.hxx"
+#include "endgame_indexing.hxx"
+#include "endgame_retrograde_construction.hxx"
+#include "endgame_simple_construction.hxx"
 #include "endgame_piece_pos.hxx"
 
 EndgameFunctionality::

@@ -23,7 +23,7 @@ public:
   void set_convert_table(const vector<char> &_convert_table) {
     convert_table = vector<char>(_convert_table);
   }
-  
+
   // permute_square_enumeration changes bdd_table accordingly
   // permutations.back()[i] is replaced by permutations.back()[INV_REMAP_BOUND_KING[i]]
   // The permutations are stored in bit_perm_and_permute_pos

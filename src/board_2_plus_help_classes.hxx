@@ -3,6 +3,7 @@
 
 #include "typedefs.hxx"
 #include "move_and_undo.hxx"
+#include "board_printers.hxx"
 
 #define WA_ROOK_ID 0
 #define WB_KNIGHT_ID 1

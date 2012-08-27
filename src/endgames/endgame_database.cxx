@@ -70,7 +70,7 @@ void print_map(INT_TYPE *m, int digits_per_num = 2) {
 }
 
 bool Endgames::get_table_and_bdd_index_and_stm(const Board2 &board, triple<uint, uint, int> &indexes) {
-	int hash_value = board.get_endgame_hashing();
+	int hash_value = board.get_endgame_material().individual.endgame_hashing;
 	if (board.get_num_pieces() <= MAX_MEN) {
 		if (supported(hash_value)) {
 			indexes = hash_list[hash_value]->get_table_and_bdd_index_and_stm(board);
@@ -101,86 +101,52 @@ bool Endgames::construct_from_table_index(Board2 &board, string endgame_name, ui
 				preprocess_ ## name ## _bdd_index, \
 				name ## _table_index_to_bdd_index, \
 				table_size, sname); \
-				tmp[DB_W ## piece ## _VALUE] = \
-				tmp[DB_B ## piece ## _VALUE] = sname
+				weighted_piece_sum_to_endgame_name[DB_W ## piece ## _VALUE] = \
+				weighted_piece_sum_to_endgame_name[DB_B ## piece ## _VALUE] = sname
+
 #define _KXYK(sname, name, piece1, piece2, table_size) \
 		endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
 				decompress_ ## name ## _table_index, \
 				preprocess_ ## name ## _bdd_index, \
 				name ## _table_index_to_bdd_index, \
 				table_size, sname); \
-				tmp[DB_W ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE] = \
-				tmp[DB_B ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE] = sname
+				weighted_piece_sum_to_endgame_name[DB_W ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE] = \
+				weighted_piece_sum_to_endgame_name[DB_B ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE] = sname
 #define _KXKY(sname, name, piece1, piece2, table_size) \
 		endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
 				decompress_ ## name ## _table_index, \
 				preprocess_ ## name ## _bdd_index, \
 				name ## _table_index_to_bdd_index, \
 				table_size, sname); \
-				tmp[DB_W ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE] = \
-				tmp[DB_B ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE] = sname
+				weighted_piece_sum_to_endgame_name[DB_W ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE] = \
+				weighted_piece_sum_to_endgame_name[DB_B ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE] = sname
 
 #ifdef ALLOW_5_MEN_ENDGAME
-// K+3 vs K
-#define _KXXXK(sname, name, piece, table_size) \
-		endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
-				decompress_ ## name ## _table_index, \
-				preprocess_ ## name ## _bdd_index, \
-				name ## _table_index_to_bdd_index, \
-				table_size, sname); \
-				tmp[3*DB_W ## piece ## _VALUE] = \
-				tmp[3*DB_B ## piece ## _VALUE] = sname
-#define _KXXYK(sname, name, piece1, piece2, table_size) \
-		endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
-				decompress_ ## name ## _table_index, \
-				preprocess_ ## name ## _bdd_index, \
-				name ## _table_index_to_bdd_index, \
-				table_size, sname); \
-				tmp[2*DB_W ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE] = \
-				tmp[2*DB_B ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE] = sname
-#define _KXYYK(sname, name, piece1, piece2, table_size) \
-		endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
-				decompress_ ## name ## _table_index, \
-				preprocess_ ## name ## _bdd_index, \
-				name ## _table_index_to_bdd_index, \
-				table_size, sname); \
-				tmp[DB_W ## piece1 ## _VALUE + 2*DB_W ## piece2 ## _VALUE] = \
-				tmp[DB_B ## piece1 ## _VALUE + 2*DB_B ## piece2 ## _VALUE] = sname
 #define _KXYZK(sname, name, piece1, piece2, piece3, table_size) \
 		endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
 				decompress_ ## name ## _table_index, \
 				preprocess_ ## name ## _bdd_index, \
 				name ## _table_index_to_bdd_index, \
 				table_size, sname); \
-				tmp[DB_W ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE + DB_W ## piece3 ## _VALUE] = \
-				tmp[DB_B ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE + DB_B ## piece3 ## _VALUE] = sname
-
-// K+2 vs K+1
-#define _KXXKY(sname, name, piece1, piece2, table_size) \
-		endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
-				decompress_ ## name ## _table_index, \
-				preprocess_ ## name ## _bdd_index, \
-				name ## _table_index_to_bdd_index, \
-				table_size, sname); \
-				tmp[2*DB_W ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE] = \
-				tmp[2*DB_B ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE] = sname
+				weighted_piece_sum_to_endgame_name[DB_W ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE + DB_W ## piece3 ## _VALUE] = \
+				weighted_piece_sum_to_endgame_name[DB_B ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE + DB_B ## piece3 ## _VALUE] = sname
 #define _KXYKZ(sname, name, piece1, piece2, piece3, table_size) \
 		endgames[sname] = EndgameFunctionality(compress_ ## name ## _table_index, \
 				decompress_ ## name ## _table_index, \
 				preprocess_ ## name ## _bdd_index, \
 				name ## _table_index_to_bdd_index, \
 				table_size, sname); \
-				tmp[DB_W ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE + DB_B ## piece3 ## _VALUE] = \
-				tmp[DB_B ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE + DB_W ## piece3 ## _VALUE] = sname
-
+				weighted_piece_sum_to_endgame_name[DB_W ## piece1 ## _VALUE + DB_W ## piece2 ## _VALUE + DB_B ## piece3 ## _VALUE] = \
+				weighted_piece_sum_to_endgame_name[DB_B ## piece1 ## _VALUE + DB_B ## piece2 ## _VALUE + DB_W ## piece3 ## _VALUE] = sname
 #endif
+
 void Endgames::init() {
 	if (initialized) return;
 	initialized = true;
 
 	cerr << "Initializing endgames\n";
 
-	map<int, string> tmp;
+	map<int, string> weighted_piece_sum_to_endgame_name;
 
 	{ // 2-men endgame
 		endgames["KK"] = EndgameFunctionality(compress_KK_table_index,
@@ -188,7 +154,7 @@ void Endgames::init() {
 				preprocess_KK_bdd_index,
 				KK_table_index_to_bdd_index,
 				462, "KK");
-		tmp[0] = "KK";
+		weighted_piece_sum_to_endgame_name[0] = "KK";
 	}
 
 	{ // 3-men endgames
@@ -243,49 +209,46 @@ void Endgames::init() {
 #ifdef ALLOW_5_MEN_ENDGAME
 	{ // 5-men endgames
 
-		// TODO: check that all the stuff is correct (no wrong numbers etc.)
-
 		{ // ENDGAMES WITH K+3 vs K
 
-
-			{ // KXXXK endgames
-				_KXXXK("KPPPK", KPPPK, PAWN  , 1806*(46*47*48/6));
-				_KXXXK("KNNNK", KXXXK, KNIGHT, 462*(62*63*64/6));
-				_KXXXK("KBBBK", KXXXK, BISHOP, 462*(62*63*64/6));
-				_KXXXK("KRRRK", KXXXK, ROOK  , 462*(62*63*64/6));
-				_KXXXK("KQQQK", KXXXK, QUEEN , 462*(62*63*64/6));
+		  { // KXXXK endgames
+				_KXYZK("KPPPK", KPPPK, PAWN  , PAWN  , PAWN  , 1806*(46*47*48/6));
+				_KXYZK("KNNNK", KXXXK, KNIGHT, KNIGHT, KNIGHT, 462*(62*63*64/6));
+				_KXYZK("KBBBK", KXXXK, BISHOP, BISHOP, BISHOP, 462*(62*63*64/6));
+				_KXYZK("KRRRK", KXXXK, ROOK  , ROOK  , ROOK  , 462*(62*63*64/6));
+				_KXYZK("KQQQK", KXXXK, QUEEN , QUEEN , QUEEN , 462*(62*63*64/6));
 			}
 
-			{ // KXXYK/KXYYK endgames
-				_KXXYK("KNNPK", KXXPK, KNIGHT, PAWN  , 1806*(63*64/2)*48);
-				_KXXYK("KBBPK", KXXPK, BISHOP, PAWN  , 1806*(63*64/2)*48);
-				_KXXYK("KRRPK", KXXPK, ROOK  , PAWN  , 1806*(63*64/2)*48);
-				_KXXYK("KQQPK", KXXPK, QUEEN , PAWN  , 1806*(63*64/2)*48);
+			{ // KXXYK endgames
+				_KXYZK("KNNPK", KXXPK, KNIGHT, KNIGHT, PAWN  , 1806*(63*64/2)*48);
+				_KXYZK("KBBPK", KXXPK, BISHOP, BISHOP, PAWN  , 1806*(63*64/2)*48);
+				_KXYZK("KRRPK", KXXPK, ROOK  , ROOK  , PAWN  , 1806*(63*64/2)*48);
+				_KXYZK("KQQPK", KXXPK, QUEEN , QUEEN , PAWN  , 1806*(63*64/2)*48);
 
-				_KXXYK("KBBNK", KXXYK, BISHOP, KNIGHT, 462*(63*64/2)*64);
-				_KXXYK("KRRNK", KXXYK, ROOK  , KNIGHT, 462*(63*64/2)*64);
-				_KXXYK("KQQNK", KXXYK, QUEEN , KNIGHT, 462*(63*64/2)*64);
+				_KXYZK("KBBNK", KXXYK, BISHOP, BISHOP, KNIGHT, 462*(63*64/2)*64);
+				_KXYZK("KRRNK", KXXYK, ROOK  , ROOK  , KNIGHT, 462*(63*64/2)*64);
+				_KXYZK("KQQNK", KXXYK, QUEEN , QUEEN , KNIGHT, 462*(63*64/2)*64);
 
-				_KXXYK("KRRBK", KXXYK, ROOK  , BISHOP, 462*(63*64/2)*64);
-				_KXXYK("KQQBK", KXXYK, QUEEN , BISHOP, 462*(63*64/2)*64);
+				_KXYZK("KRRBK", KXXYK, ROOK  , ROOK  , BISHOP, 462*(63*64/2)*64);
+				_KXYZK("KQQBK", KXXYK, QUEEN , QUEEN , BISHOP, 462*(63*64/2)*64);
 
-				_KXXYK("KQQRK", KXXYK, QUEEN , ROOK  , 462*(63*64/2)*64);
+				_KXYZK("KQQRK", KXXYK, QUEEN , QUEEN , ROOK  , 462*(63*64/2)*64);
+			}
 
+      { // KXYYK endgames
+				_KXYZK("KNPPK", KXPPK, KNIGHT, PAWN  , PAWN  , 1806*(47*48/2)*64);
+				_KXYZK("KBPPK", KXPPK, BISHOP, PAWN  , PAWN  , 1806*(47*48/2)*64);
+				_KXYZK("KRPPK", KXPPK, ROOK  , PAWN  , PAWN  , 1806*(47*48/2)*64);
+				_KXYZK("KQPPK", KXPPK, QUEEN , PAWN  , PAWN  , 1806*(47*48/2)*64);
 
+				_KXYZK("KBNNK", KXYYK, BISHOP, KNIGHT, KNIGHT, 462*(63*64/2)*64);
+				_KXYZK("KRNNK", KXYYK, ROOK  , KNIGHT, KNIGHT, 462*(63*64/2)*64);
+				_KXYZK("KQNNK", KXYYK, QUEEN , KNIGHT, KNIGHT, 462*(63*64/2)*64);
 
-				_KXYYK("KNPPK", KXPPK, KNIGHT, PAWN  , 1806*(47*48/2)*64);
-				_KXYYK("KBPPK", KXPPK, BISHOP, PAWN  , 1806*(47*48/2)*64);
-				_KXYYK("KRPPK", KXPPK, ROOK  , PAWN  , 1806*(47*48/2)*64);
-				_KXYYK("KQPPK", KXPPK, QUEEN , PAWN  , 1806*(47*48/2)*64);
+				_KXYZK("KRBBK", KXYYK, ROOK  , BISHOP, BISHOP, 462*(63*64/2)*64);
+				_KXYZK("KQBBK", KXYYK, QUEEN , BISHOP, BISHOP, 462*(63*64/2)*64);
 
-				_KXYYK("KBNNK", KXYYK, BISHOP, KNIGHT, 462*(63*64/2)*64);
-				_KXYYK("KRNNK", KXYYK, ROOK  , KNIGHT, 462*(63*64/2)*64);
-				_KXYYK("KQNNK", KXYYK, QUEEN , KNIGHT, 462*(63*64/2)*64);
-
-				_KXYYK("KRBBK", KXYYK, ROOK  , BISHOP, 462*(63*64/2)*64);
-				_KXYYK("KQBBK", KXYYK, QUEEN , BISHOP, 462*(63*64/2)*64);
-
-				_KXYYK("KQRRK", KXYYK, QUEEN , ROOK  , 462*(63*64/2)*64);
+				_KXYZK("KQRRK", KXYYK, QUEEN , ROOK  , ROOK  , 462*(63*64/2)*64);
 			}
 
 			{ // KXYZK endgames
@@ -311,36 +274,36 @@ void Endgames::init() {
 
 				// IMPORTANT!!!  THERE IS A PROBLEM WITH THE KPPKP ENDGAME:
 				// Some positions are won/lost in up to 127 => out of range!
-				_KXXKY("KPPKP", KPPKP, PAWN  , PAWN  , 1806*(47*48/2)*48);//!!!
+				_KXYKZ("KPPKP", KPPKP, PAWN  , PAWN  , PAWN  , 1806*(47*48/2)*48);//!!!
 
-				_KXXKY("KNNKP", KXXKP, KNIGHT, PAWN  , 1806*(63*64/2)*48);
-				_KXXKY("KBBKP", KXXKP, BISHOP, PAWN  , 1806*(63*64/2)*48);
-				_KXXKY("KRRKP", KXXKP, ROOK  , PAWN  , 1806*(63*64/2)*48);
-				_KXXKY("KQQKP", KXXKP, QUEEN , PAWN  , 1806*(63*64/2)*48);
+				_KXYKZ("KNNKP", KXXKP, KNIGHT, KNIGHT, PAWN  , 1806*(63*64/2)*48);
+				_KXYKZ("KBBKP", KXXKP, BISHOP, BISHOP, PAWN  , 1806*(63*64/2)*48);
+				_KXYKZ("KRRKP", KXXKP, ROOK  , ROOK  , PAWN  , 1806*(63*64/2)*48);
+				_KXYKZ("KQQKP", KXXKP, QUEEN , QUEEN , PAWN  , 1806*(63*64/2)*48);
 
-				_KXXKY("KPPKN", KPPKX, PAWN  , KNIGHT, 1806*(47*48/2)*64);
-				_KXXKY("KNNKN", KXXKY, KNIGHT, KNIGHT, 462*(63*64/2)*64);
-				_KXXKY("KBBKN", KXXKY, BISHOP, KNIGHT, 462*(63*64/2)*64);
-				_KXXKY("KRRKN", KXXKY, ROOK  , KNIGHT, 462*(63*64/2)*64);
-				_KXXKY("KQQKN", KXXKY, QUEEN , KNIGHT, 462*(63*64/2)*64);
+				_KXYKZ("KPPKN", KPPKX, PAWN  , PAWN  , KNIGHT, 1806*(47*48/2)*64);
+				_KXYKZ("KNNKN", KXXKY, KNIGHT, KNIGHT, KNIGHT, 462*(63*64/2)*64);
+				_KXYKZ("KBBKN", KXXKY, BISHOP, BISHOP, KNIGHT, 462*(63*64/2)*64);
+				_KXYKZ("KRRKN", KXXKY, ROOK  , ROOK  , KNIGHT, 462*(63*64/2)*64);
+				_KXYKZ("KQQKN", KXXKY, QUEEN , QUEEN , KNIGHT, 462*(63*64/2)*64);
 
-				_KXXKY("KPPKB", KPPKX, PAWN  , BISHOP, 1806*(47*48/2)*64);
-				_KXXKY("KNNKB", KXXKY, KNIGHT, BISHOP, 462*(63*64/2)*64);
-				_KXXKY("KBBKB", KXXKY, BISHOP, BISHOP, 462*(63*64/2)*64);
-				_KXXKY("KRRKB", KXXKY, ROOK  , BISHOP, 462*(63*64/2)*64);
-				_KXXKY("KQQKB", KXXKY, QUEEN , BISHOP, 462*(63*64/2)*64);
+				_KXYKZ("KPPKB", KPPKX, PAWN  , PAWN  , BISHOP, 1806*(47*48/2)*64);
+				_KXYKZ("KNNKB", KXXKY, KNIGHT, KNIGHT, BISHOP, 462*(63*64/2)*64);
+				_KXYKZ("KBBKB", KXXKY, BISHOP, BISHOP, BISHOP, 462*(63*64/2)*64);
+				_KXYKZ("KRRKB", KXXKY, ROOK  , ROOK  , BISHOP, 462*(63*64/2)*64);
+				_KXYKZ("KQQKB", KXXKY, QUEEN , QUEEN , BISHOP, 462*(63*64/2)*64);
 
-				_KXXKY("KPPKR", KPPKX, PAWN  , ROOK  , 1806*(47*48/2)*64);
-				_KXXKY("KNNKR", KXXKY, KNIGHT, ROOK  , 462*(63*64/2)*64);
-				_KXXKY("KBBKR", KXXKY, BISHOP, ROOK  , 462*(63*64/2)*64);
-				_KXXKY("KRRKR", KXXKY, ROOK  , ROOK  , 462*(63*64/2)*64);
-				_KXXKY("KQQKR", KXXKY, QUEEN , ROOK  , 462*(63*64/2)*64);
+				_KXYKZ("KPPKR", KPPKX, PAWN  , PAWN  , ROOK  , 1806*(47*48/2)*64);
+				_KXYKZ("KNNKR", KXXKY, KNIGHT, KNIGHT, ROOK  , 462*(63*64/2)*64);
+				_KXYKZ("KBBKR", KXXKY, BISHOP, BISHOP, ROOK  , 462*(63*64/2)*64);
+				_KXYKZ("KRRKR", KXXKY, ROOK  , ROOK  , ROOK  , 462*(63*64/2)*64);
+				_KXYKZ("KQQKR", KXXKY, QUEEN , QUEEN , ROOK  , 462*(63*64/2)*64);
 
-				_KXXKY("KPPKQ", KPPKX, PAWN  , QUEEN , 1806*(47*48/2)*64);
-				_KXXKY("KNNKQ", KXXKY, KNIGHT, QUEEN , 462*(63*64/2)*64);
-				_KXXKY("KBBKQ", KXXKY, BISHOP, QUEEN , 462*(63*64/2)*64);
-				_KXXKY("KRRKQ", KXXKY, ROOK  , QUEEN , 462*(63*64/2)*64);
-				_KXXKY("KQQKQ", KXXKY, QUEEN , QUEEN , 462*(63*64/2)*64);
+				_KXYKZ("KPPKQ", KPPKX, PAWN  , PAWN  , QUEEN , 1806*(47*48/2)*64);
+				_KXYKZ("KNNKQ", KXXKY, KNIGHT, KNIGHT, QUEEN , 462*(63*64/2)*64);
+				_KXYKZ("KBBKQ", KXXKY, BISHOP, BISHOP, QUEEN , 462*(63*64/2)*64);
+				_KXYKZ("KRRKQ", KXXKY, ROOK  , ROOK  , QUEEN , 462*(63*64/2)*64);
+				_KXYKZ("KQQKQ", KXXKY, QUEEN , QUEEN , QUEEN , 462*(63*64/2)*64);
 			}
 
 			{ // KXYKZ endgames
@@ -425,15 +388,11 @@ void Endgames::init() {
 	}
 #endif
 
-	// Assume (!!!!!!!!!!!!!!!) that the addresses of the entries
-	// in the map no longer change (from here, nothing is added, deleted
-	// or modified in the map)
-
 	{ // Initialize hash_list
 		for (int i=0; i<DB_ARRAY_LENGTH; i++)
 			hash_list[i] = 0;
 		typedef map<int, string>::const_iterator CI;
-		for (CI i = tmp.begin(); i != tmp.end(); i++) {
+		for (CI i = weighted_piece_sum_to_endgame_name.begin(); i != weighted_piece_sum_to_endgame_name.end(); i++) {
 			assert(!hash_list[i->first]);
 			hash_list[i->first] = &(endgames[i->second]);
 		}
@@ -898,14 +857,14 @@ bool clr_endgame_database(Board *board, ostream& os, vector<string> &p) {
 		triple<uint, uint, int> i;
 
 
-		int hash_value = b.get_endgame_hashing();
+		int hash_value = b.get_endgame_material().individual.endgame_hashing;
 		if (b.get_num_pieces() <= MAX_MEN  &&  endgames.supported(hash_value)) {
 			triple<uint, uint, int> i = endgames[hash_value].get_table_and_bdd_index_and_stm(b);
 
 			os << "Endgame " << endgames.get_endgame_name(b) << ":\n"
 					<< "(table index, bdd index, stm) = ("
 					<< i.first << ", " << i.second << " ("
-					<< toString(i.second, endgames[b.get_endgame_hashing()].calc_log_bdd_size(), 2)
+					<< toString(i.second, endgames[b.get_endgame_material().individual.endgame_hashing].calc_log_bdd_size(), 2)
 					<< "b), " << i.third << ")\n";
 
 			pair<int, int> p = endgames[hash_value].getModifiedOBDDIndexAndClusterValue(b);
@@ -935,7 +894,7 @@ bool clr_endgame_database(Board *board, ostream& os, vector<string> &p) {
 
 
 string Endgames::get_endgame_name(const Board2 &board) {
-	int hash_value = board.get_endgame_hashing();
+	int hash_value = board.get_endgame_material().individual.endgame_hashing;
 	if (board.get_num_pieces() <= MAX_MEN  &&  supported(hash_value)) {
 		return hash_list[hash_value]->get_name();
 	} else {

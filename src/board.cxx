@@ -7,250 +7,6 @@
 #include "endgames/endgame_castling.hxx"
 #include "endgames/endgame_en_passant.hxx"
 
-const bool WHITE_PIECE[13] =
-{   false,
-    true, true, true, true, true, true,
-    false, false, false, false, false, false
-};
-
-const bool BLACK_PIECE[13] =
-{   false,
-    false, false, false, false, false, false,
-    true, true, true, true, true, true
-};
-
-const int PIECE_COLOR[13] =
-{   -1,
-    false, false, false, false, false, false,
-    true, true, true, true, true, true
-};
-
-const Piece PIECE_KIND[13] =
-{   0,
-    PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING,
-    PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING
-};
-
-const Piece SWAP_PIECE_COLOR[13] =
-{   0,
-    BPAWN, BKNIGHT, BBISHOP, BROOK, BQUEEN, BKING,
-    WPAWN, WKNIGHT, WBISHOP, WROOK, WQUEEN, WKING
-};
-
-const uchar CASTLING[64] =
-{   0,0,WHITE_LONG_CASTLING,0,WHITE_LONG_CASTLING+WHITE_SHORT_CASTLING,0,WHITE_SHORT_CASTLING,0,
-    0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,
-    0,0,BLACK_LONG_CASTLING,0,BLACK_LONG_CASTLING+BLACK_SHORT_CASTLING,0,BLACK_SHORT_CASTLING,0
-};
-
-const uchar CASTLING_LOST[64] =
-{   0xFF - WHITE_LONG_CASTLING,0xFF,0xFF,
-    0xFF,0xFF - (WHITE_LONG_CASTLING+WHITE_SHORT_CASTLING),
-    0xFF,0xFF,0xFF - WHITE_SHORT_CASTLING,
-    0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
-    0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
-    0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
-    0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
-    0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
-    0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
-    0xFF - BLACK_LONG_CASTLING,0xFF,0xFF,
-    0xFF,0xFF - (BLACK_LONG_CASTLING+BLACK_SHORT_CASTLING),
-    0xFF,0xFF,0xFF - BLACK_SHORT_CASTLING
-};
-
-const int ROW[64] =
-{   0,0,0,0,0,0,0,0,
-    1,1,1,1,1,1,1,1,
-    2,2,2,2,2,2,2,2,
-    3,3,3,3,3,3,3,3,
-    4,4,4,4,4,4,4,4,
-    5,5,5,5,5,5,5,5,
-    6,6,6,6,6,6,6,6,
-    7,7,7,7,7,7,7,7
-};
-
-const int COLUMN[64] =
-{   0,1,2,3,4,5,6,7,
-    0,1,2,3,4,5,6,7,
-    0,1,2,3,4,5,6,7,
-    0,1,2,3,4,5,6,7,
-    0,1,2,3,4,5,6,7,
-    0,1,2,3,4,5,6,7,
-    0,1,2,3,4,5,6,7,
-    0,1,2,3,4,5,6,7
-};
-
-const bool POS_COLOR[64] =
-{   1,0,1,0,1,0,1,0,
-    0,1,0,1,0,1,0,1,
-    1,0,1,0,1,0,1,0,
-    0,1,0,1,0,1,0,1,
-    1,0,1,0,1,0,1,0,
-    0,1,0,1,0,1,0,1,
-    1,0,1,0,1,0,1,0,
-    0,1,0,1,0,1,0,1
-};
-
-const Position CR_TO_POS[8][8] = // Colum, Row
-{   {  0, 8,16,24,32,40,48,56},
-    { 1, 9,17,25,33,41,49,57},
-    { 2,10,18,26,34,42,50,58},
-    { 3,11,19,27,35,43,51,59},
-    { 4,12,20,28,36,44,52,60},
-    { 5,13,21,29,37,45,53,61},
-    { 6,14,22,30,38,46,54,62},
-    { 7,15,23,31,39,47,55,63}
-};
-
-/*
-struct {
-  uchar pieces_left[2];
-  uchar num_pieces_left;
-  uchar num_non_zugzwang_pieces_left;// 4 bits for each side
-} individual;
- */
-const uint PIECE_COUNT_CONSTANTS[13] =
-{   0,
-
-    0x00010001,
-    0x01010001,
-    0x01010001,
-    0x01010001,
-    0x01010001,
-    0x00010001,
-
-    0x00010100,
-    0x10010100,
-    0x10010100,
-    0x10010100,
-    0x10010100,
-    0x00010100
-};
-
-/*
-struct {
-  bool insufficient_material_b;
-  bool insufficient_material_a;
-  ushort endgame_hashing;
-} individual;
- */
-const uint ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[13][2] = // [piece][POS_COLOR[pos]]
-{   {0,0},
-    {0x0101 + (DB_WPAWN_VALUE<<16), 0x0101 + (DB_WPAWN_VALUE<<16)},
-    {0x00E1 + (DB_WKNIGHT_VALUE<<16), 0x00E1 + (DB_WKNIGHT_VALUE<<16)},
-    {0x0021 + (DB_WBISHOP_VALUE<<16), 0x0100 + (DB_WBISHOP_VALUE<<16)},
-    {0x0101 + (DB_WROOK_VALUE<<16), 0x0101 + (DB_WROOK_VALUE<<16)},
-    {0x0101 + (DB_WQUEEN_VALUE<<16), 0x0101 + (DB_WQUEEN_VALUE<<16)},
-    {0x0000 + (DB_WKING_VALUE<<16), 0x0000 + (DB_WKING_VALUE<<16)},
-    {0x0101 + (DB_BPAWN_VALUE<<16), 0x0101 + (DB_BPAWN_VALUE<<16)},
-    {0x00E1 + (DB_BKNIGHT_VALUE<<16), 0x00E1 + (DB_BKNIGHT_VALUE<<16)},
-    {0x0021 + (DB_BBISHOP_VALUE<<16), 0x0100 + (DB_BBISHOP_VALUE<<16)},
-    {0x0101 + (DB_BROOK_VALUE<<16), 0x0101 + (DB_BROOK_VALUE<<16)},
-    {0x0101 + (DB_BQUEEN_VALUE<<16), 0x0101 + (DB_BQUEEN_VALUE<<16)},
-    {0x0000 + (DB_BKING_VALUE<<16), 0x0000 + (DB_BKING_VALUE<<16)}
-};
-
-
-const string game_result_texts[4] = {"*", "1/2-1/2", "1-0", "0-1"};
-
-const string game_status_texts[7] =
-{   "* {Game still open}",
-    "1/2-1/2 {Fifty move rule}",
-    "1-0 {White mates}",
-    "0-1 {Black mates}",
-    "1/2-1/2 {Stalemate}",
-    "1/2-1/2 {Draw by repetition}",
-    "1/2-1/2 {Insufficient material}"
-};
-
-
-//######################################################
-
-const char PIECE_CHAR[13] =
-{' ','P','N','B','R','Q','K','p','n','b','r','q','k'};
-const string PIECE_SCHAR[13] =
-{" ","P","N","B","R","Q","K","p","n","b","r","q","k"};
-
-const string PIECE_NAME[13] =
-{   "no piece",
-    "Pawn","Knight","Bishop","Rook","Queen","King",
-    "pawn","knight","bishop","rook","queen","king"
-};
-const string PPIECE_NAME[13] =
-{   "no piece",
-    "white pawn","white knight","white bishop","white rook","white queen","white king",
-    "black pawn","black knight","black bishop","black rook","black queen","black king"
-};
-
-const char PLAYER_CHAR[2] = {'w','b'};
-const string PLAYER_NAME[2] = {"white","black"};
-
-
-const string POS_NAME[66] =
-{   "a1","b1","c1","d1","e1","f1","g1","h1",
-    "a2","b2","c2","d2","e2","f2","g2","h2",
-    "a3","b3","c3","d3","e3","f3","g3","h3",
-    "a4","b4","c4","d4","e4","f4","g4","h4",
-    "a5","b5","c5","d5","e5","f5","g5","h5",
-    "a6","b6","c6","d6","e6","f6","g6","h6",
-    "a7","b7","c7","d7","e7","f7","g7","h7",
-    "a8","b8","c8","d8","e8","f8","g8","h8",
-    "##","##"
-};
-
-const string COLUMN_NAME[66] =
-{   "a","b","c","d","e","f","g","h",
-    "a","b","c","d","e","f","g","h",
-    "a","b","c","d","e","f","g","h",
-    "a","b","c","d","e","f","g","h",
-    "a","b","c","d","e","f","g","h",
-    "a","b","c","d","e","f","g","h",
-    "a","b","c","d","e","f","g","h",
-    "a","b","c","d","e","f","g","h",
-    "#","#"
-};
-
-const string ROW_NAME[66] =
-{   "1","1","1","1","1","1","1","1",
-    "2","2","2","2","2","2","2","2",
-    "3","3","3","3","3","3","3","3",
-    "4","4","4","4","4","4","4","4",
-    "5","5","5","5","5","5","5","5",
-    "6","6","6","6","6","6","6","6",
-    "7","7","7","7","7","7","7","7",
-    "8","8","8","8","8","8","8","8",
-    "#","#"
-};
-
-//######################################################
-
-Position REFLECTION_TABLE[8*64] =
-{   0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,
-    7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8,23,22,21,20,19,18,17,16,31,30,29,28,27,26,25,24,39,38,37,36,35,34,33,32,47,46,45,44,43,42,41,40,55,54,53,52,51,50,49,48,63,62,61,60,59,58,57,56,
-    56,57,58,59,60,61,62,63,48,49,50,51,52,53,54,55,40,41,42,43,44,45,46,47,32,33,34,35,36,37,38,39,24,25,26,27,28,29,30,31,16,17,18,19,20,21,22,23,8,9,10,11,12,13,14,15,0,1,2,3,4,5,6,7,
-    63,62,61,60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,45,44,43,42,41,40,39,38,37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0,
-    0,8,16,24,32,40,48,56,1,9,17,25,33,41,49,57,2,10,18,26,34,42,50,58,3,11,19,27,35,43,51,59,4,12,20,28,36,44,52,60,5,13,21,29,37,45,53,61,6,14,22,30,38,46,54,62,7,15,23,31,39,47,55,63,
-    56,48,40,32,24,16,8,0,57,49,41,33,25,17,9,1,58,50,42,34,26,18,10,2,59,51,43,35,27,19,11,3,60,52,44,36,28,20,12,4,61,53,45,37,29,21,13,5,62,54,46,38,30,22,14,6,63,55,47,39,31,23,15,7,
-    7,15,23,31,39,47,55,63,6,14,22,30,38,46,54,62,5,13,21,29,37,45,53,61,4,12,20,28,36,44,52,60,3,11,19,27,35,43,51,59,2,10,18,26,34,42,50,58,1,9,17,25,33,41,49,57,0,8,16,24,32,40,48,56,
-    63,55,47,39,31,23,15,7,62,54,46,38,30,22,14,6,61,53,45,37,29,21,13,5,60,52,44,36,28,20,12,4,59,51,43,35,27,19,11,3,58,50,42,34,26,18,10,2,57,49,41,33,25,17,9,1,56,48,40,32,24,16,8,0
-};
-
-//######################################################
-
-const int ENDGAME_HASHING_CONSTANTS[13] =
-{   0,
-    DB_WPAWN_VALUE, DB_WKNIGHT_VALUE, DB_WBISHOP_VALUE,
-    DB_WROOK_VALUE, DB_WQUEEN_VALUE, DB_WKING_VALUE,
-    DB_BPAWN_VALUE, DB_BKNIGHT_VALUE, DB_BBISHOP_VALUE,
-    DB_BROOK_VALUE, DB_BQUEEN_VALUE, DB_BKING_VALUE
-};
-
-//######################################################
 
 Board::Board() {
   if (PRINT_CONSTRUCTOR_DESTRUCTOR_CALLS)
@@ -277,10 +33,9 @@ void Board::reset_all() {
   moves_played_since_progress = 0;
 
   piece_count.as_pattern = 0;
-  endgame_hashing_insufficient_material.as_pattern = 0;
+  endgame_material.as_pattern = 0;
 
   played_from_scratch = true; // whatever
-  // cerr << "reset_all: Setting played_from_scratch = true\n";
 }
 
 Board::~Board() {
@@ -1060,10 +815,7 @@ void Board::print_counters(ostream &os) {
       << (int)get_num_non_zugzwang_pieces(WHITE) << ","
       << (int)get_num_non_zugzwang_pieces(BLACK) << ")\n"
       << "endgame_hashing_insufficient_material: Pattern = "
-      << toString(endgame_hashing_insufficient_material.as_pattern, 8, 16) << ":\n"
-      << "\tget_insufficient_material_a() = " << (int)get_insufficient_material_a() << "\n"
-      << "\tget_insufficient_material_b() = " << (int)get_insufficient_material_b() << "\n"
-      << "\tget_endgame_hashing() = " << (int)get_endgame_hashing() << "\n";
+      << toString(endgame_material.as_pattern, 8, 16) << "\n";
 }
 
 void Board::print_board(ostream& os) const {
@@ -1134,9 +886,8 @@ void Board::print_board(ostream& os) const {
 void Board::remove_piece(Position pos) {
   assert(board[pos]  &&  legal_pos(pos));
 
-  piece_count.as_pattern -= PIECE_COUNT_CONSTANTS[board[pos]];
-  endgame_hashing_insufficient_material.as_pattern -=
-      ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[board[pos]][POS_COLOR[pos]];
+  piece_count_remove(piece_count, board[pos]);
+  remove_endgame_material(endgame_material, board[pos], pos);
 
   board[pos] = 0;
 }
@@ -1146,27 +897,22 @@ void Board::insert_piece(Position pos, Piece piece) {
 
   if (board[pos]) {
     // capture piece
-    piece_count.as_pattern -= PIECE_COUNT_CONSTANTS[board[pos]];
-    endgame_hashing_insufficient_material.as_pattern -=
-        ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[board[pos]][POS_COLOR[pos]];
+    piece_count_remove(piece_count, board[pos]);
+    remove_endgame_material(endgame_material, board[pos], pos);
   }
-  piece_count.as_pattern += PIECE_COUNT_CONSTANTS[piece];
-  endgame_hashing_insufficient_material.as_pattern +=
-      ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[piece][POS_COLOR[pos]];
+  piece_count_add(piece_count, piece);
+  add_endgame_material(endgame_material, piece, pos);
 
   board[pos] = piece;
 }
 
 void Board::move_piece(Position from, Position to) {
   assert(legal_pos(from)  &&  legal_pos(to)  &&  board[from]);
-  assert(ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[board[from]][POS_COLOR[from]] ==
-      ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[board[from]][POS_COLOR[to]]);
 
   if (board[to]) {
     // capture piece
-    piece_count.as_pattern -= PIECE_COUNT_CONSTANTS[board[to]];
-    endgame_hashing_insufficient_material.as_pattern -=
-        ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[board[to]][POS_COLOR[to]];
+    piece_count_remove(piece_count, board[to]);
+    remove_endgame_material(endgame_material, board[to], to);
   }
 
   board[to] = board[from];

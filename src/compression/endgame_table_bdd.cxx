@@ -1,6 +1,7 @@
 #include "endgame_table_bdd.hxx"
 
 #include "../board.hxx"
+#include "../board_printers.hxx"
 #include "clustering_algorithm.hxx"
 #include "endgame_piece_enumerations.hxx"
 #include "mapping_of_wildcards.hxx"
@@ -98,7 +99,7 @@ void BDD::load(int fd) {
   }
 
   read(fd, pattern, sizeof(uint)*5);
-  
+
   read(fd, bit_perm_and_permute_pos, sizeof(uint)*64);
 
   { // Load sub_bdds
@@ -138,7 +139,7 @@ void BDD::save(int fd) {
   }
 
   write(fd, pattern, sizeof(uint)*5);
-  
+
   write(fd, bit_perm_and_permute_pos, sizeof(uint)*64);
 
   { // Save sub_bdds
@@ -187,10 +188,10 @@ void BDD::init_bit_perm_and_permute_pos(uchar *bit_perm, vector<uchar *> permute
     pattern[i] = 0;
     for (int j=0; j<6; j++) pattern[i] |= 1 << bit_perm[6*i+j];
   }
-  
+
   for (int p=0; p<64; p++) {
     bit_perm_and_permute_pos[p] = 0;
-    
+
     for (int i=0; i<MAX_MEN; i++) {
       int ppos = permute_pos[i][p];
       for (int bp=0; bp<6; bp++) {
@@ -199,14 +200,14 @@ void BDD::init_bit_perm_and_permute_pos(uchar *bit_perm, vector<uchar *> permute
     }
   }
 }
-*/
+ */
 
 
 // permute_square_enumeration changes bdd_table accordingly
 // permutations.back()[i] is replaced by permutations.back()[INV_REMAP_BOUND_KING[i]]
 // The permutations are stored in bit_perm_and_permute_pos
 void BDD::permute_square_enumeration(uchar *bdd_table, int log_bdd_size,
-				     vector<vector<int> > permutations) {
+    vector<vector<int> > permutations) {
 #ifndef NDEBUG
   {
     int tmp = log_bdd_size%6;
@@ -225,7 +226,7 @@ void BDD::permute_square_enumeration(uchar *bdd_table, int log_bdd_size,
     for (int i=0; i<64; i++) tmp[i]=permutations[p][i];
     print_signed_map64(cerr, tmp, 2, 10);
     }
-  */
+   */
 
   {
     // Update permutations.back() to take into account that the bound king
@@ -256,7 +257,7 @@ void BDD::permute_square_enumeration(uchar *bdd_table, int log_bdd_size,
 
     { // Update bit_perm_and_permute_pos
       for (int i=0; i<perm_size; i++)
-	bit_perm_and_permute_pos[i] |= permutations[pn][i]<<(6*pn);
+        bit_perm_and_permute_pos[i] |= permutations[pn][i]<<(6*pn);
     }
 
     { // Relocate bdd_table entries
@@ -264,16 +265,16 @@ void BDD::permute_square_enumeration(uchar *bdd_table, int log_bdd_size,
       int for_loop_count = bdd_size / perm_size;
 
       for (int i=0; i<for_loop_count; i++) {
-	// Example: KQRK, pn=1
-	// i =         xxxx xxxxxx xxxxxx
-	// ii = xxxx xxxxxx 000000 xxxxxx
-	int ii = ((i<<6) & -(1<<(bit_pos+6))) | (i & ((1<<bit_pos)-1));
-	
-	uchar tmp[64]; // 64>=perm_size
-	for (int j=0; j<perm_size; j++)
-	  tmp[j] = bdd_table[ii | (j<<bit_pos)];
-	for (int j=0; j<perm_size; j++)
-	  bdd_table[ii | (permutations[pn][j]<<bit_pos)] = tmp[j];
+        // Example: KQRK, pn=1
+        // i =         xxxx xxxxxx xxxxxx
+        // ii = xxxx xxxxxx 000000 xxxxxx
+        int ii = ((i<<6) & -(1<<(bit_pos+6))) | (i & ((1<<bit_pos)-1));
+
+        uchar tmp[64]; // 64>=perm_size
+        for (int j=0; j<perm_size; j++)
+          tmp[j] = bdd_table[ii | (j<<bit_pos)];
+        for (int j=0; j<perm_size; j++)
+          bdd_table[ii | (permutations[pn][j]<<bit_pos)] = tmp[j];
       }
     }
   }
@@ -281,14 +282,14 @@ void BDD::permute_square_enumeration(uchar *bdd_table, int log_bdd_size,
 
 
 void BDD::apply_previously_found_bit_perm(uchar *bit_perm,
-					  uchar *bdd_table, int log_bdd_size)
+    uchar *bdd_table, int log_bdd_size)
 {
   { // Is bit_perm the identity mapping?
     bool identity_mapping = true;
     for (int i=0; i<32; i++)
       if (i != bit_perm[i]) {
-	identity_mapping = false;
-	break;
+        identity_mapping = false;
+        break;
       }
     if (identity_mapping) return;
   }
@@ -298,7 +299,7 @@ void BDD::apply_previously_found_bit_perm(uchar *bit_perm,
   for (int i=0; i<32; i++)
     cerr << i << "->" << (int)bit_perm[i] << ", ";
   cerr << "\n";
-  */
+   */
 
   // Define pattern
   for (uint i=0; i<5; i++) {
@@ -307,7 +308,7 @@ void BDD::apply_previously_found_bit_perm(uchar *bit_perm,
     for (int j=0; j<6; j++)
       pattern[i] |= 1 << bit_perm[6*i+j];
   }
-  
+
   // Update bit_perm_and_permute_pos (Might previously have been
   // set by permute_square_enumeration).
   for (int p=0; p<64; p++) {
@@ -331,9 +332,9 @@ void BDD::apply_previously_found_bit_perm(uchar *bit_perm,
     uint byte_perm[4][256];
     for (int i=0; i<4; i++) {
       for (int j=0; j<256; j++) {
-	byte_perm[i][j] = 0;
-	for (int b=0; b<8; b++)
-	  byte_perm[i][j] |= ((j>>b)&1) << bit_perm[8*i+b];
+        byte_perm[i][j] = 0;
+        for (int b=0; b<8; b++)
+          byte_perm[i][j] |= ((j>>b)&1) << bit_perm[8*i+b];
       }
     }
 
@@ -350,15 +351,15 @@ void BDD::apply_previously_found_bit_perm(uchar *bit_perm,
     BitList relocated(size, false);
     for (int i=0; i<size; i++) {
       if (!relocated[i]) {
-	// Remap entry i -> entry permute(i)
-	int j = i;
-	uchar replaced_value = bdd_table[i];
-	do {
-	  relocated.set(j);
-	  j = byte_perm[0][j&0xFF] | byte_perm[1][(j>>8)&0xFF] |
-	    byte_perm[2][(j>>16)&0xFF] | byte_perm[3][(j>>24)&0xFF];
-	  swap(replaced_value, bdd_table[j]);
-	} while (j!=i);
+        // Remap entry i -> entry permute(i)
+        int j = i;
+        uchar replaced_value = bdd_table[i];
+        do {
+          relocated.set(j);
+          j = byte_perm[0][j&0xFF] | byte_perm[1][(j>>8)&0xFF] |
+              byte_perm[2][(j>>16)&0xFF] | byte_perm[3][(j>>24)&0xFF];
+          swap(replaced_value, bdd_table[j]);
+        } while (j!=i);
       }
     }
   }
@@ -374,8 +375,8 @@ void BDD::create_clustering_kind_1() {
 }
 
 void BDD::init_no_clustering(uchar *bdd_table, int log_bdd_size,
-			     bool do_preprocessing, bool calc_sifting,
-			     bool do_mapping_after_sifting) {
+    bool do_preprocessing, bool calc_sifting,
+    bool do_mapping_after_sifting) {
   //test_binary_decision_diagram(); exit(0);
 
   do_mapping_after_sifting &= do_preprocessing & calc_sifting;
@@ -396,7 +397,7 @@ void BDD::init_no_clustering(uchar *bdd_table, int log_bdd_size,
   uchar bit_perm[32];
   for (int i=0; i<32; i++) bit_perm[i] = i;
   sub_bdds[0]->init(bdd_table, log_bdd_size, convert_table.size()-1,
-		    !do_mapping_after_sifting, calc_sifting, bit_perm);
+      !do_mapping_after_sifting, calc_sifting, bit_perm);
 
   if (do_mapping_after_sifting) {
     // do_preprocessing and calc_sifting also true
@@ -416,7 +417,7 @@ void BDD::use_king_pos_as_subsets(uchar *bdd_table, int log_bdd_size) {
   create_clustering_kind_1();
 
   int num_pieces = (log_bdd_size+2)/6;
-  
+
   int piece = num_pieces-2;
   for (int pos=0; pos<64; pos++)
     clustering.base_subsets[(piece<<6) | pos] = pos;
@@ -428,7 +429,7 @@ void BDD::use_king_pos_as_subsets(uchar *bdd_table, int log_bdd_size) {
 }
 
 void BDD::determine_cluster_subsets_based_on_clustering(vector<int> base_subset_sizes,
-							uchar *bdd_table, int log_bdd_size) {
+    uchar *bdd_table, int log_bdd_size) {
   assert(!clustering_kind);
   int num_pieces = base_subset_sizes.size();
   int bdd_size = 1 << log_bdd_size;
@@ -449,7 +450,7 @@ void BDD::determine_cluster_subsets_based_on_clustering(vector<int> base_subset_
     num_subsets *= base_subset_sizes[i];
     assert(num_subsets <= 65535);
   }
-  
+
   cbo << "The table is divided into subsets based on the base subsets below:\n";
 
   // Initialize the table base_subsets such that
@@ -457,11 +458,11 @@ void BDD::determine_cluster_subsets_based_on_clustering(vector<int> base_subset_
   // where subset number \in [0..num_subsets[
   int factor = 1;
   for (int piece=0; piece<num_pieces; piece++) {
-    
+
     // The bound king only have 2^4 or 2^5 legal squares
     int num_squares = 64;
     if (6*piece+6 > log_bdd_size) num_squares >>= (6*piece+6)-log_bdd_size;
-    
+
     vector<vector<uint> > elements(num_squares);
     // Initialize elements to find_clusters algorithm
     for (int pos=0; pos<num_squares; pos++)
@@ -470,36 +471,36 @@ void BDD::determine_cluster_subsets_based_on_clustering(vector<int> base_subset_
       int pos = (i >> (6*piece)) & 0x3F;
       elements[pos][ bdd_table[i] ]++;
     }
-    
+
     // Set the entries representing wildcards to zero.
     // Hence wildcards will not have any effect on the fitness.
     for (int pos=0; pos<num_squares; pos++)
       elements[pos][0] = 0;
-    
+
     vector<int> clusters = find_clusters2(elements,
-					  base_subset_sizes[piece]);
+        base_subset_sizes[piece]);
     {
       int tmp[64];
       for(int i=0; i<64; i++)
-	tmp[i] = i<num_squares ? clusters[i] : 99;
+        tmp[i] = i<num_squares ? clusters[i] : 99;
       print_signed_map64(cbo, tmp, 2, 10);
     }
-    
-    
+
+
     // Make sure that position 0 is mapped to cluster 0
     if (clusters[0] != 0) {
       int wrong = clusters[0];
       for (int pos=0; pos<num_squares; pos++)
-	if (clusters[pos]==0  ||  clusters[pos]==wrong)
-	  clusters[pos] = wrong - clusters[pos];
+        if (clusters[pos]==0  ||  clusters[pos]==wrong)
+          clusters[pos] = wrong - clusters[pos];
     }
-    
+
     for (int pos=0; pos<num_squares; pos++)
-	clustering.base_subsets[(piece<<6) | pos] = factor*clusters[pos];
-    
+      clustering.base_subsets[(piece<<6) | pos] = factor*clusters[pos];
+
     factor *= base_subset_sizes[piece];
   }
-  
+
   // Now the subset, that a specific position belongs to,
   // can easily be determined. Example: KRK index (4+6+6 bits)
   // subset_number = clustering.base_subsets[index & 0x3F] +
@@ -513,7 +514,7 @@ struct SplitHelp {
 
 
 void BDD::init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][64],
-	       bool do_preprocessing, bool calc_sifting, bool do_mapping_after_sifting) {
+    bool do_preprocessing, bool calc_sifting, bool do_mapping_after_sifting) {
   assert(clustering_kind);
   do_mapping_after_sifting &= do_preprocessing & calc_sifting;
 
@@ -556,7 +557,7 @@ void BDD::init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][6
     uchar bit_perm[32];
     for (int i=0; i<32; i++) bit_perm[i] = i;
     bdd.init(test_table, log_bdd_size, convert_table.size()-1,
-	     false, calc_sifting, bit_perm);
+        false, calc_sifting, bit_perm);
 
     if (calc_sifting) {
       // Rearrange bdd_table entries according to the sifting result
@@ -568,7 +569,7 @@ void BDD::init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][6
       map_wildcards(test_table, log_bdd_size);
       bdd.init(test_table, log_bdd_size, convert_table.size()-1, false);
     }
-    
+
     // Add the entire table as an unprocessed cluster
     SplitHelp entire_table;
     entire_table.bl.init(num_subsets, true);
@@ -584,109 +585,109 @@ void BDD::init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][6
     vector<int> ref(num_subsets), back_ref(num_subsets);
     for (int i=0; i<num_subsets; i++)
       if (examined_cluster.bl[i]) {
-	ref[back_ref[count_active_subsets] = i] = count_active_subsets;
-	count_active_subsets++;
+        ref[back_ref[count_active_subsets] = i] = count_active_subsets;
+        count_active_subsets++;
       }
-    
+
     vector<vector<uint> > elements(count_active_subsets);
     vector<double> weights(count_active_subsets);
     for (uint i=0; i<elements.size(); i++)
       elements[i] = vector<uint>(convert_table.size());
-    
+
     for (int i=0; i<bdd_size; i++) {
       pair<int, int> p = old_index_to_new_index_and_subset_number(i);
 
       // Do not separate on don't cares!
       // Also, the cluster value might be invalid on broken positions!
       if (bdd_table[p.first]  &&  examined_cluster.bl[p.second])
-	++elements[ref[p.second]][bdd_table[p.first]];
+        ++elements[ref[p.second]][bdd_table[p.first]];
     }
-    
+
     if (first) { // Print clusters as a latex tabular
       first = false;
 
       if (count_active_subsets > 99) {
-	cbo << "Subsets will not be written as a latex table - there are too many!\n";
+        cbo << "Subsets will not be written as a latex table - there are too many!\n";
       } else {
 
-	int _count[256];
-	memset(_count, 0, sizeof(int)*256);
-	int *count = &(_count[128]);
-	
-	for (int i=0; i<count_active_subsets; i++) {
-	  for (uint j=0; j<convert_table.size(); j++) {
-	    count[(int)convert_table[j]] += elements[i][j];
-	  }
-	}
-	
-	int num_diff = 0;
-	for (int i=-128; i<128; i++)
-	  if (count[i]) ++num_diff;
-	if (num_diff+1 != (int)convert_table.size()) {
-	  cbo << "num_diff+1 != convert_table.size() !!!\n";
-	  assert(0);
-	  exit(1);
-	}
-	
-	cbo << "\\begin{center}\n"
-	     << "\\begin{scriptsize}\n"
-	     << "\\begin{tabular}{|r||";
-	for (int i=0; i<=num_diff; i++)
-	  cbo << "@{}r@{ }|";
-	cbo << "}\n\\hline\n";
-	for (int i=0; i<=num_diff; i++)
-	  cbo << "&";
-	cbo << "0'th order\\\\\ncluster:";
-	for (int i=-128; i<128; i++)
-	  if (count[i])
-	    cbo << " & " << _endgame_value_to_string(i);
-	cbo << " & entropy\\\\\n\\hline\n";
-	
-	double sum_entropy = 0;
-	for (int i=0; i<count_active_subsets; i++) {
-	  cbo << i;
-	  double entropy = 0;
-	  int c = 0;
-	  for (int v=-128; v<128; v++)
-	    if (count[v])
-	      for (uint j=0; j<convert_table.size(); j++)
-		if (v == (int)convert_table[j]) {
-		  int n = (int)(elements[i][j]);
-		  cbo << " & " << n;
-		  
-		  if (n) {
-		    entropy -= n*log2(n);
-		    c += n;
-		  }
-		}
-	  if (c) entropy += c*log2(c);
-	  sum_entropy += entropy;
-	  
-	  cbo << " & " << entropy << "\\\\\n";
-	}
-	
-	double entropy = 0;
-	int c = 0;
-	cbo << "\\hline\nSum";
-	for (int v=-128; v<128; v++)
-	  if (count[v]) {
-	    cbo << " & " << count[v];
-	    
-	    entropy -= count[v]*log2(count[v]);
-	    c += count[v];
-	  }
-	if (c) entropy += c*log2(c);
-	
-	cbo << " & " << sum_entropy << "\\\\\n";
-      
-	cbo << "\\hline\n"
-	     << "\\end{tabular}\n"
-	     << "\\end{scriptsize}\n"
-	     << "\\end{center}\n";
-	
-	cbo << "Total entropy without clustering = " << entropy << "\\\\\n";
+        int _count[256];
+        memset(_count, 0, sizeof(int)*256);
+        int *count = &(_count[128]);
 
-	cbo << "\n";
+        for (int i=0; i<count_active_subsets; i++) {
+          for (uint j=0; j<convert_table.size(); j++) {
+            count[(int)convert_table[j]] += elements[i][j];
+          }
+        }
+
+        int num_diff = 0;
+        for (int i=-128; i<128; i++)
+          if (count[i]) ++num_diff;
+        if (num_diff+1 != (int)convert_table.size()) {
+          cbo << "num_diff+1 != convert_table.size() !!!\n";
+          assert(0);
+          exit(1);
+        }
+
+        cbo << "\\begin{center}\n"
+            << "\\begin{scriptsize}\n"
+            << "\\begin{tabular}{|r||";
+        for (int i=0; i<=num_diff; i++)
+          cbo << "@{}r@{ }|";
+        cbo << "}\n\\hline\n";
+        for (int i=0; i<=num_diff; i++)
+          cbo << "&";
+        cbo << "0'th order\\\\\ncluster:";
+        for (int i=-128; i<128; i++)
+          if (count[i])
+            cbo << " & " << _endgame_value_to_string(i);
+        cbo << " & entropy\\\\\n\\hline\n";
+
+        double sum_entropy = 0;
+        for (int i=0; i<count_active_subsets; i++) {
+          cbo << i;
+          double entropy = 0;
+          int c = 0;
+          for (int v=-128; v<128; v++)
+            if (count[v])
+              for (uint j=0; j<convert_table.size(); j++)
+                if (v == (int)convert_table[j]) {
+                  int n = (int)(elements[i][j]);
+                  cbo << " & " << n;
+
+                  if (n) {
+                    entropy -= n*log2(n);
+                    c += n;
+                  }
+                }
+          if (c) entropy += c*log2(c);
+          sum_entropy += entropy;
+
+          cbo << " & " << entropy << "\\\\\n";
+        }
+
+        double entropy = 0;
+        int c = 0;
+        cbo << "\\hline\nSum";
+        for (int v=-128; v<128; v++)
+          if (count[v]) {
+            cbo << " & " << count[v];
+
+            entropy -= count[v]*log2(count[v]);
+            c += count[v];
+          }
+        if (c) entropy += c*log2(c);
+
+        cbo << " & " << sum_entropy << "\\\\\n";
+
+        cbo << "\\hline\n"
+            << "\\end{tabular}\n"
+            << "\\end{scriptsize}\n"
+            << "\\end{center}\n";
+
+        cbo << "Total entropy without clustering = " << entropy << "\\\\\n";
+
+        cbo << "\n";
       }
     }
 
@@ -696,18 +697,18 @@ void BDD::init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][6
     SplitHelp a,b;
     a.bl.init(num_subsets, false);
     b.bl.init(num_subsets, false);
-    
+
     // define the 2 new clusters a and b
     int count_a=0, count_b=0;
     for (uint i=0; i<elements.size(); i++) {
       if (clusters[i] == 0) {
-	count_a++;
-	a.bl.set(back_ref[i]);
+        count_a++;
+        a.bl.set(back_ref[i]);
       } else if (clusters[i] == 1) {
-	count_b++;
-	b.bl.set(back_ref[i]);
+        count_b++;
+        b.bl.set(back_ref[i]);
       } else {
-	assert(0);
+        assert(0);
       }
     }
     cbo << "Number of subsets in each cluster = " << count_a << "," << count_b << "\n";
@@ -718,15 +719,15 @@ void BDD::init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][6
     // and calculate their sizes.
     {// a stuff
       for (int i=0; i<bdd_size; i++) {
-	pair<int, int> p = old_index_to_new_index_and_subset_number(i);
+        pair<int, int> p = old_index_to_new_index_and_subset_number(i);
 
-	if (a.bl[p.second]) test_table[p.first] = bdd_table[p.first];
-	else test_table[p.first] = 0; // wildcard
+        if (a.bl[p.second]) test_table[p.first] = bdd_table[p.first];
+        else test_table[p.first] = 0; // wildcard
       }
-      
+
 #ifndef NDEBUG
       for (int i=0; i<bdd_size; i++)
-	assert(test_table[i] < convert_table.size());
+        assert(test_table[i] < convert_table.size());
 #endif
 
       BinaryDecisionDiagram bdd;
@@ -734,31 +735,31 @@ void BDD::init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][6
 
 #ifndef NDEBUG
       for (int i=0; i<bdd_size; i++)
-	assert(test_table[i] < convert_table.size());
+        assert(test_table[i] < convert_table.size());
 #endif
 
       bdd.init(test_table, log_bdd_size, convert_table.size()-1, false);
       a.mem_size = bdd.memory_consumption();
     }
-    
+
     {// b stuff
       for (int i=0; i<bdd_size; i++) {
-	pair<int, int> p = old_index_to_new_index_and_subset_number(i);
+        pair<int, int> p = old_index_to_new_index_and_subset_number(i);
 
-	if (b.bl[p.second]) test_table[p.first] = bdd_table[p.first];
-	else test_table[p.first] = 0; // wildcard
+        if (b.bl[p.second]) test_table[p.first] = bdd_table[p.first];
+        else test_table[p.first] = 0; // wildcard
       }
-      
+
       BinaryDecisionDiagram bdd;
       if (do_preprocessing) map_wildcards(test_table, log_bdd_size);
       bdd.init(test_table, log_bdd_size, convert_table.size()-1, false);
       b.mem_size = bdd.memory_consumption();
     }
-    
+
 
 
     { // Print cluster before and clusters after as a latex tabular
-      
+
       int _count[2*256];
       memset(_count, 0, sizeof(int)*2*256);
       int *count[2];
@@ -766,81 +767,81 @@ void BDD::init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][6
       count[1] = &(_count[128+256]);
 
       for (uint i=0; i<elements.size(); i++)
-	for (uint j=0; j<elements[i].size(); j++)
-	  count[clusters[i]][(int)convert_table[j]] += elements[i][j];
+        for (uint j=0; j<elements[i].size(); j++)
+          count[clusters[i]][(int)convert_table[j]] += elements[i][j];
 
       int num_diff = 0;
       for (int i=-128; i<128; i++)
-	if (count[0][i]+count[1][i]) ++num_diff;
+        if (count[0][i]+count[1][i]) ++num_diff;
 
       cbo << "\\begin{center}\n"
-	   << "\\begin{scriptsize}\n"
-	   << "\\begin{tabular}{|c||";
+          << "\\begin{scriptsize}\n"
+          << "\\begin{tabular}{|c||";
       for (int i=0; i<=num_diff; i++)
-	cbo << "@{}r@{ }|";
+        cbo << "@{}r@{ }|";
       cbo << "@{}r@{ }|}\n\\hline\n";
       for (int i=0; i<=num_diff; i++)
-	cbo << "&";
+        cbo << "&";
       cbo << "0'th order&\\\\\n";
       for (int i=-128; i<128; i++)
-	if (count[0][i]+count[1][i])
-	  cbo << " & " << _endgame_value_to_string(i);
+        if (count[0][i]+count[1][i])
+          cbo << " & " << _endgame_value_to_string(i);
       cbo << " & entropy & Size\\\\\n\\hline\n";
 
       for (int _cl=0; _cl<3; _cl++) {
-	int cl = _cl ? _cl-1 : 2;
-	switch(cl) {
-	case 0:
-	  cbo << "C1";
-	  break;
-	case 1:
-	  cbo << "C2";
-	  break;
-	case 2:
-	  cbo << "C1 $\\cup$ C2";
-	  break;
-	}
-	double entropy = 0;
-	int c = 0;
-	for (int v=-128; v<128; v++) {
-	  if (count[0][v] + count[1][v]) {
-	    int ct_index = 0;
-	    for (uint j=0; j<convert_table.size(); j++) {
-	      if (v == (int)convert_table[j]) {
-		ct_index = j;
-		break;
-	      }
-	    }
+        int cl = _cl ? _cl-1 : 2;
+        switch(cl) {
+        case 0:
+          cbo << "C1";
+          break;
+        case 1:
+          cbo << "C2";
+          break;
+        case 2:
+          cbo << "C1 $\\cup$ C2";
+          break;
+        }
+        double entropy = 0;
+        int c = 0;
+        for (int v=-128; v<128; v++) {
+          if (count[0][v] + count[1][v]) {
+            int ct_index = 0;
+            for (uint j=0; j<convert_table.size(); j++) {
+              if (v == (int)convert_table[j]) {
+                ct_index = j;
+                break;
+              }
+            }
 
-	    int sum = 0;
-	    for (uint i=0; i<elements.size(); i++) {
-	      if (cl==2  ||  clusters[i] == cl) {
-		sum += (int)elements[i][ct_index];
-	      }
-	    }
-	    cbo << " & " << sum;
+            int sum = 0;
+            for (uint i=0; i<elements.size(); i++) {
+              if (cl==2  ||  clusters[i] == cl) {
+                sum += (int)elements[i][ct_index];
+              }
+            }
+            cbo << " & " << sum;
 
-	    if (sum) {
-	      entropy -= sum*log2(sum);
-	      c += sum;
-	    }
-	  }
-	}
+            if (sum) {
+              entropy -= sum*log2(sum);
+              c += sum;
+            }
+          }
+        }
 
-	//.....
+        //.....
 
-	if (c) entropy += c*log2(c);
-	
-	cbo << " & " << entropy << " & "
-	     << (cl == 0 ? a.mem_size : (cl == 1 ? b.mem_size : examined_cluster.mem_size))
-	     << "\\\\\n";
+        if (c) entropy += c*log2(c);
+
+        cbo << " & " << entropy << " & "
+            << (cl == 0 ? a.mem_size : (cl == 1 ? b.mem_size : examined_cluster.mem_size))
+            << "\\\\\n";
 
       }
 
       cbo << "\\hline\n"
-	   << "\\end{tabular}\n"
-	   << "\\end{scriptsize}\n"
-	   << "\\end{center}\n";
+          << "\\end{tabular}\n"
+          << "\\end{scriptsize}\n"
+          << "\\end{center}\n";
       cbo << "\n";
     }
 
@@ -855,30 +856,30 @@ void BDD::init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][6
     int MARGIN = num_subsets / 8;
 
     cbo << "Size: " << examined_cluster.mem_size << " -> " << a.mem_size << " + "
-	 << b.mem_size << "\n";
-    
+        << b.mem_size << "\n";
+
     if (a.mem_size + b.mem_size + MARGIN < examined_cluster.mem_size) {
       // Do split
       cbo << "Splitting cluster of (num. subsets, size) = ("
-	   << count_active_subsets << "," << examined_cluster.mem_size << ") into the 2 clusters ("
-	   << count_a << "," << a.mem_size << ") and (" << count_b << "," << b.mem_size << ")\n";
+          << count_active_subsets << "," << examined_cluster.mem_size << ") into the 2 clusters ("
+          << count_a << "," << a.mem_size << ") and (" << count_b << "," << b.mem_size << ")\n";
 
       unprocessed.pop();
-      
+
       if (a.bl.count_on() >= 2) {
-	unprocessed.push(a);
+        unprocessed.push(a);
       } else {
-	//assert(0); // just to check if it happens
-	processed.push(a);
+        //assert(0); // just to check if it happens
+        processed.push(a);
       }
-      
+
       if (b.bl.count_on() >= 2) {
-	unprocessed.push(b);
+        unprocessed.push(b);
       } else {
-	//assert(0); // just to check if it happens
-	processed.push(b);
+        //assert(0); // just to check if it happens
+        processed.push(b);
       }
-      
+
     } else {
 
       cbo << "Do not split (" << count_active_subsets << "," << examined_cluster.mem_size << ")\n";
@@ -886,22 +887,22 @@ void BDD::init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][6
       unprocessed.pop();
     }
   }
-  
+
   // Now there is no unprocessed clusters left.
   // Each element in processed defines a cluster from which
   // a BinaryDecisionDiagram will be build.
-  
+
   //cerr << "Hertil ok 4\n";
 
   int num_clusters = processed.size();
   map_subset_to_cluster.init(num_subsets, num_clusters-1);
   sub_bdds = vector<BinaryDecisionDiagram *>(num_clusters);
-  
+
   for (int num=0; num<num_clusters; num++) {
     SplitHelp &tmp = processed.top();
     for (int i=0; i<num_subsets; i++)
       if (tmp.bl[i]) map_subset_to_cluster.update(i, num);
-    
+
     for (int i=0; i<bdd_size; i++) {
       pair<int, int> p = old_index_to_new_index_and_subset_number(i);
 
@@ -911,17 +912,17 @@ void BDD::init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][6
       /*
       if (tmp.bl[index_to_cv(inv_bit_perm, i)]) test_table[i] = bdd_table[i];
       else test_table[i] = 0; // wildcard
-      */
+       */
     }
-    
+
     sub_bdds[num] = new BinaryDecisionDiagram();
     if (do_preprocessing) map_wildcards(test_table, log_bdd_size);
     sub_bdds[num]->init(test_table, log_bdd_size, convert_table.size()-1, true);
-    
+
     processed.pop();
   }
-  
-  
+
+
   if (num_clusters > 1) {
     map_subset_to_cluster.print(cbo);
 
@@ -932,9 +933,9 @@ void BDD::init(uchar *bdd_table, int log_bdd_size, const uchar inv_bit_perm[5][6
   }
 
   // todo: initialize from bit_perm...
-  
+
   cbo << "Number of clusters = " << (int)num_clusters << '\n'
-       << "Memory consumption = " << memory_consumption() << '\n';
+      << "Memory consumption = " << memory_consumption() << '\n';
 }
 
 
@@ -961,10 +962,10 @@ void BDD::print(ostream &os, bool print_bdds) {
     os << ", split_decision list:\n\t";
     if (sub_bdds.size() < 10) {
       for (uint i=0; i<map_subset_to_cluster.size(); i++)
-	os << map_subset_to_cluster[i];
+        os << map_subset_to_cluster[i];
     } else {
       for (uint i=0; i<map_subset_to_cluster.size(); i++)
-	os << map_subset_to_cluster[i] << ' ';
+        os << map_subset_to_cluster[i] << ' ';
     }
     os << '\n';
   }
@@ -972,7 +973,7 @@ void BDD::print(ostream &os, bool print_bdds) {
   {
     for (int i=0; i<5; i++)
       os << "pattern[" << i << "] = " << toString(pattern[i], 32, 2) << "\n";
-    
+
     os << "bit_perm_and_permute_pos[]:\n";
     for (int i=0; i<64; i++)
       os << "\t" << i << "\t" << toString(bit_perm_and_permute_pos[i], 32, 2) << "\n";
@@ -984,6 +985,6 @@ void BDD::print(ostream &os, bool print_bdds) {
   } else {
     for (uint i=0; i<sub_bdds.size(); i++)
       os << "memory_consumption(sub_bdds[" << i << "]) = "
-	 << sub_bdds[i]->memory_consumption() << '\n';
+      << sub_bdds[i]->memory_consumption() << '\n';
   }
 }

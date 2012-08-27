@@ -7,11 +7,6 @@
 #include "../piece_pos.hxx"
 #include "../compression/bdd_index.hxx"
 
-// Todo:
-// All the assert(0) statements have been inserted because now a
-// bdd is created for each side to move.
-// The corresponding code should (after suff. debugging) be removed.
-
 // The functions compress_*_table_index provides the mapping
 //    (player,pieces)  ->  index in [-1..MAX_INDEX[
 // where index == -1 represents an illegal position
@@ -67,6 +62,8 @@ uchar *construct_bdd_table(const char *table, TableIndexToBDDIndex table_index_t
 TABLES(KK)
 TABLES(KXK)
 TABLES(KPK)
+TABLES(KXXK)
+TABLES(KPPK)
 TABLES(KXKX)
 TABLES(KXYK)
 TABLES(KXKY)

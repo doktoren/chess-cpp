@@ -30,18 +30,7 @@ void Board2plus::reset_all() {
 
 // More efficient impl than in board_2
 int Board2plus::calc_game_status_ignore_50_move_rule_and_move_repetition() {
-  // Insufficient material left?
-  // Sufficient material is:
-  // a) a pawn, a rook or a queen
-  // b) 2 knights or 1 knight and a bishop
-  // c) 2 bishop on different colors
-  //
-  // If eg. white has sufficient material left, then
-  // both white_a and white_b will be true (iff).
-  //
-  // Todo: both players have bishops left but all on
-  // same color => draw (probably not worth the effort).
-  if (insufficient_material()) {
+  if (insufficient_material(endgame_material)) {
     game_status_reason = INSUFFICIENT_MATERIAL;
     return GAME_DRAWN;
   }

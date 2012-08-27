@@ -95,18 +95,7 @@ void Board2::reset_all() {
 }
 
 int Board2::calc_game_status_ignore_50_move_rule_and_move_repetition() {
-  // Insufficient material left?
-  // Sufficient material is:
-  // a) a pawn, a rook or a queen
-  // b) 2 knights or 1 knight and a bishop
-  // c) 2 bishop on different colors
-  //
-  // If eg. white has sufficient material left, then
-  // both white_a and white_b will be true (iff).
-  //
-  // Todo: both players have bishops left but all on
-  // same color => draw (probably not worth the effort).
-  if (insufficient_material()) {
+  if (insufficient_material(endgame_material)) {
     game_status_reason = INSUFFICIENT_MATERIAL;
     return GAME_DRAWN;
   }
@@ -628,20 +617,15 @@ void Board2::remove_piece(Position pos) {
   king_line_remove_piece(pos);
   board[pos] = 0;
 
-  piece_count.as_pattern -= PIECE_COUNT_CONSTANTS[piece];
-  endgame_hashing_insufficient_material.as_pattern -=
-      ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[piece][POS_COLOR[pos]];
+  piece_count_remove(piece_count, piece);
+  remove_endgame_material(endgame_material, piece, pos);
 }
 
 void Board2::insert_piece(Position pos, Piece piece) {
-  //cerr << "insert(" << PIECE_CHAR[piece] << ", " << POS_NAME[pos] << "), " << toString(insuf_material.as_pattern, 4, 16) << ", " << toString(endgame_hashing.as_pattern, 8, 16) << "\n";
-
   assert(legal_pos(pos)  &&  piece  &&  piece<=BKING);
 
-
-  piece_count.as_pattern += PIECE_COUNT_CONSTANTS[piece];
-  endgame_hashing_insufficient_material.as_pattern +=
-      ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[piece][POS_COLOR[pos]];
+  piece_count_add(piece_count, piece);
+  add_endgame_material(endgame_material, piece, pos);
 
   if (IS_SHORT_DISTANCE_PIECE[piece]) {
     bit_board_insert(pos, piece, PIECE_COLOR[piece]);
@@ -652,9 +636,8 @@ void Board2::insert_piece(Position pos, Piece piece) {
 
   if (board[pos]) {
     // capture piece
-    piece_count.as_pattern -= PIECE_COUNT_CONSTANTS[board[pos]];
-    endgame_hashing_insufficient_material.as_pattern -=
-        ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[board[pos]][POS_COLOR[pos]];
+    piece_count_remove(piece_count, board[pos]);
+    remove_endgame_material(endgame_material, board[pos], pos);
 
     if (IS_SHORT_DISTANCE_PIECE[board[pos]])
       bit_board_remove(pos, board[pos], PIECE_COLOR[board[pos]]);
@@ -673,9 +656,6 @@ void Board2::move_piece(Position from, Position to) {
   assert(legal_pos(from)  &&  legal_pos(to)  &&  board[from]);
   Piece piece = board[from];
 
-  assert(ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[board[from]][POS_COLOR[from]] ==
-      ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[board[from]][POS_COLOR[to]]);
-
   if (IS_SHORT_DISTANCE_PIECE[piece]) {
     if (PIECE_KIND[piece] == KING)
       king_pos[player] = to;
@@ -690,9 +670,8 @@ void Board2::move_piece(Position from, Position to) {
     // otherwice a possible check might be counted twice
 
     // capture piece
-    piece_count.as_pattern -= PIECE_COUNT_CONSTANTS[board[to]];
-    endgame_hashing_insufficient_material.as_pattern -=
-        ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[board[to]][POS_COLOR[to]];
+    piece_count_remove(piece_count, board[to]);
+    remove_endgame_material(endgame_material, board[to], to);
 
     if (IS_SHORT_DISTANCE_PIECE[board[to]])
       bit_board_remove(to, board[to], PIECE_COLOR[board[to]]);
