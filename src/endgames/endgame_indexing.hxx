@@ -50,9 +50,6 @@
 
 typedef int (*TableIndexToBDDIndex)(int index);
 
-#define TABLE_INDEX_TO_BDD_INDEX(name, max_men) \
-int name ## _table_index_to_bdd_index(int index)
-
 // construct_bdd_table creates the table from which the bdd
 // will be initialized. All entries are mapped to [0..convert_table.size()[
 // where 0 represents a wildcard (ENDGAME_TABLE_ILLEGAL)
@@ -61,225 +58,41 @@ uchar *construct_bdd_table(const char *table, TableIndexToBDDIndex table_index_t
 			   vector<char> &convert_table,
 			   const BitList &unreachable);
 
-// ###########################
-// ##########  KK  ###########
-// ###########################
-int compress_KK_table_index(vector<PiecePos> &piece_list);
-void decompress_KK_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KK_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KK,2);
+#define TABLES(endgame) \
+    int compress_ ## endgame ## _table_index(vector<PiecePos> &piece_list); \
+    void decompress_ ## endgame ## _table_index(int index, vector<PiecePos>& piece_list); \
+    BDD_Index preprocess_ ## endgame ## _bdd_index(const vector<PiecePos> &piece_list); \
+    int endgame ## _table_index_to_bdd_index(int index);
 
-
-
-// ############################
-// ##########  KXK  ###########
-// ############################
-int compress_KXK_table_index(vector<PiecePos> &piece_list);
-void decompress_KXK_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXK_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXK,3);
-
-// ############################
-// ##########  KPK  ###########
-// ############################
-int compress_KPK_table_index(vector<PiecePos>& piece_list);
-void decompress_KPK_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KPK_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KPK,3);
-
-// #############################
-// ##########  KXXK  ###########
-// #############################
-int compress_KXXK_table_index(vector<PiecePos>& piece_list);
-void decompress_KXXK_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXXK_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXXK,4);
-
-// #############################
-// ##########  KXYK  ###########
-// #############################
-int compress_KXYK_table_index(vector<PiecePos>& piece_list);
-void decompress_KXYK_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXYK_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXYK,4);
-
-// #############################
-// ##########  KXKY  ###########
-// #############################
-int compress_KXKY_table_index(vector<PiecePos>& piece_list);
-void decompress_KXKY_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXKY_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXKY,4);
-
-// #############################
-// ##########  KPPK  ###########
-// #############################
-int compress_KPPK_table_index(vector<PiecePos>& piece_list);
-void decompress_KPPK_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KPPK_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KPPK,4);
-
-// #############################
-// ##########  KXPK  ###########
-// #############################
-int compress_KXPK_table_index(vector<PiecePos>& piece_list);
-void decompress_KXPK_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXPK_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXPK,4);
-
-// #############################
-// ##########  KPKP  ###########
-// #############################
-int compress_KPKP_table_index(vector<PiecePos>& piece_list);
-void decompress_KPKP_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KPKP_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KPKP,4);
-
-// #############################
-// ##########  KXKP  ###########
-// #############################
-int compress_KXKP_table_index(vector<PiecePos>& piece_list);
-void decompress_KXKP_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXKP_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXKP,4);
-
-
+TABLES(KK)
+TABLES(KXK)
+TABLES(KPK)
+TABLES(KXKX)
+TABLES(KXYK)
+TABLES(KXKY)
+TABLES(KPPK)
+TABLES(KXPK)
+TABLES(KPKP)
+TABLES(KXKP)
 #ifdef ALLOW_5_MEN_ENDGAME
+TABLES(KXXXK)
+TABLES(KPPPK)
+TABLES(KXXKY)
+TABLES(KXXKP)
+TABLES(KPPKX)
+TABLES(KPPKP)
+TABLES(KXYKZ)
+TABLES(KXYKP)
+TABLES(KXPKY)
+TABLES(KXPKP)
+TABLES(KXXYK)
+TABLES(KXXPK)
+TABLES(KXYYK)
+TABLES(KXPPK)
+TABLES(KXYZK)
+TABLES(KXYPK)
+#endif
 
-// ##############################
-// ##########  KXXXK  ###########
-// ##############################
-int compress_KXXXK_table_index(vector<PiecePos>& piece_list);
-void decompress_KXXXK_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXXXK_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXXXK,5);
+#undef TABLES
 
-
-// ##############################
-// ##########  KPPPK  ###########
-// ##############################
-int compress_KPPPK_table_index(vector<PiecePos>& piece_list);
-void decompress_KPPPK_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KPPPK_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KPPPK,5);
-
-
-// ##############################
-// ##########  KXXKY  ###########
-// ##############################
-int compress_KXXKY_table_index(vector<PiecePos>& piece_list);
-void decompress_KXXKY_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXXKY_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXXKY,5);
-
-// ##############################
-// ##########  KXXKP  ###########
-// ##############################
-int compress_KXXKP_table_index(vector<PiecePos>& piece_list);
-void decompress_KXXKP_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXXKP_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXXKP,5);
-
-// ##############################
-// ##########  KPPKX  ###########
-// ##############################
-int compress_KPPKX_table_index(vector<PiecePos>& piece_list);
-void decompress_KPPKX_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KPPKX_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KPPKX,5);
-
-// ##############################
-// ##########  KPPKP  ###########
-// ##############################
-int compress_KPPKP_table_index(vector<PiecePos>& piece_list);
-void decompress_KPPKP_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KPPKP_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KPPKP,5);
-
-// ##############################
-// ##########  KXYKZ  ###########
-// ##############################
-int compress_KXYKZ_table_index(vector<PiecePos>& piece_list);
-void decompress_KXYKZ_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXYKZ_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXYKZ,5);
-
-// ##############################
-// ##########  KXYKP  ###########
-// ##############################
-int compress_KXYKP_table_index(vector<PiecePos>& piece_list);
-void decompress_KXYKP_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXYKP_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXYKP,5);
-
-// ##############################
-// ##########  KXPKY  ###########
-// ##############################
-int compress_KXPKY_table_index(vector<PiecePos>& piece_list);
-void decompress_KXPKY_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXPKY_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXPKY,5);
-
-// ##############################
-// ##########  KXPKP  ###########
-// ##############################
-int compress_KXPKP_table_index(vector<PiecePos>& piece_list);
-void decompress_KXPKP_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXPKP_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXPKP,5);
-
-
-// ##############################
-// ##########  KXXYK  ###########
-// ##############################
-int compress_KXXYK_table_index(vector<PiecePos>& piece_list);
-void decompress_KXXYK_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXXYK_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXXYK,5);
-
-// ##############################
-// ##########  KXXPK  ###########
-// ##############################
-int compress_KXXPK_table_index(vector<PiecePos>& piece_list);
-void decompress_KXXPK_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXXPK_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXXPK,5);
-
-// ##############################
-// ##########  KXYYK  ###########
-// ##############################
-int compress_KXYYK_table_index(vector<PiecePos>& piece_list);
-void decompress_KXYYK_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXYYK_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXYYK,5);
-
-// ##############################
-// ##########  KXPPK  ###########
-// ##############################
-int compress_KXPPK_table_index(vector<PiecePos>& piece_list);
-void decompress_KXPPK_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXPPK_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXPPK,5);
-
-// ##############################
-// ##########  KXYZK  ###########
-// ##############################
-int compress_KXYZK_table_index(vector<PiecePos>& piece_list);
-void decompress_KXYZK_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXYZK_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXYZK,5);
-
-// ##############################
-// ##########  KXYPK  ###########
-// ##############################
-int compress_KXYPK_table_index(vector<PiecePos>& piece_list);
-void decompress_KXYPK_table_index(int index, vector<PiecePos>& piece_list);
-BDD_Index preprocess_KXYPK_bdd_index(const vector<PiecePos> &piece_list);
-TABLE_INDEX_TO_BDD_INDEX(KXYPK,5);
-
-#endif // #ifdef ALLOW_5_MEN_ENDGAME
-
-
-#undef TABLE_INDEX_TO_BDD_INDEX
-
-#endif // #define _ENDGAME_INDEXING_
+#endif
