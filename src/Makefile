@@ -14,7 +14,7 @@ chess: $(MODS)
 	g++ $(MODS) -o $@
 
 %.o: %.cxx
-	$(CXX) $(CFLAGS) -c -o $@ $<
+	$(CXX) $(CFLAGS_DB) -c -o $@ $<
 
 %.d: %.cxx
 	g++ -MM $< -o $@

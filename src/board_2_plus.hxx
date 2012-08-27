@@ -1,6 +1,6 @@
 #ifndef _BOARD_2_PLUS_
 #define _BOARD_2_PLUS_
- 
+
 #include "board_2.hxx"
 #include "board_2_plus_help_classes.hxx"
 #include "static_exchange_evaluation.hxx"
@@ -51,12 +51,12 @@ public:
   SEE see;
   void test_see();
   void init_see_list(MyVector<pair<Position, char> > &see_list, bool player,
-		     int &num_protect, int &num_attack);
+      int &num_protect, int &num_attack);
 protected:
   // remap_piece_numbers are called after loadFEN and set_board.
   // 
   void remap_piece_numbers();
- 
+
   void remove_piece(Position pos);
   void insert_piece(Position pos, Piece piece);
   void move_piece(Position from, Position to);
@@ -103,23 +103,20 @@ private:
 
 template <class CONTAINER>
 void Board2plus::get_move_list(CONTAINER &moves) {
-  //moves.clear();
   move_list.init_iterator(player);
   while (move_list.iterate()) {
     Move move = move_list.deref_iterator();
-    // cerr << "testing move " << move.toString() << "\n";
     if (legal_move(move)) {
-      // cerr << "PASSED TEST! " << move.toString() << "\n";
       if (move.is_pawn_promotion()) {
-	moves.add(move); // Promotion to queen
-	--move.special_move;
-	moves.add(move); // Promotion to rook
-	--move.special_move;
-	moves.add(move); // Promotion to bishop
-	--move.special_move;
-	moves.add(move); // Promotion to knight
+        moves.add(move); // Promotion to queen
+        --move.special_move;
+        moves.add(move); // Promotion to rook
+        --move.special_move;
+        moves.add(move); // Promotion to bishop
+        --move.special_move;
+        moves.add(move); // Promotion to knight
       } else {
-	moves.add(move);
+        moves.add(move);
       }
     }
   }
@@ -135,15 +132,15 @@ void Board2plus::get_move_list(CONTAINER &moves, MoveSet &move_set) {
     if (legal_move(move)) {
       // cerr << "PASSED TEST! " << move.toString() << "\n";
       if (move.is_pawn_promotion()) {
-	if (!move_set.find(move)) moves.add(move); // Promotion to queen
-	--move.special_move;
-	if (!move_set.find(move)) moves.add(move); // Promotion to rook
-	--move.special_move;
-	if (!move_set.find(move)) moves.add(move); // Promotion to bishop
-	--move.special_move;
-	if (!move_set.find(move)) moves.add(move); // Promotion to knight
+        if (!move_set.find(move)) moves.add(move); // Promotion to queen
+        --move.special_move;
+        if (!move_set.find(move)) moves.add(move); // Promotion to rook
+        --move.special_move;
+        if (!move_set.find(move)) moves.add(move); // Promotion to bishop
+        --move.special_move;
+        if (!move_set.find(move)) moves.add(move); // Promotion to knight
       } else {
-	if (!move_set.find(move)) moves.add(move);
+        if (!move_set.find(move)) moves.add(move);
       }
     }
   }

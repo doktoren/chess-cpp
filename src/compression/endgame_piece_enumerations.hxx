@@ -4,9 +4,6 @@
 #include "../board.hxx"
 #include "endgame_square_permutations.hxx"
 
-void init_piece_enumerations();
-void verify_piece_enumerations();
-
 struct IndexRefl {
   IndexRefl() : index(-1) {}
   IndexRefl(int index, int refl) : index(index), refl(refl) {}
@@ -181,7 +178,6 @@ inline int xxx_compress(Position piece1, Position piece2, Position piece3) {
 
   return XXX_COMPRESS_P1[piece1] + XXX_COMPRESS_P2_MINUS_64[piece2] + piece3;
 }
-void verify_xxx_compress();
 
 
 extern int PPP_COMPRESS_P1[54];
@@ -199,10 +195,7 @@ inline int ppp_compress(Position piece1, Position piece2, Position piece3) {
 
   return PPP_COMPRESS_P1[piece1] + PPP_COMPRESS_P2_MINUS_10480[piece2] + piece3;
 }
-void verify_ppp_compress();
 
 #endif
-
-void latex_print_king_fs_indexes(ostream &os);
 
 #endif

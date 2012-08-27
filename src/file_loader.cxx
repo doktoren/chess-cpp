@@ -2,9 +2,9 @@
 
 bool FileLoader::load_file(string filename) {
   name = filename;
-  
+
   if (fp != NULL) fclose(fp);
-  
+
   fp = fopen(filename.c_str(), "r");
   if (fp == NULL) {
     cerr << "Could not open file " << filename << "\n";
@@ -15,14 +15,14 @@ bool FileLoader::load_file(string filename) {
 
 char* FileLoader::getline() {
   if (fp == NULL) return 0;
-  
+
   int ch, i=0;
   while ((ch = ::getc(fp)) != EOF  &&  ch != '\n')
     get_line_result[i++] = (char)ch;
-  
+
   if (ch==EOF  &&  i==0) return 0;
   get_line_result[i] = 0;
-  
+
   return get_line_result;
 }
 
@@ -108,7 +108,6 @@ bool PGNLoader::next_game() {
 }
 
 bool PGNLoader::read_tag(char* line) {
-  // cerr << "read_tag(" << line << ")\n";
   char tag[64], value[64];
   *value = 0; // in tag value is empty - eg. [Event ""]
   if (sscanf(line, "[%s \"%[^\"]\"\n", tag, value) >= 1) {
@@ -135,51 +134,48 @@ void PGNLoader::setup_game(Board2& board) {
 
 bool PGNLoader::next_move(Board2& board, Move& move) {
   string s;
-  //while (getToken(s)) ; exit(0);
   while (getToken(s)) {
-    // cerr << "Reading token " << s << "\n";
-
-  reinspect_s:
+    reinspect_s:
     if ('0'<=s[0] && s[0]<='9') {
       if (s == "0-0") {
-	s = "O-O";
-	goto a_move;
+        s = "O-O";
+        goto a_move;
       }
       if (s == "0-0-0") {
-	s = "O-O-O";
-	goto a_move;
+        s = "O-O-O";
+        goto a_move;
       }
 
       if (s.find('-') != string::npos) {
-	// Game result
-	game_result = s;
-	return false;
+        // Game result
+        game_result = s;
+        return false;
       } else {
-	// Move number. Check if moved in same token
-	for (uint i=0; i<s.size(); i++)
-	  if (s[i]=='.') {
-	    for (uint j=1; i+j<s.size(); j++)
-	      if (s[i+j]!='.') {
-		s = string(s, i+j, s.size()-(i+j));
-		goto reinspect_s;
-	      }
-	  }
+        // Move number. Check if moved in same token
+        for (uint i=0; i<s.size(); i++)
+          if (s[i]=='.') {
+            for (uint j=1; i+j<s.size(); j++)
+              if (s[i+j]!='.') {
+                s = string(s, i+j, s.size()-(i+j));
+                goto reinspect_s;
+              }
+          }
       }
 
     } else if (s[0] == '{') {
       // A comment. Read token until '}' found
       // cerr << "PGNLoader reads comment:" << s << '\n';
       while (s.find('}') == string::npos) {
-	if (!getToken(s)) {
-	  return false;
-	}
+        if (!getToken(s)) {
+          return false;
+        }
       }
       // cerr << "string s = " << s << "\n";
       //cerr << '\n';
     } else if (s[0] == '(') {
       // Recursive variation - just skip like comment
       while (s.find(')') == string::npos)
-	if (!getToken(s)) return false;
+        if (!getToken(s)) return false;
     } else if (s[0] == '*') {
       // Game abandoned
       game_result = "*";
@@ -189,49 +185,35 @@ bool PGNLoader::next_move(Board2& board, Move& move) {
 
     } else {
       //cerr << "Move("; for(unsigned int i=0; i<s.size(); i++) cerr << (int)s[i] << ' '; cerr << ")\n";
-     
-    a_move:
+
+      a_move:
       move = board.sanToMove(s);
 #ifndef NDEBUG
       // Assert that board.sanToMove and board.moveToSAN works
       if (board.moveToSAN(move) != s) {
-	big_output << "\nError! board.moveToSAN(move) != s in this position:\n";
-	board.print_board(big_output);
-	big_output << "move = " << move.toString2() << ", moveToSAN = " << board.moveToSAN(move)
-		   << ", s = " << s <<  "\n\n";
-	string s2 = board.moveToSAN(move);
-	if (s[s.size()-1] != s2[s2.size()-1]) {
-	  cerr << "Error. In this position:\n" << board.toFEN() << "\n";
-	  assert(0);
-	}
+        big_output << "\nError! board.moveToSAN(move) != s in this position:\n";
+        board.print_board(big_output);
+        big_output << "move = " << move.toString2() << ", moveToSAN = " << board.moveToSAN(move)
+		       << ", s = " << s <<  "\n\n";
+        string s2 = board.moveToSAN(move);
+        if (s[s.size()-1] != s2[s2.size()-1]) {
+          cerr << "Error. In this position:\n" << board.toFEN() << "\n";
+          assert(0);
+        }
       }
 #endif
       if (!move.is_defined()) {
-	cerr << "\nPGNLoader::next_move - Error: pgn move " << s << " was not found in position:\n";
-	board.print_board(cerr);
-	board.print_moves(cerr);
-	board.print_king_threats(cerr);
-	board.print_bit_boards(cerr);
-	board.print_threat_pos(cerr);
-	cerr << "Saving error.fen (hjælp, Bjarke)\n";
-	store_FEN(board.toFEN(), "error.fen");
-	/* Bjarke HJÆÆÆÆÆÆLP!!!!
-	if (typeid(board) == typeid(Board3)) {
-	  cerr << "Board2 is actuallySaving error.pgn\n";
-	  PGNWriter writer("error.pgn");
-	  writer.output_game(*(dynamic_cast<Board3*>(&board)));
-	}
-	if (typeid(board) == typeid(Board3plus)) {
-	  cerr << "Saving error.pgn\n";
-	  PGNWriter writer("error.pgn");
-	  writer.output_game(*(dynamic_cast<Board3plus*>(&board)));
-	}
-	*/
-	throw NextMoveError();
-	return false;
+        cerr << "\nPGNLoader::next_move - Error: pgn move " << s << " was not found in position:\n";
+        board.print_board(cerr);
+        board.print_moves(cerr);
+        board.print_king_threats(cerr);
+        board.print_bit_boards(cerr);
+        board.print_threat_pos(cerr);
+        cerr << "Saving error.fen\n";
+        store_FEN(board.toFEN(), "error.fen");
+        throw NextMoveError();
+        return false;
       }
-      // cerr << "(" << s << " -> " << move.toString() << "),";
-      // cerr.flush();
       return true;
     }
   }
@@ -240,41 +222,11 @@ bool PGNLoader::next_move(Board2& board, Move& move) {
 
 void PGNLoader::load_game(Board2& board) {
   setup_game(board);
-
-  cerr << "Hertil ok\n";
-
   Move move;
   while (next_move(board, move)) {
-    cerr << "Hertil ok " << move.toString() << "\n";
     board.execute_move(move);
   }
 }
-
-/*
-void PGNLoader::skip_until(char end_char) {
-  while (*line  &&  *line != end_char) ++line;
-}
-
-void PGNLoader::skip_until(const char* end_chars) {
-  while (*line) {
-    bool found_end_char = false;
-    for (int i=0; end_chars[i]; i++)
-      if (*line == end_chars[i]) {
-	found_end_char = true;
-	break;
-      }
-    if (found_end_char) return;
-    ++line;
-  }
-}
-
-string PGNLoader::read_until(const char end_char) {
-  char *start = line;
-  while (*line  &&  *line != end_char) ++line;
-  return string(start, (int)line-(int)start);
-}
-*/
-
 
 void PGNLoader::print_tags(ostream &os) {
   typedef map<string, string>::const_iterator CI;
@@ -290,7 +242,6 @@ void PGNLoader::print_tags(ostream &os) {
 const string mandantory_tags[7] = {"Event","Site","Date","Round","White","Black","Result"};
 
 void PGNWriter::write_token(string token) {
-  // cerr << "- " << token << " -\n";
   if (line_pos + (int)token.length() + 1 > max_length) {
     out << '\n';
     line_pos = 0;
@@ -306,14 +257,14 @@ void PGNWriter::write_token(string token) {
 void PGNWriter::write_tags() {
   for (int i=0; i<7; i++)
     out << '[' << mandantory_tags[i] << " \""
-	<< tags[mandantory_tags[i]] << "\"]\n";
+    << tags[mandantory_tags[i]] << "\"]\n";
 
   for (map<string, string>::iterator it=tags.begin(); it!=tags.end(); it++) {
     bool mandantory_tag = false;
     for (int i=0; i<7; i++) {
       if ((*it).first == mandantory_tags[i]) {
-	mandantory_tag = true;
-	break;
+        mandantory_tag = true;
+        break;
       }
     }
     if (!mandantory_tag)
@@ -361,7 +312,7 @@ void PGNWriter::set_mandantory_tags() {
   tags["White"] = "?";
   tags["Black"] = "?";
   tags["Result"] = "?";
-  */
+   */
 }
 
 void PGNWriter::set_tag(string tag, string value) {

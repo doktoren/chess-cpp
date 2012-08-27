@@ -23,42 +23,8 @@
 #define Setting(x) (*(settings.x))
 
 
-//#define trace big_output
-
 #define trace if (DEFAULT(trace_search, false)) big_output << string(4*depth, ' ')
 #define khm if (false) big_output
-
-/*
-Didn't work. The defined operator<< did not get called.
-
-#ifndef NDEBUG
-// When debug and trace_search is enabled, everything written to cerr
-// is copied to big_output. 
-template <class Ch, class Tr = char_traits<Ch> >
-class cerr_trace : public basic_ostream<Ch, Tr> {
-public:
-  explicit cerr_trace(basic_streambuf<Ch, Tr> *b) : basic_ostream<Ch, Tr>(b) {}
-  template<class TYPE> cerr_trace& operator<<(const TYPE &t) {
-    big_output << string(4*depth, ' ') << t;
-    cerr << t;
-    return *this;
-  }
-  cerr_trace& operator<<(string &t) {
-    big_output << string(4*depth, ' ') << t;
-    cerr << t;
-    return *this;
-  }
-};
-template <class Ch, class Tr = char_traits<Ch> >
-class cerr_trace_buff : public basic_streambuf<Ch, Tr> {
-};
-cerr_trace_buff<char> cerr_42_trace_buff;
-cerr_trace<char> cerr_42_trace(&cerr_42_trace_buff);
-#define _42_cerr_42_ cerr
-#undef cerr
-#define cerr (*(settings.trace_search) ? cerr_42_trace : _42_cerr_42_)
-#endif
- */
 
 // how precise must fast_evaluate be
 #define FAST_EVALUATE_PRECISION DEFAULT(fast_evaluate_precision, WPAWN_VALUE)
@@ -1214,7 +1180,7 @@ AlphaBetaValue Search_3::alpha_beta(int ply, int depth, int alpha, int beta,
           int tmp = NULL_MOVE_CONST - see.best_see_capture_value(player^1);
           bool try_null_move = evaluate(alpha-tmp, beta-tmp) + tmp >= beta;
 
-          if (try_null_move  &&  try_execute_null_move()) {
+          if (try_null_move  &&  make_null_move()) {
 
             trace << "Trying null move\n";
 

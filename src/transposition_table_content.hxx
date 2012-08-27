@@ -4,8 +4,8 @@
 #include "typedefs.hxx"
 #include "move_and_undo.hxx"
 
-// These constants may not be changed. They are used in a comparison
-// operation (EXACT_EVAL is most usefull, then UPPER_BOUND, etc.)
+// These constants must not be changed. They are used in a comparison
+// operation (EXACT_EVAL is most useful, then UPPER_BOUND, etc.)
 // The values may not be zero (see is_valid() below)
 #define EMPTY_INFO 0
 #define UPPER_BOUND 1

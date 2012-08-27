@@ -3,29 +3,21 @@
 #include "endgame_values.hxx"
 #include "../compression/endgame_piece_enumerations.hxx"
 
-// TODO:
-// All the assert(0) statements have been inserted because now a
-// bdd is created for each side to move.
-// The corresponding code should (after suff. debugging) be removed.
-
 // The functions compress_*_table_index provides the mapping
 //    (player,pieces)  ->  index in [-1..MAX_INDEX[
 // where index == -1 represents an illegal position
 //
-// decompress_*_table_index o compress_*_table_index maps a position
+// decompress_*_table_index(compress_*_table_index(pos)) maps a position
 // to its canonical form (eg. with white king on a1-d1-d4)
 //
 // The functions compress_*_bdd_index provides the mapping
 //    pieces   ->   index in [0..MAX_BDD_INDEX[
-// May not be used on illegal positions
+// Must not be used on illegal positions.
 //
 // The functions *_bdd_index_to_table_index provides the mapping
 //    index in [0..MAX_BDD_INDEX[   ->   index in [-1..MAX_INDEX[
 // MAX_BDD_INDEX is a power of 2 and is greater than MAX_INDEX.
 // The "padding entries" are all mapped to -1 by the above functions.
-// Remark: If * is a non-symmetric endgame, then actually
-//    index in [0..MAX_BDD_INDEX[   ->   index in [-1..MAX_INDEX/2[
-// (First half of [0..MAX_INDEX[ is wtm, second half is btm)
 //
 // The functions preprocess_*_bdd_index provides the mapping
 //    pieces   ->   list of pieces in canonical form and

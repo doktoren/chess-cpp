@@ -4,6 +4,13 @@
 #include "util/help_functions.hxx"
 
 #include "engine/cpu_engines.hxx"
+#include "board_3.hxx"
+#include "engine/cpu_evaluation_1.hxx"
+#include "engine/cpu_evaluation_2.hxx"
+#include "engine/cpu_evaluation_3.hxx"
+#include "engine/cpu_search_1.hxx"
+#include "engine/cpu_search_2.hxx"
+#include "engine/cpu_search_3.hxx"
 
 #include <map>
 #include <queue>
@@ -11,12 +18,12 @@
 bool TestSuite::clr_test_suite(Board *board, ostream& os, vector<string> &p) {
   if (dot_demand(p, 1, "help")) {
     os << "Test suite, help:\n"
-       << "    test all pgns plus  or  tapp\n"
-       << "    test all pgns  or  tap\n"
-       << "    count endgame stuff  or  ces\n"
-       << "    compare eval functions n\n"
-       << "       - compare Eval2 and Eval3 on n positions.\n"
-       << "    test retro moves  or  trm\n";
+        << "    test all pgns plus  or  tapp\n"
+        << "    test all pgns  or  tap\n"
+        << "    count endgame stuff  or  ces\n"
+        << "    compare eval functions n\n"
+        << "       - compare Eval2 and Eval3 on n positions.\n"
+        << "    test retro moves  or  trm\n";
 
   } else if (dot_demand(p, 3, "test", "all", "pgns")) {
     TestSuite::test_all_pgns();
@@ -53,17 +60,17 @@ public:
 
   void go() {
     cerr << "Trying to load all games in ../pgn\n"
-	 << "This will take a long time!\n";
+        << "This will take a long time!\n";
     for (int c='a'; c<='e'; c++) {
       string tmp = "../pgn/x";
       tmp[7] = c;
       for (int n=0; n<100; n++) {
-	string filename = tmp + toString(n) + ".pgn";
-	if (ge.load_file(filename)) {
-	  system(("gunzip " + filename + ".gz").c_str());
-	  load_pgn_file(filename);
-	  system(("gzip " + filename).c_str());
-	}
+        string filename = tmp + toString(n) + ".pgn";
+        if (ge.load_file(filename)) {
+          system(("gunzip " + filename + ".gz").c_str());
+          load_pgn_file(filename);
+          system(("gzip " + filename).c_str());
+        }
       }
     }
   }
@@ -78,12 +85,12 @@ private:
     PGNLoader loader(filename.c_str());
     while (loader.next_game()) {
       if (!ge.next_game()) break;
-      
+
       loader.setup_game(board);
       Move move;
       while (loader.next_move(board, move)) {
-	ge.next_move(move);
-	board.execute_move(move);
+        ge.next_move(move);
+        board.execute_move(move);
       }
 
       ge.game_result(loader.get_game_result());
@@ -94,8 +101,6 @@ private:
     cerr << "\n";
   }
 };
-
-
 
 
 
@@ -113,8 +118,8 @@ public:
     try {
       b.execute_move(move);
       if (!b.sanity_check_moves(cerr)) {
-	b.print_board(cerr);
-	abort();
+        b.print_board(cerr);
+        abort();
       }
     }
     catch (NextMoveError) {
@@ -145,21 +150,21 @@ void TestSuite::test_all_pgns_plus() {
 // copy-pasted from endgame_database.cxx
 const bool GT[16][16] =
 {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
- {0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
- {0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0},
- {0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0},
- {0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0},
- {0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0},
- {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
- {0,1,1,1,1,1,1,0,1,1,1,1,1,0,0,0},
- {0,1,1,1,1,1,1,0,0,1,1,1,1,0,0,0},
- {0,1,1,1,1,1,1,0,0,0,1,1,1,0,0,0},
- {0,1,1,1,1,1,1,0,0,0,0,1,1,0,0,0},
- {0,1,1,1,1,1,1,0,0,0,0,0,1,0,0,0},
- {0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
- {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
- {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
- {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+    {0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
+    {0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,1,1,1,1,1,1,0,1,1,1,1,1,0,0,0},
+    {0,1,1,1,1,1,1,0,0,1,1,1,1,0,0,0},
+    {0,1,1,1,1,1,1,0,0,0,1,1,1,0,0,0},
+    {0,1,1,1,1,1,1,0,0,0,0,1,1,0,0,0},
+    {0,1,1,1,1,1,1,0,0,0,0,0,1,0,0,0},
+    {0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 void sort_5_piece_pos(vector<PiecePos> &pieces) {
   // start by sorting pieces[0,1,3,4] like sort_4_piece_pos
   if (GT[pieces[0].piece][pieces[1].piece]) swap(pieces[0], pieces[1]);
@@ -204,7 +209,7 @@ bool swap_5_piece_pos(vector<PiecePos> &pieces) {
 
 void TestSuite::count_endgame_stuff() {
   cerr << "Trying to load all games in ../pgn\n"
-       << "This will take a long time!\n";
+      << "This will take a long time!\n";
   map<string, int> counts;
   Board2 board;
   for (int c='a'; c<='e'; c++) {
@@ -216,26 +221,26 @@ void TestSuite::count_endgame_stuff() {
 
       PGNLoader loader(filename.c_str());
       while (loader.next_game()) {
-	loader.setup_game(board);
-	Move move;
-	while (loader.next_move(board, move)) {
-	  board.execute_move(move);
-	  if (board.get_num_pieces() == 5) {
-	    vector<PiecePos> pieces(5);
-	    board.get_piece_list(pieces);
-	    sort_5_piece_pos(pieces);
-	    if (swap_5_piece_pos(pieces)) {
-	      for (int i=0; i<5; i++)
-		pieces[i].piece += (pieces[i].piece>WKING) ? -6 : 6;
-	    }
-	    string s = "XXXXX";
-	    for (int i=0; i<5; i++)
-	      s[i] = PIECE_CHAR[pieces[i].piece];
-	    cerr << s << " ";
-	    counts[s]++;
-	    break;
-	  }
-	}
+        loader.setup_game(board);
+        Move move;
+        while (loader.next_move(board, move)) {
+          board.execute_move(move);
+          if (board.get_num_pieces() == 5) {
+            vector<PiecePos> pieces(5);
+            board.get_piece_list(pieces);
+            sort_5_piece_pos(pieces);
+            if (swap_5_piece_pos(pieces)) {
+              for (int i=0; i<5; i++)
+                pieces[i].piece += (pieces[i].piece>WKING) ? -6 : 6;
+            }
+            string s = "XXXXX";
+            for (int i=0; i<5; i++)
+              s[i] = PIECE_CHAR[pieces[i].piece];
+            cerr << s << " ";
+            counts[s]++;
+            break;
+          }
+        }
       }
 
       system(("gzip " + filename).c_str());
@@ -246,7 +251,7 @@ void TestSuite::count_endgame_stuff() {
   priority_queue<pair<int, string> > pq;
   for (map<string,int>::const_iterator ci = counts.begin(); ci != counts.end(); ci++)
     pq.push(pair<int, string>((*ci).second, (*ci).first));
-  
+
   while (!pq.empty()) {
     cerr << pq.top().second << ": " << pq.top().first << "\n";
     pq.pop();
@@ -335,7 +340,7 @@ KQBkr: 1
 KNNkq: 1
 KNNPk: 1
 KBNkq: 1
-*/
+ */
 
 
 class CompareEval {
@@ -381,21 +386,21 @@ public:
       int e = cpu->root_evaluate();
       //cerr << "Evaluate3 result = " << l[index] << "\n";
       if (e < l[index]-allowed_diff  ||  l[index]+allowed_diff < e) {
-	cerr << "Evaluations differ than previous record position below!\n";
-	cpu->print_board(cerr);
-	cerr << cpu->toFEN() << "\n";
-	cerr << "Stored evaluation = " << l[index]
-	     << ", new evaluation = " << e
-	     << ", fast evaluate = " << cpu->fast_evaluate() << "\n\n";
-	allowed_diff = abs(l[index]-e);
-	if (allowed_diff > 10000)
-	  *(comm->settings.get_bool_setting("Eval3_show_evaluation_info")) = true;
+        cerr << "Evaluations differ than previous record position below!\n";
+        cpu->print_board(cerr);
+        cerr << cpu->toFEN() << "\n";
+        cerr << "Stored evaluation = " << l[index]
+                                            << ", new evaluation = " << e
+                                            << ", fast evaluate = " << cpu->fast_evaluate() << "\n\n";
+        allowed_diff = abs(l[index]-e);
+        if (allowed_diff > 10000)
+          *(comm->settings.get_bool_setting("Eval3_show_evaluation_info")) = true;
       }
     }
     if (++index == num_positions) load_files = false;
   }
   void game_result(string result) {}
-  
+
   bool store;
   int allowed_diff;
   Engine *cpu;
@@ -428,7 +433,7 @@ void TestSuite::test_eval3(int num) {
 class TestRetroMoves {
 public:
   TestRetroMoves() : b(), max_retro_move_count(0) {}
-  
+
   bool load_file(string filename) {
     current_file = filename;
     game_number_in_file = 0;
@@ -451,38 +456,38 @@ public:
       Undo undo = b.execute_move(move);
       uchar after = b.allowed_symmetries();
 
-      
+
       uchar transform[8];
       int num_transforms = 0;
 
       if (before==3  &&  after==0xFF) {
-	transform[num_transforms++] = 0;
-	transform[num_transforms++] = 2;//inverse of 2
-	transform[num_transforms++] = 4;//inverse of 4
-	transform[num_transforms++] = 6;//inverse of 5
+        transform[num_transforms++] = 0;
+        transform[num_transforms++] = 2;//inverse of 2
+        transform[num_transforms++] = 4;//inverse of 4
+        transform[num_transforms++] = 6;//inverse of 5
       } else if (before==1  &&  after==0xFF) {
-	do {
-	  transform[num_transforms] = num_transforms;
-	} while (++num_transforms<8);
+        do {
+          transform[num_transforms] = num_transforms;
+        } while (++num_transforms<8);
       } else if (before==1  &&  after==3) {
-	transform[num_transforms++] = 0;
-	transform[num_transforms++] = 1;//inverse of 1
+        transform[num_transforms++] = 0;
+        transform[num_transforms++] = 1;//inverse of 1
       } else if (before == after) {
-	transform[num_transforms++] = 0;
+        transform[num_transforms++] = 0;
       } else {
-	cerr << "Error: transform " << (int)before << " -> " << (int)after << "\n";
-	assert(0);
-	exit(1);
+        cerr << "Error: transform " << (int)before << " -> " << (int)after << "\n";
+        assert(0);
+        exit(1);
       }
 
 
       for (int j=0; j<num_transforms; j++) {
-	
-	Move tmove(move);
-	Undo tundo(undo);
 
-	if (transform[j]) {
-	  /*
+        Move tmove(move);
+        Undo tundo(undo);
+
+        if (transform[j]) {
+          /*
 	  // modify tmove, tundo
 	  tmove.from = reflect(move.from, transform[j]);
 	  tmove.to = reflect(move.to, transform[j]);
@@ -490,95 +495,95 @@ public:
 	    tundo.threat_pos = reflect(tundo.threat_pos, transform[j]);
 	  if (legal_pos(tundo.en_passant))
 	    tundo.en_passant = reflect(tundo.en_passant, transform[j]);
-	  */
+           */
 
-	  // transform board
-	  b.transform_board(transform[j]);
-	}
-
-
-	vector<triple<Move,Undo,int> > rm = b.get_retro_moves(true, true, true, true);
-
-	if (rm.size() > max_retro_move_count) {
-	  cerr << "\nNew record! The position with description\n\t"
-	       << b.toFEN() << "\nhas " << rm.size() << " retro moves.\n";
-	  max_retro_move_count = rm.size();
-	}
-	
-	bool found2 = false;
-	
-	for (uint i=0; i<rm.size(); i++) {
-	  // Don't think it will cause any error that positions with more
-	  // than 32 occur.
-	  
-	  if (rm[i].third) b.transform_board(rm[i].third);
-	  
-	  b.undo_move(rm[i].first, rm[i].second);
-	  
-	  bool found = false;
-	  Move m = b.moves();
-	  while (b.next_move(m)) {
-	    found |= m == rm[i].first;
-	    
-	    Undo u = b.execute_move(m);
-	    b.undo_move(m, u);
-	  }
-	  
-	  b.execute_move(rm[i].first);
-	  
-	  if (rm[i].third) b.inv_transform_board(rm[i].third);
-	  
-	  if (!found) {
-	    cerr << "File " << current_file << ", game " << game_number_in_file << "\n"
-		 << i << ":\t" << rm[i].first.toString2() << "\t"
-		 << rm[i].third << "\t" << rm[i].second.toString() << "...";
-	    cerr << "Move not found:\n";
-	    
-	    {
-	      if (rm[i].third) b.transform_board(rm[i].third);
-	      b.undo_move(rm[i].first, rm[i].second);
-	      b.print_board(cerr);
-	      Move m = b.moves();
-	      while (b.next_move(m)) {
-		cerr << "(" << m.toString2() << ")";
-		Undo u = b.execute_move(m);
-		b.undo_move(m, u);
-	      }
-	      b.execute_move(rm[i].first);
-	      if (rm[i].third) b.inv_transform_board(rm[i].third);
-	    }
-	    
-	    
-	    b.print_board(cerr);
-	    assert(0);
-	    exit(1);
-	  }
-	  
-	  found2 |= (rm[i].first == tmove)  &&  (rm[i].second == tundo);
-	}
-	
-	if (!found2) {
-	  cerr << "File " << current_file << ", game " << game_number_in_file << ":\n"
-	       << "\nLast played move (" << tmove.toString2() << ", " << tundo.toString() << ")\n"
-	       << "in current position not returned by retro moves.\n";
-	  for (uint i=0; i<rm.size(); i++) {
-	    // Why the fuck is "" necessary?!?
-	    cerr << "" << i << ":\t" << rm[i].first.toString2() << "\t"
-		 << rm[i].third << "\t" << rm[i].second.toString() << "\n";
-	  }
-	  b.print_board(cerr);
-	  for (int i=0; i<b.get_moves_played(); i++)
-	    cerr << gah[i].toString2() << " ";
-	  cerr << "\n";
-	  assert(0);
-	  exit(1);
-	}
+          // transform board
+          b.transform_board(transform[j]);
+        }
 
 
-	if (transform[j]) {
-	  // transform board back!
-	  b.inv_transform_board(transform[j]);
-	}
+        vector<triple<Move,Undo,int> > rm = b.get_retro_moves(true, true, true, true);
+
+        if (rm.size() > max_retro_move_count) {
+          cerr << "\nNew record! The position with description\n\t"
+              << b.toFEN() << "\nhas " << rm.size() << " retro moves.\n";
+          max_retro_move_count = rm.size();
+        }
+
+        bool found2 = false;
+
+        for (uint i=0; i<rm.size(); i++) {
+          // Don't think it will cause any error that positions with more
+          // than 32 occur.
+
+          if (rm[i].third) b.transform_board(rm[i].third);
+
+          b.undo_move(rm[i].first, rm[i].second);
+
+          bool found = false;
+          Move m = b.moves();
+          while (b.next_move(m)) {
+            found |= m == rm[i].first;
+
+            Undo u = b.execute_move(m);
+            b.undo_move(m, u);
+          }
+
+          b.execute_move(rm[i].first);
+
+          if (rm[i].third) b.inv_transform_board(rm[i].third);
+
+          if (!found) {
+            cerr << "File " << current_file << ", game " << game_number_in_file << "\n"
+                << i << ":\t" << rm[i].first.toString2() << "\t"
+                << rm[i].third << "\t" << rm[i].second.toString() << "...";
+            cerr << "Move not found:\n";
+
+            {
+              if (rm[i].third) b.transform_board(rm[i].third);
+              b.undo_move(rm[i].first, rm[i].second);
+              b.print_board(cerr);
+              Move m = b.moves();
+              while (b.next_move(m)) {
+                cerr << "(" << m.toString2() << ")";
+                Undo u = b.execute_move(m);
+                b.undo_move(m, u);
+              }
+              b.execute_move(rm[i].first);
+              if (rm[i].third) b.inv_transform_board(rm[i].third);
+            }
+
+
+            b.print_board(cerr);
+            assert(0);
+            exit(1);
+          }
+
+          found2 |= (rm[i].first == tmove)  &&  (rm[i].second == tundo);
+        }
+
+        if (!found2) {
+          cerr << "File " << current_file << ", game " << game_number_in_file << ":\n"
+              << "\nLast played move (" << tmove.toString2() << ", " << tundo.toString() << ")\n"
+              << "in current position not returned by retro moves.\n";
+          for (uint i=0; i<rm.size(); i++) {
+            // Why the fuck is "" necessary?!?
+            cerr << "" << i << ":\t" << rm[i].first.toString2() << "\t"
+                << rm[i].third << "\t" << rm[i].second.toString() << "\n";
+          }
+          b.print_board(cerr);
+          for (int i=0; i<b.get_moves_played(); i++)
+            cerr << gah[i].toString2() << " ";
+          cerr << "\n";
+          assert(0);
+          exit(1);
+        }
+
+
+        if (transform[j]) {
+          // transform board back!
+          b.inv_transform_board(transform[j]);
+        }
       }
     }
     catch (Error) {
@@ -586,7 +591,7 @@ public:
       b.print_board(cerr);
       exit(1);
     }
-    
+
   }
   void game_result(string result) {}
 

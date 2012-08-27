@@ -6,23 +6,10 @@
 
 #include "board_2.hxx"
 #include "board_2_plus.hxx"
+#include "engine/engine_constants.hxx"
 
 #include <map>
 #include <vector>
-
-#define LOG_MAX_GAME_LENGTH 10
-#define MAX_GAME_LENGTH 1<<LOG_MAX_GAME_LENGTH
-
-#define MAX_POSSIBLE_MOVES 100 // Need not be a power of 2
-
-#define MAX_SEARCH_DEPTH 64 // Need not be a power of 2
-#define MAX_CALC_DEPTH MAX_SEARCH_DEPTH
-
-#define MAX_MATE_DEPTH 512
-#define ORACLE_WIN (WIN/2)
-#define ORACLE_LOSS (-ORACLE_WIN)
-#define GUARANTEED_WIN (WIN-MAX_MATE_DEPTH)
-#define GUARANTEED_LOSS (-GUARANTEED_WIN)
 
 struct RepetitionInfo {
   RepetitionInfo() : num_repetitions(0) {}
@@ -45,6 +32,7 @@ extern bool exec_undo_activated;
 #undef nameofclass
 #undef ClassName
 #undef Extends
+
 #define Extends Board2plus
 #define ClassName Board3plus
 #define nameofclass "Board3plus"

@@ -328,33 +328,31 @@ bool Board::set_board(vector<PiecePos> &piece_list, int player_turn,
   reset_all();
 
   int king_pos[2];
-#define wking_pos king_pos[WHITE]
-#define bking_pos king_pos[BLACK]
-  wking_pos = bking_pos = -1;
+  king_pos[WHITE] = king_pos[BLACK] = -1;
 
   // Find position of kings
   for (uint i=0; i<piece_list.size(); i++) {
     if (piece_list[i].piece == WKING) {
-      assert(wking_pos == -1);
-      wking_pos = piece_list[i].pos;
+      assert(king_pos[WHITE] == -1);
+      king_pos[WHITE] = piece_list[i].pos;
     }
     if (piece_list[i].piece == BKING) {
-      assert(bking_pos == -1);
-      bking_pos = piece_list[i].pos;
+      assert(king_pos[BLACK] == -1);
+      king_pos[BLACK] = piece_list[i].pos;
     }
   }
-  assert(wking_pos != -1  &&  bking_pos != -1);
+  assert(king_pos[WHITE] != -1  &&  king_pos[BLACK] != -1);
 
-  if (abs(COLUMN[wking_pos]-COLUMN[bking_pos]) <= 1  &&
-      abs(ROW[wking_pos]-ROW[bking_pos]) <= 1) return false;// kings to close
+  if (abs(COLUMN[king_pos[WHITE]]-COLUMN[king_pos[BLACK]]) <= 1  &&
+      abs(ROW[king_pos[WHITE]]-ROW[king_pos[BLACK]]) <= 1) return false;// kings to close
 
   Position en_passant_unique_encoding = 0;
 
   { // Decode castling/en passant
     Piece tmp_board[64];
     memset(tmp_board, 0, 64);
-    tmp_board[wking_pos] = WKING;
-    tmp_board[bking_pos] = BKING;
+    tmp_board[king_pos[WHITE]] = WKING;
+    tmp_board[king_pos[BLACK]] = BKING;
 
     int transf = -1;
 
@@ -387,21 +385,21 @@ bool Board::set_board(vector<PiecePos> &piece_list, int player_turn,
             if (rook_color) {
               if (king_color) {
                 // black rook on own king => short castling
-                piece_list[i].pos = DECODE_SHORT_CASTLING_ROOK[bking_pos];
+                piece_list[i].pos = DECODE_SHORT_CASTLING_ROOK[king_pos[BLACK]];
                 _castling |= BLACK_SHORT_CASTLING;
               } else {
                 // black rook on opponent king => long castling
-                piece_list[i].pos = DECODE_LONG_CASTLING_ROOK[bking_pos];
+                piece_list[i].pos = DECODE_LONG_CASTLING_ROOK[king_pos[BLACK]];
                 _castling |= BLACK_LONG_CASTLING;
               }
             } else {
               if (king_color) {
                 // white rook on opponent king => long castling
-                piece_list[i].pos = DECODE_LONG_CASTLING_ROOK[wking_pos];
+                piece_list[i].pos = DECODE_LONG_CASTLING_ROOK[king_pos[WHITE]];
                 _castling |= WHITE_LONG_CASTLING;
               } else {
                 // white rook on own king => short castling
-                piece_list[i].pos = DECODE_SHORT_CASTLING_ROOK[wking_pos];
+                piece_list[i].pos = DECODE_SHORT_CASTLING_ROOK[king_pos[WHITE]];
                 _castling |= WHITE_SHORT_CASTLING;
               }
             }
@@ -501,8 +499,8 @@ bool Board::set_board(vector<PiecePos> &piece_list, int player_turn,
       // Do the transformation
       for (uint i=0; i<piece_list.size(); i++)
         piece_list[i].pos = reflect(piece_list[i].pos, transf);
-      wking_pos = reflect(wking_pos, transf);
-      bking_pos = reflect(bking_pos, transf);
+      king_pos[WHITE] = reflect(king_pos[WHITE], transf);
+      king_pos[BLACK] = reflect(king_pos[BLACK], transf);
 
 
       if (_en_passant != ILLEGAL_POS)
@@ -510,10 +508,7 @@ bool Board::set_board(vector<PiecePos> &piece_list, int player_turn,
     }
   }
 
-  place_kings(wking_pos, bking_pos);
-
-#undef wking_pos
-#undef bking_pos
+  place_kings(king_pos[WHITE], king_pos[BLACK]);
 
   for (unsigned int i=0; i<piece_list.size(); i++) {
     if (PIECE_KIND[piece_list[i].piece] != KING) {
@@ -1025,22 +1020,6 @@ string Board::toFEN() const {
   s[index] = 0;
   return s;
 }
-/*
-    a b c d e f g h
-  +-----------------+    |
-8 |                 | 8  | 1b
-7 |                 | 7  |
-6 |                 | 6  | White has lost castling
-5 |                 | 5  | Black has lost castling
-4 | P p             | 4  |
-3 | e               | 3  | moves played since progress = 0
-2 |                 | 2  |
-1 | K       k       | 1  | en passant at a3
-  +-----------------+    |
-    a b c d e f g h
-loadfen 8/8/8/8/Pp6/8/8/K3k3 b - a3
-index database
- */
 
 
 //#############################################################

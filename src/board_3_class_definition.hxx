@@ -65,7 +65,10 @@ public:
   // Adjustable parameters
   int show_last_num_moves;
 
-  bool try_execute_null_move();
+  /**
+   * Returns true if successful.
+   */
+  bool make_null_move();
   void undo_null_move();
 
 protected:

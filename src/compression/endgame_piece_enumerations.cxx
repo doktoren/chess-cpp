@@ -32,37 +32,6 @@ bool piece_overlap(int num_pieces, ...) {
 +++++++++++++++++++++++++++
  */
 
-/*
-Has been moved to board.?xx
-
-Position REFLECTION_TABLE[8*64];
-
-void init_reflection_table() {
-  static bool initialized = false;
-  if (initialized) return;
-  initialized = true;
-
-  for (int refl=0; refl<8; refl++) {
-    for (int p=0; p<64; p++) {
-      int refl_pos = p;
-      if (refl & 1) refl_pos ^= 7;
-      if (refl & 2) refl_pos ^= 7<<3;
-      if (refl & 4) refl_pos = ((refl_pos >> 3)|(refl_pos << 3)) & 63;
-
-      REFLECTION_TABLE[(refl << 6) | p] = refl_pos;
-    }
-  }
-
-
-  cerr << "\nPosition REFLECTION_TABLE[8*64] = {";
-  for (int i=0; i<8*64; i++) {
-    if (i) cerr << ",";
-    cerr << (int)REFLECTION_TABLE[i];
-  cerr << "};\n\n";
-}
- */
-
-
 int XX_COMPRESS[64*64];// XX_compress[(j<<6)|i], j<i
 pair<Position, Position> XX_DECOMPRESS[63*64/2];
 void init_XX_tables() {
@@ -280,47 +249,6 @@ void verify_king_full_symmetry() {
   }
 }
 
-
-void latex_print_king_fs_indexes(ostream &os) {
-  string l[64];
-  for (int white_king=0; white_king<64; white_king++) {
-    os << "White king on " << POS_NAME[white_king] << '\n';
-    for (int black_king=0; black_king<64; black_king++) {
-      IndexRefl ir = king_full_symmetry(white_king, black_king);
-      int index = ir.index;
-      if (index == -1) l[black_king] = "-";
-      else {
-        l[black_king] = toString(index);
-        string tmp = " ---";
-        if (ir.refl & 1) tmp[1] = 'v';
-        if (ir.refl & 2) tmp[2] = 'h';
-        if (ir.refl & 4) tmp[3] = 'd';
-        l[black_king] += tmp;
-      }
-    }
-    print_latex_string_map64(os, l, 7);
-  }
-
-  for (int black_king=0; black_king<64; black_king++) {
-    os << "Black king on " << POS_NAME[black_king] << '\n';
-    for (int white_king=0; white_king<64; white_king++) {
-      IndexRefl ir = king_full_symmetry(white_king, black_king);
-      int index = ir.index;
-      if (index == -1) l[white_king] = "-";
-      else {
-        l[white_king] = toString(index);
-        string tmp = " ---";
-        if (ir.refl & 1) tmp[1] = 'v';
-        if (ir.refl & 2) tmp[2] = 'h';
-        if (ir.refl & 4) tmp[3] = 'd';
-        l[white_king] += tmp;
-      }
-    }
-    print_latex_string_map64(os, l, 7);
-  }
-}
-
-
 // If BOUND_KING==1 then black king will be bound to the
 // a1-d1-d4 triangle. Otherwise for white king.
 //
@@ -450,25 +378,6 @@ void verify_king_pawn_symmetry() {
 }
 
 
-
-void init_piece_enumerations() {
-  static bool initialized = false;
-  if (initialized) return;
-  initialized = true;
-
-  //init_reflection_table();
-  init_XX_tables();
-  init_PP_tables();
-  init_king_full_symmetry();
-  init_king_pawn_symmetry();
-
-#ifdef ALLOW_5_MEN_ENDGAME
-  init_XXX_tables();
-  init_PPP_tables();
-#endif
-}
-
-
 #ifdef ALLOW_5_MEN_ENDGAME
 void verify_xxx_compress() {
   cerr << "Verifying xxx_compress()...\n";
@@ -506,3 +415,31 @@ void verify_piece_enumerations() {
   verify_king_full_symmetry();
   verify_king_pawn_symmetry();
 }
+
+
+int init_piece_enumerations() {
+  static bool initialized = false;
+  if (initialized) return 0;
+  initialized = true;
+
+  init_XX_tables();
+  init_PP_tables();
+  init_king_full_symmetry();
+  init_king_pawn_symmetry();
+
+#ifdef ALLOW_5_MEN_ENDGAME
+  init_XXX_tables();
+  init_PPP_tables();
+#endif
+
+#ifndef NDEBUG
+  verify_piece_enumerations();
+#ifdef ALLOW_5_MEN_ENDGAME
+  verify_xxx_compress();
+  verify_ppp_compress();
+#endif
+#endif
+  return 0;
+}
+
+int foo = init_piece_enumerations();

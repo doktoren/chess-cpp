@@ -90,14 +90,6 @@ public:
 private:
   bool read_tag(char *line);
 
-  /*
-  // skips chars of line until EOL or one of the chars specified.
-  // That char is not removed.
-  void skip_until(char end_char);
-  void skip_until(const char* end_chars);
-
-  string read_until(const char end_char);
-  */
   string game_result;
 };
 
@@ -137,7 +129,7 @@ private:
   ofstream out;
   map<string, string> tags;
 
-  friend bool Board2::try_execute_null_move();
+  friend bool Board2::make_null_move();
 };
 
 
@@ -159,7 +151,7 @@ void PGNWriter::output_game(Board3 &board) {
   for (uint i=first_known_move; i<history.size(); i++) {
     add_move(b, history[i]);
     if (history[i].is_defined()) b.execute_move(history[i]);
-    else my_assert(b.try_execute_null_move());
+    else my_assert(b.make_null_move());
   }
   end_game(board); // b can't take move repetition into account
 }

@@ -156,10 +156,6 @@ extern const string game_status_texts[7];
 #define DB_ARRAY_LENGTH (3*DB_BQUEEN_VALUE+1)
 extern const int ENDGAME_HASHING_CONSTANTS[13];
 
-// Nothing may evaluate to more/less than +/-WIN
-#define INF 0x7FFFFFFF
-#define WIN 0x003FFFFF
-
 extern const uint PIECE_COUNT_CONSTANTS[13];
 extern const uint ENDGAME_HASHING_INSUFFICIENT_MATERIAL_CONSTANTS[13][2];
 
@@ -250,11 +246,11 @@ void print_map64(ostream &os, TYPE *list64, int num_digits=0, int base=10) {
 template <class TYPE>
 void print_latex_map64(ostream &os, TYPE *list64, int num_digits=0, int base=10) {
   os << "{\\setlength\\tabcolsep{0.7\\tabcolsep}\n"
-     << "\\begin{footnotesize}\n"
-     << "\\begin{center}\n"
-     << "\\begin{tabular}{c|cccccccc|c}\n"
-     << "\\multicolumn{1}{c}{}&  a& b& c& d& e& f& g&\\multicolumn{1}{c}{h}\\\\\n"
-     << "\\cline{2-9}\n";
+      << "\\begin{footnotesize}\n"
+      << "\\begin{center}\n"
+      << "\\begin{tabular}{c|cccccccc|c}\n"
+      << "\\multicolumn{1}{c}{}&  a& b& c& d& e& f& g&\\multicolumn{1}{c}{h}\\\\\n"
+      << "\\cline{2-9}\n";
 
   for (int r=7; r>=0; r--) {
     os << (r+1) << " & ";
@@ -266,11 +262,11 @@ void print_latex_map64(ostream &os, TYPE *list64, int num_digits=0, int base=10)
   }
 
   os << "\\cline{2-9}\n"
-     << "\\multicolumn{1}{c}{}&  a& b& c& d& e& f& g&\\multicolumn{1}{c}{h}\\\\\n"
-     << "\\end{tabular}\n"
-     << "\\end{center}\n"
-     << "\\end{footnotesize}\n"
-     << "}\n";
+      << "\\multicolumn{1}{c}{}&  a& b& c& d& e& f& g&\\multicolumn{1}{c}{h}\\\\\n"
+      << "\\end{tabular}\n"
+      << "\\end{center}\n"
+      << "\\end{footnotesize}\n"
+      << "}\n";
 }
 
 // TYPE is signed value
@@ -309,11 +305,11 @@ void print_signed_map64(OSTREAM &os, TYPE *list64, int num_digits=0, int base=10
 template <class TYPE>
 void print_latex_signed_map64(ostream &os, TYPE *list64, int num_digits=0, int base=10) {
   os << "{\\setlength\\tabcolsep{0.7\\tabcolsep}\n"
-     << "\\begin{footnotesize}\n"
-     << "\\begin{center}\n"
-     << "\\begin{tabular}{c|cccccccc|c}\n"
-     << "\\multicolumn{1}{c}{}&  a& b& c& d& e& f& g&\\multicolumn{1}{c}{h}\\\\\n"
-     << "\\cline{2-9}\n";
+      << "\\begin{footnotesize}\n"
+      << "\\begin{center}\n"
+      << "\\begin{tabular}{c|cccccccc|c}\n"
+      << "\\multicolumn{1}{c}{}&  a& b& c& d& e& f& g&\\multicolumn{1}{c}{h}\\\\\n"
+      << "\\cline{2-9}\n";
 
   for (int r=7; r>=0; r--) {
     os << (r+1) << " & ";
@@ -325,11 +321,11 @@ void print_latex_signed_map64(ostream &os, TYPE *list64, int num_digits=0, int b
   }
 
   os << "\\cline{2-9}\n"
-     << "\\multicolumn{1}{c}{}&  a& b& c& d& e& f& g&\\multicolumn{1}{c}{h}\\\\\n"
-     << "\\end{tabular}\n"
-     << "\\end{center}\n"
-     << "\\end{footnotesize}\n"
-     << "}\n";
+      << "\\multicolumn{1}{c}{}&  a& b& c& d& e& f& g&\\multicolumn{1}{c}{h}\\\\\n"
+      << "\\end{tabular}\n"
+      << "\\end{center}\n"
+      << "\\end{footnotesize}\n"
+      << "}\n";
 }
 
 // TYPE is signed value
@@ -350,12 +346,12 @@ void print_string_map64(ostream &os, TYPE *list64, int padded_length) {
     os << (r+1) << " |";
     for (int c=0; c<8; c++) {
       for (int i=list64[8*r+c].size(); i<=padded_length; i++)
-	os << ' ';
+        os << ' ';
       os << list64[8*r+c];
     }
     os << " | " << (r+1) << '\n';
   }
-  
+
   os << "  +";
   for (int i=0; i<=padded_length; i++) os << "--------";
   os << "-+\n";
@@ -371,29 +367,29 @@ void print_string_map64(ostream &os, TYPE *list64, int padded_length) {
 template <class TYPE>
 void print_latex_string_map64(ostream &os, TYPE *list64, int padded_length) {
   os << "{\\setlength\\tabcolsep{0.7\\tabcolsep}\n"
-     << "\\begin{footnotesize}\n"
-     << "\\begin{center}\n"
-     << "\\begin{tabular}{c|cccccccc|c}\n"
-     << "\\multicolumn{1}{c}{}&  a& b& c& d& e& f& g&\\multicolumn{1}{c}{h}\\\\\n"
-     << "\\cline{2-9}\n";
+      << "\\begin{footnotesize}\n"
+      << "\\begin{center}\n"
+      << "\\begin{tabular}{c|cccccccc|c}\n"
+      << "\\multicolumn{1}{c}{}&  a& b& c& d& e& f& g&\\multicolumn{1}{c}{h}\\\\\n"
+      << "\\cline{2-9}\n";
 
   for (int r=7; r>=0; r--) {
     os << (r+1) << " & ";
     for (int c=0; c<8; c++) {
       if (c) os << '&';
       for (int i=list64[8*r+c].size(); i<padded_length; i++)
-	os << ' ';
+        os << ' ';
       os << list64[8*r+c];
     }
     os << " & " << (r+1) << "\\\\\n";
   }
 
   os << "\\cline{2-9}\n"
-     << "\\multicolumn{1}{c}{}&  a& b& c& d& e& f& g&\\multicolumn{1}{c}{h}\\\\\n"
-     << "\\end{tabular}\n"
-     << "\\end{center}\n"
-     << "\\end{footnotesize}\n"
-     << "}\n";
+      << "\\multicolumn{1}{c}{}&  a& b& c& d& e& f& g&\\multicolumn{1}{c}{h}\\\\\n"
+      << "\\end{tabular}\n"
+      << "\\end{center}\n"
+      << "\\end{footnotesize}\n"
+      << "}\n";
 }
 
 //################################
@@ -434,8 +430,8 @@ public:
   // If so, piece_list, _castling and _en_passant are updated accordingly.
   // piece_list might be changed if piece overlap encodes castling
   bool set_board(vector<PiecePos> &piece_list, int player_turn,
-		 int &_castling, int &_en_passant,// use 0, ILLEGAL_POS as default
-		 int _moves_played_since_progress = 0, int full_move_number = 50);
+      int &_castling, int &_en_passant,// use 0, ILLEGAL_POS as default
+      int _moves_played_since_progress = 0, int full_move_number = 50);
   bool set_board(vector<PiecePos> &piece_list, int player_turn) {
     int _castling = 0;
     int _en_passant = ILLEGAL_POS;
@@ -447,15 +443,17 @@ public:
     int index = 0;
     for (int i=0; i<64; i++)
       if (board[i]) {
-	assert((uint)index < l.size());
-	l[index++] = PiecePos(board[i], i);
+        assert((uint)index < l.size());
+        l[index++] = PiecePos(board[i], i);
       }
     assert((uint)index == l.size());
   }
-  // get_encoded_piece_list encodes en passant and castling in the position of the pieces
-  // (castling only encoded if ENDGAME_TABLE_WITH_CASTLING==1)
-  void get_encoded_piece_list(vector<PiecePos> &l) const;
 
+  /**
+   * get_encoded_piece_list encodes en passant and castling in the position of the pieces
+   * (castling only encoded if ENDGAME_TABLE_WITH_CASTLING==1)
+   */
+  void get_encoded_piece_list(vector<PiecePos> &l) const;
 
   // returns b7b6b5b4b3b2b1b0. bi is 1 iff transformation i is legal
   uchar allowed_symmetries() {
@@ -503,8 +501,8 @@ public:
   }
   uchar get_num_pawns() const {
     return get_num_pieces() - 2 -
-      (piece_count.individual.num_non_zugzwang_pieces & 0xF) -
-      (piece_count.individual.num_non_zugzwang_pieces >> 4);
+        (piece_count.individual.num_non_zugzwang_pieces & 0xF) -
+        (piece_count.individual.num_non_zugzwang_pieces >> 4);
   }
 
   bool get_insufficient_material_a() const {
@@ -521,7 +519,7 @@ public:
   }
 
   int get_moves_played() { return moves_played; }
-  
+
   bool played_from_scratch;
   string initial_position;
 
@@ -584,23 +582,6 @@ protected:
 
   // In half-moves. Eg. in move 5.b moves_played is 2*(5-1)+1
   int moves_played;
-
-  /*
-  // Keep track of the number of each type of pieces
-  uchar piece_count[13];
-
-  // Returns true if the numbers of pieces can be reached from the initial position.
-  // Ie. max 15 pieces (not counting king). 6 rooks and 6 queens not possible.
-  bool valid_piece_count(bool player) {
-    if (player) {
-      return 15 >= max(0, piece_count[BKNIGHT]-2) + max(0, piece_count[BBISHOP]-2)
-	+ max(0, piece_count[BROOK]-2) + max(0, piece_count[BQUEEN]-1) + piece_count[BPAWN];
-    } else {
-      return 15 >= max(0, piece_count[WKNIGHT]-2) + max(0, piece_count[WBISHOP]-2)
-	+ max(0, piece_count[WROOK]-2) + max(0, piece_count[WQUEEN]-1) + piece_count[WPAWN];
-    }
-  }
-  */
 
   union {
     struct {

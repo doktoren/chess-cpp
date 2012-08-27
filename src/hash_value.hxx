@@ -8,11 +8,6 @@
 using namespace std;
 
 struct HashValue {
-  // Problem med HashValue() : low(0), high(0) {}
-  // Constructor bliver kaldt paa HashValue hash_values[13*64]
-  // EFTER at denne er blevet initialiseret andetsteds fra.
-  // HashValue() : low(0), high(0) {}
-  // Ny løsning, ændr hash_values[13*64] til *hash_values
   HashValue() : low(0), high(0) {}
   HashValue(unsigned int low, unsigned int high) : low(low), high(high) {}
   // max_index will always be on the form (2^n)-1

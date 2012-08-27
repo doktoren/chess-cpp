@@ -13,7 +13,6 @@ void build_endgame_retrograde(EndgameFunctionality* endgame, char **table) {
   // Perform forward scan to identify all leaf nodes, count the remaining
   // untried edges of each node, and use examine all edges to reduced positions.
   uchar *move_count[2];
-  //uchar *original_move_count[2];//debug
 
   // Remember the maximal mate depth in the table - do not stop
   // until this is reached
@@ -46,8 +45,6 @@ void build_endgame_retrograde(EndgameFunctionality* endgame, char **table) {
     map<int, EFState> old_states = endgame->load_dependency(player);
 
     for (uint i=0; i<endgame->get_table_size(); i++) {
-      //if ((i&0x3FFF)==0) { cerr << i << " "; cerr.flush(); }
-
       endgame->decompress_table_index(i, piece_list);
       bool legal_position = board.set_board(piece_list, player);
 

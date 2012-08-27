@@ -57,7 +57,7 @@ public:
     piece_number_stack[27] = WC_BISHOP_ID;
     piece_number_stack[28] = WB_KNIGHT_ID;
     piece_number_stack[29] = WA_ROOK_ID;
-    
+
     // for (int i=0; i<32; i++) piece_number_stack[i] = i;
     stack_index = 32;
 
@@ -70,29 +70,29 @@ public:
   bool sanity_check(ostream &os) {
     for (int i=0; i<32; i++) {
       if (piece_position[i] != ILLEGAL_POS) {
-	if (piece_number[piece_position[i]] != i) {
-	  os << "piece_number[piece_position[" << i << "]] != " << i << "\n";
-	  return false;
-	}
-	for (int p=0; p<64; p++) if (p != piece_position[i]) {
-	  if (piece_number[p] == i) {
-	    os << "piece_number[" << POS_NAME[p] << "] == " << i << "\n";
-	    return false;
-	  }
-	}
-	for (int j=0; j<stack_index; j++)
-	  if (piece_number_stack[j] == i) {
-	    os << "piece_number_stack[" << j << "] == " << i << "\n";
-	    return false;
-	  }
+        if (piece_number[piece_position[i]] != i) {
+          os << "piece_number[piece_position[" << i << "]] != " << i << "\n";
+          return false;
+        }
+        for (int p=0; p<64; p++) if (p != piece_position[i]) {
+          if (piece_number[p] == i) {
+            os << "piece_number[" << POS_NAME[p] << "] == " << i << "\n";
+            return false;
+          }
+        }
+        for (int j=0; j<stack_index; j++)
+          if (piece_number_stack[j] == i) {
+            os << "piece_number_stack[" << j << "] == " << i << "\n";
+            return false;
+          }
       }
     }
     for (int i=0; i<stack_index; i++)
       for (int p=0; p<64; p++)
-	if (piece_number_stack[i] == piece_number[p]) {
-	  os << "piece_number_stack[" << i << "] == piece_number[" << POS_NAME[p] << "]\n";
-	  return false;
-	}
+        if (piece_number_stack[i] == piece_number[p]) {
+          os << "piece_number_stack[" << i << "] == piece_number[" << POS_NAME[p] << "]\n";
+          return false;
+        }
     return true;
   }
 
@@ -153,11 +153,11 @@ private:
 
 struct IndexStruct {
   IndexStruct() : piece_moves_index(0), square_move_list_index(0),
-		  move_list_index(0), defined(false) {}
+      move_list_index(0), defined(false) {}
   IndexStruct(uchar piece_moves_index, uchar square_move_list_index,
-	      uchar move_list_index) :
-    piece_moves_index(piece_moves_index), square_move_list_index(square_move_list_index),
-    move_list_index(move_list_index), defined(true) {}
+      uchar move_list_index) :
+        piece_moves_index(piece_moves_index), square_move_list_index(square_move_list_index),
+        move_list_index(move_list_index), defined(true) {}
 
   void clear() {
     piece_moves_index = 0;
@@ -165,7 +165,7 @@ struct IndexStruct {
     move_list_index = 0;
     defined = false;
   }
-  
+
   uchar piece_moves_index;
   uchar square_move_list_index;
   uchar move_list_index;
@@ -216,7 +216,7 @@ public:
     //os << "Piece number " << piece_number << ", moves = ";
     //for (int i=0; i<piece_move_lists[i].count; i++) os << uchar
   }
-  
+
   uchar add_to_list(uchar piece_number, uchar index) {
     if (PS) cerr << "PieceMoves::add_to_list(" << (int)piece_number << ", " << (int)index << ")\n";
     uchar result = piece_move_lists[piece_number].count++;
@@ -241,8 +241,8 @@ public:
   bool remove_from_list(pair<uchar, uchar> p) {
     return remove_from_list(p.first, p.second);
   }
-  */
-  
+   */
+
   uchar& index(uchar piece_number, uchar index) {
     assert(piece_number<32);
     assert(index < piece_move_lists[piece_number].count);
@@ -253,7 +253,7 @@ public:
   uchar& index(pair<uchar, uchar> p) {
     return piece_move_lists[p.first].indexes[p.second];
   }
-  */
+   */
 
   int count(uchar piece_number) {
     return piece_move_lists[piece_number].count;
@@ -285,7 +285,7 @@ public:
     for (int i=0; i<64; i++) counts[i] = move_lists[i].count;
     print_map64(os, counts, 2, 10);
   }
-  
+
   uchar insert_move(Position pos, uchar move_index) {
     if (PS) cerr << "SquareMoveList::insert_move(" << POS_NAME[pos] << ", " << (int)move_index << ")\n";
     LL & l = move_lists[pos];
@@ -293,11 +293,11 @@ public:
     l.move_index[index] = move_index;
     return index;
   }
-  
+
   bool remove_move(Position pos, uchar index) {
     if (PS) cerr << "SquareMoveList::remove_move(" << POS_NAME[pos] << ", " << (int)index << ")\n";
     LL &l = move_lists[pos];
-    
+
     if (index == --l.count) {
       // removing from end of list :-)
       return false;
@@ -318,7 +318,7 @@ public:
   uchar* end(Position pos) {
     return &(move_lists[pos].move_index[move_lists[pos].count]);
   }
-  */
+   */
 
   void init_iterator(Position pos) {
     iterator_current = &(move_lists[pos].move_index[-1]);
@@ -360,7 +360,7 @@ public:
 
   void print(ostream &os) {
     os << "MoveList: num_moves(W=" << count[WHITE] << ", B="
-       << count[BLACK] << ")\n";
+        << count[BLACK] << ")\n";
     os << "White moves: ";
     for (int i=0; i<count[WHITE]; i++)
       os << toString(i) << ", ";
@@ -373,12 +373,12 @@ public:
   bool sanity_check(ostream &os) {
     for (int i=0; i<256; i++) {
       if (move_ref[move_backref[i]] != i) {
-	os << "move_ref[move_backref[" << i << "]] != " << i << "\n";
-	return false;
+        os << "move_ref[move_backref[" << i << "]] != " << i << "\n";
+        return false;
       }
       if ((i^move_ref[i])&128) {
-	os << "(" << i << "^move_ref[" << i << "])&128\n";
-	return false;
+        os << "(" << i << "^move_ref[" << i << "])&128\n";
+        return false;
       }
     }
     return true;
@@ -392,8 +392,8 @@ public:
       cerr << "count[WHITE] = " << count[WHITE] << ", count[BLACK] = " << count[BLACK] << "\n";
       throw Error("too many moves");
     }
-    */
-    
+     */
+
     uchar move_index = move_ref[count[player]++];
     moves[move_index] = move;
     return move_index;
@@ -412,7 +412,7 @@ public:
 
   Move operator[](uchar index) {
     assert((move_backref[index]<128  &&  move_backref[index]<count[WHITE])  ||
-	   (move_backref[index]>=128  &&  move_backref[index]<count[BLACK]));
+        (move_backref[index]>=128  &&  move_backref[index]<count[BLACK]));
     return moves[index];
   }
 
@@ -451,10 +451,10 @@ public:
 
     iterator operator--() { --move_ref_index;  }
     iterator operator++() { ++move_ref_index;  }
-    
+
     uchar* move_ref_pointer;
   };
-  */
+   */
 
   int index_to_player(uchar move_index) {
     return move_index >> 7;

@@ -18,7 +18,7 @@ private:
   void fill_table();
 
   bool load_next_opening();
-  // can be used after a succesfull call of next_opening()
+  // can be used after a successful call of next_opening()
   bool load_next_move(Board2& board, Move& move);
 
   HashTable<HashValue, Info> table;

@@ -4,7 +4,7 @@
 #include <fcntl.h>
 
 #include "unsigned_long_long.hxx"
-#include "../board_3.hxx"//Just because of some stupid constants (INF, etc.)
+#include "../engine/engine_constants.hxx"
 
 const char HEX_CHAR[16] =
 {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};

@@ -20,21 +20,12 @@ public:
 
   virtual bool loadFEN(string FEN);
 
-  // Only used by endgame table generator (?)
-  /*
-  bool set_player(bool new_player) {
-    if (player == new_player) return true;
-    if (num_checks) return false;
-    return Board::set_player(new_player);
-  }
-  */
-
   Move moves() const;
   Move moves_from_pos(Position pos) const;
   Move moves_to_dest(Position dest) const;
   Move moves_from_to(Position pos, Position dest) const;
 
-  // If you are only interestet in one kind of pieces,
+  // If you are only interested in one kind of pieces,
   // specify which one (the kind - eg. QUEEN instead of BQUEEN)
   bool next_move(Move &move, Piece piece_kind = 0) const;
 
@@ -117,8 +108,10 @@ public:
   // If this is not posible, the depth which fails are returned. Otherwise 0.
   int unreachable_position(int test_depth);
 
-
-  virtual bool try_execute_null_move();
+  /**
+   * Returns true if successful.
+   */
+  virtual bool make_null_move();
   virtual void undo_null_move();
 
   Position get_king_position(int stm) { return king_pos[stm]; }

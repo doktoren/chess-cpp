@@ -32,12 +32,12 @@ bool ClassName::clr_board3(Board *board, ostream& os, vector<string> &p)
 
   if (dot_demand(p, 1, "help")) {
     os << "Board, help:\n"
-       << "    print board  or  pb  or  dir\n"
-       << "      - print board\n"
-       << "    print move stack  or  pms\n";
+        << "    print board  or  pb  or  dir\n"
+        << "      - print board\n"
+        << "    print move stack  or  pms\n";
 
   } else if (dot_demand(p, 1, "dir")  ||
-	     dot_demand(p, 2, "print", "board")) {
+      dot_demand(p, 2, "print", "board")) {
     b.print_board(os);
 
   } else if (dot_demand(p, 3, "print", "move", "stack")) {
@@ -65,7 +65,7 @@ void ClassName::print_move_stack(ostream& os, int from_move, bool print_undo_inf
   if (print_undo_info) {
     for (int i=from_move; i<moves_played; i++) {
       os << (i >> 1)+1 << ((i&1) ? 'b' : 'w') << "  "
-	 << move_stack[i].toString() << "  - " << undo_stack[i].toString() << '\n';
+          << move_stack[i].toString() << "  - " << undo_stack[i].toString() << '\n';
     }
   } else {
     if ((from_move & 1)  &&  from_move<moves_played) {
@@ -131,7 +131,7 @@ vector<Move> ClassName::get_move_history() {
 
 
 ClassName::ClassName() :
-  Extends(), move_repetition(LOG_MAX_GAME_LENGTH+2)
+      Extends(), move_repetition(LOG_MAX_GAME_LENGTH+2)
 {
   if (PRINT_CONSTRUCTOR_DESTRUCTOR_CALLS)
     cerr << nameofclass << " constructor called.\n";
@@ -160,7 +160,7 @@ void ClassName::copy_from(ClassName &b) {
 int ClassName::calc_game_status() {
   if (move_repetition[hash_value].num_repetitions == 3) {
     // cerr << "Hash value = " << hash_value << "\n";
-    // Position occured 2 times before.
+    // Position occurred 2 times before.
     game_status_reason = REPEATED_BOARD_POSITION;
     return GAME_DRAWN;
   }
@@ -182,9 +182,6 @@ void ClassName::execute_move(Move move) {
   }
 
   move_stack[moves_played] = move;
-  //Denne kode beder selv om at komme i problemer!
-  //(execute_move har side-effekter, bl.a. på moves_played)
-  //undo_stack[moves_played] = Board2::execute_move(move);
   Undo &undo = undo_stack[moves_played];
   undo = Board2::execute_move(move);
 
@@ -205,7 +202,7 @@ bool ClassName::undo_move() {
 
   if (moves_played == cannot_undo_before) {
     cerr << "moves_played = " << moves_played << ", cannot_undo_before = "
-	 << cannot_undo_before << "\n";
+        << cannot_undo_before << "\n";
     return false;
   }
 
@@ -264,13 +261,13 @@ void ClassName::undo_move(Move move, Undo undo) {
   }
 }
 
-// Null moves is not theoretical sound.
+// Null moves are not theoretical sound.
 // Therefore move repetition stuff is ignored
-bool ClassName::try_execute_null_move() {
+bool ClassName::make_null_move() {
   // moveToSAN(Move()) = "NullMove"
   move_stack[moves_played] = Move();
 
-  bool result = Board2::try_execute_null_move();
+  bool result = Board2::make_null_move();
 
   // complete the hash value:
   hash_value = partial_hash_value;
@@ -312,9 +309,9 @@ void ClassName::verify_hash_value(ostream &os) {
 #define insert_piece(pos, piece) result ^= hash_values[(piece << 6) | pos]
 #define remove_piece(pos) result ^= hash_values[(board[pos] << 6) | pos]
 #define move_piece(from, to) {\
-int tmp = board[from] << 6;\
-result ^= hash_values[tmp | from];\
-result ^= hash_values[tmp | to];\
+    int tmp = board[from] << 6;\
+    result ^= hash_values[tmp | from];\
+    result ^= hash_values[tmp | to];\
 }
 HashValue ClassName::hash_value_after_move(Move move) {
   HashValue result = partial_hash_value;
@@ -343,15 +340,15 @@ HashValue ClassName::hash_value_after_move(Move move) {
   } else {
     if (PIECE_KIND[board[move.from]] == PAWN) {
       if (((move.from ^ move.to) & 0x18) == 0x10) {
-	// Moved 2 positions => Allow for en passant
-	Piece tmp = WPAWN+BPAWN-board[move.from];
-	if ((COLUMN[move.to] > 0  &&  board[move.to-1] == tmp)  ||
-	    (COLUMN[move.to] < 7  &&  board[move.to+1] == tmp)) {
-	  // There is an enemy pawn ready to take advantage of the
-	  // en passant. It is to bothersome to tjeck if this pawn
-	  // will be unable to use the en passant because of some check.
-	  _en_passant ^= (move.from + move.to) >> 1;
-	}
+        // Moved 2 positions => Allow for en passant
+        Piece tmp = WPAWN+BPAWN-board[move.from];
+        if ((COLUMN[move.to] > 0  &&  board[move.to-1] == tmp)  ||
+            (COLUMN[move.to] < 7  &&  board[move.to+1] == tmp)) {
+          // There is an enemy pawn ready to take advantage of the
+          // en passant. It is to bothersome to tjeck if this pawn
+          // will be unable to use the en passant because of some check.
+          _en_passant ^= (move.from + move.to) >> 1;
+        }
       }
     }
     move_piece(move.from, move.to);
@@ -400,7 +397,7 @@ void ClassName::move_piece(Position from, Position to) {
 #ifndef NDEBUG
   if (!(legal_pos(from)  &&  legal_pos(to)  &&  board[from])) {
     cerr << "Error while moving from " << POS_NAME[from] << " to "
-	 << POS_NAME[to] << " in position\n";
+        << POS_NAME[to] << " in position\n";
     print_board(cerr);
     assert(0);
   }

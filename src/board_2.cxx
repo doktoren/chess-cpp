@@ -1306,9 +1306,7 @@ Move Board2::sanToMove(string san) {
 
 //########################################################
 
-// Nemmest kun at tillade null move hvis en_passant mulig
-// Nødvendig hvis der er skak
-bool Board2::try_execute_null_move() {
+bool Board2::make_null_move() {
   if (num_checks  ||  en_passant != ILLEGAL_POS) return false;
   player ^= 1;
   ++moves_played;

@@ -55,7 +55,7 @@ Endgame_output_preprocessed_bdd_tables = false
 Endgame_mark_unreachable_as_dont_cares = true
 
 // if 0, then only static test is performed, otherwise n moves is tried undone
-Endgame_unreachability_depth_test = 3
+Endgame_unreachability_depth_test = 0
 
 Endgame_directory = "endgames/"
 
