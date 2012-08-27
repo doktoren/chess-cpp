@@ -12,14 +12,18 @@
 bool piece_overlap(std::vector<PiecePos> pp);
 
 /**
- * TODO
- */
-bool swap_piece_pos(std::vector<PiecePos> &pieces, bool symmetric_endgame_and_btm);
-
-/**
- * TODO
+ * Sort the entries in the piece order KQRBNPkqrbnp
  */
 void sort_piece_pos(std::vector<PiecePos> &pieces);
+
+/**
+ * pieces must already be sorted using the above function.
+ * This function rearranges the pieces to the order required by the endgame tables
+ * by possible swapping the order such that the black pieces are listed first.
+ * Returns true if a swap was made - in that case the endgame table must be
+ * indexed with the opposite color.
+ */
+bool swap_piece_pos(std::vector<PiecePos> &pieces, bool symmetric_endgame_and_btm);
 
 /**
  * If endgame is KBKP, and bishop captured by pawn is being promoted to queen,
