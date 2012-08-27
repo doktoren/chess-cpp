@@ -1,8 +1,6 @@
 #ifndef _PIECE_POS_
 #define _PIECE_POS_
 
-#include <iostream>
-#include <vector>
 #include <stdint.h>
 
 typedef uint8_t Piece;
@@ -15,10 +13,5 @@ struct PiecePos {
   Piece piece;
   Position pos;
 };
-
-/**
- * Returns true if the piece positions in the vector contains a collision.
- */
-bool piece_overlap(std::vector<PiecePos> pp);
 
 #endif

@@ -5,7 +5,7 @@
 
 #include "../typedefs.hxx"
 #include "binary_decision_diagram.hxx"
-
+#include "bdd_index.hxx"
 #include "endgame_clustering_functions.hxx"
 
 class BDD {

@@ -8,6 +8,7 @@
 #include "typedefs.hxx"
 #include "util/help_functions.hxx"
 #include "parser.hxx"
+#include "piece_pos.hxx"
 
 #define PRINT_CONSTRUCTOR_DESTRUCTOR_CALLS false
 

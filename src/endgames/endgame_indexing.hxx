@@ -4,6 +4,8 @@
 #include <vector>
 
 #include "../compression/binary_decision_diagram.hxx"
+#include "../piece_pos.hxx"
+#include "../compression/bdd_index.hxx"
 
 // Todo:
 // All the assert(0) statements have been inserted because now a
