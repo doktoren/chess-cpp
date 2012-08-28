@@ -310,7 +310,7 @@ void receive_messages() {
 
               int max_moves = 999999;
               if (dot_demand(p, 3, "load", (uintptr_t)0, (uintptr_t)0))
-                sscanf(parse_result[1].c_str(), "%d", &max_moves);
+                sscanf(p[2].c_str(), "%d", &max_moves);
 
               pgn_loader.print_tags(cerr);
 
@@ -517,7 +517,7 @@ void receive_messages() {
 
       } else if (dot_demand(p, 2, "undo", (uintptr_t)0)) {
         comm->cpu_color = NEITHER_COLOR;
-        int i = atoi(parse_result[0].c_str());
+        int i = atoi(p[1].c_str());
         while (--i >= 0  &&  cpu->undo_move());
         cpu->print_board(cerr, -2);
 
@@ -661,7 +661,7 @@ bool debug_message(string message) {
     srand(seed);
 
   } else if (dot_demand(p, 2, "randseed", (uintptr_t)0)) {
-    int seed = atoi(parse_result[0].c_str());
+    int seed = atoi(p[1].c_str());
     cerr << "Calling srand(" << seed << ")\n";
     srand(seed);
 
@@ -669,7 +669,7 @@ bool debug_message(string message) {
     cpu->print_board(cerr, -2);
 
   } else if (dot_demand(p, 2, "dir", (uintptr_t)0)) {
-    int from_move = atoi(parse_result[0].c_str());
+    int from_move = atoi(p[1].c_str());
     cpu->print_board(cerr, from_move);
 
   } else if (dot_demand(p, 1, "redo")) {
@@ -680,7 +680,7 @@ bool debug_message(string message) {
     }
 
   } else if (dot_demand(p, 2, "redo", (uintptr_t)0)) {
-    int i = atoi(parse_result[0].c_str());
+    int i = atoi(p[1].c_str());
     while (--i >= 0  &&  cpu->try_redo_move()) ;
     cpu->print_board(cerr, -2);
 
@@ -688,7 +688,7 @@ bool debug_message(string message) {
     cpu->print_moves(cerr);
 
   } else if (dot_demand(p, 3, "search", "version", (uintptr_t)1)) {
-    int s = parse_result[0][0] - '0';
+    int s = p[2][0] - '0';
     if (1<=s  &&  s<=NUM_SEARCH_VERSIONS) {
       search_version = s;
       if (clr) {
@@ -699,11 +699,11 @@ bool debug_message(string message) {
     }
 
   } else if (dot_demand(p, 3, "tree", "size", (uintptr_t)0)) {
-    int n = atoi(parse_result[0].c_str());
+    int n = atoi(p[2].c_str());
     show_minimal_alpha_beta_tree_sizes(cerr, n, 12);
 
   } else if (dot_demand(p, 3, "evaluation", "version", (uintptr_t)1)) {
-    int e = parse_result[0][0] - '0';
+    int e = p[2][0] - '0';
     if (1<=e  &&  e<=NUM_EVAL_VERSIONS) {
       evaluation_version = e;
       if (clr) {
@@ -724,7 +724,7 @@ bool debug_message(string message) {
     comm->settings.print(cerr);
 
   } else if (dot_demand(p, 3, "set", (uintptr_t)0, (uintptr_t)0)) {
-    comm->settings.define(parse_result[0], parse_result[1]);
+    comm->settings.define(p[1], p[2]);
 
   } else if (dot_demand(p, 3, "test", "opening", "library")) {
     Move move = cpu->moves();

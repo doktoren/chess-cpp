@@ -475,8 +475,6 @@ bool Search_3::clr_search(Board *board, ostream& os, vector<string> &p) {
     os << "Search 3, help:\n"
         << "    print board  or  pb  or  dir\n"
         << "      - print board\n"
-        << "    print quiescence search  or  pqs\n"
-        << "      - print first moves in a quiescence search\n"
         << "    print Stat  or  pS\n"
 #ifdef NDEBUG
         << "      - DISABLED! (compiled with -DNDEBUG)\n"
@@ -490,9 +488,6 @@ bool Search_3::clr_search(Board *board, ostream& os, vector<string> &p) {
         << "    set name value\n"
         << "      - example \"set use_tt false\"\n"
         << "    save settings  or  ss\n";
-
-  } else if (dot_demand(p, 3, "print", "quiescence", "search")) {
-    b.print_quiescence(os);
 
 #ifndef NDEBUG
   } else if (dot_demand(p, 2, "print", "Stat")) {
@@ -514,7 +509,7 @@ bool Search_3::clr_search(Board *board, ostream& os, vector<string> &p) {
     b.settings.print(os);
 
   } else if (dot_demand(p, 3, "set", (uintptr_t)0, (uintptr_t)0)) {
-    b.settings.define(parse_result[0], parse_result[1]);
+    b.settings.define(p[1], p[2]);
 
   } else if (dot_demand(p, 2, "save", "settings")) {
     b.comm->settings.save();
@@ -528,73 +523,6 @@ bool Search_3::clr_search(Board *board, ostream& os, vector<string> &p) {
 
 int my_sort(const void *a, const void *b) {
   return ((pair<Move, int> *)b)->second - ((pair<Move, int> *)a)->second;
-}
-
-void Search_3::print_quiescence(ostream &os) {
-  os << "print_quiescence(...): Todo!\n";
-  /*
-  see.update_variables(player);
-  os << "best_attack = " << see.best_attack << '\n'
-     << "worst_defence = " << see.worst_defence << '\n'
-     << "second_worst_defence = " << see.second_worst_defence << '\n'
-     << "best_see_result = " << see.best_see_result << '\n';
-
-  if (see.best_attack  ||  see.second_worst_defence) {
-    os << "Do quiescence search...\n";
-
-    MoveSet2<int> good_moves;
-    for (int i=0; i<see.size(); i++) {
-      Position pos = see.target_position(i);
-      os << "Pos(" << POS_NAME[pos] << ")\n";
-
-      if (PIECE_COLOR[board[pos]] == player) {
-	os << "- contains own piece\n";
-
-	int pnum = piece_number[pos];
-	int count = piece_moves.count(pnum);
-	for (int i=0; i<count; i++) {
-	  Move move = move_list[piece_moves.index(pnum, i)];
-	  os << "  Move(" << move.toString() << ')';
-	  if (legal_move(move)) {
-	    // Todo: pawn promotion moves currently do not get special attention
-	    int move_result = see.move_result(move);
-	    os << " - is legal, result = " << move_result << "\n";
-
-	    if (move_result > 0)
-	      good_moves.try_insert(move, move_result);
-	  } else os << '\n';
-	}
-
-      } else {
-	os << "- contains opponent piece\n";
-
-	square_move_list.init_iterator(pos);
-	while (square_move_list.iterate(player)) {
-	  Move move = move_list[square_move_list.deref_iterator()];
-	  os << "  Move(" << move.toString() << ')';
-	  if (legal_move(move)) {
-	    // Todo: pawn promotion moves currently do not get special attention
-	    int move_result = see.move_result(move);
-	    os << " - is legal, result = " << move_result << "\n";
-
-	    if (move_result > 0)
-	      good_moves.try_insert(move, move_result);
-	  } else os << '\n';
-	}
-      }
-    }
-
-
-    // good_moves indeholder nu de gode træk i den aktuelle stilling.
-    // Sorter disse efter hvor gode de er
-    good_moves.move_list.sort(my_sort);
-    for (int i=0; i<good_moves.move_list.size(); i++) {
-      Move move = good_moves.move_list[i].first;
-      os << "Next quiescence move searched: " << move.toString() << '\n';
-    }
-    os << "Do quiescence search...done\n";
-  }
-   */
 }
 
 AlphaBetaInfo Search_3::info_after_move(AlphaBetaInfo info, Move move) {

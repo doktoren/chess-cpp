@@ -23,12 +23,6 @@
 
 #endif
 
-
-// todo pawn formation hash table
-// hash value = pawn_bitboards[WHITE]...
-
-// loadfen 8/8/8/8/8/8/4P3/k3K3 w - -
-
 int piece_values[13][64];
 int control_values[64];
 

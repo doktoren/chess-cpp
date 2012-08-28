@@ -138,7 +138,7 @@ protected:
 
 
   // position_is_unreachable is set by set_check_invariants().
-  // Hence it will abso be set by loadFEN and set_board.
+  // Hence it will be set by loadFEN and set_board.
   char position_is_unreachable;
 
 
@@ -163,7 +163,7 @@ protected:
 
   // Is own king checked if placed on pos!=its current position (illegal move).
   // If pos is a position that the king can move to, then it
-  // is not nescessary to remove the king from its current position.
+  // is not necessary to remove the king from its current position.
   // If a piece is placed on pos, it is assumed this is captured.
   bool check_if_king_placed(Position pos) const;
 

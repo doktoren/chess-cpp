@@ -882,23 +882,23 @@ bool Board2plus::clr_board2plus(Board *board, ostream &os, vector<string> &p) {
     b.see.test_see_list();
 
   } else if (dot_demand(p, 4, "see", (uintptr_t)1, (uintptr_t)6, (uintptr_t)6)) {
-    Piece victim = PIECE_KIND[char_to_piece(parse_result[0][0])];
+    Piece victim = PIECE_KIND[char_to_piece(p[1][0])];
     if (victim) {
       uint16_t a = 0;
-      a += (parse_result[1][5]-'0');
-      a += (parse_result[1][4]-'0') << 2;
-      a += (parse_result[1][3]-'0') << 5;
-      a += (parse_result[1][2]-'0') << 8;
-      a += (parse_result[1][1]-'0') << 11;
-      a += (parse_result[1][0]-'0') << 15;
+      a += (p[2][5]-'0');
+      a += (p[2][4]-'0') << 2;
+      a += (p[2][3]-'0') << 5;
+      a += (p[2][2]-'0') << 8;
+      a += (p[2][1]-'0') << 11;
+      a += (p[2][0]-'0') << 15;
       cerr << "Aggressor = " << b.see.capture_list_to_string(a) << "\n";
       uint16_t d = 0;
-      d += (parse_result[2][5]-'0');
-      d += (parse_result[2][4]-'0') << 2;
-      d += (parse_result[2][3]-'0') << 5;
-      d += (parse_result[2][2]-'0') << 8;
-      d += (parse_result[2][1]-'0') << 11;
-      d += (parse_result[2][0]-'0') << 15;
+      d += (p[3][5]-'0');
+      d += (p[3][4]-'0') << 2;
+      d += (p[3][3]-'0') << 5;
+      d += (p[3][2]-'0') << 8;
+      d += (p[3][1]-'0') << 11;
+      d += (p[3][0]-'0') << 15;
       cerr << "Defender = " << b.see.capture_list_to_string(d) << "\n";
       
       int result = b.see.calc_see(victim, a, d);
@@ -908,9 +908,9 @@ bool Board2plus::clr_board2plus(Board *board, ostream &os, vector<string> &p) {
     }
 
   } else if (dot_demand(p, 4, "see2", (uintptr_t)1, (uintptr_t)3, (uintptr_t)3)) {
-    Piece victim = char_to_piece(parse_result[0][0]);
-    int a = 100*(parse_result[1][0]-'0') + 10*(parse_result[1][1]-'0') + (parse_result[1][2]-'0');
-    int d = 100*(parse_result[2][0]-'0') + 10*(parse_result[2][1]-'0') + (parse_result[2][2]-'0');
+    Piece victim = char_to_piece(p[1][0]);
+    int a = 100*(p[2][0]-'0') + 10*(p[2][1]-'0') + (p[2][2]-'0');
+    int d = 100*(p[3][0]-'0') + 10*(p[3][1]-'0') + (p[3][2]-'0');
 
     int result = b.see.index_see(victim, a, d);
     cerr << "Result of battle = " << result << " units (a pawn is 8 units).\n";

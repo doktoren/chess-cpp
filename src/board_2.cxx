@@ -738,26 +738,22 @@ bool Board2::clr_board2(Board *board, ostream& os, vector<string> &p) {
   } else if (dot_demand(p, 3, "print", "move", "list")) {
     b.print_moves(cerr);
   } else if (dot_demand(p, 4, "print", "move", "list", (uintptr_t)1)) {
-    b.print_moves(cerr, ILLEGAL_POS, ILLEGAL_POS,
-        PIECE_KIND[char_to_piece(parse_result[0][0])]);
+    b.print_moves(cerr, ILLEGAL_POS, ILLEGAL_POS, PIECE_KIND[char_to_piece(p[3][0])]);
 
   } else if (dot_demand(p, 4, "print", "moves", "to", (uintptr_t)2)) {
-    b.print_moves(cerr, ILLEGAL_POS, strToPos(parse_result[0]));
+    b.print_moves(cerr, ILLEGAL_POS, strToPos(p[3]));
   } else if (dot_demand(p, 5, "print", "moves", "to", (uintptr_t)2, (uintptr_t)1)) {
-    b.print_moves(cerr, ILLEGAL_POS, strToPos(parse_result[1]),
-        PIECE_KIND[char_to_piece(parse_result[1][0])]);
+    b.print_moves(cerr, ILLEGAL_POS, strToPos(p[3]), PIECE_KIND[char_to_piece(p[4][0])]);
 
   } else if (dot_demand(p, 4, "print", "moves", "from", (uintptr_t)2)) {
-    b.print_moves(cerr, strToPos(parse_result[0]));
+    b.print_moves(cerr, strToPos(p[3]));
   } else if (dot_demand(p, 5, "print", "moves", "from", (uintptr_t)2, (uintptr_t)1)) {
-    b.print_moves(cerr, strToPos(parse_result[0]), ILLEGAL_POS,
-        PIECE_KIND[char_to_piece(parse_result[1][0])]);
+    b.print_moves(cerr, strToPos(p[3]), ILLEGAL_POS, PIECE_KIND[char_to_piece(p[4][0])]);
 
   } else if (dot_demand(p, 6, "print", "moves", "from", "to", (uintptr_t)2, (uintptr_t)2)) {
-    b.print_moves(cerr, strToPos(parse_result[0]), strToPos(parse_result[1]));
+    b.print_moves(cerr, strToPos(p[4]), strToPos(p[5]));
   } else if (dot_demand(p, 7, "print", "moves", "from", "to", (uintptr_t)2, (uintptr_t)2, (uintptr_t)1)) {
-    b.print_moves(cerr, strToPos(parse_result[0]), strToPos(parse_result[1]),
-        PIECE_KIND[char_to_piece(parse_result[2][0])]);
+    b.print_moves(cerr, strToPos(p[4]), strToPos(p[5]), PIECE_KIND[char_to_piece(p[6][0])]);
 
   } else if (dot_demand(p, 3, "print", "bit", "boards")) {
     b.print_bit_boards(cerr);
@@ -777,16 +773,16 @@ bool Board2::clr_board2(Board *board, ostream& os, vector<string> &p) {
 
   } else if (dot_demand(p, 3, "retro", "moves", (uintptr_t)2)) {
     vector<triple<Move,Undo,int> > rm = b.get_retro_moves(true, true, true, true);
-    os << "List of retro move(s) from current position with destination " << parse_result[0] << "\n";
+    os << "List of retro move(s) from current position with destination " << p[2] << "\n";
     for (uint i=0; i<rm.size(); i++) {
-      if (POS_NAME[rm[i].first.to] == parse_result[0])
+      if (POS_NAME[rm[i].first.to] == p[2])
         os << i << ":\t" << rm[i].first.toString2() << "\t"
         << rm[i].third << "\t" << rm[i].second.toString() << "\n";
     }
 
   } else if (dot_demand(p, 3, "retro", "move", (uintptr_t)0)) {
     vector<triple<Move,Undo,int> > rm = b.get_retro_moves(true, true, true, true);
-    uint n = atoi(parse_result[0].c_str());
+    uint n = atoi(p[2].c_str());
     if (0<=n  &&  n<rm.size()) {
       os << "Undoing retro move number " << n;
       if (rm[n].third) {
@@ -1316,7 +1312,7 @@ bool Board2::find_legal_move(Move& move) {
 
 
 // triple<check_count, prev_num_checks, threat_pos>
-// Assume it is white-to-move and we wish to the possible last moves for black.
+// Assume it is white-to-move and we wish to get the possible last moves for black.
 // check_count is the number of checks against whites king. After taking back one of
 // blacks moves it should be 0 - otherwise black could instead have captured whites king
 // - hence the position would be illegal.
@@ -1373,7 +1369,7 @@ triple<int,uint8_t,Position> Board2::retro_move_count_checks(Position from, Posi
 
             check_count -= checktable(pattern, player);
 
-            // Just or the 11 pattern of a blocking piece on top of board[to]
+            // Just or the 11b pattern of a blocking piece on top of board[to]
             int line_index = d_to ? (to>>3) : (to&7);
             pattern |= DIAG_PATTERN[line_index][ 3 ];
 
@@ -1615,7 +1611,7 @@ triple<int,uint8_t,Position> Board2::retro_move_count_checks(Position from, Posi
 struct EnPassantPP {
   EnPassantPP() : ep(ILLEGAL_POS), ep_pawn(0) {}
 
-  // For the en passant at ep to be valid, the positions p1 and p2 may not be occupied
+  // For the en passant at ep to be valid, the positions p1 and p2 must not be occupied
   EnPassantPP(Position p1, Position p2, Position ep) : ep(ep), ep_pawn(0) {
     assert(p1<=ILLEGAL_POS  &&  p2<=ILLEGAL_POS  &&  ep<=ILLEGAL_POS);
     illegal_from.set(p1);

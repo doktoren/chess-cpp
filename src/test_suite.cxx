@@ -35,7 +35,7 @@ bool TestSuite::clr_test_suite(Board *board, ostream& os, vector<string> &p) {
     TestSuite::count_endgame_stuff();
 
   } else if (dot_demand(p, 4, "compare", "eval", "functions", (uintptr_t)0)) {
-    TestSuite::test_eval3(atoi(parse_result[0].c_str()));
+    TestSuite::test_eval3(atoi(p[3].c_str()));
 
   } else if (dot_demand(p, 3, "test", "retro", "moves")) {
     TestSuite::test_retro_moves();

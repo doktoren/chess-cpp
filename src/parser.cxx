@@ -2,8 +2,6 @@
 
 #include "parser.hxx"
 
-vector<string> parse_result;
-
 vector<string> parse(string s) {
   vector<string> result;
   string::size_type next_i, i=0;
@@ -14,7 +12,6 @@ vector<string> parse(string s) {
     }
     i = next_i+1;// jump over ' '
   }
-  //cerr << s << "-" << i << " " << s.length()-1 << "\n";
   if (i < s.length()) result.push_back(s.substr(i));
   return result;
 }
@@ -35,15 +32,18 @@ string short_version(string s) {
   return result;
 }
 
-// Very ugly code, but whatever.
-// Additional arguments must be of type char* or uintptr_t.
+/**
+ * Very ugly code, but whatever.
+ * Additional arguments must be of type char* or uintptr_t.
+ * Returns whether successful.
+ */
 bool dot_demand(vector<string> parsed, unsigned int length, ...) {
   if (parsed.size() > length) return false;
 
   va_list ap;
   if (parsed.size() != length) goto try_shortened_version;
   va_start(ap, length);
-  for (uint i=0; i<length; i++) {
+  for (unsigned int i=0; i<length; i++) {
     uintptr_t arg = va_arg(ap, uintptr_t);
     if (arg < 0x100) {
       if (arg  &&  parsed[i].length() != arg) goto try_shortened_version;
@@ -52,18 +52,7 @@ bool dot_demand(vector<string> parsed, unsigned int length, ...) {
       if (strcmp(parsed[i].c_str(), s)) goto try_shortened_version;
     }
   }
-  //cerr << "Success\n";
-  parse_result = vector<string>();
-  va_start(ap, length);
-  for (unsigned int i=0; i<length; i++) {
-    uintptr_t arg = va_arg(ap, uintptr_t);
-    if (arg < 0x100) {
-      // Interpret arg as a demand on length of blah
-      parse_result.push_back(parsed[i]);
-    }
-  }
   return true;
-
 
   try_shortened_version:
   //cerr << "Trying shortened version\n";
@@ -93,19 +82,5 @@ bool dot_demand(vector<string> parsed, unsigned int length, ...) {
       // No demands!
     }
   }
-
-  // Success
-  parse_result = vector<string>();
-  va_start(ap, length);
-  for (unsigned int i=0; i<length; i++) {
-    uintptr_t arg = va_arg(ap, uintptr_t);
-    if (arg < 0x100) {
-      // Interpret arg as a demand on length of blah
-      parse_result.push_back(parsed[i-num+1]);
-    }
-  }
-
-  cerr << "<("; for (unsigned int i=0; i<parse_result.size(); i++) cerr << parse_result[i] << " "; cerr << ")>\n";
-
   return true;
 }
