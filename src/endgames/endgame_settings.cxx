@@ -19,7 +19,6 @@ void EndgameSettings::set_settings(Settings *_settings) {
 
   construction_method = get_int("construction_method");
   unreachability_depth_test = get_int("unreachability_depth_test");
-
   directory = get_string("directory");
 
   output_bdd_tables = get_bool("output_bdd_tables");

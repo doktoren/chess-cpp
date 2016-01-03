@@ -394,7 +394,7 @@ public:
                                             << ", fast evaluate = " << cpu->fast_evaluate() << "\n\n";
         allowed_diff = abs(l[index]-e);
         if (allowed_diff > 10000)
-          *(comm->settings.get_bool_setting("Eval3_show_evaluation_info")) = true;
+          *(comm->settings.get_bool_setting("Eval3_show_evaluation_info", false)) = true;
       }
     }
     if (++index == num_positions) load_files = false;

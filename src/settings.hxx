@@ -29,7 +29,7 @@ struct SettingValue {
   union {
     bool bool_value;
     int int_value;
-    char *string_value;
+    char * string_value;
   } u;
 
   string comment;
@@ -54,9 +54,9 @@ public:
   void print(ostream &os, string only_with_prefix = "");
   void save();
 
-  bool *get_bool_setting(string name, bool _default = false);
-  int *get_int_setting(string name, int _default = 0);
-  char *get_string_setting(string name, char *_default = 0);
+  bool *get_bool_setting(string name, bool _default);
+  int *get_int_setting(string name, int _default);
+  char *get_string_setting(string name);
 
   void define(string name, string value, string comment="", bool force_new = false);
 
@@ -96,19 +96,19 @@ protected:
     assert(settings);
     return settings->get_int_setting(setting_name + name, _default);
   }
-  char *get_string(string name, char *_default = 0) {
+  char *get_string(string name) {
     assert(settings);
-    return settings->get_string_setting(setting_name + name, _default);
+    return settings->get_string_setting(setting_name + name);
   }
 
   void pbool(ostream &os, string name) {
     const string TF[2] = {"false","true"};
-    os << "\t" << name << " = " << TF[*(settings->get_bool_setting(setting_name + name))] << "\n";
+    os << "\t" << name << " = " << TF[*(settings->get_bool_setting(setting_name + name, false))] << "\n";
   }
   void pint(ostream &os, string name) {
-    os << "\t" << name << " = " << *(settings->get_int_setting(setting_name + name)) << "\n";
+    os << "\t" << name << " = " << *(settings->get_int_setting(setting_name + name, 0)) << "\n";
   }
-  
+
   string setting_name;
   Settings *settings;
 };

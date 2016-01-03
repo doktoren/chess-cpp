@@ -47,12 +47,9 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
   cout << "feature sigint=0\n";
   cout << "feature sigterm=0\n";
   cout << "feature done=1\n";
-
   endgame_settings = new EndgameSettings(&(comm->settings));
-
   search_version = *(comm->settings.get_int_setting("Default_search_function", 1));
   evaluation_version = *(comm->settings.get_int_setting("Default_evaluation_function", 1));
-
   cpu = load_cpu(cpu, search_version, evaluation_version, comm);
   cpu->new_game();
 

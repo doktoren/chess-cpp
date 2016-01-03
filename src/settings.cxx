@@ -19,7 +19,6 @@ char *new_string(int allocated_size = 256) {
   return (char *)malloc(allocated_size);
 }
 
-
 SettingValue::SettingValue(string value, string comment) : comment(comment) {
   if (value=="true"  ||  value=="false") {
     value_type = BoolValue;
@@ -34,7 +33,7 @@ SettingValue::SettingValue(string value, string comment) : comment(comment) {
   } else if (strstr(value.c_str(), "false")) {
     value_type = BoolValue;
     u.bool_value = false;
-    
+
   } else if (value[0]=='\"') {
     value_type = StringValue;
     u.string_value = new_string();
@@ -162,11 +161,10 @@ int *Settings::get_int_setting(string name, int _default) {
 }
 
 
-char *Settings::get_string_setting(string name, char *_default) {
+char *Settings::get_string_setting(string name) {
   if (values.count(name)) return values[name]->u.string_value;
-  cerr << "\nWarning: setting " << name << " not found. Returning "
-       << (_default ? _default : "\"\"") << ".\n";
-  values[name] = new SettingValue(_default, "// default value set");
+  cerr << "\nWarning: setting " << name << " not found. Returning \"\"." << endl;
+  values[name] = new SettingValue("\"\"", "// default value set");
   return values[name]->u.string_value;
 }
 
