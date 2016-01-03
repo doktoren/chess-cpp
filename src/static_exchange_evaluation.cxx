@@ -190,11 +190,11 @@ void SEE::print_targets(ostream &os) {
 
 void SEE::print_compression_list(ostream &os) {
   for (int i=1; i<CCLL; i++) {
-    cerr << i << " ->";
+    os << i << " ->";
     for (int j=1; j<=6; j++)
-      cerr << " " << PIECE_SCHAR[j]
-                                 << ((DECOMPRESS_CAPTURE_LIST[i] >> BCC_POS[j]) & BCC_AND[j]);
-    cerr << "\n";
+      os << " " << PIECE_SCHAR[j]
+         << ((DECOMPRESS_CAPTURE_LIST[i] >> BCC_POS[j]) & BCC_AND[j]);
+    os << "\n";
   }
 }
 

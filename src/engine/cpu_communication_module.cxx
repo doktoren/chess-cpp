@@ -27,7 +27,7 @@ void* CPU_CommunicationModule::operator new(size_t size) {
   return get_shared_mem(size);
 }
 
-void CPU_CommunicationModule::operator delete(void *p, size_t size) {
+void CPU_CommunicationModule::operator delete(__attribute__((unused)) void *p, __attribute__((unused)) size_t size) {
   cerr << "Calling CPU_CommunicationModule::operator delete.\n";
 }
 
@@ -86,6 +86,6 @@ void* MessageQueue::operator new(size_t size) {
   return get_shared_mem(size);
 }
 
-void MessageQueue::operator delete(void *p, size_t size) {
+void MessageQueue::operator delete(__attribute__((unused)) void *p, __attribute__((unused)) size_t size) {
   cerr << "Calling MessageQueue::operator delete.\n";
 }

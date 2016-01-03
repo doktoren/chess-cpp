@@ -373,7 +373,7 @@ void BDD::init_no_clustering(uint8_t *bdd_table, int log_bdd_size,
 }
 
 
-void BDD::use_king_pos_as_subsets(uint8_t *bdd_table, int log_bdd_size) {
+void BDD::use_king_pos_as_subsets(__attribute__((unused)) uint8_t *bdd_table, int log_bdd_size) {
   assert(!clustering_kind);
   create_clustering_kind_1();
 
@@ -474,7 +474,7 @@ struct SplitHelp {
 };
 
 
-void BDD::init(uint8_t *bdd_table, int log_bdd_size, const uint8_t inv_bit_perm[5][64],
+void BDD::init(uint8_t *bdd_table, int log_bdd_size, __attribute__((unused)) const uint8_t inv_bit_perm[5][64], // TODO: Unused ???
     bool do_preprocessing, bool calc_sifting, bool do_mapping_after_sifting) {
   assert(clustering_kind);
   do_mapping_after_sifting &= do_preprocessing & calc_sifting;

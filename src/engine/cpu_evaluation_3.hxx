@@ -13,7 +13,7 @@ struct PawnTableHV {
   PawnTableHV() : wps(), bps() {}
   PawnTableHV(ull wps, ull bps) : wps(wps), bps(bps) {}
 
-  const bool operator==(const PawnTableHV &p) const {
+  bool operator==(const PawnTableHV &p) const {
     return wps==p.wps  &&  bps==p.bps;
   }
 
@@ -62,7 +62,7 @@ struct Eval3_Settings : public SettingListener {
 
 class Eval_3 : public virtual Engine {
 public:
-  Eval_3();
+  Eval_3(CPU_CommunicationModule *comm);
   ~Eval_3();
 
   void reset_all();

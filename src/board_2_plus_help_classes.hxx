@@ -107,7 +107,7 @@ public:
     return piece_position[piece_number];
   }
 
-  void insert_piece(Position pos, Piece piece) {
+  void insert_piece(Position pos, __attribute__((unused)) Piece piece) {
     assert(piece_number[pos] == 42);
     piece_number[pos] = pop_piece_number();
     piece_position[piece_number[pos]] = pos;
@@ -130,7 +130,7 @@ public:
   }
 
   // mapping[old_piece_number] |-> new_piece_number
-  void remap_pieces(uint8_t *mapping) {
+  void remap_pieces(__attribute__((unused)) uint8_t *mapping) {
     // todo
   }
 private:
@@ -261,7 +261,7 @@ public:
   }
 
   // mapping[old_piece_number] |-> new_piece_number
-  void remap_pieces(uint8_t *mapping) {
+  void remap_pieces(__attribute__((unused)) uint8_t *mapping) {
     // todo
   }
 private:

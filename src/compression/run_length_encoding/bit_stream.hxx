@@ -32,7 +32,7 @@ static const int unary_length_specifier[7] =
 // file input bit stream
 class file_ibstream {
 public:
-  file_ibstream(uint8_t *data) {
+  file_ibstream(__attribute__((unused)) uint8_t *data) {
     cerr << "Can't initialize file_ibstream(uint8_t *data)\n"; exit(1);
   }
   file_ibstream(string filename) : file(filename.c_str()), bitsleft(8) {
@@ -58,7 +58,7 @@ private:
 // array input bit stream
 class array_ibstream {
 public:
-  array_ibstream(string filename) {
+  array_ibstream(__attribute__((unused)) string filename) {
     assert(0); cout << "Can't initialize array_ibstream(string filename)\n"; exit(1);
   }
   array_ibstream(uint8_t *data) : data(data), bitsleft(8) {}
@@ -109,7 +109,7 @@ public:
 // file output bit stream
 class file_obstream {
 public:
-  file_obstream(uint8_t *data) {
+  file_obstream(__attribute__((unused)) uint8_t *data) {
     assert(0); cerr << "Can't initialize file_obstream(uint8_t *data)\n"; exit(1);
   }
   file_obstream(string filename) : file(filename.c_str()), bitsleft(8), ch(0) {
@@ -169,13 +169,13 @@ private:
 // array output bit stream
 class array_obstream {
 public:
-  array_obstream(string filename) {
+  array_obstream(__attribute__((unused)) string filename) {
     cout << "Can't initialize array_obstream(string filename)\n"; exit(1);
   }
   array_obstream(uint8_t *data) : data(data), bitsleft(8) {}
 
   // always_flush ignored
-  void close(bool always_flush = false) {
+  void close(__attribute__((unused)) bool always_flush = false) {
     if (bitsleft!=8) {
       bits_written_since_mark += bitsleft;
       *data <<= bitsleft;
@@ -285,7 +285,7 @@ public:
     return string(tmp, 2*sizeof(TYPE) + 2);
   }
   
-  int bit_size(TYPE &elem) { return 8*sizeof(TYPE); }
+  int bit_size(__attribute__((unused)) TYPE &elem) { return 8*sizeof(TYPE); }
 
   // Used for huff tree reduction
   int average_bit_size() { return 8*sizeof(TYPE); }
@@ -325,7 +325,7 @@ public:
     }
   }
 
-  const int average_bit_size() {
+  int average_bit_size() const {
     return 12;// More or less arbitrary
   }
 
@@ -353,7 +353,7 @@ public:
     static const string TF[2] = {"F","T"};
     return TF[element];
   }
-  int bit_size(bool &elem) { return 1; }
+  int bit_size(__attribute__((unused)) bool &elem) { return 1; }
   int average_bit_size() { return 1; }
   bool operator()(const bool &e1, const bool &e2) const { return e1<e2; }
 };

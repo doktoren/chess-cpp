@@ -16,7 +16,7 @@ void Eval_1::reset_all() {
   Board3plus::reset_all();
 }
 
-int Eval_1::evaluate(int alpha, int beta) {
+int Eval_1::evaluate(__attribute__((unused)) int alpha, __attribute__((unused)) int beta) {
   if (!(++num_evaluations & 0xFFFF)) {
     cerr << num_evaluations << " positions evaluated\n";
   }

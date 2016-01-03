@@ -1,8 +1,7 @@
 template <class TYPE, class ElementStreamer>
-ZerothOrderModel<TYPE, ElementStreamer>::ZerothOrderModel(string filename) :
+ZerothOrderModel<TYPE, ElementStreamer>::ZerothOrderModel(__attribute__((unused)) string filename) :
   count(0), distribution_initialized(false)
 {
-
   assert(0); // I don't want to fix this code now.
 
   /*

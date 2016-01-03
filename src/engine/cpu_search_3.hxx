@@ -245,7 +245,7 @@ struct MoveValue {
 
 class Search_3 : public virtual Engine {
 public:
-  Search_3();
+  Search_3(CPU_CommunicationModule *comm);
   ~Search_3();
 
   Move calculate_move(ostream& os);

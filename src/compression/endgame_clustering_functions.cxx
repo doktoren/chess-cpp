@@ -12,7 +12,7 @@
 #endif
 
 #ifdef ALLOW_5_MEN_ENDGAME
-#define FIFTH_PARAM , int _5
+#define FIFTH_PARAM , __attribute__((unused)) int _5
 #else
 #define FIFTH_PARAM
 #endif
@@ -52,14 +52,14 @@ inline uint8_t dist(Position p1, Position p2) {
 
 
 #define num_values_KRK (1 + 3 + 7)
-int KRK_subset_number(int rook, int _FK_, int _BK_, int ignored FIFTH_PARAM) {
+int KRK_subset_number(__attribute__((unused)) int rook, int _FK_, int _BK_, __attribute__((unused)) int ignored FIFTH_PARAM) {
   _BK_ = INV_REMAP_BOUND_KING[_BK_];
 
   return CORNER_DIST[bk] + dist(wk, bk);
 }
 
 #define num_values_KBBK (1 + 2*3 + 7)
-int KBBK_subset_number(int bishop1, int bishop2, int _FK_, int _BK_ FIFTH_PARAM) {
+int KBBK_subset_number(__attribute__((unused)) int bishop1, __attribute__((unused)) int bishop2, int _FK_, int _BK_ FIFTH_PARAM) {
   _BK_ = INV_REMAP_BOUND_KING[_BK_];
   /*
   cerr << "KBBK_subset_number(" << POS_NAME[wk] << "," << POS_NAME[bishop1]
@@ -71,21 +71,21 @@ int KBBK_subset_number(int bishop1, int bishop2, int _FK_, int _BK_ FIFTH_PARAM)
 
 
 #define num_values_KBNK (1 + 2*3 + 7)
-int KBNK_subset_number(int knight, int bishop, int _FK_, int _BK_ FIFTH_PARAM) {
+int KBNK_subset_number(__attribute__((unused)) int knight, int bishop, int _FK_, int _BK_ FIFTH_PARAM) {
   _BK_ = INV_REMAP_BOUND_KING[_BK_];
   return 2*CORNER_DIST[bishop] + dist(wk, bk);
 }
 
 
 #define num_values_KRKB (1 + 4*7 + 2*3 + 7)
-int KRKB_subset_number(int bishop, int rook, int _FK_, int _BK_ FIFTH_PARAM) {
+int KRKB_subset_number(int bishop, __attribute__((unused)) int rook, int _FK_, int _BK_ FIFTH_PARAM) {
   _BK_ = INV_REMAP_BOUND_KING[_BK_];
   return 13 + 4*dist(bk, bishop) - 2*EDGE_DIST[bk] - dist(wk, bk);
 }
 
 
 #define num_values_KQKR (1 + 3 + 3 + 7 + 7)
-int KQKR_subset_number(int brook, int wqueen, int _FK_, int _BK_ FIFTH_PARAM) {
+int KQKR_subset_number(int brook, __attribute__((unused)) int wqueen, int _FK_, int _BK_ FIFTH_PARAM) {
   _BK_ = INV_REMAP_BOUND_KING[_BK_];
   
   return EDGE_DIST[bk] + CORNER_DIST[bk] + dist(bk,wk) + (7 - dist(bk, brook));

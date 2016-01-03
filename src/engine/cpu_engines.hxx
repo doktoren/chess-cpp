@@ -24,21 +24,14 @@ template<> class Gah<string>;
 
 Engine *load_cpu(Engine *cpu, int search_version, int evaluation_version, CPU_CommunicationModule *comm);
 
-#define EvalSearch(Eval, Search) class Eval_ ## Eval ## _Search_ ## Search : \
-public Eval_ ## Eval , public Search_ ## Search {\
-public:\
-  Eval_ ## Eval ## _Search_ ## Search (CPU_CommunicationModule *comm) :\
-    Engine(comm) {}\
-}
-
-EvalSearch(1,1);
-EvalSearch(1,2);
-EvalSearch(1,3);
-EvalSearch(2,1);
-EvalSearch(2,2);
-EvalSearch(2,3);
-EvalSearch(3,1);
-EvalSearch(3,2);
-EvalSearch(3,3);
+class Eval_1_Search_1 : public Eval_1, public Search_1 { public: Eval_1_Search_1(CPU_CommunicationModule *comm): Engine(comm) {}};
+class Eval_1_Search_2 : public Eval_1, public Search_2 { public: Eval_1_Search_2(CPU_CommunicationModule *comm): Engine(comm) {}};
+class Eval_1_Search_3 : public Eval_1, public Search_3 { public: Eval_1_Search_3(CPU_CommunicationModule *comm): Engine(comm), Search_3(comm) {}};
+class Eval_2_Search_1 : public Eval_2, public Search_1 { public: Eval_2_Search_1(CPU_CommunicationModule *comm): Engine(comm) {}};
+class Eval_2_Search_2 : public Eval_2, public Search_2 { public: Eval_2_Search_2(CPU_CommunicationModule *comm): Engine(comm) {}};
+class Eval_2_Search_3 : public Eval_2, public Search_3 { public: Eval_2_Search_3(CPU_CommunicationModule *comm): Engine(comm), Search_3(comm) {}};
+class Eval_3_Search_1 : public Eval_3, public Search_1 { public: Eval_3_Search_1(CPU_CommunicationModule *comm): Engine(comm), Eval_3(comm) {}};
+class Eval_3_Search_2 : public Eval_3, public Search_2 { public: Eval_3_Search_2(CPU_CommunicationModule *comm): Engine(comm), Eval_3(comm) {}};
+class Eval_3_Search_3 : public Eval_3, public Search_3 { public: Eval_3_Search_3(CPU_CommunicationModule *comm): Engine(comm), Eval_3(comm), Search_3(comm) {}};
 
 #endif

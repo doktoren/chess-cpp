@@ -90,15 +90,15 @@ public:
 protected:
   bool *get_bool(string name, bool _default = false) {
     assert(settings);
-    return settings->get_bool_setting(setting_name + name);
+    return settings->get_bool_setting(setting_name + name, _default);
   }
   int *get_int(string name, int _default = 0) {
     assert(settings);
-    return settings->get_int_setting(setting_name + name);
+    return settings->get_int_setting(setting_name + name, _default);
   }
   char *get_string(string name, char *_default = 0) {
     assert(settings);
-    return settings->get_string_setting(setting_name + name);
+    return settings->get_string_setting(setting_name + name, _default);
   }
 
   void pbool(ostream &os, string name) {

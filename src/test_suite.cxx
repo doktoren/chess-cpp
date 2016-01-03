@@ -15,7 +15,7 @@
 #include <map>
 #include <queue>
 
-bool TestSuite::clr_test_suite(Board *board, ostream& os, vector<string> &p) {
+bool TestSuite::clr_test_suite(__attribute__((unused)) Board *board, ostream& os, vector<string> &p) {
   if (dot_demand(p, 1, "help")) {
     os << "Test suite, help:\n"
         << "    test all pgns plus  or  tapp\n"
@@ -47,10 +47,10 @@ bool TestSuite::clr_test_suite(Board *board, ostream& os, vector<string> &p) {
 
 class GameExaminer {
 public:
-  bool load_file(string filename) { return true; }
+  bool load_file(__attribute__((unused)) string filename) { return true; }
   bool next_game() { return true; }
-  void next_move(Move& move) {}
-  void game_result(string result) {}
+  void next_move(__attribute__((unused)) Move& move) {}
+  void game_result(__attribute__((unused)) string result) {}
 };
 
 template <class GAME_EXAMINER, class BOARD>
@@ -112,7 +112,7 @@ void TestSuite::test_all_pgns() {
 
 class TestAllPGNsPlus {
 public:
-  bool load_file(string filename) { return true; }
+  bool load_file(__attribute__((unused)) string filename) { return true; }
   bool next_game() { b.new_game(); return true; }
   void next_move(Move& move) {
     try {
@@ -133,7 +133,7 @@ public:
       abort();
     }
   }
-  void game_result(string result) {}
+  void game_result(__attribute__((unused)) string result) {}
   Board3plus b;
 };
 
@@ -347,7 +347,7 @@ class CompareEval {
 public:
   ~CompareEval() { if (l) delete l; }
 
-  bool load_file(string filename) { return load_files; }
+  bool load_file(__attribute__((unused)) string filename) { return load_files; }
 
   void init(Engine *_cpu, int _num_positions) {
     assert(status == 0);
@@ -399,7 +399,7 @@ public:
     }
     if (++index == num_positions) load_files = false;
   }
-  void game_result(string result) {}
+  void game_result(__attribute__((unused)) string result) {}
 
   bool store;
   int allowed_diff;
@@ -593,7 +593,7 @@ public:
     }
 
   }
-  void game_result(string result) {}
+  void game_result(__attribute__((unused)) string result) {}
 
   Board2 b;
   uint max_retro_move_count;

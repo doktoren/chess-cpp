@@ -26,7 +26,7 @@
 int piece_values[13][64];
 int control_values[64];
 
-Eval_3::Eval_3() : settings(&(comm->settings)), pawn_table(10)
+Eval_3::Eval_3(CPU_CommunicationModule *comm) : settings(&(comm->settings)), pawn_table(10)
 {
   if (PRINT_CONSTRUCTOR_DESTRUCTOR_CALLS)
     cerr << "Eval_3 constructor called.\n";
@@ -82,8 +82,8 @@ bool Eval_3::clr_evaluation(Board *board, ostream& os, vector<string> &p) {
   return true;
 }
 
-void Eval_3::print_eval_stat(ostream& os) {
-  /*
+void Eval_3::print_eval_stat(__attribute__((unused)) ostream& os) {
+/*
   os << "num_evaluations = " << num_evaluations << "\n";
   os << "Material left = " << material << '\n';
   os << "Game_phase(material) = (" << GAME_PHASE_MATERIAL[material][OPENING_GAME]
@@ -96,7 +96,7 @@ void Eval_3::print_eval_stat(ostream& os) {
        << ',' << GAME_PHASE_PLY[moves_played][MID_GAME]
        << ',' << GAME_PHASE_PLY[moves_played][END_GAME] << ")\n";
   }
-   */
+  */
 }
 
 //###############  PROTECTED  ##################
@@ -391,7 +391,7 @@ int Eval_3::opening_library_value() {
 }
 
 const int CHECKED_PENALTY = 100;
-int Eval_3::evaluate(int alpha, int beta) {
+int Eval_3::evaluate(__attribute__((unused)) int alpha, __attribute__((unused)) int beta) {
   if (!(++num_evaluations & 0xFFFF)) {
     cerr << num_evaluations << " positions evaluated\n";
   }

@@ -27,7 +27,7 @@ PGNLoader pgn_loader;
 
 void receive_messages();
 
-int main(int argc, char* argv[]) {
+int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[]) {
   run_endian_test();
   endgames.init();
   init_opening_library();
@@ -92,7 +92,7 @@ void show_minimal_alpha_beta_tree_sizes(ostream &os, int n, int to_depth) {
 }
 
 
-// To do: fjern erklæringerne herfra
+// To do: fjern erklï¿½ringerne herfra
 
 bool debug_message(string message);
 
@@ -561,7 +561,7 @@ void receive_messages() {
 
 #define print_help(com) cerr << "    " << #com << "  or  " << short_version(#com) << "\n"
 
-bool debug_message(string message) {
+bool debug_message(__attribute__((unused)) string message) {
   if (dot_demand(p, 1, "help")) {
     cerr << "Overview of commands: (must be typed EXACT)\n"
         << "    help  or  h\n"

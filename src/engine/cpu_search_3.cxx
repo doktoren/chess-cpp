@@ -198,7 +198,7 @@ void Search_3::outdate_tt_entries(int age_by) {
   }
 }
 
-Search_3::Search_3() :
+Search_3::Search_3(CPU_CommunicationModule *comm) :
       settings(&(comm->settings)),
       transposition_table(DEBUG ? *(settings.debug_log_tt_size) : *(settings.log_tt_size))
 {

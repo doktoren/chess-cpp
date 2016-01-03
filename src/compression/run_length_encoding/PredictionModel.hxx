@@ -13,7 +13,7 @@ using namespace std;
 template <class TYPE, class ElementStreamer = DefaultElementStreamer<TYPE> >
 class PredictionModel {
 public:
-  virtual void nextElement(TYPE element) {}
+  virtual void nextElement(__attribute__((unused)) TYPE element) {}
 
   virtual vector<pair<TYPE, float> > & getDistribution() = 0;
 
