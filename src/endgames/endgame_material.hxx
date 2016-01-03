@@ -49,8 +49,8 @@ union endgame_material_t {
     // WARNING: big-little endian dependent code
     // Sufficient material left <=> insufficient_material_b && insufficient_material_a
     // endgame_hashing will create overflow, so it must be placed last
-    bool endgame_material_b;
-    bool endgame_material_a;
+    uint8_t endgame_material_b;
+    uint8_t endgame_material_a;
     uint16_t endgame_hashing;
   } individual;
   uint32_t as_pattern;
