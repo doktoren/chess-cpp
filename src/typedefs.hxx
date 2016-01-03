@@ -1,8 +1,6 @@
 #ifndef _TYPEDEFS_
 #define _TYPEDEFS_
 
-using namespace std;
-
 typedef unsigned int uint;
 
 /**

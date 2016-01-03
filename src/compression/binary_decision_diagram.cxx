@@ -673,7 +673,7 @@ void BinaryDecisionDiagram::init(const TYPE *table, int _log_size, uint max_valu
               }
 
 #ifndef NDEBUG
-              if (!(0<=j  &&  j<index_split[layer-1])) {
+              if (j>=index_split[layer-1]) {
                 cerr << "j = " << j << ", index_split[layer-1] = " << index_split[layer-1]
                                                                                   << ", permutation.size() = " << permutation.size()
                                                                                   << ", layer = " << layer << "\n";

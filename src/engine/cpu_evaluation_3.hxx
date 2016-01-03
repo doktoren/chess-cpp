@@ -64,7 +64,7 @@ class Eval_3 : public virtual Engine {
 public:
   Eval_3();
   ~Eval_3();
-  
+
   void reset_all();
 
   int root_evaluate() {
@@ -126,7 +126,6 @@ private:
 
   // called by init_evaluation
   void set_piece_values();
-
 
   // Private to prevent copying:
   Eval_3(const Eval_3&);

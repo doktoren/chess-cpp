@@ -87,7 +87,7 @@ vector<int> find_clusters(const vector<vector<TYPE> > &elements,
         int num_tries = 0;
         int picked;
         do {
-          double cut_w = weight_sum*(1.0/((RAND_MAX+1)-1))*(rand()+1);
+          double cut_w = weight_sum*(1.0/((RAND_MAX+1.0)-1))*(rand()+1);
           // 0 < cut_w < weight_sum, but the <'s are close to <=
           double prefix_sum = 0.0;
           picked = -1;

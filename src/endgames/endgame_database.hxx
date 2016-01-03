@@ -1,8 +1,6 @@
 #ifndef _ENDGAME_DATABASE_
 #define _ENDGAME_DATABASE_
 
-using namespace std;
-
 #include <vector>
 #include <assert.h>
 

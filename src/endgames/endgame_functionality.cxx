@@ -1200,9 +1200,9 @@ bool EndgameFunctionality::bdd_contains_only_win_draw_loss_info(int stm) {
   int size = 1 << calc_log_bdd_size();
   uint8_t ok[256];
   memset(ok, 0, 256);
-  ok[ENDGAME_TABLE_WIN] = ok[ENDGAME_TABLE_DRAW] = ok[ENDGAME_TABLE_LOSS] = 1;
+  ok[(uint8_t)ENDGAME_TABLE_WIN] = ok[(uint8_t)ENDGAME_TABLE_DRAW] = ok[(uint8_t)ENDGAME_TABLE_LOSS] = 1;
   for (int i=0; i<size; i++)
-    if (!ok[(int)(*(bdd[stm]))[i]]) return false;
+    if (!ok[(uint8_t)(*(bdd[stm]))[i]]) return false;
   return true;
 }
 
@@ -1211,9 +1211,9 @@ bool EndgameFunctionality::table_contains_only_win_draw_loss_info(int stm) {
   if (!table[stm]) return false;
   uint8_t ok[256];
   memset(ok, 0, 256);
-  ok[ENDGAME_TABLE_WIN] = ok[ENDGAME_TABLE_DRAW] = ok[ENDGAME_TABLE_LOSS] = 1;
+  ok[(uint8_t)ENDGAME_TABLE_WIN] = ok[(uint8_t)ENDGAME_TABLE_DRAW] = ok[(uint8_t)ENDGAME_TABLE_LOSS] = 1;
   for (uint i=0; i<table_size; i++)
-    if (!ok[(int)table[stm][i]]) return false;
+    if (!ok[(uint8_t)table[stm][i]]) return false;
   return true;
 }
 

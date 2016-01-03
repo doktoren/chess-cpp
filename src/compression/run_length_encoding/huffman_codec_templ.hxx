@@ -116,10 +116,10 @@ void Huffman<TYPE, ElementStreamer>::init(vector<pair<TYPE, int> > &elem_counts,
   
   // cerr << "Hertil " << insuf_count << " " << index << "\n";
 
-  if (dummy_active = insuf_count) {
+  if ((dummy_active = insuf_count)) {
     // A non-empty set of elements was not worth storing.
-    // A least occuring element (elem_counts[0].first) will now be used to represent
-    // the set of these low-frequently occuring symbols.
+    // A least occurring element (elem_counts[0].first) will now be used to represent
+    // the set of these low-frequently occurring symbols.
     dummy = elem_counts[0].first;
     for (int i=0; i<index; i++) {
       ignored_elements[elem_counts[i].first] = true;

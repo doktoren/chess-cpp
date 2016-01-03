@@ -290,7 +290,7 @@ public:
   // Used for huff tree reduction
   int average_bit_size() { return 8*sizeof(TYPE); }
 
-  // En tilfældig ordensrelation mellem elementerne
+  // An arbitrary relation
   bool operator()(const TYPE &e1, const TYPE &e2) {
     const uint8_t *p1 = reinterpret_cast<const uint8_t *>(&e1);
     const uint8_t *p2 = reinterpret_cast<const uint8_t *>(&e2);
@@ -303,7 +303,7 @@ public:
 
 //------------
 
-class Elias_int_streamer {//: public DefaultElementStreamer<uint> {
+class Elias_int_streamer : public DefaultElementStreamer<uint> {
 public:
   template<class INPUT_MODEL>
   void readElement(ibstream<INPUT_MODEL> &in, uint &n) {
@@ -325,7 +325,7 @@ public:
     }
   }
 
-  int average_bit_size() { 
+  const int average_bit_size() {
     return 12;// More or less arbitrary
   }
 
@@ -335,10 +335,10 @@ public:
     return string(tmp);
   }
 
-  bool operator()(const uint &n1, const uint &n2) { return n1<n2; }
+  bool operator()(const uint &n1, const uint &n2) const { return n1<n2; }
 };
 
-class bit_streamer {//: public DefaultElementStreamer<bool> {
+class bit_streamer : public DefaultElementStreamer<bool> {
 public:
   template<class INPUT_MODEL>
   bool readElement(ibstream<INPUT_MODEL> &in, bool &element) {

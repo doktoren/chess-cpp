@@ -102,7 +102,7 @@ bool Settings::load_from_file(string _filename)
     }
     if (strlen(line)<3) {
       // Empty line
-      comment == "";
+      comment = "";
       continue;
     }
     char tag[64], value[64];

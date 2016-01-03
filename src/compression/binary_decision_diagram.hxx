@@ -92,7 +92,7 @@ public:
   }
   void update(int index, uint value) {
 #ifndef NDEBUG
-    if (!(0<=value  &&  (int)value<(1<<bits_per_value)))
+    if ((int)value >= (1<<bits_per_value))
       cerr << "index = " << index << ", value = " << value << ", btv = " << bits_per_value << "\n";
     assert(0<=value  &&  (int)value<(1<<bits_per_value));
 #endif

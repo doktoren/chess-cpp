@@ -42,7 +42,7 @@ extern ofstream my_error;
 struct My_ostream {
   My_ostream() : newline(true) {}
   void flush() { cout.flush(); }
-  void setf(std::_Ios_Fmtflags gah) { cout.setf(gah); }
+  void setf(std::ios_base::fmtflags gah) { cout.setf(gah); }
   bool newline;
 };
 template<class TYPE>

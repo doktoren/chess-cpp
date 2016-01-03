@@ -189,7 +189,6 @@ void Eval_3::init_passed_pawns_bitboards() {
 }
 
 const int PASSED_PAWN_BONUS[8] = {0,10,15,25,35,48,80,0};
-const int PAWN_PROTECTED_PASSED_PAWN_BONUS[8] = {0,10,15,25,35,48,80,0};
 int Eval_3::passed_pawns_value() {
   int result = 0;
   for (int i=0; i<8; i++) {
@@ -606,7 +605,7 @@ void Eval_3::init_piece_values() {
     int p_g2 = 2*10;
     int p_g3 = 2*15;
     // PAWN FORMATIONS NEAR KING
-    // størst bonus i starten
+    // Highest bonus in the beginning
     if ((castling & (WHITE_CASTLING)) == 0) {
       // white cannot castle.
       // keep king behind pawns

@@ -78,7 +78,7 @@ void build_endgame_retrograde(EndgameFunctionality* endgame, int8_t **table) {
                 board.print_board(cerr);
                 board.print_moves(cerr);
                 cerr << "Move executed was " << move.toString() << "\n";
-                Undo undo = board.execute_move(move);
+                board.execute_move(move);
 
                 vector<PiecePos> pp(board.get_num_pieces());
                 board.get_encoded_piece_list(pp);

@@ -247,9 +247,6 @@ void ClassName::undo_move(Move move, Undo undo) {
       --cannot_undo_before;
     }
 
-    move_stack[moves_played-1] != move;
-    undo_stack[moves_played-1] != undo;
-
     Board2::undo_move(move, undo);
 
     hash_value = partial_hash_value;

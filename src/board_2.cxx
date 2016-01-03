@@ -296,11 +296,10 @@ bool Board2::legal_move(Move& move) const {
       if (num_checks == 2) return false;
       if (move.blah & PROTECTS_KING) {
         // ARGHH!!!:
-        // Denne kode tager højde for tilfælde som fx loadfen K1r1Q1q1///////7k w - -
-        // check_if_moved will være true for Q, da der vil
-        // være en skakkende brik på denne linje.
+        // This code fixes fx loadfen K1r1Q1q1///////7k w - -
+        // check_if_moved will be true for Q as this line will contain a checking piece
         // loadfen 4Q1q1/K1r5//////7k w - -
-        // DI... = DI... nødvendiggøres af fx loadfen K2Qq/2n//////k w - -
+        // DI... = DI... is made necessry by eg loadfen K2Qq/2n//////k w - -
         return threat_elim[move.to]  &&
             DIRECTION[move.from][king_pos[player]] == DIRECTION[move.from][move.to];
       }
@@ -381,7 +380,7 @@ bool Board2::next_move_fixed_destination(Move &move, Piece piece_kind) const {
 bool Board2::next_move(Move &move, Piece piece_kind) const {
   assert(move.blah & 7); // cerr << "next_move called on:\n" << move;
 
-  // The line below is not nescessary if next_move will never
+  // The line below is not necessary if next_move will never
   // again be called on the same move after it has previously returned false.
   if (!legal_pos(move.from)) return false;
 
@@ -457,8 +456,8 @@ Undo Board2::execute_move(Move move) {
   if (move.special_move) {
 
     if (move.is_pawn_promotion()) {
-      // rækkefølgen af remove og insert er nødvendig for at brikken
-      // kan beholde sit nummer (piece_number's stack-system)
+      // The order of remove and insert are necessary for the piece to
+      // keep its number (piece_number's stack-system)
       remove_piece(move.from);
       insert_piece(move.to, move.special_move);
 
@@ -529,8 +528,8 @@ void Board2::undo_move(Move move, Undo undo) {
   if (move.special_move) {
 
     if (move.is_pawn_promotion()) {
-      // rækkefølgen af remove og insert er nødvendig for at brikken
-      // kan beholde sit nummer (piece_number's stack-system)
+      // The order of remove and insert are necessary for the piece
+      // to keep its number (piece_number's stack-system)
       remove_piece(move.to);
       insert_piece(move.from, player ? BLACK_PAWN : WHITE_PAWN);
 
@@ -783,7 +782,7 @@ bool Board2::clr_board2(Board *board, ostream& os, vector<string> &p) {
   } else if (dot_demand(p, 3, "retro", "move", (uintptr_t)0)) {
     vector<triple<Move,Undo,int> > rm = b.get_retro_moves(true, true, true, true);
     uint n = atoi(p[2].c_str());
-    if (0<=n  &&  n<rm.size()) {
+    if (n<rm.size()) {
       os << "Undoing retro move number " << n;
       if (rm[n].third) {
         os << " (transf " << rm[n].third << " nescessary)\n";
@@ -1786,7 +1785,7 @@ Board2::get_retro_moves(bool allow_pawn_promotion, bool allow_castling,
     int pawn = player ? BPAWN : WPAWN;
 
     for (int c=0; c<8; c++) {
-      if (board[offset+c]==pawn  ||  (allow_captures  &&  PIECE_COLOR[board[offset+c]] == player^1)) {
+      if (board[offset+c]==pawn  ||  (allow_captures  &&  PIECE_COLOR[board[offset+c]] == (player^1))) {
         int lpawn = c != 0  &&  board[offset+c-1]+pawn==WPAWN+BPAWN;
         int rpawn = c != 7  &&  board[offset+c+1]+pawn==WPAWN+BPAWN;
         if (lpawn | rpawn) {

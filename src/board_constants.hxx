@@ -2,6 +2,7 @@
 #define _BOARD_CONSTANTS_
 
 #include <stdint.h>
+#include <stdlib.h>
 #include <string>
 
 #include "board_defines.hxx"

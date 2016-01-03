@@ -322,7 +322,7 @@ public:
    */
 
   void init_iterator(Position pos) {
-    iterator_current = &(move_lists[pos].move_index[-1]);
+    iterator_current = &(move_lists[pos].move_index[0]) - 1;
     iterator_end = &(move_lists[pos].move_index[move_lists[pos].count]);
   }
   bool iterate() {

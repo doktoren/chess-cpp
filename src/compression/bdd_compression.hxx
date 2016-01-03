@@ -1,8 +1,6 @@
 #ifndef _BDT_COMPRESSION_
 #define _BDT_COMPRESSION_
 
-using namespace std;
-
 typedef unsigned int uint;
 
 #include <vector>
@@ -16,7 +14,7 @@ typedef unsigned int uint;
 //     pairs[i] = yalla_result[pairs[i]]
 // a lot of the pairs will have the property
 //     pairs[2*i]+1 = pairs[2*i+1]
-vector<uint> yalla(int shuffle_size, uint *pairs, int num_pairs, int barrier = 0);
+std::vector<uint> yalla(int shuffle_size, uint *pairs, int num_pairs, int barrier = 0);
 
 void test_yalla();
 

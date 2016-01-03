@@ -7,7 +7,7 @@
 
 class Engine : public Board3plus {
 public:
-  Engine(CPU_CommunicationModule *comm = 0);
+  Engine(CPU_CommunicationModule *comm);
   ~Engine();
 
   virtual Move calculate_move(ostream& os) = 0;
