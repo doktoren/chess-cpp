@@ -170,7 +170,7 @@ void init_king_full_symmetry() {
       int black_king = bound_king;
 #else
       int white_king = bound_king;
-      int black_king = free_king;   
+      int black_king = free_king;
 #endif
 
 
@@ -240,7 +240,7 @@ void verify_king_full_symmetry() {
                                                                                                                                                            << "), index = " << ir.index << ", refl = " << ir.refl << "\n";
         }
 
-        BDDIndexRefl bir = bdd_king_full_symmetry(white_king, black_king);
+        __attribute__((unused)) BDDIndexRefl bir = bdd_king_full_symmetry(white_king, black_king);
         assert(bir.is_valid());
         assert(reflect(white_king, bir.refl) == bir.white_king());
         assert(reflect(black_king, bir.refl) == bir.black_king());
@@ -280,7 +280,7 @@ void init_king_pawn_symmetry() {
       int black_king = bound_king;
 #else
       int white_king = bound_king;
-      int black_king = free_king;   
+      int black_king = free_king;
 #endif
 
       if (kings_too_near(white_king, black_king)) {

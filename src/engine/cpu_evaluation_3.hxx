@@ -17,7 +17,7 @@ struct PawnTableHV {
     return wps==p.wps  &&  bps==p.bps;
   }
 
-  int get_index(unsigned int max_index) const {
+  int get_index(__attribute__((unused)) unsigned int max_index) const {
     assert(max_index==1023);
 
     int result = 0;
