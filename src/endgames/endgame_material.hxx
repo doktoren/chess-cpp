@@ -6,6 +6,7 @@
 
 #include "../piece_pos.hxx"
 #include "../board_constants.hxx"
+#include "../experimenting.hxx"
 
 #ifdef ALLOW_5_MEN_ENDGAME
 

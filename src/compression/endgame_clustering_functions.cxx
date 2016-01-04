@@ -87,7 +87,7 @@ int KRKB_subset_number(int bishop, __attribute__((unused)) int rook, int _FK_, i
 #define num_values_KQKR (1 + 3 + 3 + 7 + 7)
 int KQKR_subset_number(int brook, __attribute__((unused)) int wqueen, int _FK_, int _BK_ FIFTH_PARAM) {
   _BK_ = INV_REMAP_BOUND_KING[_BK_];
-  
+
   return EDGE_DIST[bk] + CORNER_DIST[bk] + dist(bk,wk) + (7 - dist(bk, brook));
 
 }
@@ -107,15 +107,15 @@ void init_cluster_functions() {
   }
 
   // KRK
-  cluster_functions[DB_WROOK_VALUE] = 
+  cluster_functions[DB_WROOK_VALUE] =
     cluster_functions[DB_BROOK_VALUE] = KRK_subset_number;
-  cluster_functions_num_values[DB_WROOK_VALUE] = 
+  cluster_functions_num_values[DB_WROOK_VALUE] =
     cluster_functions_num_values[DB_BROOK_VALUE] = num_values_KRK;
 
   // Use KRK function for KQK also
-  cluster_functions[DB_WQUEEN_VALUE] = 
+  cluster_functions[DB_WQUEEN_VALUE] =
     cluster_functions[DB_BQUEEN_VALUE] = KRK_subset_number;
-  cluster_functions_num_values[DB_WQUEEN_VALUE] = 
+  cluster_functions_num_values[DB_WQUEEN_VALUE] =
     cluster_functions_num_values[DB_BQUEEN_VALUE] = num_values_KRK;
 
   // KBBK

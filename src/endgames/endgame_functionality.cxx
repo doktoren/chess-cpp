@@ -583,9 +583,6 @@ void EndgameFunctionality::init_bdd(BDD &bdd, int player, bool delete_table) {
 bool EndgameFunctionality::name_match(string name_pattern) {
   // divide name and _name into white parts and black parts
   string::size_type tmp;
-
-  if (name_pattern == "*") name_pattern = "K*K*";
-
   tmp = name_pattern.find('K', 1);
   if (tmp == string::npos) return false;
   string np[2];
@@ -605,7 +602,6 @@ bool EndgameFunctionality::name_match(string name_pattern) {
     if (np[side] == "K*") continue;
     if (np[side].size()==2  &&
         (int)n[side].size() == 1+(np[side][1] - '0')) continue;
-
 
     string _n = n[side];
     for (uint i=1; i<_n.size(); i++) {

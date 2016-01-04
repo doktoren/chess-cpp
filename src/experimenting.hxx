@@ -2,6 +2,9 @@
 #define _EXPERIMENTING_
 // This file contains all the defines that control the compression
 
+#include <iostream>
+using namespace std;
+
 // MAX_MEN must be 4 or 5
 // The files generated will be the same no matter if MAX_MEN is 4 or 5.
 #define MAX_MEN 5
@@ -26,8 +29,7 @@ inline void load_define_value(int fd, char value, string name) {
   char tmp;
   read(fd, &tmp, 1);
   if (tmp != value) {
-    cerr << "Error: Loaded file was created using different defined\n"
-	 << "value for " << name << "\n";
+    cerr << "Error: Loaded file was created using different defined" << endl << "value for " << name << "\n";
     exit(1);
   }
 }
