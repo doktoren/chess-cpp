@@ -409,21 +409,21 @@ void receive_messages() {
         comm->fixed_time_per_move = false;
         comm->setting_level_used = true;
 
-        comm->mps = atoi(parse_result[0].c_str());
-        if (parse_result[1].find(':') == string::npos) {
-          comm->base = 60*atoi(parse_result[1].c_str());
+        comm->mps = atoi(p[1].c_str());
+        if (p[2].find(':') == string::npos) {
+          comm->base = 60*atoi(p[2].c_str());
         } else {
-          int l = parse_result[1].size();
-          comm->base = parse_result[1][--l];
-          comm->base += 10*parse_result[1][--l];
+          int l = p[2].size();
+          comm->base = p[2][--l];
+          comm->base += 10*p[2][--l];
           --l;//jump :
           int f = 60;
           do {
-            comm->base += f*parse_result[1][--l];
+            comm->base += f*p[2][--l];
             f *= 10;
           } while (l);
         }
-        comm->inc = atoi(parse_result[2].c_str());
+        comm->inc = atoi(p[3].c_str());
 
         cerr << "Time control: level " << comm->mps << " mps, " << comm->base << " s, "
             << comm->inc << " inc.\n";
@@ -530,7 +530,9 @@ void receive_messages() {
 
       } else if (strcmp(prefix, "system") == 0  &&
           strlen(message) >= 8) {
+#pragma GCC diagnostic ignored "-Wunused-result"
         system(&(message[7]));
+#pragma GCC diagnostic pop
 
       } else if (strcmp(prefix, "quit") == 0) {
         cerr << " - quit\n";

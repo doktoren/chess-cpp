@@ -177,7 +177,9 @@ class MoveToIndex {
 public:
   MoveToIndex() { clear(); }
   void clear() {
+#pragma GCC diagnostic ignored "-Wclass-memaccess"
     memset(internal_list, 0, sizeof(IndexStruct)*4096);
+#pragma GCC diagnostic pop
   }
   void print(ostream &os) {
     os << "MoveToIndex: todo\n";

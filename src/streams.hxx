@@ -19,9 +19,6 @@ using namespace std;
 // Messages send to big_output is unbuffered directed to "big_output.txt"
 extern ofstream big_output;
 
-// It is possible to redirect cerr to a file when running the program
-// without XBoard connected. Example: ">>backup.set: print settings"
-extern ostream *current_cerr;
 // Make it possible to send messages to cerr without being redirected
 #define real_cerr cerr
 
@@ -30,6 +27,10 @@ extern ostream *current_cerr;
 extern ofstream my_error;
 #define cerr my_error
 #else
+
+// It is possible to redirect cerr to a file when running the program
+// without XBoard connected. Example: ">>backup.set: print settings"
+extern ostream *current_cerr;
 // If current_cerr is defined, then this is used instead of the normal cerr
 #define cerr (current_cerr ? *current_cerr : cerr)
 #endif

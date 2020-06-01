@@ -60,7 +60,7 @@ void build_endgame_retrograde(EndgameFunctionality* endgame, int8_t **table) {
             if (move.is_en_passant()  ||  move.is_pawn_promotion()  ||  board[move.to]) {
               // this edge go to a position not in this endgame
               Undo undo = board.execute_move(move);
-              int value = endgames[board.get_endgame_material().individual.endgame_hashing][board];
+              int value = endgames[endgame_hashing(board.get_endgame_material())][board];
               board.undo_move(move, undo);
 
               if (value == ENDGAME_TABLE_WIN  ||  value == ENDGAME_TABLE_LOSS) {
@@ -263,7 +263,7 @@ void build_endgame_retrograde(EndgameFunctionality* endgame, int8_t **table) {
 
               pair<uint, int> back2 = endgame->get_table_index_and_stm(board);
               assert(table[back2.second][back2.first] == table[back.second][back.first]);
-              assert(move_count[back2.second][back2.first] = move_count[back.second][back.first]);
+              assert(move_count[back2.second][back2.first] == move_count[back.second][back.first]);
 
               my_assert(board.transform_board(4));
             }

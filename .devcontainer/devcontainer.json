@@ -1,0 +1,7 @@
+{
+    "name": "cpp-chess",
+    "dockerFile": "Dockerfile",
+    "extensions": [
+        "ms-vscode.cpptools"
+    ]
+}

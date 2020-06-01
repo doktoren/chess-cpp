@@ -45,25 +45,16 @@
 #define DB_ARRAY_LENGTH (3*DB_BQUEEN_VALUE+1)
 
 
-union endgame_material_t {
-  struct {
-    // WARNING: big-little endian dependent code
-    // Sufficient material left <=> insufficient_material_b && insufficient_material_a
-    // endgame_hashing will create overflow, so it must be placed last
-    uint8_t endgame_material_b;
-    uint8_t endgame_material_a;
-    uint16_t endgame_hashing;
-  } individual;
-  uint32_t as_pattern;
-};
+extern const uint32_t ENDGAME_MATERIAL_HASHING_CONSTANTS[13][2];
 
-extern const endgame_material_t ENDGAME_MATERIAL_HASHING_CONSTANTS[13][2];
-
-inline void add_endgame_material(endgame_material_t &material, Piece piece, Position position) {
-  material.as_pattern += ENDGAME_MATERIAL_HASHING_CONSTANTS[piece][POS_COLOR[position]].as_pattern;
+inline uint32_t endgame_hashing(uint32_t material) {
+  return material & 0xFFFF;
 }
-inline void remove_endgame_material(endgame_material_t &material, Piece piece, Position position) {
-  material.as_pattern -= ENDGAME_MATERIAL_HASHING_CONSTANTS[piece][POS_COLOR[position]].as_pattern;
+inline void add_endgame_material(uint32_t &material, Piece piece, Position position) {
+  material += ENDGAME_MATERIAL_HASHING_CONSTANTS[piece][POS_COLOR[position]];
+}
+inline void remove_endgame_material(uint32_t &material, Piece piece, Position position) {
+  material -= ENDGAME_MATERIAL_HASHING_CONSTANTS[piece][POS_COLOR[position]];
 }
 
 /**
@@ -73,8 +64,8 @@ inline void remove_endgame_material(endgame_material_t &material, Piece piece, P
  * b) 2 knights or 1 knight and a bishop
  * c) 2 bishop on different colors
  */
-inline bool insufficient_material(endgame_material_t material) {
-  return !material.individual.endgame_material_a || !material.individual.endgame_material_b;
+inline bool insufficient_material(uint32_t material) {
+  return (material & 0xFF000000U) == 0 || (material & 0x00FF0000U) == 0;
 }
 
 extern const uint_fast16_t ENDGAME_HASHING_CONSTANTS[13];

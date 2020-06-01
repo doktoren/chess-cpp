@@ -60,7 +60,7 @@ private:
   uint *mem;
 };
 
-const int ONE_BITS[33] =
+const uint ONE_BITS[33] =
   {0x0,
    0x1, 0x3, 0x7, 0xF,
    0x1F, 0x3F, 0x7F, 0xFF,
@@ -94,7 +94,7 @@ public:
 #ifndef NDEBUG
     if ((int)value >= (1<<bits_per_value))
       cerr << "index = " << index << ", value = " << value << ", btv = " << bits_per_value << "\n";
-    assert(0<=value  &&  (int)value<(1<<bits_per_value));
+    assert((int)value<(1<<bits_per_value));
 #endif
     index *= bits_per_value;
     uint &tmp = *((uint *)(&(((uint8_t *)mem)[index >> 3])));
@@ -164,10 +164,10 @@ inline uint BinaryDecisionDiagram::operator[](int index) {
   for (int layer=log_size-1; layer>=0; layer--) {
     int next_bit = (index>>layer)&1;
     if (i >= index_split[layer]) {
-      assert(0<=index_split[layer]+i  &&  index_split[layer]+i<nodes[layer].size());
+      assert(index_split[layer]+i<nodes[layer].size());
       i = nodes[layer][index_split[layer] + i] + next_bit;
     } else {
-      assert(0<=((i<<1) | next_bit)  &&  ((i<<1) | next_bit)<nodes[layer].size());
+      assert(((i<<1) | next_bit)<nodes[layer].size());
       i = nodes[layer][(i<<1) | next_bit];
     }
   }

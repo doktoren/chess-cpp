@@ -519,7 +519,7 @@ void BinaryDecisionDiagram::init(const TYPE *table, int _log_size, uint max_valu
     }
 
     // Reduce size of _table to half
-    realloc(_table, sizeof(uint32_t)*(_size>>1));
+    _table = (uint16_t*)realloc(_table, sizeof(uint32_t)*(_size>>1));
     assert(_table);
 
     if (calc_sifting) {

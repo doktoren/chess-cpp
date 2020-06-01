@@ -33,7 +33,7 @@ void Board::reset_all() {
   moves_played_since_progress = 0;
 
   piece_count.as_pattern = 0;
-  endgame_material.as_pattern = 0;
+  endgame_material = 0;
 
   played_from_scratch = true; // whatever
 }
@@ -815,7 +815,7 @@ void Board::print_counters(ostream &os) {
       << (int)get_num_non_zugzwang_pieces(WHITE) << ","
       << (int)get_num_non_zugzwang_pieces(BLACK) << ")\n"
       << "endgame_hashing_insufficient_material: Pattern = "
-      << toString(endgame_material.as_pattern, 8, 16) << "\n";
+      << toString(endgame_material, 8, 16) << "\n";
 }
 
 void Board::print_board(ostream& os) const {
@@ -868,10 +868,12 @@ void Board::print_board(ostream& os) const {
       break;
            */
         case 0:
+#pragma GCC diagnostic ignored "-Wimplicit-fallthrough"
           if (en_passant != ILLEGAL_POS) {
             os << " en passant at " << POS_NAME[en_passant] << '\n';
             break;
           }
+#pragma GCC diagnostic pop
         default:
           os << '\n';
     }

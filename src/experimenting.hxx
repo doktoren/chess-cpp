@@ -2,7 +2,11 @@
 #define _EXPERIMENTING_
 // This file contains all the defines that control the compression
 
+#include <cstdlib>
+#include <cstring>
 #include <iostream>
+#include <stdint.h>
+#include <unistd.h>
 using namespace std;
 
 // MAX_MEN must be 4 or 5

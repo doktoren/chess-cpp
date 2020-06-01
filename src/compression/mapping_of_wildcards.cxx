@@ -590,6 +590,7 @@ vector<int> mergesort(int begin, int end) {
     // Do the actual merging
     int insert_index = left.size()-1;
     bool error = false;
+    (void)error;  // suppress warning about unused variable
     while (left_index != insert_index) {
       if (left_index < 0) {
         // Copy prefix of right vector to left vector

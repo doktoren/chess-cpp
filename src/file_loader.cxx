@@ -97,6 +97,7 @@ bool PGNLoader::next_game() {
 
   // Read tags
   bool ok = read_tag(line);
+  (void)ok;  // Avoid warning of being unused
   assert(ok);
   while ((line = getline())  &&  *line == '[') {
     ok = read_tag(line);
@@ -277,7 +278,7 @@ void PGNWriter::write_tags() {
 void PGNWriter::add_move(Board2& board, Move move) {
   // move == Move()  =>  assumes it is a null move!
   if (!board.get_player()) {
-    char tmp[8];
+    char tmp[16];
     sprintf(tmp, "%d.", (board.get_moves_played() >> 1)+1);
     write_token(tmp);
   }

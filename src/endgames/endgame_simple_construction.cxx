@@ -129,7 +129,7 @@ void build_endgame_simple(EndgameFunctionality* endgame, int8_t **table) {
             Undo undo = board.execute_move(move);
             // It is important that the necessary endgames have been loaded!
             // (e.g. KRPK requires KRK, KQRK, KRRK, KRBK, KRNK, KPK)
-            int value = endgames[board.get_endgame_material().individual.endgame_hashing][board];
+            int value = endgames[endgame_hashing(board.get_endgame_material())][board];
             board.undo_move(move, undo);
 
             if (value == ENDGAME_TABLE_WIN  ||  value == ENDGAME_TABLE_LOSS) {

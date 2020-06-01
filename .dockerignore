@@ -1,13 +1,14 @@
 # Temporary files
 *~
-*/*~
+**/*~
 
 # Auto generated files
-*.o
-*.d
+**/*.o
+**/*.d
 chess
 big_output.txt
 incoming.txt
 backup.pgn
 
 src/error.txt
+**/*.dat

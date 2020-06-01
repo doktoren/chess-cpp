@@ -270,7 +270,6 @@ public:
     for (int i=0; i<sizeof(TYPE); i++) {
       out.writeByte(p[i]);
     }
-    return out;
   }
 
   string toString(TYPE &element) {

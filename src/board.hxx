@@ -127,7 +127,7 @@ public:
   }
 
   inline piece_count_t get_piece_count() const { return piece_count; }
-  inline endgame_material_t get_endgame_material() const { return endgame_material; }
+  inline uint32_t get_endgame_material() const { return endgame_material; }
 
 
   bool played_from_scratch;
@@ -194,7 +194,7 @@ protected:
   int moves_played;
 
   piece_count_t piece_count;
-  endgame_material_t endgame_material;
+  uint32_t endgame_material;
 
 private:
   friend struct HashBoard;

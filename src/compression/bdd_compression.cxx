@@ -250,8 +250,8 @@ vector<uint> yalla(int shuffle_size, uint *pairs, int num_pairs, int barrier) {
 #ifndef NDEBUG
   // assert(0<=barrier  &&  barrier<shuffle_size); usefull not to restrict
   for (int i=0; i<num_pairs; i++) {
-    assert(0 <= pairs[2*i]  &&  pairs[2*i] < (uint)shuffle_size);
-    assert(0 <= pairs[2*i+1]  &&  pairs[2*i+1] < (uint)shuffle_size);
+    assert(pairs[2*i] < (uint)shuffle_size);
+    assert(pairs[2*i+1] < (uint)shuffle_size);
     //assert(pairs[2*i] != pairs[2*i+1]);
   }
 #endif
@@ -456,7 +456,7 @@ vector<uint> yalla(int shuffle_size, uint *pairs, int num_pairs, int barrier) {
 		      }
 		    }
 #endif
-		  // Hop ud af while-løkken
+		  // Hop ud af while-lï¿½kken
 		  break;
 
 		} else {

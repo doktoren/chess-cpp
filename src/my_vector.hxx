@@ -27,7 +27,9 @@ public:
 
     assert(_size <= new_allocated_size);
     TYPE *new_mem = new TYPE[new_allocated_size];
+#pragma GCC diagnostic ignored "-Wclass-memaccess"
     memcpy(new_mem, mem, sizeof(TYPE)*_size);
+#pragma GCC diagnostic pop
     delete[] mem;
     mem = new_mem;
 

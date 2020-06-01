@@ -1,0 +1,2 @@
+# mates.txt is from https://www.chess2u.com/t179-longest-checkmates-the-complete-set
+(cd tables; echo "enter ed" >test.com; for file in $(ls K????_wtm.dat); do echo "load table ${file:0:5}" >>test.com; grep "${file:0:5} " ../mates.txt | awk '{print "loadfen " $3 " " $4 " " $5 " " $6 " " $7 " " $8}' >>test.com; grep "${file:0:5} " ../mates.txt | awk '{print"# expects DTM " $2}' >>test.com; echo "index database" >>test.com; done; mv test.com ../src/)

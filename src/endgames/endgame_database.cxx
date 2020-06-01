@@ -70,7 +70,7 @@ void print_map(INT_TYPE *m, int digits_per_num = 2) {
 }
 
 bool Endgames::get_table_and_bdd_index_and_stm(const Board2 &board, triple<uint, uint, int> &indexes) {
-	int hash_value = board.get_endgame_material().individual.endgame_hashing;
+	int hash_value = endgame_hashing(board.get_endgame_material());
 	if (board.get_num_pieces() <= MAX_MEN) {
 		if (supported(hash_value)) {
 			indexes = hash_list[hash_value]->get_table_and_bdd_index_and_stm(board);
@@ -856,14 +856,14 @@ bool clr_endgame_database(Board *board, ostream& os, vector<string> &p) {
 		triple<uint, uint, int> i;
 
 
-		int hash_value = b.get_endgame_material().individual.endgame_hashing;
+		int hash_value = endgame_hashing(b.get_endgame_material());
 		if (b.get_num_pieces() <= MAX_MEN  &&  endgames.supported(hash_value)) {
 			triple<uint, uint, int> i = endgames[hash_value].get_table_and_bdd_index_and_stm(b);
 
 			os << "Endgame " << endgames.get_endgame_name(b) << ":\n"
 					<< "(table index, bdd index, stm) = ("
 					<< i.first << ", " << i.second << " ("
-					<< toString(i.second, endgames[b.get_endgame_material().individual.endgame_hashing].calc_log_bdd_size(), 2)
+					<< toString(i.second, endgames[endgame_hashing(b.get_endgame_material())].calc_log_bdd_size(), 2)
 					<< "b), " << i.third << ")\n";
 
 			pair<int, int> p = endgames[hash_value].getModifiedOBDDIndexAndClusterValue(b);
@@ -893,7 +893,7 @@ bool clr_endgame_database(Board *board, ostream& os, vector<string> &p) {
 
 
 string Endgames::get_endgame_name(const Board2 &board) {
-	int hash_value = board.get_endgame_material().individual.endgame_hashing;
+	int hash_value = endgame_hashing(board.get_endgame_material());
 	if (board.get_num_pieces() <= MAX_MEN  &&  supported(hash_value)) {
 		return hash_list[hash_value]->get_name();
 	} else {

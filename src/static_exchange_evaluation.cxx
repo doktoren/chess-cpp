@@ -15,7 +15,7 @@ const int BCC_AND[13] =
 const uint32_t BOARD_CONTROL_CONSTANTS[13] =
 {0,
     1<<0, 1<<2, 1<<5, 1<<8, 1<<11, 1<<15,
-    1<<16, 1<<18, 1<<21, 1<<24, 1<<27, 1<<31};
+    1<<16, 1<<18, 1<<21, 1<<24, 1<<27, 1U<<31};
 
 const int PIECE_CONTROL_MEASURES[7] =
 {0, 4, 3, 3, 2, 2, 2};

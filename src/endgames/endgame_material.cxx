@@ -1,14 +1,10 @@
 #include "endgame_material.hxx"
 
-inline endgame_material_t make(uint8_t b, uint8_t a, uint16_t endgame_hashing) {
-  endgame_material_t result;
-  result.individual.endgame_material_b = b;
-  result.individual.endgame_material_a = a;
-  result.individual.endgame_hashing = endgame_hashing;
-  return result;
+inline uint32_t make(uint32_t a, uint32_t b, uint32_t endgame_hashing) {
+  return (a << 24) | (b << 16) | endgame_hashing;
 }
 
-const endgame_material_t ENDGAME_MATERIAL_HASHING_CONSTANTS[13][2] =
+const uint32_t ENDGAME_MATERIAL_HASHING_CONSTANTS[13][2] =
 {   {make(0, 0, 0), make(0, 0, 0)},
     {make(0x01, 0x01, DB_WPAWN_VALUE),   make(0x01, 0x01, DB_WPAWN_VALUE)},
     {make(0x00, 0xE1, DB_WKNIGHT_VALUE), make(0x00, 0xE1, DB_WKNIGHT_VALUE)},

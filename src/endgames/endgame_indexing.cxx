@@ -672,7 +672,7 @@ int compress_KPPKX_table_index(vector<PiecePos>& piece_list) {
   int reflp1 = reflect(piece_list[1].pos-8, refl);
   int reflp2 = reflect(piece_list[2].pos-8, refl);
 
-  int index = result + (pp_compress(reflp1, reflp2) << 6) | reflect(piece_list[4].pos, refl);
+  int index = (result + (pp_compress(reflp1, reflp2) << 6)) | reflect(piece_list[4].pos, refl);
 
   assert(0<=index  &&  index<1806*64*(47*48/2));
   return index;

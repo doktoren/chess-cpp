@@ -84,6 +84,7 @@ bool is_interrupt_message(string s);
 bool spawn_listener() {
   // This function may only be called once
   static bool not_called_before = true;
+  (void)not_called_before;  // Avoid warning about not being used
   assert(not_called_before);
   not_called_before = false;
 

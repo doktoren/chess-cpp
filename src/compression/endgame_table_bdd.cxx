@@ -67,6 +67,7 @@ void BDD::clear() {
     bit_perm_and_permute_pos[i] = i | (i<<6) | (i<<12) | (i<<18) | (i<<24);
 }
 
+#pragma GCC diagnostic ignored "-Wunused-result"
 void BDD::load(int fd) {
   clear();
 
@@ -149,6 +150,7 @@ void BDD::save(int fd) {
       sub_bdds[i]->save(fd);
   }
 }
+#pragma GCC diagnostic pop
 
 bool BDD::load(string filename) {
   int fd = open(filename.c_str(), O_RDONLY, 0);

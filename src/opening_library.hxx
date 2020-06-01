@@ -11,7 +11,7 @@
 
 class OpeningLibrary {
 public:
-  OpeningLibrary() : table(19), in("NEWBOOK.TXT") { fill_table(); }
+  OpeningLibrary() : table(19), in("../NEWBOOK.TXT") { fill_table(); }
 
   int num_occurences(HashValue hash_value);
 private:

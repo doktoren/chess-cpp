@@ -145,6 +145,7 @@ bool Board2plus::legal_move(Move& move) {
     return !check_if_king_placed(move.to);
 
   case PAWN:
+#pragma GCC diagnostic ignored "-Wimplicit-fallthrough"
     if (num_checks  &&  move.to == en_passant) {
       // If the king is checked af an en passant move, then the
       // only possible checking piece is the en passant pawn.
@@ -153,17 +154,18 @@ bool Board2plus::legal_move(Move& move) {
       return !(check_if_moved(move.from));
     }
     // no break;
+#pragma GCC diagnostic pop
 
   default:
     if (num_checks) {
       if (num_checks == 2) return false;
       if (check_if_moved(move.from)) {
 	// ARGHH!!!:
-	// Denne kode tager højde for tilfælde som fx loadfen K1r1Q1q1///////7k w - -
-	// check_if_moved will være true for Q, da der vil
-	// være en skakkende brik på denne linje.
+	// Denne kode tager hï¿½jde for tilfï¿½lde som fx loadfen K1r1Q1q1///////7k w - -
+	// check_if_moved will vï¿½re true for Q, da der vil
+	// vï¿½re en skakkende brik pï¿½ denne linje.
 	// loadfen 4Q1q1/K1r5//////7k w - -
-	// DI... = DI... nødvendiggøres af fx loadfen K2Qq/2n//////k w - -
+	// DI... = DI... nï¿½dvendiggï¿½res af fx loadfen K2Qq/2n//////k w - -
 	return threat_elim[move.to]  &&
 	  DIRECTION[move.from][king_pos[player]] == DIRECTION[move.from][move.to];
       }
@@ -419,8 +421,8 @@ void Board2plus::remove_piece(Position pos) {
   Board2::remove_piece(pos);
 }
 
-// hvis en bonde forfremmes til en dronning samtidig med at den slår en brik
-// går der vist rod i nummereringen
+// hvis en bonde forfremmes til en dronning samtidig med at den slï¿½r en brik
+// gï¿½r der vist rod i nummereringen
 void Board2plus::insert_piece(Position pos, Piece piece) {
   if (PS) cerr << "BEFORE INSERT PIECE " << PIECE_NAME[piece] << " on "
 	       << POS_NAME[pos] << ", num_checks = " << (int)num_checks << "\n";

@@ -1,4 +1,6 @@
 #include <stdarg.h>
+#include <stdint.h>
+#include <string.h>
 
 #include "parser.hxx"
 

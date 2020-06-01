@@ -1,3 +1,5 @@
+#include<algorithm>
+
 template <class TYPE>
 class HuffTreeNode {
 public:

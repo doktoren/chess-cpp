@@ -303,8 +303,8 @@ void ClassName::verify_hash_value(ostream &os) {
   assert(hv == hash_value);
 }
 
-#define insert_piece(pos, piece) result ^= hash_values[(piece << 6) | pos]
-#define remove_piece(pos) result ^= hash_values[(board[pos] << 6) | pos]
+#define insert_piece(pos, piece) result ^= hash_values[(piece << 6) | (pos)]
+#define remove_piece(pos) result ^= hash_values[(board[pos] << 6) | (pos)]
 #define move_piece(from, to) {\
     int tmp = board[from] << 6;\
     result ^= hash_values[tmp | from];\
