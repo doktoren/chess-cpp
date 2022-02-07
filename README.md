@@ -8,7 +8,7 @@ More information is available [here](https://jespertk.dk/master_thesis/) (hasn't
 
 # Bugs
 
-When I wrote this program I made use of several optimizations that we're based on how the compiler I was using happened to behave.
+When I wrote this program I made use of several optimizations that were based on how the compiler I was using happened to behave.
 In some cases this was a deliberate (but bad) choice. In most cases I didn't know better.
 
 These are some of the mistakes that I've been hit by:
