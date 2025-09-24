@@ -2,7 +2,7 @@
 
 TLDR: Don't waste your time by looking here.
 
-Source code (C++98) for the program made in my master thesis: Generation and compression of endgame tables in chess with fast random access using OBDDs.
+Source code (C++98) for the program made in my [master thesis](./thesis.pdf): Generation and compression of endgame tables in chess with fast random access using OBDDs.
 
 More information is available [here](https://jespertk.dk/master_thesis/) (hasn't been updated for a long time).
 
